@@ -1,5 +1,5 @@
-import { IconProps } from "@phosphor-icons/react";
-import React from "react";
+import { IconProps } from '@phosphor-icons/react';
+import React from 'react';
 
 export type ProductProps = {
   title: string;
@@ -10,11 +10,4 @@ export type ProductProps = {
   href: string;
   categoryId: number;
   new?: boolean;
-};
-
-export type ProductCategoryProps = {
-  id: number;
-  title: string;
-  description: React.ReactNode;
-  icon: (props: IconProps) => JSX.Element;
 };
