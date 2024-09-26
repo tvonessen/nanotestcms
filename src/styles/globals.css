@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: rgb(0, 169, 132);
+  --secondary: rgb(32, 78, 74);
+  --accent-01: rgb(243, 182, 31);
+  --accent-02: rgb(138, 79, 125);
+  --focus: #fc8450;
+  --foreground: rgb(21, 21, 21);
+  --background: rgb(245, 248, 248);
+
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+[data-theme='dark'] {
+  --foreground: rgb(245, 248, 248);
+  --background: rgb(21, 21, 21);
+  --accent-01: rgb(138, 79, 125);
+  --accent-02: rgb(243, 182, 31);
+}
+
+::selection {
+  background: var(--accent-01);
+  color: var(--foreground);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--focus);
+}
+
+/* Reset */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+p,
+li,
+figcaption {
+  max-width: 80ch;
+  text-wrap: pretty;
+}
+
+main,
+section,
+footer,
+header {
+  container-type: inline-size;
+}
+
+@layer utilities {
+  /* Animation */
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    12.5% {
+      transform: rotate(45deg);
+    }
+    25% {
+      transform: rotate(90deg);
+    }
+    37.5% {
+      transform: rotate(135deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    62.5% {
+      transform: rotate(225deg);
+    }
+    75% {
+      transform: rotate(270deg);
+    }
+    87.5% {
+      transform: rotate(315deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .spin-loader {
+    animation-name: spin;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: step-end;
+  }
+}

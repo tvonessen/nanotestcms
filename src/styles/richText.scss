@@ -1,0 +1,88 @@
+.rich-text {
+  h1 {
+    @apply text-4xl font-bold text-primary-600 mt-6 mb-3;
+  }
+
+  h2 {
+    @apply text-3xl font-bold text-secondary mt-6 mb-2;
+  }
+
+  h3 {
+    @apply text-2xl font-bold mt-6 mb-2;
+  }
+
+  h4 {
+    @apply text-xl font-bold mt-3 mb-1;
+  }
+
+  h5 {
+    @apply text-lg font-bold mt-3 mb-1;
+  }
+
+  h6 {
+    @apply text-base font-bold mt-2 mb-1;
+  }
+
+  code {
+    @apply bg-gray-200 dark:bg-gray-700 text-sm p-1 mx-0.5 rounded;
+  }
+
+  p {
+    @apply my-3;
+  }
+
+  a {
+    @apply text-primary underline;
+  }
+
+  ul:not(.list-check) {
+    @apply list-disc ml-6;
+
+    li:has(ul),
+    li:has(ol) {
+      list-style: none;
+    }
+
+    li::marker {
+      color: var(--primary);
+    }
+  }
+
+  ul.list-check {
+    @apply accent-primary;
+
+    li {
+      @apply pointer-events-none;
+    }
+
+    input {
+      @apply h-5 w-5 translate-y-1/4 me-2 my-2;
+    }
+  }
+
+  ol {
+    @apply list-decimal ml-5;
+
+    li:has(ol),
+    li:has(ul) {
+      list-style: none;
+    }
+
+    li::marker {
+      font-weight: bold;
+    }
+
+    ol {
+      list-style-type: upper-alpha;
+    }
+  }
+
+  blockquote {
+    @apply relative ps-8 my-3 py-2 bg-foreground bg-opacity-10 rounded-xl italic;
+
+    &::before {
+      content: '“';
+      @apply absolute top-1 left-3 text-3xl text-primary italic;
+    }
+  }
+}
