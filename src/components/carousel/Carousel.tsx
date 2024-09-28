@@ -1,78 +1,83 @@
 'use client';
 
-import { image } from '@nextui-org/react';
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
-import { div } from 'framer-motion/client';
+import React, { Suspense } from 'react';
+import Slider from 'react-slick';
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import Image from 'next/image';
-import React from 'react';
+import { Media } from '@/payload-types';
 
 interface CarouselProps {
-  images: {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
-    blurDataUrl: string;
-    isDark: boolean;
-  }[];
+  images: Media[];
   className?: string;
 }
 
 const Carousel = ({ images, className }: CarouselProps) => {
-  const [index, setIndex] = React.useState(0);
+  const INITIAL_SLIDE = 0;
+  const slider = React.useRef<Slider>(null);
+  const [currentIndex, setCurrentIndex] = React.useState(INITIAL_SLIDE);
 
   const next = () => {
-    setIndex((prev) => (prev + 1) % images.length);
+    slider.current?.slickNext();
   };
 
   const prev = () => {
-    setIndex((prev) => (prev - 1 + images.length) % images.length);
+    slider.current?.slickPrev();
   };
 
-  const height = React.useMemo(
-    () => images.reduce((prev, img) => Math.max(prev, img.height), 0),
-    [images],
-  );
-
   return (
-    <>
+    <Suspense>
       <div
         className={`w-full max-w-7xl mx-auto mt-6 relative sm:rounded-2xl overflow-hidden ${className}`}
       >
-        <Image
-          className="w-full aspect-video object-cover"
-          src={images[index].src}
-          alt={images[index].alt}
-          width={images[index].width}
-          height={height}
-          blurDataURL={images[index].blurDataUrl}
-          loading="lazy"
-        />
-        <div
-          className={`absolute w-[calc(100%_-_16px)] rounded-lg sm:rounded-xl ${images[index].isDark ? 'bg-black text-white' : 'bg-white text-black font-medium'} bg-opacity-30 p-2 bottom-2 backdrop-blur left-2 text-center`}
+        <Slider
+          initialSlide={INITIAL_SLIDE}
+          beforeChange={(_index, nextIndex) => setCurrentIndex(nextIndex)}
+          infinite
+          arrows={false}
+          speed={500}
+          easing="ease-in-out"
+          lazyLoad="progressive"
+          ref={slider}
         >
-          <p className="max-w-full">{images[index].alt}</p>
-        </div>
+          {images.map((image, index) => (
+            <div className="md:px-2 focus:outline-none" key={index}>
+              <Image
+                key={index}
+                className={`sm:rounded-2xl w-full aspect-video object-cover`}
+                src={image.url as string}
+                alt={image.alt}
+                width={image.width as number}
+                height={image.height as number}
+                blurDataURL={image.blurDataUrl as string}
+                placeholder="blur"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </Slider>
         {images.length > 1 && (
           <>
             <button
-              className="absolute rounded left-2 top-1/2 -translate-y-1/2 z-20 p-6"
+              className="absolute rounded left-1 top-1/2 -translate-y-1/2 z-20 p-6"
               type="button"
               onClick={prev}
             >
               <CaretLeft
-                className={`${images[index].isDark ? 'text-white' : 'text-black'}`}
+                className={`${images[currentIndex].isDark ? 'text-white' : 'text-black'}`}
                 size={24}
                 weight="bold"
               />
             </button>
             <button
-              className="absolute rounded right-2 top-1/2 -translate-y-1/2 z-20 p-6"
+              className="absolute rounded right-1 top-1/2 -translate-y-1/2 z-20 p-6"
               type="button"
               onClick={next}
             >
               <CaretRight
-                className={`${images[index].isDark ? 'text-white' : 'text-black'}`}
+                className={`${images[currentIndex].isDark ? 'text-white' : 'text-black'}`}
                 size={24}
                 weight="bold"
               />
@@ -81,20 +86,22 @@ const Carousel = ({ images, className }: CarouselProps) => {
         )}
       </div>
       {images.length > 1 && (
-        <ul className="max-w-7xl flex flex-row mt-0 mx-auto px-1 md:px-2 justify-stretch list-none gap-2">
+        <ul className="max-w-7xl flex flex-row mt-0 mx-auto px-2 md:px-3 justify-center list-none gap-2">
           {images.map((image, i) => (
-            <li className="flex-grow" key={image.alt}>
+            <li key={image.alt}>
               <button
-                data-active={i === index}
-                className="w-full h-3 rounded sm:rounded-full bg-foreground data-[active=true]:bg-primary bg-opacity-10 data-[active=true]:bg-opacity-35 hover:bg-opacity-35 transition"
+                data-active={i === currentIndex}
+                className="w-3 h-3 rounded-full bg-foreground data-[active=true]:bg-primary bg-opacity-10 data-[active=true]:bg-opacity-60 hover:bg-opacity-35 transition"
                 aria-label={`Show image No. ${i}`}
-                onClick={() => setIndex(i)}
+                onClick={() => {
+                  slider?.current?.slickGoTo(i);
+                }}
               />
             </li>
           ))}
         </ul>
       )}
-    </>
+    </Suspense>
   );
 };
 

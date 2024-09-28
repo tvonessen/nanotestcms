@@ -4,8 +4,6 @@ import { getPayload, PaginatedDocs } from 'payload';
 import config from '@payload-config';
 import { Media, Solution } from '@/payload-types';
 import Carousel from '@/components/carousel/Carousel';
-import RichText from '@/components/partials/richText';
-import Text from '@/components/content/Text';
 import Content from '@/components/content/Content';
 
 // request comes in, at most once every 5 minutes.
@@ -40,18 +38,9 @@ const SolutionPage = async ({ params }: { params: { solution: string } }) => {
     return null;
   }
 
-  const media = (solution.details.images as Media[]).map((image) => ({
-    src: image.sizes?.large?.url as string,
-    width: image.sizes?.large?.width as number,
-    height: image.sizes?.large?.height as number,
-    alt: image.alt,
-    blurDataUrl: image.blurDataUrl as string,
-    isDark: image.isDark as boolean,
-  }));
-
   return (
     <main className="container mx-auto">
-      <Carousel images={media} />
+      <Carousel images={solution.details.images as Media[]} />
       <div className="grid grid-cols-12 gap-6 m-8 px-4 max-w-6xl lg:mx-auto">
         {/* Abstract section */}
         <section className="col-span-12 lg:col-span-5 xl:col-span-4">

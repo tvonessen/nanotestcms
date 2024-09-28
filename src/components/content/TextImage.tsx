@@ -15,7 +15,7 @@ const TextImage = ({ text, image }: TextImageProps) => {
   return (
     <>
       <div className="col-span-12 lg:col-span-5 xl:col-span-4 mt-4">
-        <ExpandImage image={image} alt={image.alt} imageSize="large" expandable />
+        <ExpandImage image={image} alt={image.alt} expandable />
       </div>
       <div className="col-span-12 lg:col-span-7 lg:col-start-6 xl:col-span-8 xl:col-start-5">
         <RichText text={text} />
