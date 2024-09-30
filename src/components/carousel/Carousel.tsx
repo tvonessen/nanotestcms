@@ -8,6 +8,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Image from 'next/image';
 import { Media } from '@/payload-types';
+import { image } from '@nextui-org/react';
 
 interface CarouselProps {
   images: Media[];
@@ -28,7 +29,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
   };
 
   return (
-    <Suspense>
+    <>
       <div
         className={`w-full max-w-7xl mx-auto mt-6 relative sm:rounded-2xl overflow-hidden ${className}`}
       >
@@ -36,6 +37,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
           initialSlide={INITIAL_SLIDE}
           beforeChange={(_index, nextIndex) => setCurrentIndex(nextIndex)}
           infinite
+          swipe={images.length > 1}
           arrows={false}
           speed={500}
           easing="ease-in-out"
@@ -101,7 +103,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
           ))}
         </ul>
       )}
-    </Suspense>
+    </>
   );
 };
 

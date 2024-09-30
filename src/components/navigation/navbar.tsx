@@ -19,8 +19,11 @@ import NavLink from './navlink';
 import { Button } from '@nextui-org/react';
 
 export const Navbar = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
   return (
     <NextUINavbar
+      isMenuOpen={isOpen}
       className="bg-foreground dark:bg-background bg-opacity-90 dark:bg-opacity-90 backdrop-blur-sm"
       maxWidth="2xl"
     >
@@ -45,6 +48,7 @@ export const Navbar = () => {
           isIconOnly
           aria-label="Open the navigation"
           as={NavbarMenuToggle}
+          onClick={() => setIsOpen(!isOpen)}
           className="flex sm:hidden text-background dark:text-foreground"
           variant="light"
         />
@@ -53,11 +57,12 @@ export const Navbar = () => {
       <NavbarMenu
         as="div"
         className="bg-foreground dark:bg-background bg-opacity-85 dark:bg-opacity-85"
+        onClick={() => {}}
       >
         <div className="mx-4 mt-2 flex flex-col justify-center items-center gap-2">
           {siteConfig.navItems.map((item) => (
             <NavbarMenuItem key={item.href} as="div">
-              <NavLink link={item} />
+              <NavLink link={item} onClick={() => setIsOpen(false)} />
             </NavbarMenuItem>
           ))}
         </div>

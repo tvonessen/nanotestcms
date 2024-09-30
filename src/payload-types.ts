@@ -14,6 +14,7 @@ export interface Config {
     users: User;
     media: Media;
     solutions: Solution;
+    jumbotron: Jumbotron;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -51,6 +52,8 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  name: string;
+  role?: ('user' | 'admin') | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -172,6 +175,19 @@ export interface Solution {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jumbotron".
+ */
+export interface Jumbotron {
+  id: string;
+  title: string;
+  description: string;
+  image: string | Media;
+  link: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -188,6 +204,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'solutions';
         value: string | Solution;
+      } | null)
+    | ({
+        relationTo: 'jumbotron';
+        value: string | Jumbotron;
       } | null);
   globalSlug?: string | null;
   user: {

@@ -5,7 +5,7 @@ import { useSelectedLayoutSegment } from 'next/navigation';
 import { useWindowSize } from 'usehooks-ts';
 import Link from 'next/link';
 
-interface NavLinkProps {
+interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   link: {
     label: string;
     href: string;
