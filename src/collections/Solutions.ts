@@ -1,4 +1,6 @@
-import { lexicalHTML } from '@payloadcms/richtext-lexical';
+import { Highlight } from '@/blocks/HighlightBlock';
+import { Text } from '@/blocks/TextBlock';
+import { TextImage } from '@/blocks/TextImageBlock';
 import { CollectionConfig } from 'payload';
 
 const Solutions: CollectionConfig = {
@@ -99,65 +101,9 @@ const Solutions: CollectionConfig = {
             {
               name: 'content',
               label: 'Content',
-              type: 'array',
-              required: true,
-              fields: [
-                {
-                  name: 'contentType',
-                  label: 'Content Type',
-                  type: 'select',
-                  defaultValue: 'text',
-                  required: true,
-                  options: [
-                    {
-                      label: 'Text',
-                      value: 'text',
-                    },
-                    {
-                      label: 'TextImage',
-                      value: 'textImage',
-                    },
-                    {
-                      label: 'Highlight',
-                      value: 'highlight',
-                    },
-                    {
-                      label: 'Contact Form',
-                      value: 'contactForm',
-                    },
-                  ],
-                },
-                {
-                  name: 'text',
-                  label: 'Text',
-                  type: 'richText',
-                  required: true,
-                  admin: {
-                    condition: (_, siblingData) => siblingData.contentType !== 'contactForm',
-                  },
-                },
-                {
-                  name: 'image',
-                  label: 'Image',
-                  type: 'upload',
-                  relationTo: 'media' as never,
-                  displayPreview: true,
-                  hasMany: false,
-                  admin: {
-                    condition: (_, siblingData) => siblingData.contentType === 'textImage',
-                  },
-                },
-                {
-                  name: 'link',
-                  label: 'Link',
-                  type: 'relationship',
-                  relationTo: 'solutions' as never,
-                  admin: {
-                    condition: (_, siblingData) => siblingData.contentType === 'highlight',
-                  },
-                },
-                lexicalHTML('text', { name: 'text_html' }),
-              ],
+              type: 'blocks',
+              minRows: 1,
+              blocks: [Text, TextImage, Highlight],
             },
           ],
         },
