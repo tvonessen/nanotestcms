@@ -19,6 +19,64 @@ const Solutions: CollectionConfig = {
   },
   fields: [
     {
+      name: 'type',
+      type: 'group',
+      fields: [
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'select',
+          admin: {
+            position: 'sidebar',
+          },
+          required: true,
+          options: [
+            {
+              label: 'Product',
+              value: 'product',
+            },
+            {
+              label: 'Service',
+              value: 'service',
+            },
+            {
+              label: 'Other',
+              value: 'other',
+            },
+          ],
+        },
+        {
+          name: 'subCategory',
+          label: 'Sub-Category',
+          type: 'select',
+          admin: {
+            condition: (data, siblingData) => siblingData.category === 'products',
+            position: 'sidebar',
+          },
+          required: true,
+          options: [
+            {
+              label: 'Thermal Characterization',
+              value: 'thermal-characterization',
+            },
+            {
+              label: 'Mechanial Characterization',
+              value: 'mechanical-characterization',
+            },
+            {
+              label: 'Failure Analysis',
+              value: 'failure-analysis',
+            },
+            {
+              label: 'Thermal Test Equipment',
+              value: 'thermal-test-equipment',
+            },
+          ],
+        },
+      ],
+    },
+
+    {
       name: 'title',
       label: 'Title',
       type: 'text',
@@ -29,29 +87,6 @@ const Solutions: CollectionConfig = {
       label: 'Subtitle',
       type: 'text',
       required: true,
-    },
-    {
-      name: 'category',
-      label: 'Category',
-      type: 'select',
-      admin: {
-        position: 'sidebar',
-      },
-      required: true,
-      options: [
-        {
-          label: 'Thermal Characterization',
-          value: 'thermal-characterization',
-        },
-        {
-          label: 'Mechanial Characterization',
-          value: 'mechanical-characterization',
-        },
-        {
-          label: 'Thermal Test Equipment',
-          value: 'thermal-test-equipment',
-        },
-      ],
     },
     {
       name: 'shortDescription',

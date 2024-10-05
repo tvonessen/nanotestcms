@@ -36,7 +36,7 @@ export const Media: CollectionConfig = {
     read: () => true,
   },
   admin: {
-    group: 'Fileadmin',
+    group: 'Admin',
     defaultColumns: ['filename', 'alt', 'tags'],
   },
   fields: [

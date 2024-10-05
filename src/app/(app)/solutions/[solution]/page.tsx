@@ -16,6 +16,9 @@ export async function generateStaticParams() {
   const payload = await getPayload({ config });
   let solutions: PaginatedDocs<Solution> = await payload.find({
     collection: 'solutions',
+    where: {
+      'type.category': { equals: 'product' },
+    },
     pagination: false,
     depth: 0,
   });

@@ -14,7 +14,6 @@ export interface Config {
     users: User;
     media: Media;
     solutions: Solution;
-    jumbotron: Jumbotron;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -22,7 +21,9 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  globals: {};
+  globals: {
+    homepage: Homepage;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -135,9 +136,14 @@ export interface Media {
  */
 export interface Solution {
   id: string;
+  type: {
+    category: 'product' | 'service' | 'other';
+    subCategory?:
+      | ('thermal-characterization' | 'mechanical-characterization' | 'failure-analysis' | 'thermal-test-equipment')
+      | null;
+  };
   title: string;
   subtitle: string;
-  category: 'thermal-characterization' | 'mechanical-characterization' | 'thermal-test-equipment';
   shortDescription: string;
   new?: boolean | null;
   details: {
@@ -231,19 +237,6 @@ export interface Solution {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "jumbotron".
- */
-export interface Jumbotron {
-  id: string;
-  title: string;
-  description: string;
-  image: string | Media;
-  link: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -260,10 +253,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'solutions';
         value: string | Solution;
-      } | null)
-    | ({
-        relationTo: 'jumbotron';
-        value: string | Jumbotron;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -306,6 +295,67 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage".
+ */
+export interface Homepage {
+  id: string;
+  jumbotron?:
+    | {
+        title: string;
+        description: string;
+        image: string | Media;
+        link: string;
+        linkLabel?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  content?:
+    | (
+        | {
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            text_html?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            title: string;
+            text: string;
+            link: string;
+            variant?: ('primary' | 'secondary') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'highlight';
+          }
+        | {
+            title: string;
+            description?: string | null;
+            cards: (string | Solution)[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cards';
+          }
+      )[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

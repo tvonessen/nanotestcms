@@ -5,7 +5,7 @@ interface HighlightProps {
   title: string;
   text: string;
   link: string;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | undefined | null;
 }
 
 const Highlight = ({ title, text, link, variant = 'primary' }: HighlightProps) => {

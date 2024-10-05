@@ -10,6 +10,11 @@ import { Users } from './collections/Users';
 import { Media } from './collections/Media';
 import Solutions from './collections/Solutions';
 import { Jumbotron } from './collections/Jumbotron';
+import { TextImage } from './blocks/TextImageBlock';
+import { TextVideo } from './blocks/TextVideoBlock';
+import { Highlight } from './blocks/HighlightBlock';
+import { Text } from './blocks/TextBlock';
+import { HomepageContent } from './globals/HomepageContent';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -21,7 +26,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Solutions, Jumbotron],
+  collections: [Users, Media, Solutions],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,
@@ -30,6 +35,8 @@ export default buildConfig({
       HTMLConverterFeature({}),
     ],
   }),
+  globals: [HomepageContent],
+
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
