@@ -6,7 +6,7 @@ import Highlight from './Highlight';
 import TextVideo from './TextVideo';
 
 interface ContentProps {
-  item: Solution['details']['content'][0];
+  item: NonNullable<Solution['details']['content']>[number];
 }
 
 const Content = ({ item }: ContentProps) => {
