@@ -83,10 +83,13 @@ const JumboElements = ({ jumbos, className }: JumboElementsProps) => {
         >
           {images.map((image, index) => (
             <>
-              <div className="relative focus:outline-none -z-10" key={index}>
+              <div
+                className="relative focus:outline-none -z-10 overflow-hidden 2xl:rounded-2xl"
+                key={index}
+              >
                 <Image
                   key={index}
-                  className={`2xl:rounded-2xl w-full h-screen max-h-[150vw] sm:max-h-[100vw] md:h-auto object-cover`}
+                  className={`aspect-square lg:aspect-video w-full object-cover`}
                   src={image.url as string}
                   alt={image.alt}
                   width={image.width as number}
