@@ -25,7 +25,7 @@ const Home = async () => {
           switch (block.blockType) {
             case 'text':
               return (
-                <div className="container my-12 mx-8 md:mx-12 xl:mx-auto">
+                <div className="container my-12 px-8 md:px-12 xl:mx-auto">
                   <RichText key={block.id} text={block.text_html as string} />
                 </div>
               );
