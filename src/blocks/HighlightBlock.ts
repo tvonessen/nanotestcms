@@ -1,4 +1,3 @@
-import { lexicalHTML } from '@payloadcms/richtext-lexical';
 import { Block } from 'payload';
 
 export const Highlight: Block = {
@@ -25,6 +24,22 @@ export const Highlight: Block = {
       label: 'Link',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'variant',
+      label: 'Variant',
+      type: 'select',
+      defaultValue: 'primary',
+      options: [
+        {
+          label: 'Primary',
+          value: 'primary',
+        },
+        {
+          label: 'Secondary',
+          value: 'secondary',
+        },
+      ],
     },
   ],
 };

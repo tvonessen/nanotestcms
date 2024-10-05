@@ -32,8 +32,6 @@ const SolutionPage = async ({ params }: { params: { solution: string } }) => {
     })
     .then((res) => res.docs[0]);
 
-  console.log(solution);
-
   if (!solution) {
     return null;
   }
@@ -41,7 +39,7 @@ const SolutionPage = async ({ params }: { params: { solution: string } }) => {
   return (
     <main className="container mx-auto">
       <Carousel images={solution.details.images as Media[]} />
-      <div className="grid grid-cols-12 gap-6 m-8 px-4 max-w-6xl lg:mx-auto">
+      <div className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
         {/* Abstract section */}
         <section className="col-span-12 lg:col-span-5 xl:col-span-4">
           <h1 className="text-5xl mt-6 leading-none font-black">{solution.title}</h1>
@@ -49,9 +47,7 @@ const SolutionPage = async ({ params }: { params: { solution: string } }) => {
           <p className="my-6 font-medium text-lg">{solution.details.abstract}</p>
         </section>
         {/* Content section */}
-        {solution.details.content.map((item, i) => (
-          <Content key={item.id} item={item} />
-        ))}
+        {solution.details.content?.map((item, i) => <Content key={item.id} item={item} />)}
       </div>
     </main>
   );

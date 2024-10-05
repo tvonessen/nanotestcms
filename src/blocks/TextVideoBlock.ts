@@ -1,11 +1,11 @@
 import { lexicalHTML } from '@payloadcms/richtext-lexical';
 import { Block } from 'payload';
 
-export const TextImage: Block = {
-  slug: 'text-image',
+export const TextVideo: Block = {
+  slug: 'text-video',
   labels: {
-    singular: 'Text and image',
-    plural: 'Texts and images',
+    singular: 'Text and video',
+    plural: 'Texts and videos',
   },
   fields: [
     {
@@ -15,11 +15,9 @@ export const TextImage: Block = {
       required: true,
     },
     {
-      name: 'image',
-      label: 'Image',
-      type: 'upload',
-      relationTo: 'media',
-      hasMany: false,
+      name: 'videoId',
+      label: 'Video-ID',
+      type: 'text',
       required: true,
     },
     lexicalHTML('text', { name: 'text_html' }),

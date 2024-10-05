@@ -1,20 +1,20 @@
-import { Media } from '@/payload-types';
 import React from 'react';
 import RichText from '../partials/richText';
-import ExpandImage from '../partials/expandImage';
 
-interface TextImageProps {
+interface TextVideoProps {
   text: string;
-  image: Media;
+  videoId: string;
 }
 
-const TextImage = ({ text, image }: TextImageProps) => {
-  const { url, width, height } = image.sizes?.large || {};
-
+const TextVideo = ({ text, videoId }: TextVideoProps) => {
   return (
     <>
       <div className="container mx-auto col-span-12 lg:col-span-5 xl:col-span-4 mt-4">
-        <ExpandImage image={image} alt={image.alt} expandable />
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&rel=0&cc_load_policy=1&color=white`}
+          className="w-full aspect-video rounded-lg shadow-md"
+          allowFullScreen
+        />
       </div>
       <div className="col-span-12 lg:col-span-7 lg:col-start-6 xl:col-span-8 xl:col-start-5">
         <RichText text={text} />
@@ -22,4 +22,5 @@ const TextImage = ({ text, image }: TextImageProps) => {
     </>
   );
 };
-export default TextImage;
+
+export default TextVideo;

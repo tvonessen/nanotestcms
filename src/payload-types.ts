@@ -143,28 +143,84 @@ export interface Solution {
   details: {
     images: (string | Media)[];
     abstract: string;
-    content: {
-      contentType: 'text' | 'textImage' | 'highlight' | 'contactForm';
-      text?: {
-        root: {
-          type: string;
-          children: {
-            type: string;
-            version: number;
-            [k: string]: unknown;
-          }[];
-          direction: ('ltr' | 'rtl') | null;
-          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-          indent: number;
-          version: number;
-        };
-        [k: string]: unknown;
-      } | null;
-      image?: (string | null) | Media;
-      link?: (string | null) | Solution;
-      text_html?: string | null;
-      id?: string | null;
-    }[];
+    content?:
+      | (
+          | {
+              text: {
+                root: {
+                  type: string;
+                  children: {
+                    type: string;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              };
+              text_html?: string | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'text';
+            }
+          | {
+              text: {
+                root: {
+                  type: string;
+                  children: {
+                    type: string;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              };
+              image: string | Media;
+              text_html?: string | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'text-image';
+            }
+          | {
+              title: string;
+              text: string;
+              link: string;
+              variant?: ('primary' | 'secondary') | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'highlight';
+            }
+          | {
+              text: {
+                root: {
+                  type: string;
+                  children: {
+                    type: string;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              };
+              videoId: string;
+              text_html?: string | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'text-video';
+            }
+        )[]
+      | null;
   };
   seo?: {
     keywords?: string | null;

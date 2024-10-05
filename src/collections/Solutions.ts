@@ -1,6 +1,7 @@
 import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
+import { TextVideo } from '@/blocks/TextVideoBlock';
 import { CollectionConfig } from 'payload';
 
 const Solutions: CollectionConfig = {
@@ -103,7 +104,7 @@ const Solutions: CollectionConfig = {
               label: 'Content',
               type: 'blocks',
               minRows: 1,
-              blocks: [Text, TextImage, Highlight],
+              blocks: [Text, TextImage, Highlight, TextVideo],
             },
           ],
         },

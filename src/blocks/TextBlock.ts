@@ -4,8 +4,8 @@ import { Block } from 'payload';
 export const Text: Block = {
   slug: 'text',
   labels: {
-    singular: 'Text Block',
-    plural: 'Text Blocks',
+    singular: 'Text',
+    plural: 'Texts',
   },
   fields: [
     {
