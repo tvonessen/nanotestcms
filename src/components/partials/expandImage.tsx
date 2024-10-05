@@ -18,9 +18,14 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
   const [isExpanded, setIsExpanded] = React.useState(!expandable);
 
   React.useLayoutEffect(() => {
-    if (window.innerWidth > 1024) setIsExpandable(false);
-    else setIsExpandable(expandable);
-  }, [expandable]);
+    const handleResize = () => {
+      if (window.innerWidth > 1024) setIsExpandable(false);
+      else setIsExpandable(expandable);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  });
 
   if (!url) {
     return null;
