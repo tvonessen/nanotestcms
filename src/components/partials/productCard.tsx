@@ -11,7 +11,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, className }: ProductCardProps) => {
-  const category = productCategories.find((cat) => cat.id === product.type.category);
+  const category = productCategories.find((cat) => cat.id === product.type.subCategory);
   const image = product.details.images[0] as Media;
   const usedImage = image.sizes?.medium ?? image.sizes?.small ?? image.sizes?.thumb ?? image;
 

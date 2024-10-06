@@ -50,7 +50,7 @@ const Solutions: CollectionConfig = {
           label: 'Sub-Category',
           type: 'select',
           admin: {
-            condition: (data, siblingData) => siblingData.category === 'products',
+            condition: (data, siblingData) => siblingData.category === 'product',
             position: 'sidebar',
           },
           required: true,

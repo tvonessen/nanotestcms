@@ -10,6 +10,7 @@ const SolutionsPage = async () => {
   const payload = await getPayload({ config });
   const solutions: PaginatedDocs<Solution> = await payload.find({
     collection: 'solutions',
+    where: { 'type.category': { equals: 'product' } },
     pagination: false,
   });
 
@@ -26,7 +27,10 @@ const SolutionsPage = async () => {
 
       {productCategories
         .filter((category) =>
-          solutions.docs.some((solution) => solution.type.category === category.id),
+          solutions.docs.some((solution) => {
+            console.log(solution, category);
+            return solution.type.subCategory === category.id;
+          }),
         )
         .map((category) => (
           <>
@@ -43,7 +47,7 @@ const SolutionsPage = async () => {
             </div>
             <div className="flex flex-wrap justify-center gap-8 px-0 sm:px-4">
               {solutions.docs
-                .filter((solution) => solution.type.category === category.id)
+                .filter((solution) => solution.type.subCategory === category.id)
                 .map((solution) => (
                   <ProductCard
                     key={solution.slug}
