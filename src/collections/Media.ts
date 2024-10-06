@@ -87,9 +87,14 @@ export const Media: CollectionConfig = {
     beforeRead: [
       async ({ doc }) => {
         if (!doc.sizes.blurred) return;
-        /* Set blurred image data url */
-        doc.blurDataUrl = imageToBase64('./media/' + doc.sizes.blurred.filename);
-        doc.isDark = await isDarkImage(doc.blurDataUrl);
+        if (doc.mimeType === 'image/svg+xml') {
+          doc.blurDataUrl = '';
+          doc.isDark = false;
+        } else {
+          /* Set blurred image data url */
+          doc.blurDataUrl = imageToBase64('./media/' + doc.sizes.blurred.filename);
+          doc.isDark = await isDarkImage(doc.blurDataUrl);
+        }
       },
     ],
   },

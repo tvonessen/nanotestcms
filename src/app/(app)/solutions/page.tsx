@@ -28,7 +28,6 @@ const SolutionsPage = async () => {
       {productCategories
         .filter((category) =>
           solutions.docs.some((solution) => {
-            console.log(solution, category);
             return solution.type.subCategory === category.id;
           }),
         )
