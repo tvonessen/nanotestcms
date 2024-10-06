@@ -71,6 +71,10 @@ module.exports = {
               DEFAULT: '#F3B61F',
               foreground: '#151515',
             },
+            danger: {
+              DEFAULT: '#f31240',
+              foreground: '#f5f5f5',
+            },
           },
         },
         dark: {
@@ -115,10 +119,19 @@ module.exports = {
               DEFAULT: '#F3B61F',
               foreground: '#151515',
             },
+            danger: {
+              DEFAULT: '#ff1a50',
+              foreground: '#f5f5f5',
+            },
           },
         },
       },
       layout: {
+        fontSize: {
+          tiny: '0.9rem',
+          small: '1.05rem',
+          medium: '1.2rem',
+        },
         radius: {
           small: '0.25rem',
           medium: '0.5rem',

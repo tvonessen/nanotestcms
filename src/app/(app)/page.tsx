@@ -1,12 +1,11 @@
 import Jumbo from '@/components/jumbo/Jumbo';
-import JumboCards from '@/components/partials/jumboCards';
-import { mockProducts } from '@/data/mockProducts';
 import config from '@/payload.config';
 import { getPayload } from 'payload';
 import Highlight from '@/components/content/Highlight';
 import RichText from '@/components/partials/richText';
 import CardsGrid from '@/components/content/Cards';
 import { Solution } from '@/payload-types';
+import ContactForm from '@/components/content/ContactForm';
 
 const Home = async () => {
   const payload = await getPayload({ config });
@@ -52,6 +51,11 @@ const Home = async () => {
               return null;
           }
         })}
+
+      <ContactForm
+        id="contact"
+        className="px-12 my-12 py-12 bg-opacity-5 mx-auto bg-foreground max-xl:w-full xl:max-w-6xl xl:rounded-lg"
+      />
     </>
   );
 };
