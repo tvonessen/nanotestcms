@@ -20,7 +20,7 @@ const Highlight = ({ title, text, link, variant = 'primary' }: HighlightProps) =
       : 'from-secondary-200 to-white dark:to-secondary-700 dark:from-black';
 
   return (
-    <div
+    <section
       className={`relative left-1/2 -translate-x-[50%] w-screen col-span-full my-12 py-6 shadow-[inset_0_0_100px_#0009] bg-gradient-to-t ${gradient}`}
     >
       <div className="container mx-auto px-8 text-background text-center font-medium">
@@ -37,7 +37,7 @@ const Highlight = ({ title, text, link, variant = 'primary' }: HighlightProps) =
           Learn more
         </Link>
       </div>
-    </div>
+    </section>
   );
 };
 

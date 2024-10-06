@@ -30,7 +30,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
 
   return (
     <>
-      <div
+      <section
         className={`w-full max-w-7xl mx-auto mt-6 relative sm:rounded-2xl overflow-hidden ${className}`}
       >
         <Slider
@@ -86,7 +86,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
             </button>
           </>
         )}
-      </div>
+      </section>
       {images.length > 1 && (
         <ul className="max-w-7xl flex flex-row mt-0 mx-auto px-2 md:px-3 justify-center list-none gap-2">
           {images.map((image, i) => (

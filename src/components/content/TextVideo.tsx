@@ -9,16 +9,16 @@ interface TextVideoProps {
 const TextVideo = ({ text, videoId }: TextVideoProps) => {
   return (
     <>
-      <div className="container mx-auto col-span-12 lg:col-span-5 xl:col-span-4 mt-4">
+      <aside className="container mx-auto col-span-12 lg:col-span-5 xl:col-span-4 mt-4">
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&rel=0&cc_load_policy=1&color=white`}
           className="w-full aspect-video rounded-lg shadow-md"
           allowFullScreen
         />
-      </div>
-      <div className="col-span-12 lg:col-span-7 lg:col-start-6 xl:col-span-8 xl:col-start-5">
+      </aside>
+      <section className="col-span-12 lg:col-span-7 lg:col-start-6 xl:col-span-8 xl:col-start-5">
         <RichText text={text} />
-      </div>
+      </section>
     </>
   );
 };
