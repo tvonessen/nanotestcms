@@ -128,8 +128,8 @@ module.exports = {
       },
       layout: {
         fontSize: {
-          tiny: '0.9rem',
-          small: '1.05rem',
+          tiny: '0.85rem',
+          small: '.95rem',
           medium: '1.2rem',
         },
         radius: {
