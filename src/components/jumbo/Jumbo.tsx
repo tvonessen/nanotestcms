@@ -89,14 +89,10 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
           lazyLoad="progressive"
           ref={slider}
         >
-          {images.map((image, index) => (
-            <>
-              <div
-                className="relative focus:outline-none -z-10 overflow-hidden 2xl:rounded-2xl"
-                key={index}
-              >
+          {images.map((image) => (
+            <div key={image.blurDataUrl}>
+              <div className="relative focus:outline-none -z-10 overflow-hidden 2xl:rounded-2xl">
                 <Image
-                  key={index}
                   className={`aspect-square lg:aspect-video w-full object-cover`}
                   src={image.url as string}
                   alt={image.alt}
@@ -126,7 +122,7 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
                   {image.linkLabel || 'Learn More'}
                 </Link>
               </div>
-            </>
+            </div>
           ))}
         </Slider>
         {images.length > 1 && (
