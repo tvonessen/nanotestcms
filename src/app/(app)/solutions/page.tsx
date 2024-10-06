@@ -4,7 +4,7 @@ import { productCategories } from '@/data/productCategories';
 import { getPayload, PaginatedDocs } from 'payload';
 import { Solution } from '@/payload-types';
 
-export const revalidate = 300;
+export const revalidate = 0;
 
 const SolutionsPage = async () => {
   const payload = await getPayload({ config });

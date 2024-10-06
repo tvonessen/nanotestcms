@@ -10,8 +10,7 @@ import Highlight from '@/components/content/Highlight';
 import TextVideo from '@/components/content/TextVideo';
 import ContactForm from '@/components/content/ContactForm';
 
-// request comes in, at most once every 5 minutes.
-export const revalidate = 300;
+export const revalidate = 0;
 
 // We'll prerender only the params from `generateStaticParams` at build time.
 export const dynamicParams = false; // false, to 404 on unknown paths

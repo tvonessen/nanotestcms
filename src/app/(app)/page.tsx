@@ -7,7 +7,7 @@ import CardsGrid from '@/components/content/Cards';
 import { Solution } from '@/payload-types';
 import ContactForm from '@/components/content/ContactForm';
 
-export const revalidate = 300;
+export const revalidate = 0;
 
 const Home = async () => {
   const payload = await getPayload({ config });

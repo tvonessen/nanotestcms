@@ -1,4 +1,6 @@
-export const revalidate = 300;
+import React from 'react';
+
+export const revalidate = 0;
 
 const Solutions = () => {
   return (
