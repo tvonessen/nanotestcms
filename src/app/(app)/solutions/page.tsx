@@ -25,7 +25,9 @@ const SolutionsPage = async () => {
       </div>
 
       {productCategories
-        .filter((category) => solutions.docs.some((solution) => solution.category === category.id))
+        .filter((category) =>
+          solutions.docs.some((solution) => solution.type.category === category.id),
+        )
         .map((category) => (
           <>
             <div
@@ -41,7 +43,7 @@ const SolutionsPage = async () => {
             </div>
             <div className="flex flex-wrap justify-center gap-8 px-0 sm:px-4">
               {solutions.docs
-                .filter((solution) => solution.category === category.id)
+                .filter((solution) => solution.type.category === category.id)
                 .map((solution) => (
                   <ProductCard
                     key={solution.slug}
