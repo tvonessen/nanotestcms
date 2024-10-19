@@ -14,9 +14,9 @@ const Template: React.FC<TemplateProps> = ({ children }) => {
   return (
     <Providers>
       <Navbar />
-      <main className="min-h-[calc(100dvh_-_10rem)]">
+      <div className="min-h-[calc(100dvh_-_10rem)]">
         <Suspense fallback={<Loading />}>{children}</Suspense>
-      </main>
+      </div>
       <Footer />
     </Providers>
   );

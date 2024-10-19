@@ -8,7 +8,6 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Image from 'next/image';
 import { Media } from '@/payload-types';
-import { image } from '@nextui-org/react';
 
 interface CarouselProps {
   images: Media[];
@@ -36,7 +35,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
         <Slider
           initialSlide={INITIAL_SLIDE}
           beforeChange={(_index, nextIndex) => setCurrentIndex(nextIndex)}
-          infinite
+          infinite={images.length > 1}
           swipe={images.length > 1}
           arrows={false}
           speed={500}

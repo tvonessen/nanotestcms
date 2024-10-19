@@ -41,18 +41,26 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
           className={`w-full rounded-lg object-cover transition-all duration-500`}
           loading="lazy"
           src={url as string}
-          width={width as number}
-          height={height as number}
+          width={768}
+          height={((width as number) / 768) * (height as number)}
           alt={image.alt}
           blurDataURL={image.blurDataUrl as string}
-          placeholder="blur"
+          placeholder={image.blurDataUrl ? 'blur' : 'empty'}
           tabIndex={0}
-          quality={75}
-          style={{ aspectRatio: isExpanded || !isExpandable ? `${width}/${height}` : '21 / 9' }}
+          quality={80}
+          unoptimized={image.mimeType?.includes('svg')}
+          onError={(e) => {
+            console.log(e);
+          }}
+          style={{
+            aspectRatio: isExpanded || !isExpandable ? `${width}/${height}` : '4 / 1',
+            backgroundColor: image.mimeType?.includes('svg') ? '#fffe' : 'transparent',
+            padding: image.mimeType?.includes('svg') ? '0.5rem' : '0',
+          }}
         />
         <span
-          className={`flex flex-row items-center font-semibold md:text-lg lg:hidden ${isExpanded && 'opacity-0'} absolute right-4 bottom-2 ${image.isDark ? ' text-white' : ' text-black'} transition-opacity`}
-          aria-label="Expand image"
+          className={`flex flex-row items-center justify-center font-semibold md:text-lg lg:hidden ${isExpanded && 'opacity-0'} absolute top-0 left-0 h-full w-full ${image.isDark ? ' text-white bg-black' : ' text-black bg-white'} bg-opacity-35 border-1 rounded-md backdrop-blur-[2px] transition-opacity`}
+          aria-label="Click to expand image to full height"
         >
           Click to
           <ArrowsVertical size={24} weight="bold" />

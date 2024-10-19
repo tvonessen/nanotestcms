@@ -1,4 +1,5 @@
 import { imageToBase64, isDarkImage } from '@/app/(payload)/utility/image';
+import { writeFile } from 'fs';
 import type { CollectionConfig } from 'payload';
 
 export const Media: CollectionConfig = {
@@ -28,13 +29,14 @@ export const Media: CollectionConfig = {
         withoutEnlargement: true,
       },
     ],
-    mimeTypes: ['image/jpeg', 'image/png', 'image/svg+xml'],
+    mimeTypes: ['image/*'],
     adminThumbnail: 'thumb',
     filesRequiredOnCreate: true,
   },
   access: {
     read: () => true,
   },
+
   admin: {
     group: 'Admin',
     defaultColumns: ['filename', 'alt', 'tags'],
@@ -84,10 +86,21 @@ export const Media: CollectionConfig = {
     },
   ],
   hooks: {
+    afterChange: [
+      async ({ doc, req }) => {
+        if (doc.mimeType.includes('svg') && req.file) {
+          const fileContent = req.file?.data.toString();
+          let goodSvg = fileContent.replace(/<\?xml[\s\S]*?\?>/i, '');
+
+          goodSvg.replaceAll('xmlns:', 'xmlns_').replaceAll('xml:', 'xml_');
+          writeFile('./media/' + doc.filename, goodSvg, (err) => console.log(err));
+        }
+      },
+    ],
     beforeRead: [
       async ({ doc }) => {
         if (!doc.sizes.blurred) return;
-        if (doc.mimeType === 'image/svg+xml') {
+        if (doc.mimeType.includes('svg')) {
           doc.blurDataUrl = '';
           doc.isDark = false;
         } else {

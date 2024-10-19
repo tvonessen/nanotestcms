@@ -1,4 +1,8 @@
 .rich-text {
+  *:first-child {
+    margin-top: 0.5rem;
+  }
+
   h1 {
     @apply text-4xl font-bold text-primary-600 mt-6 mb-3;
   }

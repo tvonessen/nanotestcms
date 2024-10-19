@@ -36,7 +36,7 @@ const Card = ({ solution }: { solution: Solution }) => {
     <div className="group card mx-auto max-w-[640px] bg-gradient-to-tl from-primary-900 to-primary-300 before:dark:!bg-background before:!bg-foreground image-full shadow-xl hover:scale-105 focus-within:scale-105 transition hover:z-20 focus-visible:z-20">
       <figure className="object-cover z-10">
         <Image
-          alt="Shoes"
+          alt={solution.title}
           className="min-h-full min-w-full group-hover:scale-110 group-hover:opacity-5 group-hover:blur-[1px] group-focus-within:blur-[1px] group-focus-within:scale-110 group-focus-within:opacity-5 transition duration-1000 ease-out"
           height={(solution.details.images[0] as Media).height as number}
           src={(solution.details.images[0] as Media).url as string}

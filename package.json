@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
-    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev -p 3301 --turbo",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev -p 3301",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev -p 3301",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
@@ -36,6 +36,7 @@
     "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
+    "@prettier/plugin-xml": "^3.4.1",
     "@types/node": "^22.7.4",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
@@ -45,6 +46,7 @@
     "eslint": "^8.57.1",
     "eslint-config-next": "15.0.0-canary.160",
     "postcss": "^8.4.47",
+    "prettier": "^3.3.3",
     "tailwindcss": "^3.4.13",
     "typescript": "5.6.2"
   },
