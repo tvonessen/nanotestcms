@@ -46,10 +46,10 @@ export const siteConfig = {
       href: '/about',
       icon: <UsersThree size={27} weight="regular" />,
     },
-    {
-      label: 'Contact',
-      href: '/#contact',
-      icon: <At size={27} weight="regular" />,
-    },
+    // {
+    //   label: 'Contact',
+    //   href: '/#contact',
+    //   icon: <At size={27} weight="regular" />,
+    // },
   ],
 };
