@@ -109,7 +109,7 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
                 />
               </div>
               <div className="h-full flex flex-col items-center -mt-8 px-4 z-20 gap-6">
-                <h1 className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-t from-primary-700 dark:from-primary-300 to-foreground dark:to-primary-500 mb-4">
+                <h1 className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent text-center bg-gradient-to-t from-primary-700 dark:from-primary-300 to-foreground dark:to-primary-500 mb-4">
                   {image.title}
                 </h1>
                 <h2 className="text-xl sm:text-2xl text-center text-foreground opacity-90">
