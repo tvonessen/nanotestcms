@@ -22,7 +22,7 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
           <Image
             alt={image.alt}
             blurDataURL={image.blurDataUrl as string}
-            className="object-cover object-center min-w-full min-h-full brightness-125 contrast-75 hover:contrast-100 transition"
+            className="object-cover object-center min-w-full min-h-full brightness-125 contrast-75 hover:contrast-100 transition aspect-[3/2]"
             height={image.sizes?.medium?.height ?? 480}
             placeholder="blur"
             src={`${usedImage.url}`}
