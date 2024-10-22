@@ -10,10 +10,10 @@ import Highlight from '@/components/content/Highlight';
 import TextVideo from '@/components/content/TextVideo';
 import ContactForm from '@/components/content/ContactForm';
 
-export const revalidate = 0;
+// export const revalidate = 0;
 
-// We'll prerender only the params from `generateStaticParams` at build time.
-export const dynamicParams = false; // false, to 404 on unknown paths
+// // We'll prerender only the params from `generateStaticParams` at build time.
+// export const dynamicParams = false; // false, to 404 on unknown paths
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config });
@@ -26,15 +26,16 @@ export async function generateStaticParams() {
     depth: 0,
   });
 
-  return solutions.docs.map((solution) => solution.slug);
+  return solutions.docs.map((solution) => ({ solution: solution.slug }));
 }
 
-const SolutionPage = async ({ params }: { params: { solution: string } }) => {
+const SolutionPage = async ({ params }: { params: Promise<{ solution: string }> }) => {
+  const { solution: slug } = await params;
   const payload = await getPayload({ config });
   const solution: Solution = await payload
     .find({
       collection: 'solutions',
-      where: { slug: { equals: params.solution } },
+      where: { slug: { equals: slug } },
     })
     .then((res) => res.docs[0]);
 
@@ -46,7 +47,10 @@ const SolutionPage = async ({ params }: { params: { solution: string } }) => {
     <main>
       <div className="container mx-auto">
         <Carousel images={solution.details.images as Media[]} />
-        <article className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
+        <article
+          key={solution.title}
+          className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto"
+        >
           {/* Abstract section */}
           <section className="col-span-12 lg:col-span-5 xl:col-span-4">
             <h1 className="text-5xl mt-6 leading-none font-black">{solution.title}</h1>

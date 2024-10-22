@@ -4,7 +4,7 @@ import { productCategories } from '@/data/productCategories';
 import { getPayload, PaginatedDocs } from 'payload';
 import { Solution } from '@/payload-types';
 
-export const revalidate = 0;
+// export const revalidate = 0;
 
 const SolutionsPage = async () => {
   const payload = await getPayload({ config });
@@ -15,7 +15,7 @@ const SolutionsPage = async () => {
   });
 
   return (
-    <div className="container mx-auto px-4">
+    <div key="solution" className="container mx-auto px-4">
       <div className="my-16">
         <h1 className="text-4xl font-bold mt-8">Solutions</h1>
         <p className="text-lg mt-4">
