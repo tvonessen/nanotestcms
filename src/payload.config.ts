@@ -1,19 +1,14 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { HTMLConverterFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
-import path from 'path';
 import { buildConfig } from 'payload';
-import { fileURLToPath } from 'url';
 import sharp from 'sharp';
 
-import { Users } from './collections/Users';
 import { Media } from './collections/Media';
 import Solutions from './collections/Solutions';
-import { Jumbotron } from './collections/Jumbotron';
-import { TextImage } from './blocks/TextImageBlock';
-import { TextVideo } from './blocks/TextVideoBlock';
-import { Highlight } from './blocks/HighlightBlock';
-import { Text } from './blocks/TextBlock';
+import { Users } from './collections/Users';
 import { HomepageContent } from './globals/HomepageContent';
 
 const filename = fileURLToPath(import.meta.url);

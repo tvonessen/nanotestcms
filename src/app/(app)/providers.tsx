@@ -1,10 +1,10 @@
 'use client';
 
-import * as React from 'react';
-import { useRouter } from 'next/navigation';
-import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { NextUIProvider } from '@nextui-org/react';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { useRouter } from 'next/navigation';
 import { SnackbarProvider } from 'notistack';
+import type * as React from 'react';
 
 export interface ProvidersProps {
   children?: React.ReactNode;

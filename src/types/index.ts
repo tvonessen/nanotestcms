@@ -1,5 +1,5 @@
 import { IconProps } from '@phosphor-icons/react';
-import React from 'react';
+import type React from 'react';
 
 export type ProductProps = {
   title: string;

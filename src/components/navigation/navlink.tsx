@@ -1,16 +1,16 @@
 'use client';
 
-import React from 'react';
-import { useSelectedLayoutSegment } from 'next/navigation';
-import { useWindowSize } from 'usehooks-ts';
 import Link from 'next/link';
+import { useSelectedLayoutSegment } from 'next/navigation';
+import React from 'react';
+import { useWindowSize } from 'usehooks-ts';
 
 interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   link: {
     label: string;
     href: string;
     icon: React.ReactNode;
-    children?: any[];
+    children?: unknown[];
   };
 }
 

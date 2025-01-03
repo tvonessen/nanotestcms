@@ -6,8 +6,8 @@ import Slider from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import type { Media } from '@/payload-types';
 import Image from 'next/image';
-import { Media } from '@/payload-types';
 
 interface CarouselProps {
   images: Media[];
@@ -43,11 +43,11 @@ const Carousel = ({ images, className }: CarouselProps) => {
           lazyLoad="progressive"
           ref={slider}
         >
-          {images.map((image, index) => (
-            <div className="md:px-2 focus:outline-none" key={index}>
+          {images.map((image) => (
+            <div className="md:px-2 focus:outline-none" key={image.alt}>
               <Image
-                key={index}
-                className={`sm:rounded-2xl w-full aspect-video object-cover`}
+                key={image.filename}
+                className={'sm:rounded-2xl w-full aspect-video object-cover'}
                 src={image.url as string}
                 alt={image.alt}
                 width={image.width as number}
@@ -91,6 +91,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
           {images.map((image, i) => (
             <li key={image.alt}>
               <button
+                type="button"
                 data-active={i === currentIndex}
                 className="w-3 h-3 rounded-full bg-foreground data-[active=true]:bg-primary bg-opacity-10 data-[active=true]:bg-opacity-60 hover:bg-opacity-35 transition"
                 aria-label={`Show image No. ${i}`}

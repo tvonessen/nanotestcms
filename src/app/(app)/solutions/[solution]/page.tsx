@@ -1,14 +1,14 @@
 // Next.js will invalidate the cache when a
 
-import { getPayload, PaginatedDocs } from 'payload';
-import config from '@payload-config';
-import { Media, Solution } from '@/payload-types';
 import Carousel from '@/components/carousel/Carousel';
+import ContactForm from '@/components/content/ContactForm';
+import Highlight from '@/components/content/Highlight';
 import Text from '@/components/content/Text';
 import TextImage from '@/components/content/TextImage';
-import Highlight from '@/components/content/Highlight';
 import TextVideo from '@/components/content/TextVideo';
-import ContactForm from '@/components/content/ContactForm';
+import type { Media, Solution } from '@/payload-types';
+import config from '@payload-config';
+import { type PaginatedDocs, getPayload } from 'payload';
 
 // export const revalidate = 0;
 
@@ -17,7 +17,7 @@ import ContactForm from '@/components/content/ContactForm';
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config });
-  let solutions: PaginatedDocs<Solution> = await payload.find({
+  const solutions: PaginatedDocs<Solution> = await payload.find({
     collection: 'solutions',
     where: {
       'type.category': { equals: 'product' },
@@ -48,7 +48,7 @@ const SolutionPage = async ({ params }: { params: Promise<{ solution: string }> 
       <div className="container mx-auto">
         <Carousel images={solution.details.images as Media[]} />
         <article
-          key={solution.title}
+          key={solution.title ?? 'solution'}
           className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto"
         >
           {/* Abstract section */}

@@ -1,4 +1,4 @@
-import { IconProps } from '@phosphor-icons/react';
+import type { IconProps } from '@phosphor-icons/react';
 import { Cpu, Gauge, ThermometerSimple } from '@phosphor-icons/react/dist/ssr';
 
 export const productCategories = [

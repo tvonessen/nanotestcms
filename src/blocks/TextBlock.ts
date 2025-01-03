@@ -1,5 +1,5 @@
 import { lexicalHTML } from '@payloadcms/richtext-lexical';
-import { Block } from 'payload';
+import type { Block } from 'payload';
 
 export const Text: Block = {
   slug: 'text',

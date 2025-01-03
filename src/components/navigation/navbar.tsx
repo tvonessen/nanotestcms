@@ -1,22 +1,22 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
 import {
-  Navbar as NextUINavbar,
+  NavbarContent,
   NavbarMenu,
   NavbarMenuItem,
-  NavbarContent,
   NavbarMenuToggle,
+  Navbar as NextUINavbar,
 } from '@nextui-org/react';
+import Link from 'next/link';
+import React from 'react';
 
 import { siteConfig } from '@/config/site';
 
 import NanotestLogo from '../nanotest-logo';
 import { ThemeSwitch } from '../theme-switch';
 
-import NavLink from './navlink';
 import { Button } from '@nextui-org/react';
+import NavLink from './navlink';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);

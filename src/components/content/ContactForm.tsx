@@ -4,7 +4,7 @@ import { Button, Input, Textarea } from '@nextui-org/react';
 import { Check, EnvelopeSimple } from '@phosphor-icons/react';
 import { enqueueSnackbar } from 'notistack';
 import React from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import { type FieldValues, useForm } from 'react-hook-form';
 
 type ContactFormProps = React.HTMLAttributes<HTMLElement> & {
   defaultValues?: {

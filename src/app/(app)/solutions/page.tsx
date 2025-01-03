@@ -1,8 +1,8 @@
-import config from '@payload-config';
 import ProductCard from '@/components/partials/productCard';
 import { productCategories } from '@/data/productCategories';
-import { getPayload, PaginatedDocs } from 'payload';
-import { Solution } from '@/payload-types';
+import type { Solution } from '@/payload-types';
+import config from '@payload-config';
+import { type PaginatedDocs, getPayload } from 'payload';
 
 // export const revalidate = 0;
 
@@ -34,7 +34,7 @@ const SolutionsPage = async () => {
         .map((category) => (
           <>
             <div
-              key={category.title}
+              key={`${category.title}-header`}
               className="w-[calc(100%_-_1rem)] relative mt-24 mb-8 px-2 py-4 rounded bg-foreground before:absolute before:-left-4 before:top-0 before:w-2 before:bg-primary before:rounded before:h-full translate-x-4"
             >
               <h2
@@ -44,7 +44,10 @@ const SolutionsPage = async () => {
                 {category.icon({ size: 32, className: 'mx-3' })} {category.title}
               </h2>
             </div>
-            <div className="flex flex-wrap justify-center gap-8 px-0 sm:px-4">
+            <div
+              key={`${category.title}-body`}
+              className="flex flex-wrap justify-center gap-8 px-0 sm:px-4"
+            >
               {solutions.docs
                 .filter((solution) => solution.type.subCategory === category.id)
                 .map((solution) => (

@@ -18,15 +18,33 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
+  collectionsJoins: {};
+  collectionsSelect: {
+    users: UsersSelect<false> | UsersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    solutions: SolutionsSelect<false> | SolutionsSelect<true>;
+    'payload-locked-documents':
+      | PayloadLockedDocumentsSelect<false>
+      | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+  };
   db: {
     defaultIDType: string;
   };
   globals: {
     homepage: Homepage;
   };
+  globalsSelect: {
+    homepage: HomepageSelect<false> | HomepageSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
+  };
+  jobs: {
+    tasks: unknown;
+    workflows: unknown;
   };
 }
 export interface UserAuthOperations {
@@ -139,12 +157,20 @@ export interface Solution {
   type: {
     category: 'product' | 'service' | 'other';
     subCategory?:
-      | ('thermal-characterization' | 'mechanical-characterization' | 'failure-analysis' | 'thermal-test-equipment')
+      | (
+          | 'thermal-characterization'
+          | 'mechanical-characterization'
+          | 'failure-analysis'
+          | 'thermal-test-equipment'
+        )
       | null;
   };
   title: string;
   subtitle: string;
   shortDescription: string;
+  /**
+   * Whether this is a novel solution
+   */
   new?: boolean | null;
   details: {
     images: (string | Media)[];
@@ -298,6 +324,200 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  tags?: T;
+  blurDataUrl?: T;
+  isDark?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        blurred?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        thumb?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        small?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        medium?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        large?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "solutions_select".
+ */
+export interface SolutionsSelect<T extends boolean = true> {
+  type?:
+    | T
+    | {
+        category?: T;
+        subCategory?: T;
+      };
+  title?: T;
+  subtitle?: T;
+  shortDescription?: T;
+  new?: T;
+  details?:
+    | T
+    | {
+        images?: T;
+        abstract?: T;
+        content?:
+          | T
+          | {
+              text?:
+                | T
+                | {
+                    text?: T;
+                    text_html?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              'text-image'?:
+                | T
+                | {
+                    text?: T;
+                    image?: T;
+                    text_html?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              highlight?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
+                    link?: T;
+                    variant?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+              'text-video'?:
+                | T
+                | {
+                    text?: T;
+                    videoId?: T;
+                    text_html?: T;
+                    id?: T;
+                    blockName?: T;
+                  };
+            };
+      };
+  seo?:
+    | T
+    | {
+        keywords?: T;
+      };
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents_select".
+ */
+export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
+  document?: T;
+  globalSlug?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences_select".
+ */
+export interface PayloadPreferencesSelect<T extends boolean = true> {
+  user?: T;
+  key?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations_select".
+ */
+export interface PayloadMigrationsSelect<T extends boolean = true> {
+  name?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "homepage".
  */
 export interface Homepage {
@@ -359,12 +579,61 @@ export interface Homepage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage_select".
+ */
+export interface HomepageSelect<T extends boolean = true> {
+  jumbotron?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+        link?: T;
+        linkLabel?: T;
+        id?: T;
+      };
+  content?:
+    | T
+    | {
+        text?:
+          | T
+          | {
+              text?: T;
+              text_html?: T;
+              id?: T;
+              blockName?: T;
+            };
+        highlight?:
+          | T
+          | {
+              title?: T;
+              text?: T;
+              link?: T;
+              variant?: T;
+              id?: T;
+              blockName?: T;
+            };
+        cards?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              cards?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
   [k: string]: unknown;
 }
-
 
 declare module 'payload' {
   export interface GeneratedTypes extends Config {}

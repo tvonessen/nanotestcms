@@ -1,4 +1,4 @@
-import { ProductProps } from '@/types';
+import type { ProductProps } from '@/types';
 
 export const mockProducts: ProductProps[] = [
   {

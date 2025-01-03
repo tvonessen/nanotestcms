@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import NanotestLogo from "../nanotest-logo";
+import NanotestLogo from '../nanotest-logo';
 
 const Footer = () => {
   return (

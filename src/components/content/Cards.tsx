@@ -1,4 +1,4 @@
-import { Media, Solution } from '@/payload-types';
+import type { Media, Solution } from '@/payload-types';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';

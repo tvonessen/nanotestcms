@@ -1,5 +1,4 @@
-import { Block } from 'payload';
-import { title } from 'process';
+import type { Block } from 'payload';
 
 export const Cards: Block = {
   slug: 'cards',

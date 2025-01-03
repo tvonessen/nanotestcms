@@ -1,7 +1,7 @@
 import { Cards } from '@/blocks/CardsBlock';
 import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
-import { GlobalConfig } from 'payload';
+import type { GlobalConfig } from 'payload';
 
 export const HomepageContent: GlobalConfig = {
   slug: 'homepage',

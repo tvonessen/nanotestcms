@@ -2,7 +2,7 @@ import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
-import { CollectionConfig } from 'payload';
+import type { CollectionConfig } from 'payload';
 
 const Solutions: CollectionConfig = {
   slug: 'solutions',
@@ -171,11 +171,10 @@ const Solutions: CollectionConfig = {
       ({ data }) => {
         if (!data) throw new Error('Data is required');
         if (data.slug) return data;
-        else
-          return {
-            ...data,
-            slug: data.title.toLowerCase().replace(/ /g, '-'),
-          };
+        return {
+          ...data,
+          slug: data.title.toLowerCase().replace(/ /g, '-'),
+        };
       },
     ],
   },

@@ -1,6 +1,6 @@
 'use client';
 
-import { Media } from '@/payload-types';
+import type { Media } from '@/payload-types';
 import { ArrowsVertical } from '@phosphor-icons/react';
 import Image from 'next/image';
 import React from 'react';
@@ -31,14 +31,19 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
     return null;
   }
 
+  function toggleExpand() {
+    if (isExpandable) setIsExpanded(!isExpanded);
+  }
+
   return (
     <>
       <div
         className={`group relative ${isExpandable && 'cursor-pointer'}`}
-        onClick={() => isExpandable && setIsExpanded(!isExpanded)}
+        onClick={toggleExpand}
+        onKeyDown={toggleExpand}
       >
         <Image
-          className={`w-full rounded-lg object-cover transition-all duration-500`}
+          className={'w-full rounded-lg object-cover transition-all duration-500'}
           loading="lazy"
           src={url as string}
           width={768}

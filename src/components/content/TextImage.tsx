@@ -1,7 +1,7 @@
-import { Media } from '@/payload-types';
+import type { Media } from '@/payload-types';
 import React from 'react';
-import RichText from '../partials/richText';
 import ExpandImage from '../partials/expandImage';
+import RichText from '../partials/richText';
 
 interface TextImageProps {
   text: string;

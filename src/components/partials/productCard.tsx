@@ -1,9 +1,9 @@
-import React from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
 import { productCategories } from '@/data/productCategories';
-import { Media, Solution } from '@/payload-types';
+import type { Media, Solution } from '@/payload-types';
 
 interface ProductCardProps {
   product: Solution;
@@ -36,7 +36,7 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
           {product.new && <div className="badge badge-error text-white">NEW</div>}
         </h2>
         <div className="card-actions justify-start">
-          <div className={`badge whitespace-nowrap opacity-70 badge-outline`}>
+          <div className={'badge whitespace-nowrap opacity-70 badge-outline'}>
             {category?.title}
           </div>
         </div>

@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
-import { useTheme } from 'next-themes';
 import { Moon, Sun } from '@phosphor-icons/react';
+import { useTheme } from 'next-themes';
+import React from 'react';
 
 export const ThemeSwitch = () => {
   const { theme, setTheme } = useTheme();
@@ -21,6 +21,7 @@ export const ThemeSwitch = () => {
 
   return (
     <button
+      type="button"
       aria-label="Toggle website theme"
       className="btn btn-square btn-ghost text-background dark:text-foreground  "
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}

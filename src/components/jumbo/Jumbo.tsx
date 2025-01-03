@@ -6,8 +6,8 @@ import Slider from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import type { Media } from '@/payload-types';
 import Image from 'next/image';
-import { Media } from '@/payload-types';
 import Link from 'next/link';
 import { useInterval } from 'usehooks-ts';
 
@@ -93,7 +93,7 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
             <div key={image.blurDataUrl}>
               <div className="relative focus:outline-none -z-10 overflow-hidden 2xl:rounded-2xl">
                 <Image
-                  className={`aspect-square lg:aspect-video w-full object-cover`}
+                  className={'aspect-square lg:aspect-video w-full object-cover'}
                   src={image.url as string}
                   alt={image.alt}
                   width={image.width as number}

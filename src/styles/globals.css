@@ -11,12 +11,10 @@
   --foreground: rgb(21, 21, 21);
   --background: rgb(245, 248, 248);
 
-  transition:
-    background-color 0.2s,
-    color 0.2s;
+  transition: background-color 0.2s, color 0.2s;
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   --foreground: rgb(245, 248, 248);
   --background: rgb(21, 21, 21);
   --accent-01: rgb(138, 79, 125);
