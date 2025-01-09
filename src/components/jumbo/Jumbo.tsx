@@ -133,7 +133,11 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
               onClick={prev}
             >
               <CaretLeft
-                className={`${images[currentIndex].isDark ? 'text-white 2xl:text-foreground' : 'text-black 2xl:text-foreground'}`}
+                className={`${
+                  images[currentIndex].isDark
+                    ? 'text-white 2xl:text-foreground'
+                    : 'text-black 2xl:text-foreground'
+                }`}
                 size={24}
                 weight="bold"
               />
@@ -144,7 +148,11 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
               onClick={next}
             >
               <CaretRight
-                className={`${images[currentIndex].isDark ? 'text-white 2xl:text-foreground' : 'text-black 2xl:text-foreground'}`}
+                className={`${
+                  images[currentIndex].isDark
+                    ? 'text-white 2xl:text-foreground'
+                    : 'text-black 2xl:text-foreground'
+                }`}
                 size={24}
                 weight="bold"
               />

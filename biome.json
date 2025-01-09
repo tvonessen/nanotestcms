@@ -36,7 +36,11 @@
         "useJsxKeyInIterable": "error"
       },
       "security": { "noDangerouslySetInnerHtmlWithChildren": "error" },
-      "suspicious": { "noCommentText": "error", "noDuplicateJsxProps": "error" }
+      "suspicious": {
+        "noCommentText": "error",
+        "noDuplicateJsxProps": "error",
+        "noConsoleLog": "warn"
+      }
     }
   },
   "javascript": {
@@ -52,5 +56,6 @@
       "bracketSpacing": true
     }
   },
+
   "overrides": [{ "include": ["**/*.ts?(x)"] }]
 }

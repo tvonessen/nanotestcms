@@ -3,7 +3,7 @@ import ContactForm from '@/components/content/ContactForm';
 import Highlight from '@/components/content/Highlight';
 import Jumbo from '@/components/jumbo/Jumbo';
 import RichText from '@/components/partials/richText';
-import type { Solution } from '@/payload-types';
+import type { Media, Solution } from '@/payload-types';
 import config from '@/payload.config';
 import { getPayload } from 'payload';
 

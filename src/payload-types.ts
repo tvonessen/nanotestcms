@@ -23,9 +23,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     solutions: SolutionsSelect<false> | SolutionsSelect<true>;
-    'payload-locked-documents':
-      | PayloadLockedDocumentsSelect<false>
-      | PayloadLockedDocumentsSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
@@ -157,12 +155,7 @@ export interface Solution {
   type: {
     category: 'product' | 'service' | 'other';
     subCategory?:
-      | (
-          | 'thermal-characterization'
-          | 'mechanical-characterization'
-          | 'failure-analysis'
-          | 'thermal-test-equipment'
-        )
+      | ('thermal-characterization' | 'mechanical-characterization' | 'failure-analysis' | 'thermal-test-equipment')
       | null;
   };
   title: string;
@@ -634,6 +627,7 @@ export interface HomepageSelect<T extends boolean = true> {
 export interface Auth {
   [k: string]: unknown;
 }
+
 
 declare module 'payload' {
   export interface GeneratedTypes extends Config {}
