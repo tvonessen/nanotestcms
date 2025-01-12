@@ -10,6 +10,7 @@ import { Media } from './collections/Media';
 import Solutions from './collections/Solutions';
 import { Users } from './collections/Users';
 import { HomepageContent } from './globals/HomepageContent';
+import TeamMembers from './collections/TeamMembers';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -21,7 +22,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Solutions],
+  collections: [Users, Media, Solutions, TeamMembers],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,

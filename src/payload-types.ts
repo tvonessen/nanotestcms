@@ -14,6 +14,7 @@ export interface Config {
     users: User;
     media: Media;
     solutions: Solution;
+    'team-members': TeamMember;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -23,6 +24,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     solutions: SolutionsSelect<false> | SolutionsSelect<true>;
+    'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -256,6 +258,18 @@ export interface Solution {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members".
+ */
+export interface TeamMember {
+  id: string;
+  name: string;
+  position: string;
+  portrait?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -272,6 +286,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'solutions';
         value: string | Solution;
+      } | null)
+    | ({
+        relationTo: 'team-members';
+        value: string | TeamMember;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -474,6 +492,17 @@ export interface SolutionsSelect<T extends boolean = true> {
         keywords?: T;
       };
   slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members_select".
+ */
+export interface TeamMembersSelect<T extends boolean = true> {
+  name?: T;
+  position?: T;
+  portrait?: T;
   updatedAt?: T;
   createdAt?: T;
 }
