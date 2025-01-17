@@ -16,7 +16,7 @@ const SolutionsPage = async () => {
 
   return (
     <div key="solution" className="container mx-auto px-4">
-      <div className="my-16">
+      <div className="my-16" key="solutions-page-header">
         <h1 className="text-4xl font-bold mt-8">Solutions</h1>
         <p className="text-lg mt-4">
           Nanotest offers a wide range of solutions for thermal characterization and reliability

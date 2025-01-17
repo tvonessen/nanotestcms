@@ -11,6 +11,7 @@ import Solutions from './collections/Solutions';
 import { Users } from './collections/Users';
 import { HomepageContent } from './globals/HomepageContent';
 import TeamMembers from './collections/TeamMembers';
+import { AboutContent } from './globals/AboutContent';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -31,7 +32,7 @@ export default buildConfig({
       HTMLConverterFeature({}),
     ],
   }),
-  globals: [HomepageContent],
+  globals: [HomepageContent, AboutContent],
 
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

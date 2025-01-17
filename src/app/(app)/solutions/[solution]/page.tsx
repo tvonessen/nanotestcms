@@ -8,11 +8,12 @@ import TextImage from '@/components/content/TextImage';
 import TextVideo from '@/components/content/TextVideo';
 import type { Media, Solution } from '@/payload-types';
 import config from '@payload-config';
+import { notFound } from 'next/navigation';
 import { type PaginatedDocs, getPayload } from 'payload';
 
 // export const revalidate = 0;
 
-// // We'll prerender only the params from `generateStaticParams` at build time.
+// We'll prerender only the params from `generateStaticParams` at build time.
 // export const dynamicParams = false; // false, to 404 on unknown paths
 
 export async function generateStaticParams() {
@@ -40,15 +41,15 @@ const SolutionPage = async ({ params }: { params: Promise<{ solution: string }> 
     .then((res) => res.docs[0]);
 
   if (!solution) {
-    return null;
+    return notFound();
   }
 
   return (
     <main>
-      <div className="container mx-auto">
+      <div className="container mx-auto" key="solution-content">
         <Carousel images={solution.details.images as Media[]} />
         <article
-          key={solution.title ?? 'solution'}
+          key={solution.title ?? `solution-${solution.title ?? 'unknown'}`}
           className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto"
         >
           {/* Abstract section */}
@@ -84,7 +85,10 @@ const SolutionPage = async ({ params }: { params: Promise<{ solution: string }> 
         </article>
       </div>
 
-      <div className="px-12 my-12 py-12 bg-opacity-5 mx-auto bg-foreground max-xl:w-full xl:max-w-6xl xl:rounded-lg">
+      <div
+        key="contact-form"
+        className="px-12 my-12 py-12 bg-opacity-5 mx-auto bg-foreground max-xl:w-full xl:max-w-6xl xl:rounded-lg"
+      >
         <ContactForm
           className="container mx-auto"
           defaultValues={{ subject: `Inquiry about ${solution.title}` }}

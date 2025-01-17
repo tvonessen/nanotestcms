@@ -12,7 +12,10 @@ export const Users: CollectionConfig = {
       return false;
     },
   },
-  auth: true,
+  auth: {
+    maxLoginAttempts: 5,
+    lockTime: 5 * 60 * 1000, // 5 minutes,
+  },
   fields: [
     { name: 'name', type: 'text', required: true },
     { name: 'email', type: 'email', required: true },

@@ -4,7 +4,6 @@ import type { Media } from '@/payload-types';
 import { ArrowsVertical } from '@phosphor-icons/react';
 import Image from 'next/image';
 import React from 'react';
-import { useWindowSize } from 'usehooks-ts';
 
 interface ExpandImageProps {
   image: Media;
@@ -55,7 +54,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
           quality={80}
           unoptimized={image.mimeType?.includes('svg')}
           onError={(e) => {
-            console.log(e);
+            console.error(e);
           }}
           style={{
             aspectRatio: isExpanded || !isExpandable ? `${width}/${height}` : '4 / 1',

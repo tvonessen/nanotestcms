@@ -5,6 +5,7 @@ import Jumbo from '@/components/jumbo/Jumbo';
 import RichText from '@/components/partials/richText';
 import type { Media, Solution } from '@/payload-types';
 import config from '@/payload.config';
+import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 
 export const revalidate = 0;
@@ -15,7 +16,7 @@ const Home = async () => {
     slug: 'homepage',
   });
 
-  if (!homepageContent) return null;
+  if (!homepageContent) return notFound();
 
   return (
     <>
