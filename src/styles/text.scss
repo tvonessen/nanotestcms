@@ -1,0 +1,13 @@
+.abstract + aside {
+  display: none !important;
+}
+
+aside {
+  background: repeating-linear-gradient(
+    33deg,
+    var(--primary),
+    var(--primary) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+}

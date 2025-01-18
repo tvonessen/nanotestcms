@@ -53,7 +53,7 @@ const SolutionPage = async ({ params }: { params: Promise<{ solution: string }> 
           className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto"
         >
           {/* Abstract section */}
-          <section className="col-span-12 lg:col-span-5 xl:col-span-4">
+          <section className="abstract col-span-12 lg:col-span-5 xl:col-span-4">
             <h1 className="text-5xl mt-6 leading-none font-black">{solution.title}</h1>
             <p className="text-lg mt-4 text-primary">{solution.subtitle}</p>
             <p className="my-6 font-medium text-lg">{solution.details.abstract}</p>
