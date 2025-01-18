@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 
 import { productCategories } from '@/data/productCategories';
 import type { Media, Solution } from '@/payload-types';

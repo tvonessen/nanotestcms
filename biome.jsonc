@@ -19,6 +19,7 @@
   "organizeImports": { "enabled": true },
   "linter": {
     "enabled": true,
+
     "rules": {
       "recommended": true,
       "a11y": {
@@ -33,7 +34,8 @@
         "noChildrenProp": "error",
         "useExhaustiveDependencies": "warn",
         "useHookAtTopLevel": "error",
-        "useJsxKeyInIterable": "error"
+        "useJsxKeyInIterable": "error",
+        "noUnusedImports": "warn"
       },
       "security": { "noDangerouslySetInnerHtmlWithChildren": "error" },
       "suspicious": {

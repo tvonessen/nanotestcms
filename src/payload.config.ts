@@ -2,16 +2,16 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
-import { HTMLConverterFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
+import { HTMLConverterFeature, LinkFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
 
 import { Media } from './collections/Media';
 import Solutions from './collections/Solutions';
-import { Users } from './collections/Users';
-import { HomepageContent } from './globals/HomepageContent';
 import TeamMembers from './collections/TeamMembers';
+import { Users } from './collections/Users';
 import { AboutContent } from './globals/AboutContent';
+import { HomepageContent } from './globals/HomepageContent';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -27,6 +27,10 @@ export default buildConfig({
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,
+      LinkFeature({
+        enabledCollections: ['solutions'],
+        maxDepth: 5,
+      }),
       // The HTMLConverter Feature is the feature which manages the HTML serializers.
       // If you do not pass any arguments to it, it will use the default serializers.
       HTMLConverterFeature({}),

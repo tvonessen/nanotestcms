@@ -1,4 +1,3 @@
-import React from 'react';
 import '@/styles/richText.scss';
 
 const RichText = ({ text, className }: { text: string; className?: string }) => {

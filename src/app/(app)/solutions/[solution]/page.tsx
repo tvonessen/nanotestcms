@@ -62,9 +62,9 @@ const SolutionPage = async ({ params }: { params: Promise<{ solution: string }> 
           {solution.details.content?.map((item, i) => {
             switch (item.blockType) {
               case 'text':
-                return <Text text={item.text_html as string} />;
+                return <Text text={item.text} />;
               case 'text-image':
-                return <TextImage text={item.text_html as string} image={item.image as Media} />;
+                return <TextImage text={item.text} image={item.image as Media} />;
               case 'highlight':
                 return (
                   <Highlight
@@ -75,9 +75,7 @@ const SolutionPage = async ({ params }: { params: Promise<{ solution: string }> 
                   />
                 );
               case 'text-video':
-                return (
-                  <TextVideo text={item.text_html as string} videoId={item.videoId as string} />
-                );
+                return <TextVideo text={item.text} videoId={item.videoId as string} />;
               default:
                 return null;
             }

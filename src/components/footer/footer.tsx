@@ -1,5 +1,3 @@
-import React from 'react';
-
 import NanotestLogo from '../nanotest-logo';
 
 const Footer = () => {

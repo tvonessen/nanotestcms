@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Input, Textarea } from '@nextui-org/react';
-import { Check, EnvelopeSimple } from '@phosphor-icons/react';
+import { Check } from '@phosphor-icons/react';
 import { enqueueSnackbar } from 'notistack';
 import React from 'react';
 import { type FieldValues, useForm } from 'react-hook-form';

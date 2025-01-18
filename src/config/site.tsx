@@ -1,4 +1,4 @@
-import { At, House, Microscope, Nut, TagSimple, UsersThree } from '@phosphor-icons/react/dist/ssr';
+import { House, Microscope, Nut, TagSimple, UsersThree } from '@phosphor-icons/react/dist/ssr';
 
 export type SiteConfig = typeof siteConfig;
 

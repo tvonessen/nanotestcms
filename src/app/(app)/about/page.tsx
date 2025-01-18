@@ -1,11 +1,10 @@
 import Text from '@/components/content/Text';
 import TextImage from '@/components/content/TextImage';
 import TextVideo from '@/components/content/TextVideo';
-import { getPayload, type PaginatedDocs } from 'payload';
-import React from 'react';
+import type { Media } from '@/payload-types';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
-import type { About, Media } from '@/payload-types';
+import { getPayload } from 'payload';
 
 export default async function AboutPage() {
   const payload = await getPayload({ config });
@@ -21,11 +20,11 @@ export default async function AboutPage() {
         {about.content?.map((item, i) => {
           switch (item.blockType) {
             case 'text':
-              return <Text text={item.text_html as string} />;
+              return <Text text={item.text} />;
             case 'text-image':
-              return <TextImage text={item.text_html as string} image={item.image as Media} />;
+              return <TextImage text={item.text} image={item.image as Media} />;
             case 'text-video':
-              return <TextVideo text={item.text_html as string} videoId={item.videoId as string} />;
+              return <TextVideo text={item.text} videoId={item.videoId as string} />;
             default:
               return null;
           }

@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface NanotestLogoProps {
   hideLogo?: boolean;
   hideText?: boolean;

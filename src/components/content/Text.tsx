@@ -1,10 +1,13 @@
-import React from 'react';
-import RichText from '../partials/richText';
+import type {
+  SerializedEditorState,
+  SerializedLexicalNode,
+} from '@payloadcms/richtext-lexical/lexical';
+import RichTextWrapper from './RichTextWrapper';
 
-const Text = ({ text }: { text: string }) => {
+const Text = ({ text }: { text: SerializedEditorState<SerializedLexicalNode> }) => {
   return (
     <section className="col-span-12 lg:col-start-6 lg:col-span-7 xl:col-start-5 xl:col-span-8">
-      <RichText text={text} />
+      <RichTextWrapper text={text} />
     </section>
   );
 };

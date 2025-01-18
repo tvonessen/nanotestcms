@@ -1,7 +1,7 @@
 'use client';
 
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
-import React, { Suspense } from 'react';
+import React from 'react';
 import Slider from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
