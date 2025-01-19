@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import React from 'react';
-import { useWindowSize } from 'usehooks-ts';
 
 interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   link: {
@@ -24,7 +23,7 @@ const NavLink = ({ link, ...props }: NavLinkProps) => {
     setMounted(true);
   }, []);
 
-  const { width } = useWindowSize();
+  const width = 1025;
 
   if (!mounted) return null;
 

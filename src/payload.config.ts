@@ -24,6 +24,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Solutions, TeamMembers],
+  csrf: ['http://localhost:3301'],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,
@@ -38,6 +39,7 @@ export default buildConfig({
   }),
   globals: [HomepageContent, AboutContent],
   secret: process.env.PAYLOAD_SECRET || '',
+  serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 interface NanotestLogoProps {
   hideLogo?: boolean;
   hideText?: boolean;
@@ -29,7 +31,7 @@ const NanotestLogo = ({ hideLogo, hideText, ...props }: NanotestLogoProps) => {
       <title>Nanotest Logo</title>
       <g transform="matrix(1,0,0,1,-41.1471,-43.6)">
         {!hideLogo && (
-          <>
+          <Fragment key="logo">
             <path
               d="M43.6,65.4L50.5,69.2C52,70.1 53.9,70.1 55.5,69.2L62.4,65.4C64,64.5 65,62.8 65,60.9L65,52.7C65,50.9 64,49.2 62.5,48.3L55.6,44.3C54.8,43.8 53.9,43.6 53.1,43.6C52.3,43.6 51.3,43.8 50.6,44.3L43.7,48.3C42.1,49.2 41.2,50.9 41.2,52.7L41.2,60.9C40.9,62.7 41.9,64.5 43.6,65.4ZM44.1,50L51,46.2C52.2,45.5 53.7,45.5 54.9,46.2L61.8,50C63.1,50.7 63.9,52 63.9,53.5L63.9,60.6C63.9,62 63.1,63.4 61.9,64.1L55,68.1C54.4,68.5 53.7,68.6 53,68.6C52.3,68.6 51.6,68.4 51,68.1L44.1,64.1C42.9,63.4 42.1,62.1 42.1,60.6L42.1,53.5C42,52.1 42.8,50.8 44.1,50Z"
               style={{ fillRule: 'nonzero' }}
@@ -39,11 +41,11 @@ const NanotestLogo = ({ hideLogo, hideText, ...props }: NanotestLogoProps) => {
               d="M59.4,56C55.2,50.7 51.8,59.7 49.1,57.3L46.3,54.3C45.4,53.3 43.9,54.6 44.7,55.7C48.5,60.4 50.2,61.6 55.1,57.2C57.6,55 59.4,58.3 61.4,59.3C60.8,58.2 60.1,57.1 59.4,56Z"
               style={{ fillRule: 'nonzero' }}
             />
-          </>
+          </Fragment>
         )}
 
         {!hideText && (
-          <>
+          <Fragment key="text">
             <path
               d="M84.7,62.7L84.7,49.1L87.1,49.1L87.1,67.2L84.8,67.2L78.5,57.7L75.9,53.7L75.7,53.7L75.7,67.1L73.3,67.1L73.3,49.1L75.6,49.1L82.1,58.9L84.5,62.7L84.7,62.7Z"
               style={{ fillRule: 'nonzero' }}
@@ -81,7 +83,7 @@ const NanotestLogo = ({ hideLogo, hideText, ...props }: NanotestLogoProps) => {
               d="M192.9,51.4L192.9,67.3L190.4,67.3L190.4,51.4L185.2,51.4L185.2,49.2L198.1,49.2L198.1,51.4L192.9,51.4Z"
               style={{ fillRule: 'nonzero' }}
             />
-          </>
+          </Fragment>
         )}
       </g>
     </svg>

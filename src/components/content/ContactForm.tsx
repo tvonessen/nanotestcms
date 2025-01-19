@@ -1,9 +1,9 @@
 'use client';
 
-import { Button, Input, Textarea } from '@nextui-org/react';
+import { Button, Input, Textarea } from '@heroui/react';
 import { Check } from '@phosphor-icons/react';
 import { enqueueSnackbar } from 'notistack';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { type FieldValues, useForm } from 'react-hook-form';
 
 type ContactFormProps = React.HTMLAttributes<HTMLElement> & {
@@ -128,9 +128,9 @@ const ContactForm = ({ defaultValues, ...props }: ContactFormProps) => {
           disabled={isSubmitSuccessful}
         >
           {isSubmitSuccessful ? (
-            <>
+            <Fragment key="success">
               <Check size={28} /> We will be in touch
-            </>
+            </Fragment>
           ) : (
             'Hear back from us'
           )}

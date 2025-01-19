@@ -1,15 +1,30 @@
 import type { CollectionConfig } from 'payload';
-import { baseCollectionConfig } from './baseCollectionConfig';
+import { slugField } from '@/fields/slugField';
+import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
+import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
 
 const TeamMembers: CollectionConfig = {
-  ...baseCollectionConfig,
   slug: 'team-members',
   admin: {
     defaultColumns: ['name', 'position', 'portrait'],
   },
-
+  access: {
+    create: isLoggedIn,
+    delete: isLoggedIn,
+    read: publishedOrLoggedIn,
+    readVersions: isLoggedIn,
+    update: isLoggedIn,
+  },
+  versions: {
+    drafts: {
+      schedulePublish: true,
+      autosave: {
+        interval: 375,
+      },
+    },
+    maxPerDoc: 5,
+  },
   fields: [
-    ...baseCollectionConfig.fields,
     {
       name: 'name',
       label: 'Name',
@@ -35,6 +50,7 @@ const TeamMembers: CollectionConfig = {
       },
       displayPreview: true,
     },
+    slugField('name'),
   ],
 };
 

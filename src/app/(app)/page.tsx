@@ -1,33 +1,34 @@
 import CardsGrid from '@/components/content/Cards';
 import ContactForm from '@/components/content/ContactForm';
 import Highlight from '@/components/content/Highlight';
+import RichTextWrapper from '@/components/content/RichTextWrapper';
 import Jumbo from '@/components/jumbo/Jumbo';
-import RichText from '@/components/partials/richText';
+import { RefreshRouteOnSave } from '@/components/utility/RefreshRouteOnSave';
 import type { Solution } from '@/payload-types';
 import config from '@/payload.config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
-
-export const revalidate = 0;
+import React from 'react';
 
 const Home = async () => {
   const payload = await getPayload({ config });
   const homepageContent = await payload.findGlobal({
     slug: 'homepage',
+    overrideAccess: true,
   });
 
   if (!homepageContent) return notFound();
 
   return (
-    <>
+    <React.Fragment key={homepageContent.id}>
+      <RefreshRouteOnSave />
       {homepageContent.jumbotron && <Jumbo jumbos={homepageContent.jumbotron} />}
-
       {homepageContent.content?.map((block) => {
         switch (block.blockType) {
           case 'text':
             return (
               <div className="container my-12 px-8 md:px-12 xl:mx-auto">
-                <RichText key={block.id} text={block.text_html as string} />
+                <RichTextWrapper key={block.id} text={block.text} />
               </div>
             );
           case 'highlight':
@@ -58,7 +59,7 @@ const Home = async () => {
         id="contact"
         className="px-12 my-12 py-12 bg-opacity-5 mx-auto bg-foreground max-xl:w-full xl:max-w-6xl xl:rounded-lg"
       />
-    </>
+    </React.Fragment>
   );
 };
 

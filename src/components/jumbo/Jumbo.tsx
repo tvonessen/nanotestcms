@@ -1,7 +1,7 @@
 'use client';
 
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
-import React from 'react';
+import React, { Fragment } from 'react';
 import Slider from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
@@ -67,7 +67,7 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
   };
 
   return (
-    <>
+    <Fragment key="jumbo">
       <div
         className={`relative 2xl:container mx-auto 2xl:mt-4 2xl:px-16 ${className}`}
         onMouseEnter={() => setIsPlaying(false)}
@@ -126,7 +126,7 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
           ))}
         </Slider>
         {images.length > 1 && (
-          <>
+          <Fragment key={'controls'}>
             <button
               className="absolute rounded left-1 top-1/2 -translate-y-1/2 z-20 p-6"
               type="button"
@@ -157,10 +157,10 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
                 weight="bold"
               />
             </button>
-          </>
+          </Fragment>
         )}
       </div>
-    </>
+    </Fragment>
   );
 };
 

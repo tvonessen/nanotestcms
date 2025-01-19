@@ -4,6 +4,7 @@ import type {
   SerializedLexicalNode,
 } from '@payloadcms/richtext-lexical/lexical';
 import {
+  type JSXConverters,
   type JSXConvertersFunction,
   LinkJSXConverter,
   RichText,
@@ -26,7 +27,9 @@ export default function RichTextWrapper({
     return `/${relationTo}/${slug}`;
   };
 
-  const jsxConverters: JSXConvertersFunction<DefaultNodeTypes> = ({ defaultConverters }) => ({
+  const jsxConverters: JSXConvertersFunction<DefaultNodeTypes> = ({
+    defaultConverters,
+  }: { defaultConverters: JSXConverters<DefaultNodeTypes> }) => ({
     ...defaultConverters,
     ...LinkJSXConverter({ internalDocToHref }),
   });

@@ -1,7 +1,7 @@
 'use client';
 
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
-import React from 'react';
+import React, { Fragment } from 'react';
 import Slider from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
@@ -28,7 +28,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
   };
 
   return (
-    <>
+    <Fragment key="carousel">
       <section
         className={`w-full max-w-7xl mx-auto mt-6 relative sm:rounded-2xl overflow-hidden ${className}`}
       >
@@ -60,7 +60,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
           ))}
         </Slider>
         {images.length > 1 && (
-          <>
+          <Fragment key="controls">
             <button
               className="absolute rounded left-1 top-1/2 -translate-y-1/2 z-20 p-6"
               type="button"
@@ -83,7 +83,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
                 weight="bold"
               />
             </button>
-          </>
+          </Fragment>
         )}
       </section>
       {images.length > 1 && (
@@ -103,7 +103,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
           ))}
         </ul>
       )}
-    </>
+    </Fragment>
   );
 };
 

@@ -3,8 +3,7 @@ import { productCategories } from '@/data/productCategories';
 import type { Solution } from '@/payload-types';
 import config from '@payload-config';
 import { type PaginatedDocs, getPayload } from 'payload';
-
-// export const revalidate = 0;
+import { Fragment } from 'react';
 
 const SolutionsPage = async () => {
   const payload = await getPayload({ config });
@@ -12,10 +11,9 @@ const SolutionsPage = async () => {
     collection: 'solutions',
     where: {
       'type.category': { equals: 'product' },
-      'meta.published': { equals: true },
-      'meta.slug': { exists: true },
     },
     pagination: false,
+    overrideAccess: false,
   });
 
   return (
@@ -36,7 +34,7 @@ const SolutionsPage = async () => {
           }),
         )
         .map((category) => (
-          <>
+          <Fragment key={category.title}>
             <div
               key={`${category.title}-header`}
               className="w-[calc(100%_-_1rem)] relative mt-24 mb-8 px-2 py-4 rounded bg-foreground before:absolute before:-left-4 before:top-0 before:w-2 before:bg-primary before:rounded before:h-full translate-x-4"
@@ -56,13 +54,13 @@ const SolutionsPage = async () => {
                 .filter((solution) => solution.type.subCategory === category.id)
                 .map((solution) => (
                   <ProductCard
-                    key={solution.meta?.slug}
+                    key={solution.slug}
                     className="flex-auto lg:flex-[0_0_calc(50%_-_2rem)] xl:flex-[0_0_calc(33.3333%_-_4rem)]"
                     product={solution}
                   />
                 ))}
             </div>
-          </>
+          </Fragment>
         ))}
     </div>
   );

@@ -16,8 +16,11 @@ export default async function AboutPage() {
 
   return (
     <div className="container mx-auto">
-      <article className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
-        {about.content?.map((item, i) => {
+      <article
+        key={about.id}
+        className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto"
+      >
+        {about.content?.map((item) => {
           switch (item.blockType) {
             case 'text':
               return <Text text={item.text} />;

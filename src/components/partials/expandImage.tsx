@@ -3,7 +3,7 @@
 import type { Media } from '@/payload-types';
 import { ArrowsVertical } from '@phosphor-icons/react';
 import Image from 'next/image';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 interface ExpandImageProps {
   image: Media;
@@ -35,7 +35,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
   }
 
   return (
-    <>
+    <Fragment key="expand-image">
       <div
         className={`group relative ${isExpandable && 'cursor-pointer'}`}
         onClick={toggleExpand}
@@ -72,7 +72,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
         </span>
       </div>
       <center className="mt-2 opacity-80 lg:text-left">{alt}</center>
-    </>
+    </Fragment>
   );
 };
 

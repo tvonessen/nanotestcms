@@ -13,11 +13,11 @@ export default withPayload({
       },
     ],
   },
-  redirects: async () => [
-    {
-      source: '/tima',
-      destination: '/solutions/tima',
-      permanent: false,
-    },
-  ],
+  // redirects: async () => [
+  //   {
+  //     source: '/tima',
+  //     destination: '/solutions/tima',
+  //     permanent: false,
+  //   },
+  // ],
 });

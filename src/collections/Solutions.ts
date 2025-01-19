@@ -3,24 +3,39 @@ import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
 import type { CollectionConfig } from 'payload';
-import { baseCollectionConfig } from './baseCollectionConfig';
+import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
+import { slugField } from '@/fields/slugField';
+import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 
 const Solutions: CollectionConfig = {
-  ...baseCollectionConfig,
   slug: 'solutions',
   labels: {
     singular: 'Solution',
     plural: 'Solutions',
   },
   access: {
-    read: () => true,
+    create: isLoggedIn,
+    delete: isLoggedIn,
+    read: publishedOrLoggedIn,
+    readVersions: isLoggedIn,
+    update: isLoggedIn,
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'seo'],
+    defaultColumns: ['title', 'slug', 'createdAt', 'updatedAt'],
+    livePreview: {
+      url: ({ data, collectionConfig }) =>
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/${collectionConfig?.slug}/${data.slug}`,
+    },
+  },
+  versions: {
+    drafts: {
+      schedulePublish: true,
+      autosave: true,
+    },
+    maxPerDoc: 20,
   },
   fields: [
-    ...baseCollectionConfig.fields,
     {
       name: 'type',
       type: 'group',
@@ -78,7 +93,6 @@ const Solutions: CollectionConfig = {
         },
       ],
     },
-
     {
       name: 'title',
       label: 'Title',
@@ -159,6 +173,7 @@ const Solutions: CollectionConfig = {
         },
       ],
     },
+    slugField(),
   ],
 };
 
