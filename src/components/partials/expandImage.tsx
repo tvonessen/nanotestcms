@@ -71,7 +71,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
           expand
         </span>
       </div>
-      <center className="mt-2 opacity-80">{alt}</center>
+      <center className="mt-2 opacity-80 lg:text-left">{alt}</center>
     </>
   );
 };

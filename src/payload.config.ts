@@ -37,7 +37,6 @@ export default buildConfig({
     ],
   }),
   globals: [HomepageContent, AboutContent],
-
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
@@ -46,7 +45,4 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   sharp,
-  plugins: [
-    // storage-adapter-placeholder
-  ],
 });

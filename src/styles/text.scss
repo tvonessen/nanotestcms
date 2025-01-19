@@ -2,9 +2,9 @@
   display: none !important;
 }
 
-aside {
+aside:not(:has(img)):not(:has(iframe)) {
   background: repeating-linear-gradient(
-    33deg,
+    -33deg,
     var(--primary),
     var(--primary) 1px,
     transparent 1px,

@@ -156,6 +156,12 @@ export interface Media {
  */
 export interface Solution {
   id: string;
+  meta?: {
+    slug?: string | null;
+    published?: boolean | null;
+    publishStart?: string | null;
+    publishStop?: string | null;
+  };
   type: {
     category: 'product' | 'service' | 'other';
     subCategory?:
@@ -254,7 +260,6 @@ export interface Solution {
   seo?: {
     keywords?: string | null;
   };
-  slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -264,6 +269,12 @@ export interface Solution {
  */
 export interface TeamMember {
   id: string;
+  meta?: {
+    slug?: string | null;
+    published?: boolean | null;
+    publishStart?: string | null;
+    publishStop?: string | null;
+  };
   name: string;
   position: string;
   portrait?: (string | null) | Media;
@@ -432,6 +443,14 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "solutions_select".
  */
 export interface SolutionsSelect<T extends boolean = true> {
+  meta?:
+    | T
+    | {
+        slug?: T;
+        published?: T;
+        publishStart?: T;
+        publishStop?: T;
+      };
   type?:
     | T
     | {
@@ -493,7 +512,6 @@ export interface SolutionsSelect<T extends boolean = true> {
     | {
         keywords?: T;
       };
-  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -502,6 +520,14 @@ export interface SolutionsSelect<T extends boolean = true> {
  * via the `definition` "team-members_select".
  */
 export interface TeamMembersSelect<T extends boolean = true> {
+  meta?:
+    | T
+    | {
+        slug?: T;
+        published?: T;
+        publishStart?: T;
+        publishStop?: T;
+      };
   name?: T;
   position?: T;
   portrait?: T;

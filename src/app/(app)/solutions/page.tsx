@@ -10,7 +10,11 @@ const SolutionsPage = async () => {
   const payload = await getPayload({ config });
   const solutions: PaginatedDocs<Solution> = await payload.find({
     collection: 'solutions',
-    where: { 'type.category': { equals: 'product' } },
+    where: {
+      'type.category': { equals: 'product' },
+      'meta.published': { equals: true },
+      'meta.slug': { exists: true },
+    },
     pagination: false,
   });
 
@@ -52,7 +56,7 @@ const SolutionsPage = async () => {
                 .filter((solution) => solution.type.subCategory === category.id)
                 .map((solution) => (
                   <ProductCard
-                    key={solution.slug}
+                    key={solution.meta?.slug}
                     className="flex-auto lg:flex-[0_0_calc(50%_-_2rem)] xl:flex-[0_0_calc(33.3333%_-_4rem)]"
                     product={solution}
                   />

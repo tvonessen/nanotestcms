@@ -1,6 +1,8 @@
 import type { CollectionConfig } from 'payload';
+import { baseCollectionConfig } from './baseCollectionConfig';
 
 export const Jumbotron: CollectionConfig = {
+  ...baseCollectionConfig,
   slug: 'jumbotron',
   labels: {
     singular: 'Jumbotron',
@@ -12,11 +14,13 @@ export const Jumbotron: CollectionConfig = {
     group: 'Homepage',
   },
   fields: [
+    ...baseCollectionConfig.fields,
     {
       name: 'title',
       label: 'Title',
       type: 'text',
       required: true,
+      unique: true,
     },
     {
       name: 'description',

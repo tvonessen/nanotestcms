@@ -3,8 +3,10 @@ import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
 import type { CollectionConfig } from 'payload';
+import { baseCollectionConfig } from './baseCollectionConfig';
 
 const Solutions: CollectionConfig = {
+  ...baseCollectionConfig,
   slug: 'solutions',
   labels: {
     singular: 'Solution',
@@ -18,6 +20,7 @@ const Solutions: CollectionConfig = {
     defaultColumns: ['title', 'seo'],
   },
   fields: [
+    ...baseCollectionConfig.fields,
     {
       name: 'type',
       type: 'group',
@@ -81,6 +84,7 @@ const Solutions: CollectionConfig = {
       label: 'Title',
       type: 'text',
       required: true,
+      unique: true,
     },
     {
       name: 'subtitle',
@@ -155,29 +159,7 @@ const Solutions: CollectionConfig = {
         },
       ],
     },
-    {
-      name: 'slug',
-      label: 'Slug',
-      type: 'text',
-      unique: true,
-      admin: {
-        position: 'sidebar',
-        placeholder: 'Save to auto-generate',
-      },
-    },
   ],
-  hooks: {
-    beforeValidate: [
-      ({ data }) => {
-        if (!data) throw new Error('Data is required');
-        if (data.slug) return data;
-        return {
-          ...data,
-          slug: data.title.toLowerCase().replace(/ /g, '-'),
-        };
-      },
-    ],
-  },
 };
 
 export default Solutions;

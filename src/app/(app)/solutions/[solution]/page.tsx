@@ -22,12 +22,14 @@ export async function generateStaticParams() {
     collection: 'solutions',
     where: {
       'type.category': { equals: 'product' },
+      'meta.published': { equals: true },
+      'meta.slug': { exists: true },
     },
     pagination: false,
     depth: 0,
   });
 
-  return solutions.docs.map((solution) => ({ solution: solution.slug }));
+  return solutions.docs.map((solution) => ({ solution: solution.meta?.slug }));
 }
 
 const SolutionPage = async ({ params }: { params: Promise<{ solution: string }> }) => {
@@ -36,7 +38,7 @@ const SolutionPage = async ({ params }: { params: Promise<{ solution: string }> 
   const solution: Solution = await payload
     .find({
       collection: 'solutions',
-      where: { slug: { equals: slug } },
+      where: { 'meta.slug': { equals: slug } },
     })
     .then((res) => res.docs[0]);
 
