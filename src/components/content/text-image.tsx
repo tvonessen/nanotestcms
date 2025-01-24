@@ -1,25 +1,22 @@
+import type { Media } from '@/payload-types';
 import type {
   SerializedEditorState,
   SerializedLexicalNode,
 } from '@payloadcms/richtext-lexical/lexical';
-import RichTextWrapper from './RichTextWrapper';
+import ExpandImage from '../partials/expand-image';
+import RichTextWrapper from './richtext-wrapper';
 import { Fragment } from 'react';
 
-interface TextVideoProps {
+interface TextImageProps {
   text: SerializedEditorState<SerializedLexicalNode>;
-  videoId: string;
+  image: Media;
 }
 
-const TextVideo = ({ text, videoId }: TextVideoProps) => {
+const TextImage = ({ text, image }: TextImageProps) => {
   return (
-    <Fragment key="text-video">
+    <Fragment key="text-image">
       <aside className="container mx-auto col-span-12 lg:col-span-5 xl:col-span-4 mt-4">
-        <iframe
-          title={`YouTube video ${videoId}`}
-          src={`https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&rel=0&cc_load_policy=1&color=white`}
-          className="w-full aspect-video rounded-lg shadow-md"
-          allowFullScreen
-        />
+        <ExpandImage image={image} alt={image.alt} expandable />
       </aside>
       <section className="col-span-12 lg:col-span-7 lg:col-start-6 xl:col-span-8 xl:col-start-5">
         <RichTextWrapper text={text} />
@@ -27,5 +24,4 @@ const TextVideo = ({ text, videoId }: TextVideoProps) => {
     </Fragment>
   );
 };
-
-export default TextVideo;
+export default TextImage;

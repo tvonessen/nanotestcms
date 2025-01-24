@@ -2,7 +2,7 @@ import type {
   SerializedEditorState,
   SerializedLexicalNode,
 } from '@payloadcms/richtext-lexical/lexical';
-import RichTextWrapper from './RichTextWrapper';
+import RichTextWrapper from './richtext-wrapper';
 
 import '@/styles/text.scss';
 import { Fragment } from 'react';

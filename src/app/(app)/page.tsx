@@ -1,8 +1,8 @@
-import CardsGrid from '@/components/content/Cards';
-import ContactForm from '@/components/content/ContactForm';
-import Highlight from '@/components/content/Highlight';
-import RichTextWrapper from '@/components/content/RichTextWrapper';
-import Jumbo from '@/components/jumbo/Jumbo';
+import CardsGrid from '@/components/content/cards';
+import ContactForm from '@/components/content/contact-form';
+import Highlight from '@/components/content/highlight';
+import RichTextWrapper from '@/components/content/richtext-wrapper';
+import Jumbo from '@/components/jumbo/jumbo';
 import { RefreshRouteOnSave } from '@/components/utility/RefreshRouteOnSave';
 import type { Solution } from '@/payload-types';
 import config from '@/payload.config';

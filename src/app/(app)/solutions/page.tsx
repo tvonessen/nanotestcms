@@ -1,4 +1,4 @@
-import ProductCard from '@/components/partials/productCard';
+import ProductCard from '@/components/partials/product-card';
 import { productCategories } from '@/data/productCategories';
 import type { Solution } from '@/payload-types';
 import config from '@payload-config';

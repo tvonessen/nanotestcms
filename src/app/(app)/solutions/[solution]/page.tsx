@@ -1,15 +1,15 @@
 // Next.js will invalidate the cache when a
 
-import Carousel from '@/components/carousel/Carousel';
-import ContactForm from '@/components/content/ContactForm';
-import Highlight from '@/components/content/Highlight';
-import Text from '@/components/content/Text';
-import TextImage from '@/components/content/TextImage';
-import TextVideo from '@/components/content/TextVideo';
+import Carousel from '@/components/carousel/carousel';
+import ContactForm from '@/components/content/contact-form';
+import Highlight from '@/components/content/highlight';
+import Text from '@/components/content/text';
+import TextImage from '@/components/content/text-image';
+import TextVideo from '@/components/content/text-video';
 import { RefreshRouteOnSave } from '@/components/utility/RefreshRouteOnSave';
 import type { Media, Solution } from '@/payload-types';
 import config from '@payload-config';
-import {draftMode} from 'next/headers';
+import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { type PaginatedDocs, getPayload } from 'payload';
 import { Fragment } from 'react';
@@ -48,7 +48,9 @@ const SolutionPage = async ({ params }: { params: Promise<{ solution: string }> 
       <RefreshRouteOnSave />
       <main>
         <div className="container mx-auto" key="solution-content">
-          {solution.details?.images?.length > 0 && <Carousel images={solution.details.images as Media[]} />}
+          {solution.details?.images?.length > 0 && (
+            <Carousel images={solution.details.images as Media[]} />
+          )}
           <article
             key={solution.title ?? `solution-${solution.title ?? 'unknown'}`}
             className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto"

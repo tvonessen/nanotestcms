@@ -1,6 +1,6 @@
-import Text from '@/components/content/Text';
-import TextImage from '@/components/content/TextImage';
-import TextVideo from '@/components/content/TextVideo';
+import Text from '@/components/content/text';
+import TextImage from '@/components/content/text-image';
+import TextVideo from '@/components/content/text-video';
 import type { Media } from '@/payload-types';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
