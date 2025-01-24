@@ -28,7 +28,7 @@ export const ThemeSwitch = () => {
     <button
       type="button"
       aria-label="Toggle website theme"
-      className="btn btn-square btn-ghost text-background dark:text-foreground  "
+      className="btn btn-square btn-ghost text-background dark:text-foreground no-animation"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
       {theme !== 'dark' ? <Sun size={27} weight="regular" /> : <Moon size={27} weight="regular" />}

@@ -30,10 +30,11 @@ const NavLink = ({ link, ...props }: NavLinkProps) => {
   return (
     <Link
       aria-labelledby="`nav-${link.label}`"
-      className="btn btn-ghost data-[icon-only=true]:btn-square text-background dark:text-foreground font-semibold text-xl data-[active=true]:bg-primary-500 data-[active=true]:text-foreground dark:data-[active=true]:text-background"
+      className="btn btn-ghost no-animation data-[icon-only=true]:btn-square text-background dark:text-foreground font-semibold text-xl data-[active=true]:bg-primary-500 data-[active=true]:text-foreground dark:data-[active=true]:text-background"
       data-active={isActive}
       data-icon-only={width < 1024 && width >= 640}
       href={link.href}
+      scroll={false}
       {...props}
     >
       <span className="inline lg:hidden">{link.icon}</span>

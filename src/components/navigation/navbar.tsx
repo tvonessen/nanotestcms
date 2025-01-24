@@ -6,7 +6,7 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
   Navbar as NextUINavbar,
-} from "@heroui/react";
+} from '@heroui/react';
 import Link from 'next/link';
 import React from 'react';
 
@@ -15,7 +15,7 @@ import { siteConfig } from '@/config/site';
 import NanotestLogo from '../nanotest-logo';
 import { ThemeSwitch } from '../theme-switch';
 
-import { Button } from "@heroui/react";
+import { Button } from '@heroui/react';
 import NavLink from './navlink';
 
 export const Navbar = () => {
@@ -29,7 +29,7 @@ export const Navbar = () => {
     >
       <Link
         aria-label="Go to homepage"
-        className="btn btn-link focus-visible:outline-focus px-0"
+        className="btn btn-link focus-visible:outline-focus px-0 no-animation"
         href="/"
       >
         <NanotestLogo className="h-7 md:h-10 fill-background dark:fill-foreground" />
