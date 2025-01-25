@@ -1,5 +1,3 @@
-'use server';
-
 import { SpinnerGap } from '@phosphor-icons/react/dist/ssr';
 
 const Loading = () => {

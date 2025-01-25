@@ -1,7 +1,8 @@
+import TeamMemberCard from '@/components/content/team-members-gallery/team-member-card';
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
 import TextVideo from '@/components/content/text-video';
-import type { Media } from '@/payload-types';
+import type { Media, TeamMember } from '@/payload-types';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
@@ -10,6 +11,11 @@ export default async function AboutPage() {
   const payload = await getPayload({ config });
   const about = await payload.findGlobal({
     slug: 'about',
+  });
+
+  const teamMembers = await payload.find({
+    collection: 'team-members',
+    pagination: false,
   });
 
   if (!about) return notFound();
@@ -33,6 +39,12 @@ export default async function AboutPage() {
           }
         })}
       </article>
+      <br />
+      {teamMembers?.docs.length > 0 && (
+        <article id="team-members-gallery">
+          <TeamMemberCard member={teamMembers.docs[0] as TeamMember} />
+        </article>
+      )}
     </div>
   );
 }
