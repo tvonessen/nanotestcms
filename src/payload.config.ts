@@ -37,6 +37,7 @@ export default buildConfig({
       HTMLConverterFeature({}),
     ],
   }),
+  plugins: [],
   globals: [HomepageContent, AboutContent],
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL,

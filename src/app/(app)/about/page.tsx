@@ -1,4 +1,4 @@
-import TeamMemberCard from '@/components/content/team-members-gallery/team-member-card';
+import TeamMembersGallery from '@/components/content/team-members-gallery/team-members-gallery';
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
 import TextVideo from '@/components/content/text-video';
@@ -23,7 +23,7 @@ export default async function AboutPage() {
   return (
     <div className="container mx-auto">
       <article
-        key={about.id}
+        key="about-content"
         className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto"
       >
         {about.content?.map((item) => {
@@ -41,8 +41,8 @@ export default async function AboutPage() {
       </article>
       <br />
       {teamMembers?.docs.length > 0 && (
-        <article id="team-members-gallery">
-          <TeamMemberCard member={teamMembers.docs[0] as TeamMember} />
+        <article key="team-members" id="team-members-gallery">
+          <TeamMembersGallery members={teamMembers.docs as TeamMember[]} />
         </article>
       )}
     </div>

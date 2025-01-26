@@ -39,6 +39,18 @@ const TeamMembers: CollectionConfig = {
       required: true,
     },
     {
+      name: 'phone',
+      label: 'Phone',
+      type: 'text',
+      required: false,
+    },
+    {
+      name: 'email',
+      label: 'Email',
+      type: 'email',
+      required: false,
+    },
+    {
       name: 'portrait',
       label: 'Portrait',
       type: 'upload',

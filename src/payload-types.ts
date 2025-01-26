@@ -275,6 +275,8 @@ export interface TeamMember {
   id: string;
   name: string;
   position: string;
+  phone?: string | null;
+  email?: string | null;
   portrait?: (string | null) | Media;
   slug?: string | null;
   updatedAt: string;
@@ -612,6 +614,8 @@ export interface SolutionsSelect<T extends boolean = true> {
 export interface TeamMembersSelect<T extends boolean = true> {
   name?: T;
   position?: T;
+  phone?: T;
+  email?: T;
   portrait?: T;
   slug?: T;
   updatedAt?: T;
