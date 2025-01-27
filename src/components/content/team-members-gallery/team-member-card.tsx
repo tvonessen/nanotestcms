@@ -8,7 +8,9 @@ interface TeamMemberCardProps extends React.HTMLProps<HTMLLIElement> {
 
 export default function TeamMemberCard({ member, className }: TeamMemberCardProps) {
   const clipPathId = `clip-path-${member.id}`;
-  const imgUrl = (member.portrait as Media).sizes?.small?.url as string;
+  const imgUrl =
+    (member.portrait as Media)?.sizes?.small?.url ??
+    `https://api.dicebear.com/9.x/personas/svg?seed=${member.name.replaceAll(' ', '+')}&backgroundColor=00a984,6d1b67&backgroundType=gradientLinear&clothingColor=e0e0e0`;
 
   return (
     <li
@@ -18,7 +20,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
       <svg
         width="100%"
         height="100%"
-        viewBox="3 5 95 102"
+        viewBox="0 0 96 99"
         style={{
           fillRule: 'evenodd',
           clipRule: 'evenodd',
@@ -30,26 +32,28 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
         <defs>
           <clipPath id={clipPathId}>
             <path
-              d="M13.19,26.903l28.829,-15.92c5.075,-2.803 11.13,-2.803 16.197,-0l28.83,15.92c5.321,2.94 8.626,8.534 8.626,14.606l-0,29.56c-0,5.947 -3.205,11.483 -8.364,14.456l-28.829,16.61c-2.575,1.485 -5.471,2.229 -8.359,2.229c-2.892,0 -5.789,-0.744 -8.364,-2.229l-28.829,-16.61c-5.159,-2.973 -8.364,-8.509 -8.364,-14.456l0,-29.56c0,-6.072 3.305,-11.666 8.627,-14.606Z"
+              d="M10.711,19.931l29.112,-15.84c5.124,-2.788 11.238,-2.788 16.355,-0l29.112,15.84c5.373,2.925 8.71,8.49 8.71,14.532l0,29.411c0,5.917 -3.236,11.424 -8.445,14.382l-29.111,16.526c-2.601,1.478 -5.525,2.218 -8.442,2.218c-2.92,0 -5.845,-0.74 -8.446,-2.218l-29.11,-16.526c-5.21,-2.958 -8.446,-8.465 -8.446,-14.382l-0,-29.411c-0,-6.042 3.337,-11.607 8.711,-14.532Z"
               stroke="green"
               fill="none"
             />
           </clipPath>
         </defs>
         <g>
-          <image
-            xlinkHref={(member.portrait as Media).blurDataUrl as string}
-            width="100%"
-            height="100%"
-            preserveAspectRatio="xMidYMid slice"
-            clipPath={`url(#${clipPathId})`}
-          />
+          {member.portrait && (
+            <image
+              xlinkHref={(member.portrait as Media).blurDataUrl as string}
+              width="100%"
+              height="100%"
+              preserveAspectRatio="xMidYMid slice"
+              clipPath={`url(#${clipPathId})`}
+            />
+          )}
           <SpinnerGap
             size="33.333333%"
-            x={(95 - 3) / 3}
-            y={(102 - 5) / 3}
+            x={96 / 3}
+            y={99 / 3}
             color="var(--primary)"
-            className="[transform-origin:center] spin-loader left-6"
+            className="[transform-origin:center] spin-loader"
           />
           <image
             href={imgUrl}
@@ -61,7 +65,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
         </g>
         <path
           className="stroke-primary fill-transparent group-hover:stroke-foreground group-focus-within:stroke-foreground group-hover:fill-primary group-focus-within:fill-primary transition-colors"
-          d="M13.19,26.903l28.829,-15.92c5.075,-2.803 11.13,-2.803 16.197,-0l28.83,15.92c5.321,2.94 8.626,8.534 8.626,14.606l-0,29.56c-0,5.947 -3.205,11.483 -8.364,14.456l-28.829,16.61c-2.575,1.485 -5.471,2.229 -8.359,2.229c-2.892,0 -5.789,-0.744 -8.364,-2.229l-28.829,-16.61c-5.159,-2.973 -8.364,-8.509 -8.364,-14.456l0,-29.56c0,-6.072 3.305,-11.666 8.627,-14.606Z" // prettier-ignore
+          d="M10.711,19.931l29.112,-15.84c5.124,-2.788 11.238,-2.788 16.355,-0l29.112,15.84c5.373,2.925 8.71,8.49 8.71,14.532l0,29.411c0,5.917 -3.236,11.424 -8.445,14.382l-29.111,16.526c-2.601,1.478 -5.525,2.218 -8.442,2.218c-2.92,0 -5.845,-0.74 -8.446,-2.218l-29.11,-16.526c-5.21,-2.958 -8.446,-8.465 -8.446,-14.382l-0,-29.411c-0,-6.042 3.337,-11.607 8.711,-14.532Z" // prettier-ignore
           style={{
             strokeWidth: 2,
             fillOpacity: 0.9,

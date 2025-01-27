@@ -11,6 +11,9 @@ export default withPayload({
         hostname: 'localhost',
         port: '3301',
       },
+      {
+        hostname: 'api.dicebear.com',
+      },
     ],
   },
   // redirects: async () => [
