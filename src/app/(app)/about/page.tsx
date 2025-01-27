@@ -31,9 +31,9 @@ export default async function AboutPage() {
           }
         })}
       </article>
-      <br />
       {about.teamMembers && about.teamMembers.length > 0 && (
-        <article key="team-members" id="team-members-gallery">
+        <article className="sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
+          <h2 className="text-3xl font-bold">Our Team</h2>
           <TeamMembersGallery members={about.teamMembers as TeamMember[]} />
         </article>
       )}
