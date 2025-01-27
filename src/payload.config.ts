@@ -8,7 +8,6 @@ import sharp from 'sharp';
 
 import { Media } from './collections/Media';
 import Solutions from './collections/Solutions';
-import TeamMembers from './collections/TeamMembers';
 import { Users } from './collections/Users';
 import { AboutContent } from './globals/AboutContent';
 import { HomepageContent } from './globals/HomepageContent';
@@ -23,7 +22,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Solutions, TeamMembers],
+  collections: [Users, Media, Solutions],
   csrf: ['http://localhost:3301'],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [

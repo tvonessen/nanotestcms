@@ -14,7 +14,6 @@ export interface Config {
     users: User;
     media: Media;
     solutions: Solution;
-    'team-members': TeamMember;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -25,7 +24,6 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     solutions: SolutionsSelect<false> | SolutionsSelect<true>;
-    'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -269,22 +267,6 @@ export interface Solution {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "team-members".
- */
-export interface TeamMember {
-  id: string;
-  name: string;
-  position: string;
-  phone?: string | null;
-  email?: string | null;
-  portrait?: (string | null) | Media;
-  slug?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
@@ -393,10 +375,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'solutions';
         value: string | Solution;
-      } | null)
-    | ({
-        relationTo: 'team-members';
-        value: string | TeamMember;
       } | null)
     | ({
         relationTo: 'payload-jobs';
@@ -602,21 +580,6 @@ export interface SolutionsSelect<T extends boolean = true> {
     | {
         keywords?: T;
       };
-  slug?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "team-members_select".
- */
-export interface TeamMembersSelect<T extends boolean = true> {
-  name?: T;
-  position?: T;
-  phone?: T;
-  email?: T;
-  portrait?: T;
   slug?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -830,9 +793,24 @@ export interface About {
           }
       )[]
     | null;
+  teamMembers?: TeamMember[] | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamMember".
+ */
+export interface TeamMember {
+  name: string;
+  position: string;
+  phone?: string | null;
+  email?: string | null;
+  portrait?: (string | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'team-member';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -929,10 +907,28 @@ export interface AboutSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  teamMembers?:
+    | T
+    | {
+        'team-member'?: T | TeamMemberSelect<T>;
+      };
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamMember_select".
+ */
+export interface TeamMemberSelect<T extends boolean = true> {
+  name?: T;
+  position?: T;
+  phone?: T;
+  email?: T;
+  portrait?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -942,15 +938,10 @@ export interface TaskSchedulePublish {
   input: {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
-    doc?:
-      | ({
-          relationTo: 'solutions';
-          value: string | Solution;
-        } | null)
-      | ({
-          relationTo: 'team-members';
-          value: string | TeamMember;
-        } | null);
+    doc?: {
+      relationTo: 'solutions';
+      value: string | Solution;
+    } | null;
     global?: ('homepage' | 'about') | null;
     user?: (string | null) | User;
   };

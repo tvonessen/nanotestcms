@@ -13,36 +13,28 @@ export default async function AboutPage() {
     slug: 'about',
   });
 
-  const teamMembers = await payload.find({
-    collection: 'team-members',
-    pagination: false,
-  });
-
   if (!about) return notFound();
 
   return (
     <div className="container mx-auto">
-      <article
-        key="about-content"
-        className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto"
-      >
+      <article className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
         {about.content?.map((item) => {
           switch (item.blockType) {
             case 'text':
-              return <Text text={item.text} />;
+              return <Text key={item.id} text={item.text} />;
             case 'text-image':
-              return <TextImage text={item.text} image={item.image as Media} />;
+              return <TextImage key={item.id} text={item.text} image={item.image as Media} />;
             case 'text-video':
-              return <TextVideo text={item.text} videoId={item.videoId as string} />;
+              return <TextVideo key={item.id} text={item.text} videoId={item.videoId as string} />;
             default:
               return null;
           }
         })}
       </article>
       <br />
-      {teamMembers?.docs.length > 0 && (
+      {about.teamMembers && about.teamMembers.length > 0 && (
         <article key="team-members" id="team-members-gallery">
-          <TeamMembersGallery members={teamMembers.docs as TeamMember[]} />
+          <TeamMembersGallery members={about.teamMembers as TeamMember[]} />
         </article>
       )}
     </div>

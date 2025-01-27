@@ -20,15 +20,15 @@ const Home = async () => {
   if (!homepageContent) return notFound();
 
   return (
-    <React.Fragment key={homepageContent.id}>
+    <React.Fragment>
       <RefreshRouteOnSave />
       {homepageContent.jumbotron && <Jumbo jumbos={homepageContent.jumbotron} />}
       {homepageContent.content?.map((block) => {
         switch (block.blockType) {
           case 'text':
             return (
-              <div className="container my-12 px-8 md:px-12 xl:mx-auto">
-                <RichTextWrapper key={block.id} text={block.text} />
+              <div key={block.id} className="container my-12 px-8 md:px-12 xl:mx-auto">
+                <RichTextWrapper text={block.text} />
               </div>
             );
           case 'highlight':

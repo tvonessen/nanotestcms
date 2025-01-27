@@ -1,7 +1,7 @@
-import { isAdmin } from '@/app/(payload)/access/isAdmin';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
 import { Cards } from '@/blocks/CardsBlock';
+import { TeamMember } from '@/blocks/TeamMemberBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
@@ -37,6 +37,12 @@ export const AboutContent: GlobalConfig = {
       type: 'blocks',
       minRows: 1,
       blocks: [Text, TextImage, TextVideo, Cards],
+    },
+    {
+      name: 'teamMembers',
+      label: 'Team Members',
+      type: 'blocks',
+      blocks: [TeamMember],
     },
   ],
 };

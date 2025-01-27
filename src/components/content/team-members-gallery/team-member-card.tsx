@@ -68,7 +68,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
           }}
         />
       </svg>
-      <div className="absolute inset-0 w-full h-fit px-10 py-3 m-auto opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-[opacity] text-foreground">
+      <div className="absolute inset-0 w-full h-fit px-10 group-hover:px-12 group-focus:px-12 py-3 m-auto opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-[opacity,padding] text-foreground">
         <h3 className="text-xl font-bold leading-tight">{member.name}</h3>
         <p className="text-md">{member.position}</p>
         {(member.phone || member.email) && (

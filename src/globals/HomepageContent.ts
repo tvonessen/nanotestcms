@@ -1,4 +1,3 @@
-import { isAdmin } from '@/app/(payload)/access/isAdmin';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
 import { Cards } from '@/blocks/CardsBlock';
