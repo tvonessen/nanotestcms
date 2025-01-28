@@ -16,6 +16,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
     <li
       key={member.id}
       className={`relative group flex team-member-card w-full aspect-square rounded-2xl focus-visible:outline-none ${className}`}
+      // biome-ignore lint/a11y/noNoninteractiveTabindex: Needs to be focusable for keyboard navigation
       tabIndex={0}
     >
       <svg
@@ -73,7 +74,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
           }}
         />
       </svg>
-      <div className="absolute inset-0 w-full h-fit ps-[11%] group-hover:ps-[13%] group-focus-within:ps-[13%] py-3 m-auto opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-[opacity,padding] text-foreground">
+      <div className="absolute inset-0 w-full h-fit ps-[9%] group-hover:ps-[11%] group-focus-within:ps-[11%] py-3 m-auto opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-[opacity,padding] text-foreground">
         <h3 className="text-xl font-bold leading-tight">{member.name}</h3>
         <p className="text-md">{member.position}</p>
         {(member.phone || member.email) && (

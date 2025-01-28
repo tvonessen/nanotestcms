@@ -12,6 +12,7 @@ export const TeamMember: Block = {
       name: 'name',
       label: 'Name',
       type: 'text',
+      maxLength: 21,
       required: true,
       unique: true,
     },
@@ -19,6 +20,7 @@ export const TeamMember: Block = {
       name: 'position',
       label: 'Position',
       type: 'text',
+      maxLength: 28,
       required: true,
     },
     {

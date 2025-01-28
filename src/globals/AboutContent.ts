@@ -42,6 +42,9 @@ export const AboutContent: GlobalConfig = {
       name: 'teamMembers',
       label: 'Team Members',
       type: 'blocks',
+      admin: {
+        initCollapsed: true,
+      },
       blocks: [TeamMember],
     },
   ],
