@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(3, 150px);
   gap: 15px 0;
-  margin-block: 10px 100px;
+  margin-block: 10px 25px;
   justify-content: center;
 
   @media (min-width: 640px) {
@@ -12,6 +12,7 @@
   @media (min-width: 768px) {
     grid-template-columns: repeat(5, 1fr);
     gap: 20px 0;
+    margin-block: 20px 50px
   }
 
   @media (min-width: 1024px) {
@@ -27,6 +28,12 @@
 
 .teamGalleryBee {
   grid-column: span 2;
+
+  @media (max-width: 767px) {
+    &:not(:global(.show-all)):nth-child(n+6) {
+      display: none;
+    }
+  }
 
   @media (max-width: 639px) { 
     &:nth-child(even) {

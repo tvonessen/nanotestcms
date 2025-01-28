@@ -15,7 +15,8 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
   return (
     <li
       key={member.id}
-      className={`relative group flex team-member-card w-full aspect-square rounded-2xl ${className}`}
+      className={`relative group flex team-member-card w-full aspect-square rounded-2xl focus-visible:outline-none ${className}`}
+      tabIndex={0}
     >
       <svg
         width="100%"
@@ -64,7 +65,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
           />
         </g>
         <path
-          className="stroke-primary fill-transparent group-hover:stroke-foreground group-focus-within:stroke-foreground group-hover:fill-primary group-focus-within:fill-primary transition-colors"
+          className="stroke-primary fill-transparent group-hover:stroke-foreground group-focus-visible:stroke-focus group-focus-within:stroke-foreground group-hover:fill-primary group-focus-within:fill-primary transition-colors"
           d="M10.711,19.931l29.112,-15.84c5.124,-2.788 11.238,-2.788 16.355,-0l29.112,15.84c5.373,2.925 8.71,8.49 8.71,14.532l0,29.411c0,5.917 -3.236,11.424 -8.445,14.382l-29.111,16.526c-2.601,1.478 -5.525,2.218 -8.442,2.218c-2.92,0 -5.845,-0.74 -8.446,-2.218l-29.11,-16.526c-5.21,-2.958 -8.446,-8.465 -8.446,-14.382l-0,-29.411c-0,-6.042 3.337,-11.607 8.711,-14.532Z" // prettier-ignore
           style={{
             strokeWidth: 2,
@@ -76,7 +77,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
         <h3 className="text-xl font-bold leading-tight">{member.name}</h3>
         <p className="text-md">{member.position}</p>
         {(member.phone || member.email) && (
-          <ul className="list-none flex flex-row mt-2 gap-2">
+          <ul className="list-none flex flex-row mt-2 gap-2 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto">
             {member.phone && (
               <li>
                 <a
