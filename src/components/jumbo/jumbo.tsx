@@ -75,6 +75,40 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
         onMouseLeave={() => setIsPlaying(true)}
         onBlur={() => setIsPlaying(true)}
       >
+        {images.length > 1 && (
+          <Fragment key={'controls'}>
+            <button
+              className="absolute rounded left-1 top-1/2 -translate-y-1/2 z-20 p-6"
+              type="button"
+              onClick={prev}
+            >
+              <CaretLeft
+                className={`${
+                  images[currentIndex].isDark
+                    ? 'text-white 2xl:text-foreground'
+                    : 'text-black 2xl:text-foreground'
+                }`}
+                size={24}
+                weight="bold"
+              />
+            </button>
+            <button
+              className="absolute rounded right-1 top-1/2 -translate-y-1/2 z-20 p-6"
+              type="button"
+              onClick={next}
+            >
+              <CaretRight
+                className={`${
+                  images[currentIndex].isDark
+                    ? 'text-white 2xl:text-foreground'
+                    : 'text-black 2xl:text-foreground'
+                }`}
+                size={24}
+                weight="bold"
+              />
+            </button>
+          </Fragment>
+        )}
         <Slider
           beforeChange={(_index, nextIndex) => {
             setCurrentIndex(nextIndex);
@@ -116,8 +150,9 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
                   {image.description}
                 </h2>
                 <Link
+                  tabIndex={0}
                   href={image.link}
-                  className="btn btn-primary rounded-full text-lg text-background px-8"
+                  className="btn btn-primary rounded-full text-lg text-background px-8 mb-2"
                 >
                   {image.linkLabel || 'Learn More'}
                 </Link>
@@ -125,40 +160,6 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
             </div>
           ))}
         </Slider>
-        {images.length > 1 && (
-          <Fragment key={'controls'}>
-            <button
-              className="absolute rounded left-1 top-1/2 -translate-y-1/2 z-20 p-6"
-              type="button"
-              onClick={prev}
-            >
-              <CaretLeft
-                className={`${
-                  images[currentIndex].isDark
-                    ? 'text-white 2xl:text-foreground'
-                    : 'text-black 2xl:text-foreground'
-                }`}
-                size={24}
-                weight="bold"
-              />
-            </button>
-            <button
-              className="absolute rounded right-1 top-1/2 -translate-y-1/2 z-20 p-6"
-              type="button"
-              onClick={next}
-            >
-              <CaretRight
-                className={`${
-                  images[currentIndex].isDark
-                    ? 'text-white 2xl:text-foreground'
-                    : 'text-black 2xl:text-foreground'
-                }`}
-                size={24}
-                weight="bold"
-              />
-            </button>
-          </Fragment>
-        )}
       </div>
     </Fragment>
   );

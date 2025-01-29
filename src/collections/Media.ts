@@ -8,7 +8,7 @@ export const Media: CollectionConfig = {
     imageSizes: [
       {
         name: 'blurred',
-        height: 12,
+        height: 16,
       },
       {
         name: 'thumb',
