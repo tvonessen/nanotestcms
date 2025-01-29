@@ -16,20 +16,6 @@ export const siteConfig = {
       label: 'Solutions',
       href: '/solutions',
       icon: <Microscope size={27} weight="regular" />,
-      children: [
-        {
-          label: 'TIMA',
-          href: 'tima',
-        },
-        {
-          label: 'LaTIMA',
-          href: 'latima',
-        },
-        {
-          label: 'TOCS',
-          href: 'tocs',
-        },
-      ],
     },
     {
       label: 'Services',

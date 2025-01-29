@@ -11,6 +11,7 @@ import Solutions from './collections/Solutions';
 import { Users } from './collections/Users';
 import { AboutContent } from './globals/AboutContent';
 import { HomepageContent } from './globals/HomepageContent';
+import { LegalContent } from './globals/LegalContent';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -37,7 +38,7 @@ export default buildConfig({
     ],
   }),
   plugins: [],
-  globals: [HomepageContent, AboutContent],
+  globals: [HomepageContent, AboutContent, LegalContent],
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
   typescript: {

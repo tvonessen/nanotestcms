@@ -3,10 +3,11 @@ import { Fragment } from 'react';
 interface NanotestLogoProps {
   hideLogo?: boolean;
   hideText?: boolean;
+  monochrome?: boolean;
   className?: string;
 }
 
-const NanotestLogo = ({ hideLogo, hideText, ...props }: NanotestLogoProps) => {
+const NanotestLogo = ({ hideLogo, hideText, monochrome, ...props }: NanotestLogoProps) => {
   const getViewBox = (hideLogo: boolean, hideText: boolean): string => {
     const x = hideLogo ? 30 : 0;
     const width = (hideLogo ? 0 : 25) + (hideText ? 0 : 130) + (hideLogo || hideText ? 0 : 4);
@@ -28,7 +29,7 @@ const NanotestLogo = ({ hideLogo, hideText, ...props }: NanotestLogoProps) => {
       viewBox={getViewBox(hideLogo || false, hideText || false)}
       {...props}
     >
-      <title>Nanotest Logo</title>
+      <title>Nanotest</title>
       <g transform="matrix(1,0,0,1,-41.1471,-43.6)">
         {!hideLogo && (
           <Fragment key="logo">
@@ -37,7 +38,7 @@ const NanotestLogo = ({ hideLogo, hideText, ...props }: NanotestLogoProps) => {
               style={{ fillRule: 'nonzero' }}
             />
             <path
-              className="fill-[var(--primary)]"
+              className={`${monochrome ? '' : 'fill-[var(--primary)]'}`}
               d="M59.4,56C55.2,50.7 51.8,59.7 49.1,57.3L46.3,54.3C45.4,53.3 43.9,54.6 44.7,55.7C48.5,60.4 50.2,61.6 55.1,57.2C57.6,55 59.4,58.3 61.4,59.3C60.8,58.2 60.1,57.1 59.4,56Z"
               style={{ fillRule: 'nonzero' }}
             />
@@ -64,22 +65,22 @@ const NanotestLogo = ({ hideLogo, hideText, ...props }: NanotestLogoProps) => {
             />
 
             <path
-              className="fill-primary-500"
+              className={`${monochrome ? '' : 'fill-[var(--primary)]'}`}
               d="M148.3,51.4L148.3,67.3L145.8,67.3L145.8,51.4L140.9,51.4L140.9,49.2L153.5,49.2L153.5,51.4L148.3,51.4Z"
               style={{ fillRule: 'nonzero' }}
             />
             <path
-              className="fill-primary-500"
+              className={`${monochrome ? '' : 'fill-[var(--primary)]'}`}
               d="M156.4,67.2L156.4,49.1L168.2,49.1L168.2,51.3L158.9,51.3L158.9,57.1L166.8,57.1L166.8,59.3L158.9,59.3L158.9,65L168.2,65L168.2,67.2L156.4,67.2Z"
               style={{ fillRule: 'nonzero' }}
             />
             <path
-              className="fill-primary-500"
+              className={`${monochrome ? '' : 'fill-[var(--primary)]'}`}
               d="M183.6,62.2C183.6,63 183.5,63.7 183.1,64.4C182.8,65 182.4,65.6 181.8,66C181.2,66.4 180.6,66.8 179.8,67C179,67.2 178.1,67.3 177.2,67.3C176,67.3 174.8,67.1 173.7,66.8C172.6,66.5 171.6,65.9 170.5,65.1L171.9,63.4C172.7,64 173.6,64.4 174.5,64.7C175.4,65 176.3,65.2 177.3,65.2C178.5,65.2 179.5,64.9 180.2,64.4C180.9,63.9 181.3,63.1 181.3,62.2C181.3,61.6 181.2,61.1 180.9,60.7C180.6,60.3 180.3,60 179.8,59.8C179.4,59.6 178.9,59.4 178.4,59.3C177.9,59.2 177.4,59.1 176.9,59C176.2,58.9 175.5,58.7 174.8,58.5C174.1,58.3 173.6,58 173,57.6C172.5,57.2 172.1,56.7 171.8,56.2C171.5,55.6 171.3,54.9 171.3,54.1C171.3,53.3 171.4,52.6 171.7,52C172,51.4 172.4,50.8 172.9,50.4C173.4,49.9 174,49.6 174.7,49.3C175.4,49 176.2,48.9 177.1,48.9C178.2,48.9 179.2,49 180.2,49.2C181.2,49.4 182.1,49.8 183.1,50.3L182,52.3C181.2,51.8 180.4,51.5 179.6,51.3C178.8,51.1 178,51 177.2,51C176.7,51 176.3,51.1 175.9,51.2C175.5,51.3 175.1,51.5 174.8,51.8C174.5,52 174.2,52.4 174,52.8C173.8,53.2 173.7,53.6 173.7,54.1C173.7,54.6 173.8,55 174.1,55.3C174.4,55.6 174.7,55.9 175.1,56.1C175.5,56.3 175.9,56.5 176.4,56.6C176.9,56.7 177.3,56.8 177.7,56.9C178.5,57.1 179.2,57.3 179.9,57.5C180.6,57.7 181.3,58 181.8,58.4C182.3,58.8 182.8,59.3 183.2,59.9C183.4,60.5 183.6,61.3 183.6,62.2Z"
               style={{ fillRule: 'nonzero' }}
             />
             <path
-              className="fill-primary-500"
+              className={`${monochrome ? '' : 'fill-[var(--primary)]'}`}
               d="M192.9,51.4L192.9,67.3L190.4,67.3L190.4,51.4L185.2,51.4L185.2,49.2L198.1,49.2L198.1,51.4L192.9,51.4Z"
               style={{ fillRule: 'nonzero' }}
             />

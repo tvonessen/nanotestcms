@@ -35,10 +35,12 @@ export interface Config {
   globals: {
     homepage: Homepage;
     about: About;
+    legal: Legal;
   };
   globalsSelect: {
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
+    legal: LegalSelect<false> | LegalSelect<true>;
   };
   locale: null;
   user: User & {
@@ -814,6 +816,110 @@ export interface TeamMember {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal".
+ */
+export interface Legal {
+  id: string;
+  imprint?:
+    | (
+        | {
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            text_html?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            image: string | Media;
+            text_html?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text-image';
+          }
+      )[]
+    | null;
+  privacy?:
+    | (
+        | {
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            text_html?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            image: string | Media;
+            text_html?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text-image';
+          }
+      )[]
+    | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "homepage_select".
  */
 export interface HomepageSelect<T extends boolean = true> {
@@ -932,6 +1038,58 @@ export interface TeamMemberSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal_select".
+ */
+export interface LegalSelect<T extends boolean = true> {
+  imprint?:
+    | T
+    | {
+        text?:
+          | T
+          | {
+              text?: T;
+              text_html?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'text-image'?:
+          | T
+          | {
+              text?: T;
+              image?: T;
+              text_html?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  privacy?:
+    | T
+    | {
+        text?:
+          | T
+          | {
+              text?: T;
+              text_html?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'text-image'?:
+          | T
+          | {
+              text?: T;
+              image?: T;
+              text_html?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskSchedulePublish".
  */
 export interface TaskSchedulePublish {
@@ -942,7 +1100,7 @@ export interface TaskSchedulePublish {
       relationTo: 'solutions';
       value: string | Solution;
     } | null;
-    global?: ('homepage' | 'about') | null;
+    global?: ('homepage' | 'about' | 'legal') | null;
     user?: (string | null) | User;
   };
   output?: unknown;
