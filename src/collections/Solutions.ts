@@ -22,7 +22,7 @@ const Solutions: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug', 'createdAt', 'updatedAt'],
+    defaultColumns: ['title', 'type', 'slug', 'createdAt', 'updatedAt'],
     livePreview: {
       url: ({ data, collectionConfig }) =>
         `${process.env.NEXT_PUBLIC_SERVER_URL}/${collectionConfig?.slug}/${data.slug}`,
