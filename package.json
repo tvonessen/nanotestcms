@@ -5,10 +5,11 @@
   "license": "MIT",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
-    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev -p 3301",
-    "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev -p 3301",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev -p 3303",
+    "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev -p 3303",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
+    "db:sync": "node scripts/sync_db.js",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start -p 3301"
@@ -19,6 +20,7 @@
     "@payloadcms/live-preview-react": "^3.20.0",
     "@payloadcms/next": "3.20.0",
     "@payloadcms/richtext-lexical": "3.20.0",
+    "@phosphor-icons/core": "^2.1.1",
     "@phosphor-icons/react": "2.1.7",
     "cross-env": "^7.0.3",
     "framer-motion": "^12.0.6",
@@ -43,6 +45,7 @@
     "@types/react-slick": "^0.23.13",
     "autoprefixer": "^10.4.20",
     "daisyui": "^4.12.23",
+    "dotenv": "^16.4.7",
     "postcss": "^8.5.1",
     "tailwindcss": "^3.4.17",
     "typescript": "5.7.3"

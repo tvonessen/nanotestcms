@@ -12,6 +12,7 @@ import { Users } from './collections/Users';
 import { AboutContent } from './globals/AboutContent';
 import { HomepageContent } from './globals/HomepageContent';
 import { LegalContent } from './globals/LegalContent';
+import { SolutionCategories } from '@/collections/SolutionCategories';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -23,8 +24,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Solutions],
-  csrf: ['http://localhost:3301', 'https://nanotest.jutoserver.de'],
+  collections: [Users, Media, Solutions, SolutionCategories],
+  csrf: ['http://localhost:3301', 'http://localhost:3303', 'https://nanotest.jutoserver.de'],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,
@@ -45,7 +46,10 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI || '',
+    url:
+      (process.env.NODE_ENV === 'development'
+        ? process.env.DATABASE_URI_DEV
+        : process.env.DATABASE_URI_PROD) ?? false,
   }),
   sharp,
 });

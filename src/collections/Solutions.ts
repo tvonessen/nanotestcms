@@ -6,6 +6,7 @@ import type { CollectionConfig } from 'payload';
 import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
 import { slugField } from '@/fields/slugField';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
+import { solutionTypeField } from '@/fields/solutionTypeField';
 
 const Solutions: CollectionConfig = {
   slug: 'solutions',
@@ -39,57 +40,19 @@ const Solutions: CollectionConfig = {
     {
       name: 'type',
       type: 'group',
+      admin: {
+        position: 'sidebar',
+      },
       fields: [
+        solutionTypeField({
+          required: true,
+        }),
         {
           name: 'category',
           label: 'Category',
-          type: 'select',
-          admin: {
-            position: 'sidebar',
-          },
+          type: 'relationship',
+          relationTo: ['solution-categories'],
           required: true,
-          options: [
-            {
-              label: 'Product',
-              value: 'product',
-            },
-            {
-              label: 'Service',
-              value: 'service',
-            },
-            {
-              label: 'Other',
-              value: 'other',
-            },
-          ],
-        },
-        {
-          name: 'subCategory',
-          label: 'Sub-Category',
-          type: 'select',
-          admin: {
-            condition: (data, siblingData) => siblingData.category === 'product',
-            position: 'sidebar',
-          },
-          required: true,
-          options: [
-            {
-              label: 'Thermal Characterization',
-              value: 'thermal-characterization',
-            },
-            {
-              label: 'Mechanial Characterization',
-              value: 'mechanical-characterization',
-            },
-            {
-              label: 'Failure Analysis',
-              value: 'failure-analysis',
-            },
-            {
-              label: 'Thermal Test Equipment',
-              value: 'thermal-test-equipment',
-            },
-          ],
         },
       ],
     },
