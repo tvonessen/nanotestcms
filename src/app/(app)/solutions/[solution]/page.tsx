@@ -6,7 +6,6 @@ import Highlight from '@/components/content/highlight';
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
 import TextVideo from '@/components/content/text-video';
-import { RefreshRouteOnSave } from '@/components/utility/RefreshRouteOnSave';
 import type { Media, Solution } from '@/payload-types';
 import config from '@payload-config';
 import { draftMode } from 'next/headers';
@@ -45,7 +44,6 @@ const SolutionPage = async ({ params }: { params: Promise<{ solution: string }> 
 
   return (
     <Fragment>
-      <RefreshRouteOnSave />
       <main>
         <div className="container mx-auto" key="solution-content">
           {solution.details?.images?.length > 0 && (

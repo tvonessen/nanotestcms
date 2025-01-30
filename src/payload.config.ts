@@ -24,7 +24,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Solutions],
-  csrf: ['http://localhost:3301'],
+  csrf: ['http://localhost:3301', 'https://nanotest.jutoserver.de'],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,

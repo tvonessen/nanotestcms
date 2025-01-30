@@ -21,8 +21,9 @@ export const Users: CollectionConfig = {
     },
   },
   auth: {
-    maxLoginAttempts: 5,
-    lockTime: 5 * 60 * 1000, // 5 minutes,
+    maxLoginAttempts: 50,
+    lockTime: 0,
+    // lockTime: 5 * 60 * 1000, // 5 minutes,
   },
   fields: [
     { name: 'name', type: 'text', required: true },
