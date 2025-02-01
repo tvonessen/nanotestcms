@@ -1,5 +1,4 @@
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
-import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
 import { iconField } from '@/fields/iconField';
 import { solutionTypeField } from '@/fields/solutionTypeField';
 import type { CollectionConfig } from 'payload';
@@ -8,7 +7,7 @@ export const SolutionCategories: CollectionConfig = {
   slug: 'solution-categories',
   access: {
     create: isLoggedIn,
-    read: publishedOrLoggedIn,
+    read: () => true,
     update: isLoggedIn,
     delete: isLoggedIn,
   },
@@ -16,7 +15,9 @@ export const SolutionCategories: CollectionConfig = {
     useAsTitle: 'title',
   },
   fields: [
-    solutionTypeField({}),
+    solutionTypeField({
+      required: true,
+    }),
     {
       name: 'title',
       type: 'text',

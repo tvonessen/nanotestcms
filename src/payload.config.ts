@@ -41,7 +41,10 @@ export default buildConfig({
   plugins: [],
   globals: [HomepageContent, AboutContent, LegalContent],
   secret: process.env.PAYLOAD_SECRET || '',
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
+  serverURL:
+    process.env.NODE_ENV === 'development'
+      ? process.env.NEXT_DEV_SERVER_URL
+      : process.env.NEXT_PUBLIC_SERVER_URL,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

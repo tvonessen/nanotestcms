@@ -13,8 +13,8 @@ export const siteConfig = {
       icon: <House size={27} weight="regular" />,
     },
     {
-      label: 'Solutions',
-      href: '/solutions',
+      label: 'Products',
+      href: '/products',
       icon: <Microscope size={27} weight="regular" />,
     },
     {

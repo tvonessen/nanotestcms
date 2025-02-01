@@ -53,6 +53,7 @@ const Solutions: CollectionConfig = {
           type: 'relationship',
           relationTo: ['solution-categories'],
           required: true,
+          hasMany: false,
         },
       ],
     },

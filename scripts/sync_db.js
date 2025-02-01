@@ -24,9 +24,21 @@ const runCommand = async (command) => {
 
 const syncDatabases = async () => {
   try {
+    // Extract database name from URI
+    // @ts-ignore
+    const dbName = new URL(PROD_DB_URI).pathname.split('/')[1];
+
+    // Dump production database
     await runCommand(`mongodump --uri="${PROD_DB_URI}" --out=${TEMP_DIR}`);
+
+    // Drop development database
     await runCommand(`mongosh "${DEV_DB_URI}" --eval "db.dropDatabase()"`);
-    await runCommand(`mongorestore --uri="${DEV_DB_URI}" --dir=${TEMP_DIR}`);
+
+    // Restore production dump to development database
+    await runCommand(
+      `mongorestore --uri="${DEV_DB_URI}" --nsInclude="${dbName}.*" --dir=${TEMP_DIR}/${dbName}`,
+    );
+
     console.log('Database sync completed successfully!');
   } catch (error) {
     console.error('Database sync failed:', error);

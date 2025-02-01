@@ -10,29 +10,29 @@ import type { Media, Solution } from '@/payload-types';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
-import { Fragment } from 'react';
+import React from 'react';
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config });
-  const products: Solution[] = await payload
+  const services: Solution[] = await payload
     .find({
       collection: 'solutions',
       where: {
-        'type.type': { equals: 'product' },
+        'type.type': { equals: 'service' },
       },
       pagination: false,
       depth: 0,
     })
     .then((res) => res.docs);
 
-  return products.map((product) => ({ product: product.slug }));
+  return services.map((service) => ({ service: service.slug }));
 }
 
-const ProductPage = async ({ params }: { params: Promise<{ product: string }> }) => {
-  const { product: slug } = await params;
+export default async function ServicePage({ params }: { params: Promise<{ service: string }> }) {
+  const { service: slug } = await params;
 
   const payload = await getPayload({ config });
-  const product: Solution = await payload
+  const service: Solution = await payload
     .find({
       collection: 'solutions',
       where: { slug: { equals: slug } },
@@ -40,29 +40,29 @@ const ProductPage = async ({ params }: { params: Promise<{ product: string }> })
     })
     .then((res) => res.docs[0]);
 
-  if (!product) {
+  if (!service) {
     return notFound();
   }
 
   return (
-    <Fragment>
+    <React.Fragment>
       <main>
-        <div className="container mx-auto" key="product-content">
-          {product.details?.images?.length > 0 && (
-            <Carousel images={product.details.images as Media[]} />
+        <div className="container mx-auto">
+          {service.details?.images?.length > 0 && (
+            <Carousel images={service.details.images as Media[]} />
           )}
           <article
-            key={product.title ?? `product-${product.title ?? 'unknown'}`}
+            key={service.title ?? `service-${service.title ?? 'unknown'}`}
             className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto"
           >
             {/* Abstract section */}
             <section className="abstract col-span-12 lg:col-span-5 xl:col-span-4">
-              <h1 className="text-5xl mt-6 leading-none font-black">{product.title}</h1>
-              <p className="text-lg mt-4 text-primary">{product.subtitle}</p>
-              <p className="my-6 font-medium text-lg">{product.details.abstract}</p>
+              <h1 className="text-5xl mt-6 leading-none font-black">{service.title}</h1>
+              <p className="text-lg mt-4 text-primary">{service.subtitle}</p>
+              <p className="my-6 font-medium text-lg">{service.details.abstract}</p>
             </section>
             {/* Content section */}
-            {product.details.content?.map((item, i) => {
+            {service.details.content?.map((item, i) => {
               switch (item.blockType) {
                 case 'text':
                   return <Text text={item.text} />;
@@ -92,12 +92,10 @@ const ProductPage = async ({ params }: { params: Promise<{ product: string }> })
         >
           <ContactForm
             className="container mx-auto"
-            defaultValues={{ subject: `Inquiry about ${product.title}` }}
+            defaultValues={{ subject: `Inquiry about ${service.title}` }}
           />
         </div>
       </main>
-    </Fragment>
+    </React.Fragment>
   );
-};
-
-export default ProductPage;
+}

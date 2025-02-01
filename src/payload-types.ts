@@ -168,7 +168,10 @@ export interface Solution {
   id: string;
   type: {
     type: 'product' | 'service' | 'other';
-    category: string | SolutionCategory;
+    category: {
+      relationTo: 'solution-categories';
+      value: string | SolutionCategory;
+    };
   };
   title: string;
   subtitle: string;
@@ -273,7 +276,7 @@ export interface Solution {
  */
 export interface SolutionCategory {
   id: string;
-  type?: ('product' | 'service' | 'other') | null;
+  type: 'product' | 'service' | 'other';
   title: string;
   description: string;
   categoryIcon?:
