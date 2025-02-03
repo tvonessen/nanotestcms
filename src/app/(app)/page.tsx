@@ -1,5 +1,6 @@
 import CardsGrid from '@/components/content/cards';
 import ContactForm from '@/components/content/contact-form';
+import Features from '@/components/content/features';
 import Highlight from '@/components/content/highlight';
 import RichTextWrapper from '@/components/content/richtext-wrapper';
 import Jumbo from '@/components/jumbo/jumbo';
@@ -48,6 +49,8 @@ const Home = async () => {
                 solutions={block.cards as Solution[]}
               />
             );
+          case 'features':
+            return <Features key={block.id} features={block} />;
           default:
             return null;
         }

@@ -1,6 +1,7 @@
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
 import { Cards } from '@/blocks/CardsBlock';
+import { Features } from '@/blocks/FeaturesBlock';
 import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
 import type { GlobalConfig } from 'payload';
@@ -74,7 +75,7 @@ export const HomepageContent: GlobalConfig = {
       label: 'Content',
       type: 'blocks',
       minRows: 1,
-      blocks: [Text, Highlight, Cards],
+      blocks: [Text, Highlight, Cards, Features],
     },
   ],
 };
