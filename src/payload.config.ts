@@ -13,6 +13,9 @@ import { AboutContent } from './globals/AboutContent';
 import { HomepageContent } from './globals/HomepageContent';
 import { LegalContent } from './globals/LegalContent';
 import { SolutionCategories } from '@/collections/SolutionCategories';
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
+import nodemailer from 'nodemailer';
+import { nodemailerOptions } from './config/nodemailer';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -37,6 +40,11 @@ export default buildConfig({
       // If you do not pass any arguments to it, it will use the default serializers.
       HTMLConverterFeature({}),
     ],
+  }),
+  email: nodemailerAdapter({
+    defaultFromAddress: 'info@nanotest.eu',
+    defaultFromName: 'Nanotest Website',
+    transport: await nodemailer.createTransport(nodemailerOptions),
   }),
   plugins: [],
   globals: [HomepageContent, AboutContent, LegalContent],
