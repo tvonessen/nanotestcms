@@ -1,6 +1,7 @@
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
 import { Cards } from '@/blocks/CardsBlock';
+import { ContactForm } from '@/blocks/ContactFormBlock';
 import { TeamMember } from '@/blocks/TeamMemberBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
@@ -36,7 +37,7 @@ export const AboutContent: GlobalConfig = {
       label: 'Content',
       type: 'blocks',
       minRows: 1,
-      blocks: [Text, TextImage, TextVideo, Cards],
+      blocks: [Text, TextImage, TextVideo, Cards, ContactForm],
     },
     {
       name: 'teamMembers',

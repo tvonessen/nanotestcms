@@ -1,3 +1,4 @@
+import ContactForm from '@/components/content/contact-form/contact-form';
 import TeamMembersGallery from '@/components/content/team-members-gallery/team-members-gallery';
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
@@ -26,6 +27,15 @@ export default async function AboutPage() {
               return <TextImage key={item.id} text={item.text} image={item.image as Media} />;
             case 'text-video':
               return <TextVideo key={item.id} text={item.text} videoId={item.videoId as string} />;
+            case 'contact-form':
+              return (
+                <ContactForm
+                  key={item.id}
+                  id="contact"
+                  to={item.to}
+                  defaultValues={{ subject: item.subject ?? undefined }}
+                />
+              );
             default:
               return null;
           }

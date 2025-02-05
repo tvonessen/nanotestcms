@@ -1,4 +1,4 @@
-import deepMerge from '@/utilies/deepMerge';
+import deepMerge from '@/utils/deep-merge';
 import { icons } from '@phosphor-icons/core';
 import type { Field, OptionObject } from 'payload';
 

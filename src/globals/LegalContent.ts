@@ -1,5 +1,6 @@
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
+import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import type { GlobalConfig } from 'payload';
@@ -29,14 +30,14 @@ export const LegalContent: GlobalConfig = {
       label: 'Imprint',
       type: 'blocks',
       minRows: 1,
-      blocks: [Text, TextImage],
+      blocks: [Text, TextImage, ContactForm],
     },
     {
       name: 'privacy',
       label: 'Privacy',
       type: 'blocks',
       minRows: 1,
-      blocks: [Text, TextImage],
+      blocks: [Text, TextImage, ContactForm],
     },
   ],
 };

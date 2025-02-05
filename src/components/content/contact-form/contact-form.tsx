@@ -2,42 +2,71 @@
 
 import { Button, Input, Textarea } from '@heroui/react';
 import { Check } from '@phosphor-icons/react';
-import { enqueueSnackbar } from 'notistack';
-import React, { Fragment } from 'react';
 import { type FieldValues, useForm } from 'react-hook-form';
+import React from 'react';
+import type Mail from 'nodemailer/lib/mailer';
+import { enqueueSnackbar } from 'notistack';
 
-type ContactFormProps = React.HTMLAttributes<HTMLElement> & {
-  defaultValues?: {
-    subject?: string;
-    message?: string;
-    name?: string;
-    company?: string;
-    email?: string;
-    phone?: string;
-  };
+export type ContactFormFields = {
+  subject: string;
+  message: string;
+  name: string;
+  company?: string;
+  email: string;
+  phone?: string;
 };
 
-const ContactForm = ({ defaultValues, ...props }: ContactFormProps) => {
-  const [triedOnce, setTriedOnce] = React.useState<boolean>(false);
+type ContactFormProps = React.HTMLAttributes<HTMLElement> & {
+  defaultValues?: Partial<ContactFormFields>;
+  to?: string | Mail.Address | (Mail.Address | string)[];
+};
 
+const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: ContactFormProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm();
 
-  const submit = (data: FieldValues) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (triedOnce) {
-          resolve(data);
-        } else {
-          enqueueSnackbar('Submission failed. Please try again.', { variant: 'error' });
-          reject('An error occurred');
-          setTriedOnce(true);
-        }
-      }, 2000);
-    });
+  const [isSubmitSuccessful, setIsSubmitSuccessful] = React.useState(false);
+
+  const onSubmit = async (data: FieldValues) => {
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: to,
+          subject: data.subject,
+          html: `
+            <p>${data.message}</p>
+            <p><strong>From:</strong> ${data.name}${data.company ? ` (${data.company})` : ''}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
+          `,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
+
+      setIsSubmitSuccessful(true);
+    } catch (error) {
+      setIsSubmitSuccessful(false);
+      enqueueSnackbar(
+        <div className="flex flex-col items-start">
+          <h2 className="block mb-1 text-kg font-bold">Failed to send email</h2>
+          <p className="block mb-1">
+            Please, try again. Or contact us via email directly. Sorry for the inconvenience!
+          </p>
+          <p>:-((</p>
+        </div>,
+        { variant: 'error', hideIconVariant: true },
+      );
+    }
   };
 
   return (
@@ -45,7 +74,7 @@ const ContactForm = ({ defaultValues, ...props }: ContactFormProps) => {
       <h2 className="text-3xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-t from-primary-200 to-black dark:to-primary-300 dark:from-white mb-4">
         Contact us
       </h2>
-      <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit(submit)}>
+      <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit(onSubmit)}>
         <h3 className="col-span-2 -mb-2 text-lg font-medium text-secondary mt-2">Your message</h3>
         <Input
           {...register('subject', { required: true })}
@@ -96,7 +125,10 @@ const ContactForm = ({ defaultValues, ...props }: ContactFormProps) => {
           isDisabled={isSubmitting || isSubmitSuccessful}
         />
         <Input
-          {...register('email', { required: true })}
+          {...register('email', {
+            required: true,
+            pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+          })}
           className="col-span-2 sm:col-span-1"
           variant="underlined"
           isRequired
@@ -118,8 +150,9 @@ const ContactForm = ({ defaultValues, ...props }: ContactFormProps) => {
           isDisabled={isSubmitting || isSubmitSuccessful}
         />
         <Button
-          className="mt-4 col-span-2"
+          className={`mt-4 col-span-2 ${isSubmitSuccessful || isSubmitting ? 'pointer-events-none' : ''}`}
           type="submit"
+          formNoValidate
           size="lg"
           radius="md"
           variant="solid"
@@ -128,9 +161,9 @@ const ContactForm = ({ defaultValues, ...props }: ContactFormProps) => {
           disabled={isSubmitSuccessful}
         >
           {isSubmitSuccessful ? (
-            <Fragment key="success">
+            <React.Fragment key="success">
               <Check size={28} /> We will be in touch
-            </Fragment>
+            </React.Fragment>
           ) : (
             'Hear back from us'
           )}

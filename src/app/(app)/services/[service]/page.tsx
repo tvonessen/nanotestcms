@@ -1,7 +1,7 @@
 // Next.js will invalidate the cache when a
 
 import Carousel from '@/components/carousel/carousel';
-import ContactForm from '@/components/content/contact-form';
+import ContactForm from '@/components/content/contact-form/contact-form';
 import Highlight from '@/components/content/highlight';
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
@@ -65,12 +65,13 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
             {service.details.content?.map((item, i) => {
               switch (item.blockType) {
                 case 'text':
-                  return <Text text={item.text} />;
+                  return <Text key={item.id} text={item.text} />;
                 case 'text-image':
-                  return <TextImage text={item.text} image={item.image as Media} />;
+                  return <TextImage key={item.id} text={item.text} image={item.image as Media} />;
                 case 'highlight':
                   return (
                     <Highlight
+                      key={item.id}
                       title={item.title}
                       text={item.text}
                       link={item.link}
@@ -78,22 +79,23 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
                     />
                   );
                 case 'text-video':
-                  return <TextVideo text={item.text} videoId={item.videoId as string} />;
+                  return (
+                    <TextVideo key={item.id} text={item.text} videoId={item.videoId as string} />
+                  );
+                case 'contact-form':
+                  return (
+                    <ContactForm
+                      key={item.id}
+                      className="max-lg:w-screen lg:w-full relative max-lg:left-1/2 max-lg:-translate-x-[50%] mx-auto my-12 col-span-full bg-opacity-5 bg-foreground px-12 py-12 lg:rounded-lg"
+                      to={item.to}
+                      defaultValues={{ subject: item.subject ?? `Inquiry about ${service.title}` }}
+                    />
+                  );
                 default:
                   return null;
               }
             })}
           </article>
-        </div>
-
-        <div
-          key="contact-form"
-          className="px-12 my-12 py-12 bg-opacity-5 mx-auto bg-foreground max-xl:w-full xl:max-w-6xl xl:rounded-lg"
-        >
-          <ContactForm
-            className="container mx-auto"
-            defaultValues={{ subject: `Inquiry about ${service.title}` }}
-          />
         </div>
       </main>
     </React.Fragment>

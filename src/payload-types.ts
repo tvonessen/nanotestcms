@@ -259,6 +259,7 @@ export interface Solution {
               blockName?: string | null;
               blockType: 'text-video';
             }
+          | ContactForm
         )[]
       | null;
   };
@@ -1800,6 +1801,17 @@ export interface SolutionCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactForm".
+ */
+export interface ContactForm {
+  to: string;
+  subject?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contact-form';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
@@ -2110,6 +2122,7 @@ export interface SolutionsSelect<T extends boolean = true> {
                     id?: T;
                     blockName?: T;
                   };
+              'contact-form'?: T | ContactFormSelect<T>;
             };
       };
   seo?:
@@ -2121,6 +2134,16 @@ export interface SolutionsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactForm_select".
+ */
+export interface ContactFormSelect<T extends boolean = true> {
+  to?: T;
+  subject?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2254,6 +2277,7 @@ export interface Homepage {
             blockType: 'cards';
           }
         | Features
+        | ContactForm
       )[]
     | null;
   _status?: ('draft' | 'published') | null;
@@ -3875,6 +3899,7 @@ export interface About {
             blockName?: string | null;
             blockType: 'cards';
           }
+        | ContactForm
       )[]
     | null;
   teamMembers?: TeamMember[] | null;
@@ -3947,6 +3972,7 @@ export interface Legal {
             blockName?: string | null;
             blockType: 'text-image';
           }
+        | ContactForm
       )[]
     | null;
   privacy?:
@@ -3994,6 +4020,7 @@ export interface Legal {
             blockName?: string | null;
             blockType: 'text-image';
           }
+        | ContactForm
       )[]
     | null;
   _status?: ('draft' | 'published') | null;
@@ -4046,6 +4073,7 @@ export interface HomepageSelect<T extends boolean = true> {
               blockName?: T;
             };
         features?: T | FeaturesSelect<T>;
+        'contact-form'?: T | ContactFormSelect<T>;
       };
   _status?: T;
   updatedAt?: T;
@@ -4113,6 +4141,7 @@ export interface AboutSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        'contact-form'?: T | ContactFormSelect<T>;
       };
   teamMembers?:
     | T
@@ -4162,6 +4191,7 @@ export interface LegalSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        'contact-form'?: T | ContactFormSelect<T>;
       };
   privacy?:
     | T
@@ -4183,6 +4213,7 @@ export interface LegalSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        'contact-form'?: T | ContactFormSelect<T>;
       };
   _status?: T;
   updatedAt?: T;

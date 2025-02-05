@@ -16,6 +16,7 @@ import { SolutionCategories } from '@/collections/SolutionCategories';
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
 import nodemailer from 'nodemailer';
 import { nodemailerOptions } from './config/nodemailer';
+import { sendEmailEndpoint } from './utils/send-email';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -42,10 +43,17 @@ export default buildConfig({
     ],
   }),
   email: nodemailerAdapter({
-    defaultFromAddress: 'info@nanotest.eu',
-    defaultFromName: 'Nanotest Website',
-    transport: await nodemailer.createTransport(nodemailerOptions),
+    defaultFromAddress: 'do-not-reply@nanotest.eu',
+    defaultFromName: 'Nanotest Contact Form',
+    transport: nodemailer.createTransport(nodemailerOptions),
   }),
+  endpoints: [
+    {
+      path: '/send-email',
+      method: 'post',
+      handler: sendEmailEndpoint,
+    },
+  ],
   plugins: [],
   globals: [HomepageContent, AboutContent, LegalContent],
   secret: process.env.PAYLOAD_SECRET || '',

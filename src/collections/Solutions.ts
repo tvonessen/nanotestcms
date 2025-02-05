@@ -7,6 +7,7 @@ import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn'
 import { slugField } from '@/fields/slugField';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { solutionTypeField } from '@/fields/solutionTypeField';
+import { ContactForm } from '@/blocks/ContactFormBlock';
 
 const Solutions: CollectionConfig = {
   slug: 'solutions',
@@ -121,7 +122,7 @@ const Solutions: CollectionConfig = {
               label: 'Content',
               type: 'blocks',
               minRows: 1,
-              blocks: [Text, TextImage, Highlight, TextVideo],
+              blocks: [Text, TextImage, Highlight, TextVideo, ContactForm],
             },
           ],
         },

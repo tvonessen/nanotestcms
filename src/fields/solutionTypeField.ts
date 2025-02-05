@@ -1,4 +1,4 @@
-import deepMerge from '@/utilies/deepMerge';
+import deepMerge from '@/utils/deep-merge';
 import type { Field } from 'payload';
 
 export function solutionTypeField(overrides: Partial<Field> = {}): Field {

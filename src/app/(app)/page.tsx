@@ -1,5 +1,5 @@
 import CardsGrid from '@/components/content/cards';
-import ContactForm from '@/components/content/contact-form';
+import ContactForm from '@/components/content/contact-form/contact-form';
 import Features from '@/components/content/features';
 import Highlight from '@/components/content/highlight';
 import RichTextWrapper from '@/components/content/richtext-wrapper';
@@ -51,15 +51,20 @@ const Home = async () => {
             );
           case 'features':
             return <Features key={block.id} features={block} />;
+          case 'contact-form':
+            return (
+              <ContactForm
+                key={block.id}
+                id="contact"
+                to={block.to}
+                defaultValues={{ subject: block.subject ?? undefined }}
+                className="px-12 my-12 py-12 bg-opacity-5 mx-auto bg-foreground max-xl:w-full xl:max-w-6xl xl:rounded-lg"
+              />
+            );
           default:
             return null;
         }
       })}
-
-      <ContactForm
-        id="contact"
-        className="px-12 my-12 py-12 bg-opacity-5 mx-auto bg-foreground max-xl:w-full xl:max-w-6xl xl:rounded-lg"
-      />
     </React.Fragment>
   );
 };
