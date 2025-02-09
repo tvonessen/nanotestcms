@@ -17,6 +17,7 @@ import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
 import nodemailer from 'nodemailer';
 import { nodemailerOptions } from './config/nodemailer';
 import { sendEmailEndpoint } from './utils/send-email';
+import validateCaptcha from './utils/validate-captcha';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -29,6 +30,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Solutions, SolutionCategories],
+  cors: ['https://www.google.com'],
   csrf: ['http://localhost:3301', 'http://localhost:3303', 'https://nanotest.jutoserver.de'],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
@@ -52,6 +54,11 @@ export default buildConfig({
       path: '/send-email',
       method: 'post',
       handler: sendEmailEndpoint,
+    },
+    {
+      path: '/dont-bother-me',
+      method: 'post',
+      handler: validateCaptcha,
     },
   ],
   plugins: [],

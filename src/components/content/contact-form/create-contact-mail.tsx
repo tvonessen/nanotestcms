@@ -1,9 +1,13 @@
 import type { ContactFormFields } from './contact-form';
 
-export default function createContactMail(contactFormData: ContactFormFields, to: string) {
+export default function createContactMail(
+  contactFormData: ContactFormFields,
+  to: string,
+  siteUrl?: string,
+) {
   return {
-    to,
-    from: `${contactFormData.name}<${contactFormData.email}>`,
+    to: to,
+    from: 'Nanotest Contact Form <do-not-reply@nanotest.eu>',
     subject: contactFormData.subject,
     html: `
       <html>
@@ -15,7 +19,8 @@ export default function createContactMail(contactFormData: ContactFormFields, to
           >
             <tr>
               <td>
-                <h1 style="color: #333333;">${contactFormData.subject}</h1>
+                <h3 style="color: #00a984;">Contact Form Submission</h3><br />
+                ${siteUrl ? `<h5>From: <code>${siteUrl}</code></h5>` : ''}
               </td>
             </tr>
             <tr>
@@ -41,7 +46,15 @@ export default function createContactMail(contactFormData: ContactFormFields, to
               </td>
             </tr>
             <tr>
-              <td style="padding-top: 20px;">${contactFormData.message}</td>
+              <td style="padding-top: 20px;">
+                <h3><b>Subject: </b> <span style="font-weight: normal;">${contactFormData.subject}</span></h3>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding-top: 20px;">
+                <b>Message:</b><br />
+                <p>${contactFormData.message}</p>
+              </td>
             </tr>
           </table>
         </body>

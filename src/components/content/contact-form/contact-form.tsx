@@ -6,6 +6,8 @@ import { type FieldValues, useForm } from 'react-hook-form';
 import React from 'react';
 import type Mail from 'nodemailer/lib/mailer';
 import { enqueueSnackbar } from 'notistack';
+import createContactMail from './create-contact-mail';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export type ContactFormFields = {
   subject: string;
@@ -28,31 +30,41 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
     formState: { errors, isSubmitting },
   } = useForm();
 
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
   const [isSubmitSuccessful, setIsSubmitSuccessful] = React.useState(false);
 
   const onSubmit = async (data: FieldValues) => {
     try {
+      if (!executeRecaptcha) throw new Error('Failed to load captcha');
+      const token = await executeRecaptcha('contact_form');
+      const isHuman = await fetch('/api/dont-bother-me', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
+      });
+
+      if (!isHuman.ok) {
+        throw new Error('Failed to validate captcha');
+      }
+
       const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          to: to,
-          subject: data.subject,
-          html: `
-            <p>${data.message}</p>
-            <p><strong>From:</strong> ${data.name}${data.company ? ` (${data.company})` : ''}</p>
-            <p><strong>Email:</strong> ${data.email}</p>
-            ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
-          `,
-        }),
+        body: JSON.stringify(
+          createContactMail(data as ContactFormFields, to as string, window.location.pathname),
+        ),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to send email');
+        throw new Error(
+          'Failed to send email. Please try again or contact us through other channels.',
+        );
       }
-
       setIsSubmitSuccessful(true);
     } catch (error) {
       setIsSubmitSuccessful(false);
@@ -60,7 +72,7 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
         <div className="flex flex-col items-start">
           <h2 className="block mb-1 text-kg font-bold">Failed to send email</h2>
           <p className="block mb-1">
-            Please, try again. Or contact us via email directly. Sorry for the inconvenience!
+            ${error instanceof Error ? error.message : 'An unknown error occurred'}
           </p>
           <p>:-((</p>
         </div>,
@@ -149,25 +161,38 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
           errorMessage="Please enter a valid phone number"
           isDisabled={isSubmitting || isSubmitSuccessful}
         />
-        <Button
-          className={`mt-4 col-span-2 ${isSubmitSuccessful || isSubmitting ? 'pointer-events-none' : ''}`}
-          type="submit"
-          formNoValidate
-          size="lg"
-          radius="md"
-          variant="solid"
-          color={isSubmitSuccessful ? 'success' : 'secondary'}
-          isLoading={isSubmitting}
-          disabled={isSubmitSuccessful}
-        >
-          {isSubmitSuccessful ? (
-            <React.Fragment key="success">
-              <Check size={28} /> We will be in touch
-            </React.Fragment>
-          ) : (
-            'Hear back from us'
-          )}
-        </Button>
+        <div className="flex flex-col col-span-full mt-4">
+          <Button
+            className={`${isSubmitSuccessful || isSubmitting ? 'pointer-events-none' : ''}`}
+            type="submit"
+            formNoValidate
+            size="lg"
+            radius="md"
+            variant="solid"
+            color={isSubmitSuccessful ? 'success' : 'secondary'}
+            isLoading={isSubmitting}
+            disabled={isSubmitSuccessful}
+          >
+            {isSubmitSuccessful ? (
+              <React.Fragment key="success">
+                <Check size={28} /> We will be in touch
+              </React.Fragment>
+            ) : (
+              'Hear back from us'
+            )}
+          </Button>
+          <small className="col-span-full text-pretty ms-2 mt-2 text-xs text-primary text-center">
+            This site is protected by reCAPTCHA and the Google
+            <a className="inline-block underline px-1" href="https://policies.google.com/privacy">
+              Privacy Policy
+            </a>
+            and
+            <a className="inline-block underline px-1" href="https://policies.google.com/terms">
+              Terms of Service
+            </a>
+            apply.
+          </small>
+        </div>
       </form>
     </section>
   );

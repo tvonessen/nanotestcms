@@ -30,6 +30,10 @@
   outline: 2px solid var(--focus);
 }
 
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
+
 /* Reset */
 
 h1,
