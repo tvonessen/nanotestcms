@@ -5,6 +5,8 @@ import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Features } from '@/blocks/FeaturesBlock';
 import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
+import type { Homepage } from '@/payload-types';
+import { revalidateHook } from '@/utils/revalidate';
 import type { GlobalConfig } from 'payload';
 
 export const HomepageContent: GlobalConfig = {
@@ -23,7 +25,9 @@ export const HomepageContent: GlobalConfig = {
   },
   versions: {
     drafts: {
-      autosave: true,
+      autosave: {
+        interval: 375,
+      },
       schedulePublish: true,
     },
     max: 50,
@@ -79,4 +83,12 @@ export const HomepageContent: GlobalConfig = {
       blocks: [Text, Highlight, Cards, Features, ContactForm],
     },
   ],
+  hooks: {
+    afterChange: [
+      ({ doc }: { doc: Homepage }) => {
+        if (doc._status === 'draft') return;
+        revalidateHook('/');
+      },
+    ],
+  },
 };

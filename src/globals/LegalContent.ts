@@ -3,6 +3,7 @@ import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn'
 import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
+import { revalidateHook } from '@/utils/revalidate';
 import type { GlobalConfig } from 'payload';
 
 export const LegalContent: GlobalConfig = {
@@ -40,4 +41,13 @@ export const LegalContent: GlobalConfig = {
       blocks: [Text, TextImage, ContactForm],
     },
   ],
+  hooks: {
+    afterChange: [
+      ({ doc }) => {
+        if (doc._status === 'draft') return;
+        revalidateHook('/about/imprint');
+        revalidateHook('/about/privacy');
+      },
+    ],
+  },
 };

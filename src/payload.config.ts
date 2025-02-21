@@ -18,6 +18,7 @@ import nodemailer from 'nodemailer';
 import { nodemailerOptions } from './config/nodemailer';
 import { sendEmailEndpoint } from './utils/send-email';
 import validateCaptcha from './utils/validate-captcha';
+import revalidateHandler from '@/utils/revalidate';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -59,6 +60,11 @@ export default buildConfig({
       path: '/dont-bother-me',
       method: 'post',
       handler: validateCaptcha,
+    },
+    {
+      path: '/revalidate',
+      method: 'post',
+      handler: revalidateHandler,
     },
   ],
   plugins: [],

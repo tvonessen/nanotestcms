@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import { Fragment } from 'react';
 
-const ProductsPage = async () => {
+export default async function ProductsPage() {
   const payload = await getPayload({ config });
   const products: Solution[] = await payload
     .find({
@@ -18,7 +18,6 @@ const ProductsPage = async () => {
       overrideAccess: false,
     })
     .then((res) => res.docs);
-
   const categories: SolutionCategory[] = await payload
     .find({
       collection: 'solution-categories',
@@ -87,6 +86,4 @@ const ProductsPage = async () => {
         })}
     </div>
   );
-};
-
-export default ProductsPage;
+}

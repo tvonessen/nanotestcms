@@ -8,6 +8,8 @@ import { slugField } from '@/fields/slugField';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { solutionTypeField } from '@/fields/solutionTypeField';
 import { ContactForm } from '@/blocks/ContactFormBlock';
+import type { Solution } from '@/payload-types';
+import { revalidateHook } from '@/utils/revalidate';
 
 const Solutions: CollectionConfig = {
   slug: 'solutions',
@@ -140,6 +142,26 @@ const Solutions: CollectionConfig = {
     },
     slugField(),
   ],
+  hooks: {
+    afterChange: [
+      ({ doc }: { doc: Solution }) => {
+        if (doc._status === 'draft') return;
+        let path = '';
+        switch (doc.type.type) {
+          case 'product':
+            path += 'products';
+            break;
+          case 'service':
+            path += 'services';
+            break;
+          default:
+            break;
+        }
+        revalidateHook(`${path}/${doc.slug}`);
+        revalidateHook(path);
+      },
+    ],
+  },
 };
 
 export default Solutions;

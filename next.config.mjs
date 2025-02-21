@@ -18,6 +18,12 @@ export default withPayload({
       {
         hostname: 'api.dicebear.com',
       },
+      {
+        hostname: 'nanotest.jutoserver.de',
+      },
+      {
+        hostname: 'nanotest-dev.jutoserver.de',
+      },
     ],
   },
   // redirects: async () => [

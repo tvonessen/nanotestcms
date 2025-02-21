@@ -6,6 +6,8 @@ import { TeamMember } from '@/blocks/TeamMemberBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
+import type { About } from '@/payload-types';
+import { revalidateHook } from '@/utils/revalidate';
 import type { GlobalConfig } from 'payload';
 
 export const AboutContent: GlobalConfig = {
@@ -49,4 +51,12 @@ export const AboutContent: GlobalConfig = {
       blocks: [TeamMember],
     },
   ],
+  hooks: {
+    afterChange: [
+      async ({ doc }: { doc: About }) => {
+        if (doc._status === 'draft') return;
+        revalidateHook('/about');
+      },
+    ],
+  },
 };
