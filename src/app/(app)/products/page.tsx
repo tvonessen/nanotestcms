@@ -18,6 +18,7 @@ export default async function ProductsPage() {
       overrideAccess: false,
     })
     .then((res) => res.docs);
+
   const categories: SolutionCategory[] = await payload
     .find({
       collection: 'solution-categories',
