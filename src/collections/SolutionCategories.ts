@@ -39,10 +39,10 @@ export const SolutionCategories: CollectionConfig = {
         let path = '/';
         switch (doc.type) {
           case 'product':
-            path += 'products/';
+            path += 'products';
             break;
           case 'service':
-            path += 'services/';
+            path += 'services';
             break;
           default:
             break;
