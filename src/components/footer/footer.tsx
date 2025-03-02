@@ -55,7 +55,7 @@ const Footer = () => {
               </Link>
               <Link
                 className="text-md flex items-center justify-center rounded-lg h-8 px-2 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
-                href="/about/imprint"
+                href="/about/privacy"
               >
                 Privacy
               </Link>
