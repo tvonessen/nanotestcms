@@ -31,17 +31,24 @@ const CardsGrid = ({
 };
 
 const Card = ({ solution }: { solution: Solution }) => {
+  const cardImage = solution.details.images[0] as Media;
+  cardImage.url = cardImage.sizes?.medium?.url ?? cardImage.sizes?.small?.url ?? cardImage.url;
+  cardImage.height =
+    cardImage.sizes?.medium?.height ?? cardImage.sizes?.small?.height ?? cardImage.height;
+  cardImage.width =
+    cardImage.sizes?.medium?.width ?? cardImage.sizes?.small?.width ?? cardImage.width;
+
   return (
     <div className="group card mx-auto max-w-[640px] bg-gradient-to-tl from-primary-900 to-primary-300 before:dark:!bg-background before:!bg-foreground image-full shadow-xl hover:scale-105 focus-within:scale-105 transition hover:z-20 focus-visible:z-20">
       <figure className="object-cover z-10">
         <Image
           alt={solution.title}
           className="min-h-full min-w-full group-hover:scale-110 group-hover:opacity-5 group-hover:blur-[1px] group-focus-within:blur-[1px] group-focus-within:scale-110 group-focus-within:opacity-5 transition duration-1000 ease-out"
-          height={(solution.details.images[0] as Media).height as number}
-          src={(solution.details.images[0] as Media).url as string}
-          width={(solution.details.images[0] as Media).width as number}
+          height={cardImage.height as number}
+          src={cardImage.url as string}
+          width={cardImage.width as number}
           placeholder="blur"
-          blurDataURL={(solution.details.images[0] as Media).blurDataUrl as string}
+          blurDataURL={cardImage.blurDataUrl as string}
         />
       </figure>
       <div className="card-body gap-0 opacity-0 hover:opacity-100 group-focus-within:opacity-100 transition z-20">

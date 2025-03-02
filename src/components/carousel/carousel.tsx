@@ -48,10 +48,10 @@ const Carousel = ({ images, className }: CarouselProps) => {
               <Image
                 key={image.filename}
                 className={'sm:rounded-2xl w-full aspect-video object-cover'}
-                src={image.url as string}
+                src={(image.sizes?.large?.url ?? image.url) as string}
                 alt={image.alt}
-                width={image.width as number}
-                height={image.height as number}
+                width={(image.sizes?.large?.width ?? image.width) as number}
+                height={(image.sizes?.large?.height ?? image.height) as number}
                 blurDataURL={image.blurDataUrl as string}
                 placeholder="blur"
                 loading="lazy"

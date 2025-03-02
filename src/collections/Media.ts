@@ -16,16 +16,16 @@ export const Media: CollectionConfig = {
       },
       {
         name: 'small',
-        width: 480,
+        width: 640,
       },
       {
         name: 'medium',
-        width: 640,
+        width: 1280,
         withoutEnlargement: true,
       },
       {
         name: 'large',
-        width: 1280,
+        width: 1536,
         withoutEnlargement: true,
       },
     ],

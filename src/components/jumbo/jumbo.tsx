@@ -33,10 +33,10 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
     const { image, title, description, link, linkLabel } = jumbo;
     const img = image as Media;
     return {
-      url: img.url,
+      url: img.sizes?.large?.url ?? img.url,
       alt: img.alt,
-      width: img.width,
-      height: img.height,
+      width: img.sizes?.large?.width ?? img.width,
+      height: img.sizes?.large?.height ?? img.height,
       blurDataUrl: img.blurDataUrl,
       isDark: img.isDark,
       title,
