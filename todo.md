@@ -32,6 +32,6 @@
 [ ] filter solution categories by type (prod or service)
 [ ] Allow no title image on Solutions
 [ ] Allow Image or Video Content element without text (full-width)
-[ ] Properly (re-)render media according to focus point
-[ ] Only load images with required size
-[ ] Spacing between icon and title in solution groups
+[X] Properly (re-)render media according to focus point
+[X] Only load images with required size
+[X] Spacing between icon and title in solution groups

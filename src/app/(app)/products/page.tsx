@@ -62,7 +62,8 @@ export default async function ProductsPage() {
                   className="text-xl sm:text-2xl md:text-3xl font-semibold text-background flex items-center"
                   id={category.title.replaceAll(' ', '-').toLowerCase()}
                 >
-                  <LazyIcon name={category.categoryIcon as string} /> {category.title}
+                  <LazyIcon name={category.categoryIcon as string} className="pr-2 select-none" />
+                  {category.title}
                 </h2>
               </div>
               <div
