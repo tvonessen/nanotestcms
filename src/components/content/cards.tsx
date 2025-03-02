@@ -53,7 +53,7 @@ const Card = ({ solution }: { solution: Solution }) => {
           <Link
             aria-label={`Learn more about ${solution.title}`}
             className="mt-6 btn btn-primary btn-md focus-visible:outline-focus"
-            href={`/solutions/${solution.slug}`}
+            href={`/${solution.type.type}s/${solution.slug}`}
           >
             More about {solution.title}
           </Link>

@@ -74,7 +74,11 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
         />
       </svg>
       <div className="absolute inset-0 w-full h-fit ps-[9%] group-hover:ps-[11%] group-focus-within:ps-[11%] py-3 m-auto opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-[opacity,padding] text-foreground">
-        <h3 className="text-xl font-bold leading-tight">{member.name}</h3>
+        <h3
+          className={`${member.name.length > 22 ? (member.name.length > 26 ? 'text-md' : 'text-lg') : 'text-xl'} font-bold leading-tight`}
+        >
+          {member.name}
+        </h3>
         <p className="text-md">{member.position}</p>
         {(member.phone || member.email) && (
           <ul className="list-none flex flex-row mt-2 gap-2 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto">
