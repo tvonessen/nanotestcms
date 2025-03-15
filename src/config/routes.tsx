@@ -23,8 +23,8 @@ export const siteConfig = {
       icon: <Nut size={27} weight="regular" />,
     },
     {
-      label: 'Distibution',
-      href: '/dist',
+      label: 'Contact us',
+      href: '/contact',
       icon: <TagSimple size={27} weight="regular" />,
     },
     {

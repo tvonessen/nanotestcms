@@ -1,4 +1,4 @@
-const Page = () => {
+export default function ContacUs() {
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-4xl font-bold mt-8">Distribution</h1>
@@ -24,6 +24,4 @@ const Page = () => {
       </p>
     </div>
   );
-};
-
-export default Page;
+}

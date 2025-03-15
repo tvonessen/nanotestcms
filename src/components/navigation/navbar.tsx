@@ -10,7 +10,7 @@ import {
 import Link from 'next/link';
 import React from 'react';
 
-import { siteConfig } from '@/config/site';
+import { siteConfig } from '@/config/routes';
 
 import NanotestLogo from '../nanotest-logo';
 import { ThemeSwitch } from '../theme-switch';

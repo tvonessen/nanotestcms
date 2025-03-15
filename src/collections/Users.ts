@@ -27,7 +27,7 @@ export const Users: CollectionConfig = {
   },
   fields: [
     { name: 'name', type: 'text', required: true },
-    { name: 'email', type: 'email', required: true },
+    { name: 'email', type: 'email', required: true, unique: true },
     { name: 'role', type: 'select', options: ['user', 'admin'], defaultValue: 'user' },
   ],
 };

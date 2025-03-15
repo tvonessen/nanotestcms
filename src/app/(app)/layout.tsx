@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import '@/styles/globals.css';
 import { fontSans } from '@/config/fonts';
-import { siteConfig } from '@/config/site';
+import { siteConfig } from '@/config/routes';
 
 export const metadata: Metadata = {
   title: {
