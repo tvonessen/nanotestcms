@@ -1,5 +1,5 @@
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
-import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
+import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { Cards } from '@/blocks/CardsBlock';
 import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Text } from '@/blocks/TextBlock';
@@ -27,7 +27,7 @@ export const AboutContent: GlobalConfig = {
     },
   },
   access: {
-    read: publishedOrLoggedIn,
+    read: isPublishedOrLoggedIn,
     readDrafts: isLoggedIn,
     readVersions: isLoggedIn,
     update: isLoggedIn,

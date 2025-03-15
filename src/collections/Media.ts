@@ -1,6 +1,7 @@
 import { writeFile } from 'node:fs';
 import { imageToBase64, isDarkImage } from '@/app/(payload)/utility/image';
 import type { CollectionConfig } from 'payload';
+import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -34,7 +35,10 @@ export const Media: CollectionConfig = {
     filesRequiredOnCreate: true,
   },
   access: {
+    create: isLoggedIn,
     read: () => true,
+    update: isLoggedIn,
+    delete: isLoggedIn,
   },
 
   admin: {

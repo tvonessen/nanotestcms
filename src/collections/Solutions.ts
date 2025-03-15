@@ -3,7 +3,7 @@ import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
 import type { CollectionConfig } from 'payload';
-import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
+import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { slugField } from '@/fields/slugField';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { solutionTypeField } from '@/fields/solutionTypeField';
@@ -20,7 +20,7 @@ const Solutions: CollectionConfig = {
   access: {
     create: isLoggedIn,
     delete: isLoggedIn,
-    read: publishedOrLoggedIn,
+    read: isPublishedOrLoggedIn,
     readVersions: isLoggedIn,
     update: isLoggedIn,
   },

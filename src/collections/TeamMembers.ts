@@ -1,5 +1,5 @@
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
-import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
+import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import type { CollectionConfig } from 'payload';
 
 export const TeamMembers: CollectionConfig = {
@@ -20,7 +20,7 @@ export const TeamMembers: CollectionConfig = {
     useAsTitle: 'name',
   },
   access: {
-    read: publishedOrLoggedIn,
+    read: isPublishedOrLoggedIn,
     create: isLoggedIn,
     update: isLoggedIn,
     delete: isLoggedIn,

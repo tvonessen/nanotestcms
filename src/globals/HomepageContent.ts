@@ -1,5 +1,5 @@
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
-import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
+import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { Cards } from '@/blocks/CardsBlock';
 import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Features } from '@/blocks/FeaturesBlock';
@@ -13,7 +13,7 @@ export const HomepageContent: GlobalConfig = {
   slug: 'homepage',
   label: 'Homepage',
   access: {
-    read: publishedOrLoggedIn,
+    read: isPublishedOrLoggedIn,
     readDrafts: isLoggedIn,
     readVersions: isLoggedIn,
     update: isLoggedIn,

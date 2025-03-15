@@ -4,7 +4,6 @@ import Features from '@/components/content/features';
 import Highlight from '@/components/content/highlight';
 import RichTextWrapper from '@/components/content/richtext-wrapper';
 import Jumbo from '@/components/jumbo/jumbo';
-import { RefreshRouteOnSave } from '@/components/utility/RefreshRouteOnSave';
 import type { Solution } from '@/payload-types';
 import config from '@/payload.config';
 import { notFound } from 'next/navigation';
@@ -22,7 +21,6 @@ export default async function Home() {
 
   return (
     <React.Fragment>
-      <RefreshRouteOnSave />
       {homepageContent?.jumbotron && <Jumbo jumbos={homepageContent.jumbotron} />}
       {homepageContent?.content?.map((block) => {
         switch (block.blockType) {

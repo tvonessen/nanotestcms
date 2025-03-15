@@ -1,5 +1,5 @@
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
-import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
+import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import type { CollectionConfig } from 'payload';
 
 export const DistroPartners: CollectionConfig = {
@@ -10,9 +10,16 @@ export const DistroPartners: CollectionConfig = {
   },
   access: {
     create: isLoggedIn,
-    read: publishedOrLoggedIn,
+    read: isPublishedOrLoggedIn,
     update: isLoggedIn,
     delete: isLoggedIn,
+  },
+  versions: {
+    drafts: {
+      autosave: true,
+      schedulePublish: true,
+    },
+    maxPerDoc: 10,
   },
   admin: {
     useAsTitle: 'name',

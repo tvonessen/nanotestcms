@@ -1,16 +1,18 @@
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
-import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
+import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
+import type { ContactUs } from '@/payload-types';
+import { revalidateHook } from '@/utils/revalidate';
 import type { GlobalConfig, Tab } from 'payload';
 
 export const ContactUsContent: GlobalConfig = {
   slug: 'contact-us',
   label: 'Contact Us',
   access: {
-    read: publishedOrLoggedIn,
+    read: isPublishedOrLoggedIn,
     readDrafts: isLoggedIn,
     readVersions: isLoggedIn,
     update: isLoggedIn,
@@ -33,37 +35,44 @@ export const ContactUsContent: GlobalConfig = {
       label: 'Regions',
       type: 'tabs',
       tabs: [
-        'Europe',
-        'North and South America',
-        'Asia and Australia',
-        'Africa and Middle East',
+        { key: 'europe', label: 'Europe' },
+        { key: 'america', label: 'North and South America' },
+        { key: 'asia', label: 'Asia and Australia' },
+        { key: 'africa', label: 'Africa and Middle East' },
       ].map(
-        (region: string) =>
-          ({
-            name: region.toLowerCase().replace(/ /g, '-'),
-            label: region,
-            fields: [
-              {
-                name: 'contacts',
-                label: 'Contacts and distribution partners',
-                type: 'array',
-                admin: {
-                  initCollapsed: true,
-                },
-                fields: [
-                  { name: 'country', label: 'Country', type: 'text', required: true },
-                  {
-                    name: 'contact',
-                    label: 'Contact',
-                    type: 'relationship',
-                    required: true,
-                    relationTo: ['distro-partner', 'team-member'],
-                  },
-                ],
+        (region): Tab => ({
+          name: region.key,
+          label: region.label,
+          fields: [
+            {
+              name: 'contacts',
+              label: 'Contacts and distribution partners',
+              type: 'array',
+              admin: {
+                initCollapsed: true,
               },
-            ],
-          }) as Tab,
+              fields: [
+                { name: 'country', label: 'Country', type: 'text', required: true },
+                {
+                  name: 'contact',
+                  label: 'Contact',
+                  type: 'relationship',
+                  required: true,
+                  relationTo: ['distro-partner', 'team-member'],
+                },
+              ],
+            },
+          ],
+        }),
       ),
     },
   ],
+  hooks: {
+    afterChange: [
+      ({ doc }: { doc: ContactUs }) => {
+        if (doc._status === 'draft') return;
+        revalidateHook('/');
+      },
+    ],
+  },
 };

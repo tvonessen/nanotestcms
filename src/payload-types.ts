@@ -1932,6 +1932,7 @@ export interface DistroPartner {
   };
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2321,6 +2322,7 @@ export interface DistroPartnerSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4271,7 +4273,7 @@ export interface ContactUs {
         }[]
       | null;
   };
-  'north-and-south-america'?: {
+  america?: {
     contacts?:
       | {
           country: string;
@@ -4288,7 +4290,7 @@ export interface ContactUs {
         }[]
       | null;
   };
-  'asia-and-australia'?: {
+  asia?: {
     contacts?:
       | {
           country: string;
@@ -4305,7 +4307,7 @@ export interface ContactUs {
         }[]
       | null;
   };
-  'africa-and-middle-east'?: {
+  africa?: {
     contacts?:
       | {
           country: string;
@@ -4549,7 +4551,7 @@ export interface ContactUsSelect<T extends boolean = true> {
               id?: T;
             };
       };
-  'north-and-south-america'?:
+  america?:
     | T
     | {
         contacts?:
@@ -4560,7 +4562,7 @@ export interface ContactUsSelect<T extends boolean = true> {
               id?: T;
             };
       };
-  'asia-and-australia'?:
+  asia?:
     | T
     | {
         contacts?:
@@ -4571,7 +4573,7 @@ export interface ContactUsSelect<T extends boolean = true> {
               id?: T;
             };
       };
-  'africa-and-middle-east'?:
+  africa?:
     | T
     | {
         contacts?:
@@ -4603,6 +4605,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'team-member';
           value: string | TeamMember;
+        } | null)
+      | ({
+          relationTo: 'distro-partner';
+          value: string | DistroPartner;
         } | null);
     global?: ('homepage' | 'about' | 'legal' | 'contact-us') | null;
     user?: (string | null) | User;
