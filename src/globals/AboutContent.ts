@@ -2,7 +2,6 @@ import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
 import { Cards } from '@/blocks/CardsBlock';
 import { ContactForm } from '@/blocks/ContactFormBlock';
-import { TeamMember } from '@/blocks/TeamMemberBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
@@ -44,11 +43,9 @@ export const AboutContent: GlobalConfig = {
     {
       name: 'teamMembers',
       label: 'Team Members',
-      type: 'blocks',
-      admin: {
-        initCollapsed: true,
-      },
-      blocks: [TeamMember],
+      type: 'relationship',
+      relationTo: 'team-member',
+      hasMany: true,
     },
   ],
   hooks: {

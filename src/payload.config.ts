@@ -19,6 +19,9 @@ import { nodemailerOptions } from './config/nodemailer';
 import { sendEmailEndpoint } from './utils/send-email';
 import validateCaptcha from './utils/validate-captcha';
 import revalidateHandler from '@/utils/revalidate';
+import { TeamMembers } from './collections/TeamMembers';
+import { DistroPartners } from './collections/DistroPartners';
+import { ContactUsContent } from './globals/ContactUsContent';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -30,7 +33,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Solutions, SolutionCategories],
+  collections: [Users, Media, Solutions, SolutionCategories, TeamMembers, DistroPartners],
   cors: ['https://www.google.com'],
   csrf: ['http://localhost:3301', 'http://localhost:3303', 'https://nanotest.jutoserver.de'],
   editor: lexicalEditor({
@@ -68,7 +71,7 @@ export default buildConfig({
     },
   ],
   plugins: [],
-  globals: [HomepageContent, AboutContent, LegalContent],
+  globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent],
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL:
     process.env.NODE_ENV === 'development'

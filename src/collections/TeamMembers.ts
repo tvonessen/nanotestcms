@@ -1,11 +1,30 @@
-import type { Block } from 'payload';
+import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
+import { publishedOrLoggedIn } from '@/app/(payload)/access/publishedOrLoggedIn';
+import type { CollectionConfig } from 'payload';
 
-export const TeamMember: Block = {
+export const TeamMembers: CollectionConfig = {
   slug: 'team-member',
-  interfaceName: 'TeamMember',
   labels: {
     singular: 'Team Member',
     plural: 'Team Members',
+  },
+  versions: {
+    drafts: {
+      autosave: false,
+      schedulePublish: true,
+    },
+    maxPerDoc: 10,
+  },
+  admin: {
+    defaultColumns: ['name', 'position', 'status'],
+    useAsTitle: 'name',
+  },
+  access: {
+    read: publishedOrLoggedIn,
+    create: isLoggedIn,
+    update: isLoggedIn,
+    delete: isLoggedIn,
+    readVersions: isLoggedIn,
   },
   fields: [
     {

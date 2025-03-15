@@ -107,7 +107,7 @@ const Solutions: CollectionConfig = {
               required: true,
               displayPreview: true,
               filterOptions: {
-                tags: { contains: 'solution' },
+                or: [{ tags: { contains: 'solution' } }, { tags: { contains: 'service' } }],
               },
             },
             {

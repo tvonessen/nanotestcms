@@ -70,6 +70,8 @@ export interface Config {
     media: Media;
     solutions: Solution;
     'solution-categories': SolutionCategory;
+    'team-member': TeamMember;
+    'distro-partner': DistroPartner;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -81,6 +83,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     solutions: SolutionsSelect<false> | SolutionsSelect<true>;
     'solution-categories': SolutionCategoriesSelect<false> | SolutionCategoriesSelect<true>;
+    'team-member': TeamMemberSelect<false> | TeamMemberSelect<true>;
+    'distro-partner': DistroPartnerSelect<false> | DistroPartnerSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -93,11 +97,13 @@ export interface Config {
     homepage: Homepage;
     about: About;
     legal: Legal;
+    'contact-us': ContactUs;
   };
   globalsSelect: {
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
     legal: LegalSelect<false> | LegalSelect<true>;
+    'contact-us': ContactUsSelect<false> | ContactUsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -1867,6 +1873,68 @@ export interface ContactForm {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-member".
+ */
+export interface TeamMember {
+  id: string;
+  name: string;
+  position: string;
+  phone?: string | null;
+  email?: string | null;
+  portrait?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "distro-partner".
+ */
+export interface DistroPartner {
+  id: string;
+  name: string;
+  address?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  website?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  logo?: (string | null) | Media;
+  contactperson: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
@@ -1979,6 +2047,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'solution-categories';
         value: string | SolutionCategory;
+      } | null)
+    | ({
+        relationTo: 'team-member';
+        value: string | TeamMember;
+      } | null)
+    | ({
+        relationTo: 'distro-partner';
+        value: string | DistroPartner;
       } | null)
     | ({
         relationTo: 'payload-jobs';
@@ -2209,6 +2285,40 @@ export interface SolutionCategoriesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   categoryIcon?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-member_select".
+ */
+export interface TeamMemberSelect<T extends boolean = true> {
+  name?: T;
+  position?: T;
+  phone?: T;
+  email?: T;
+  portrait?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "distro-partner_select".
+ */
+export interface DistroPartnerSelect<T extends boolean = true> {
+  name?: T;
+  address?: T;
+  website?: T;
+  description?: T;
+  logo?: T;
+  contactperson?:
+    | T
+    | {
+        name?: T;
+        email?: T;
+        phone?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3957,24 +4067,10 @@ export interface About {
         | ContactForm
       )[]
     | null;
-  teamMembers?: TeamMember[] | null;
+  teamMembers?: (string | TeamMember)[] | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TeamMember".
- */
-export interface TeamMember {
-  name: string;
-  position: string;
-  phone?: string | null;
-  email?: string | null;
-  portrait?: (string | null) | Media;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'team-member';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4078,6 +4174,154 @@ export interface Legal {
         | ContactForm
       )[]
     | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-us".
+ */
+export interface ContactUs {
+  id: string;
+  content?:
+    | (
+        | {
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            text_html?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            image: string | Media;
+            text_html?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text-image';
+          }
+        | {
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            videoId: string;
+            text_html?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text-video';
+          }
+        | ContactForm
+      )[]
+    | null;
+  europe?: {
+    contacts?:
+      | {
+          country: string;
+          contact:
+            | {
+                relationTo: 'distro-partner';
+                value: string | DistroPartner;
+              }
+            | {
+                relationTo: 'team-member';
+                value: string | TeamMember;
+              };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  'north-and-south-america'?: {
+    contacts?:
+      | {
+          country: string;
+          contact:
+            | {
+                relationTo: 'distro-partner';
+                value: string | DistroPartner;
+              }
+            | {
+                relationTo: 'team-member';
+                value: string | TeamMember;
+              };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  'asia-and-australia'?: {
+    contacts?:
+      | {
+          country: string;
+          contact:
+            | {
+                relationTo: 'distro-partner';
+                value: string | DistroPartner;
+              }
+            | {
+                relationTo: 'team-member';
+                value: string | TeamMember;
+              };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  'africa-and-middle-east'?: {
+    contacts?:
+      | {
+          country: string;
+          contact:
+            | {
+                relationTo: 'distro-partner';
+                value: string | DistroPartner;
+              }
+            | {
+                relationTo: 'team-member';
+                value: string | TeamMember;
+              };
+          id?: string | null;
+        }[]
+      | null;
+  };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -4198,28 +4442,11 @@ export interface AboutSelect<T extends boolean = true> {
             };
         'contact-form'?: T | ContactFormSelect<T>;
       };
-  teamMembers?:
-    | T
-    | {
-        'team-member'?: T | TeamMemberSelect<T>;
-      };
+  teamMembers?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TeamMember_select".
- */
-export interface TeamMemberSelect<T extends boolean = true> {
-  name?: T;
-  position?: T;
-  phone?: T;
-  email?: T;
-  portrait?: T;
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4277,17 +4504,107 @@ export interface LegalSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-us_select".
+ */
+export interface ContactUsSelect<T extends boolean = true> {
+  content?:
+    | T
+    | {
+        text?:
+          | T
+          | {
+              text?: T;
+              text_html?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'text-image'?:
+          | T
+          | {
+              text?: T;
+              image?: T;
+              text_html?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'text-video'?:
+          | T
+          | {
+              text?: T;
+              videoId?: T;
+              text_html?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'contact-form'?: T | ContactFormSelect<T>;
+      };
+  europe?:
+    | T
+    | {
+        contacts?:
+          | T
+          | {
+              country?: T;
+              contact?: T;
+              id?: T;
+            };
+      };
+  'north-and-south-america'?:
+    | T
+    | {
+        contacts?:
+          | T
+          | {
+              country?: T;
+              contact?: T;
+              id?: T;
+            };
+      };
+  'asia-and-australia'?:
+    | T
+    | {
+        contacts?:
+          | T
+          | {
+              country?: T;
+              contact?: T;
+              id?: T;
+            };
+      };
+  'africa-and-middle-east'?:
+    | T
+    | {
+        contacts?:
+          | T
+          | {
+              country?: T;
+              contact?: T;
+              id?: T;
+            };
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskSchedulePublish".
  */
 export interface TaskSchedulePublish {
   input: {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
-    doc?: {
-      relationTo: 'solutions';
-      value: string | Solution;
-    } | null;
-    global?: ('homepage' | 'about' | 'legal') | null;
+    doc?:
+      | ({
+          relationTo: 'solutions';
+          value: string | Solution;
+        } | null)
+      | ({
+          relationTo: 'team-member';
+          value: string | TeamMember;
+        } | null);
+    global?: ('homepage' | 'about' | 'legal' | 'contact-us') | null;
     user?: (string | null) | User;
   };
   output?: unknown;
