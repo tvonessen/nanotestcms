@@ -36,12 +36,27 @@ export default function RegionTabs({ contacts }: RegionTabsProps) {
   }, [contacts]);
 
   return (
-    <Tabs aria-label="Contact Regions" items={regions}>
-      {regions.map((region) => (
-        <Tab key={region.id} title={region.label}>
-          {region.content}
-        </Tab>
-      ))}
+    <Tabs
+      classNames={{
+        tabWrapper: 'border-2',
+        tabList: 'flex flex-col sm:flex-row flex-wrap border-2',
+        tab: 'w-full sm:w-auto',
+      }}
+      fullWidth
+      variant="light"
+      color="primary"
+      radius="sm"
+      size="lg"
+      aria-label="Contact Regions"
+      items={regions}
+    >
+      {regions
+        .sort((a, b) => a.label.localeCompare(b.label))
+        .map((region) => (
+          <Tab key={region.id} title={region.label}>
+            {region.content}
+          </Tab>
+        ))}
     </Tabs>
   );
 }
