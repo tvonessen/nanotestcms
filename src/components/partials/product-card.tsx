@@ -9,14 +9,14 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, className }: ProductCardProps) => {
-  const category = product.type.category.value as SolutionCategory;
+  const categories = product.category.map((category) => category.value) as SolutionCategory[];
   const image = product.details.images[0] as Media;
   const usedImage = image.sizes?.medium ?? image.sizes?.small ?? image.sizes?.thumb ?? image;
 
   return (
     <div className={`card sm:card-side lg:card bg-base-200 shadow-lg ${className}`}>
       <figure>
-        <Link href={`${product.type.type}s/${product.slug}`} tabIndex={-1}>
+        <Link href={`${product.type[0]}s/${product.slug}`} tabIndex={-1}>
           <Image
             alt={image.alt}
             blurDataURL={image.blurDataUrl as string}
@@ -34,12 +34,16 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
           {product.new && <div className="badge badge-error text-white">NEW</div>}
         </h2>
         <div className="card-actions justify-start">
-          <div className={'badge whitespace-nowrap opacity-70 badge-outline'}>{category.title}</div>
+          {categories.map((category) => (
+            <div key={category.id} className={'badge whitespace-nowrap opacity-70 badge-outline'}>
+              {category.title}
+            </div>
+          ))}
         </div>
         <p>{product.subtitle}</p>
         <Link
           className="btn btn-primary text-white mt-4 text-lg"
-          href={`${product.type.type}s/${product.slug}`}
+          href={`${product.type[0]}s/${product.slug}`}
           title={`View ${product.title} details`}
         >
           View Details

@@ -23,7 +23,8 @@ export const AboutContent: GlobalConfig = {
   },
   admin: {
     livePreview: {
-      url: () => `${process.env.NEXT_PUBLIC_SERVER_URL}/about`,
+      url: () =>
+        `${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_SERVER_URL : process.env.NEXT_DEV_SERVER_URL}/about`,
     },
   },
   access: {

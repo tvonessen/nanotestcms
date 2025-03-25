@@ -26,10 +26,10 @@ const Solutions: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'type', 'slug', 'createdAt', 'updatedAt'],
+    defaultColumns: ['title', 'type', 'category', 'slug'],
     livePreview: {
-      url: ({ data, collectionConfig }) =>
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/${collectionConfig?.slug}/${data.slug}`,
+      url: ({ data }) =>
+        `${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_SERVER_URL : process.env.NEXT_DEV_SERVER_URL}/${data.type[0]}s/${data.slug}`,
     },
   },
   versions: {
@@ -41,25 +41,17 @@ const Solutions: CollectionConfig = {
   },
   fields: [
     {
-      name: 'type',
-      type: 'group',
-      admin: {
-        position: 'sidebar',
-      },
-      fields: [
-        solutionTypeField({
-          required: true,
-        }),
-        {
-          name: 'category',
-          label: 'Category',
-          type: 'relationship',
-          relationTo: ['solution-categories'],
-          required: true,
-          hasMany: false,
-        },
-      ],
+      name: 'category',
+      label: 'Category',
+      type: 'relationship',
+      relationTo: ['solution-categories'],
+      required: true,
+      hasMany: true,
     },
+    solutionTypeField({
+      required: true,
+      hasMany: true,
+    }),
     {
       name: 'title',
       label: 'Title',
@@ -87,6 +79,16 @@ const Solutions: CollectionConfig = {
       label: 'New',
       admin: {
         description: 'Whether this is a novel solution',
+        style: { display: 'inline-block', marginInlineEnd: '2rem' },
+      },
+      type: 'checkbox',
+      defaultValue: false,
+    },
+    {
+      name: 'discontinued',
+      admin: {
+        description: 'Whether this is discontinued solution',
+        style: { display: 'inline-block', marginInlineEnd: '2rem' },
       },
       type: 'checkbox',
       defaultValue: false,
@@ -146,19 +148,21 @@ const Solutions: CollectionConfig = {
     afterChange: [
       ({ doc }: { doc: Solution }) => {
         if (doc._status === 'draft') return;
-        let path = '/';
-        switch (doc.type.type) {
-          case 'product':
-            path += 'products';
-            break;
-          case 'service':
-            path += 'services';
-            break;
-          default:
-            break;
+        for (const type in doc.type) {
+          let path = '/';
+          switch (type) {
+            case 'product':
+              path += 'products';
+              break;
+            case 'service':
+              path += 'services';
+              break;
+            default:
+              break;
+          }
+          revalidateHook(`${path}/${doc.slug}`);
+          revalidateHook(path);
         }
-        revalidateHook(`${path}/${doc.slug}`);
-        revalidateHook(path);
       },
     ],
   },

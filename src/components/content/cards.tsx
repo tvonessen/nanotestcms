@@ -11,6 +11,11 @@ const CardsGrid = ({
   description?: string;
   solutions: Solution[];
 }) => {
+  // filter out solutions that don't have an id (i.e. are not published or deleted)
+  if (!solutions || solutions.filter((solution) => 'id' in solution).length === 0) {
+    return null;
+  }
+
   return (
     <section className="container px-4 md:px-8 xl:px-0 mx-auto mt-12">
       <div className="flex flex-col gap-6 my-12">
@@ -32,11 +37,10 @@ const CardsGrid = ({
 
 const Card = ({ solution }: { solution: Solution }) => {
   const cardImage = solution.details.images[0] as Media;
-  cardImage.url = cardImage.sizes?.medium?.url ?? cardImage.sizes?.small?.url ?? cardImage.url;
-  cardImage.height =
-    cardImage.sizes?.medium?.height ?? cardImage.sizes?.small?.height ?? cardImage.height;
-  cardImage.width =
-    cardImage.sizes?.medium?.width ?? cardImage.sizes?.small?.width ?? cardImage.width;
+  cardImage.url = cardImage.sizes?.small?.url ?? cardImage.url;
+  cardImage.height = cardImage.sizes?.small?.height ?? cardImage.height;
+  cardImage.width = cardImage.sizes?.small?.width ?? cardImage.width;
+  cardImage.isDark;
 
   return (
     <div className="group card mx-auto max-w-[640px] bg-gradient-to-tl from-primary-900 to-primary-300 before:dark:!bg-background before:!bg-foreground image-full shadow-xl hover:scale-105 focus-within:scale-105 transition hover:z-20 focus-visible:z-20">
@@ -51,16 +55,24 @@ const Card = ({ solution }: { solution: Solution }) => {
           blurDataURL={cardImage.blurDataUrl as string}
         />
       </figure>
-      <div className="card-body gap-0 opacity-0 hover:opacity-100 group-focus-within:opacity-100 transition z-20">
-        <h2 className="text-2xl font-semibold text-white">{solution.title}</h2>
-        <small className="pb-3 text-primary-300">{solution.subtitle}</small>
-        <p className="text-default-200 dark:text-default-800">{solution.shortDescription}</p>
+      <div className="card-body gap-0 z-20">
+        <h2
+          className={`text-2xl origin-left scale-150 group-hover:scale-100 group-focus-within:scale-100 transition-transform font-semibold ${cardImage.isDark ? 'text-white' : 'text-black'}`}
+        >
+          {solution.title}
+        </h2>
+        <small className="pb-3 text-primary-300 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+          {solution.subtitle}
+        </small>
+        <p className="text-default-200 dark:text-default-800 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+          {solution.shortDescription}
+        </p>
 
-        <div className="card-actions justify-end">
+        <div className="card-actions justify-end opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
           <Link
             aria-label={`Learn more about ${solution.title}`}
             className="mt-6 btn btn-primary btn-md focus-visible:outline-focus"
-            href={`/${solution.type.type}s/${solution.slug}`}
+            href={`/${solution.type}s/${solution.slug}`}
           >
             More about {solution.title}
           </Link>

@@ -12,7 +12,7 @@ export default async function ProductsPage() {
     .find({
       collection: 'solutions',
       where: {
-        'type.type': { equals: 'product' },
+        type: { equals: 'product' },
       },
       pagination: false,
       overrideAccess: false,
@@ -23,9 +23,6 @@ export default async function ProductsPage() {
     .find({
       collection: 'solution-categories',
       pagination: false,
-      where: {
-        type: { equals: 'product' },
-      },
       overrideAccess: false,
     })
     .then((res) => res.docs);
@@ -46,9 +43,9 @@ export default async function ProductsPage() {
       </div>
 
       {categories
-        .filter((category) =>
-          products.some(
-            (product) => (product.type.category.value as SolutionCategory).id === category.id,
+        .filter(({ id }) =>
+          products.some((product) =>
+            product.category.some((category) => (category.value as SolutionCategory).id === id),
           ),
         )
         .map((category) => {
@@ -62,7 +59,10 @@ export default async function ProductsPage() {
                   className="text-xl sm:text-2xl md:text-3xl font-semibold text-background flex items-center"
                   id={category.title.replaceAll(' ', '-').toLowerCase()}
                 >
-                  <LazyIcon name={category.categoryIcon as string} className="pr-2 select-none" />
+                  <LazyIcon
+                    name={category.categoryIcon as string}
+                    className="w-fit px-1 select-none text-4xl"
+                  />
                   {category.title}
                 </h2>
               </div>
@@ -71,9 +71,10 @@ export default async function ProductsPage() {
                 className="flex flex-wrap justify-center gap-8 px-0 sm:px-4"
               >
                 {products
-                  .filter(
-                    (product) =>
-                      (product.type.category.value as SolutionCategory).id === category.id,
+                  .filter((product) =>
+                    product.category.some(
+                      ({ value }) => (value as SolutionCategory).id === category.id,
+                    ),
                   )
                   .map((product) => (
                     <ProductCard

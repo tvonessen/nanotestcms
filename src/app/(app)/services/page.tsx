@@ -23,9 +23,6 @@ export default async function ServicesPage() {
     .find({
       collection: 'solution-categories',
       pagination: false,
-      where: {
-        type: { equals: 'service' },
-      },
       overrideAccess: false,
     })
     .then((res) => res.docs);
@@ -46,9 +43,9 @@ export default async function ServicesPage() {
       </div>
 
       {categories
-        .filter((category) =>
-          services.some(
-            (service) => (service.type.category.value as SolutionCategory).id === category.id,
+        .filter(({ id }) =>
+          services.some((service) =>
+            service.category.some((category) => (category.value as SolutionCategory).id === id),
           ),
         )
         .map((category) => {
@@ -62,7 +59,10 @@ export default async function ServicesPage() {
                   className="text-xl sm:text-2xl md:text-3xl font-semibold text-background flex items-center"
                   id={category.title.replaceAll(' ', '-').toLowerCase()}
                 >
-                  <LazyIcon name={category.categoryIcon as string} className="pr-2 select-none" />
+                  <LazyIcon
+                    name={category.categoryIcon as string}
+                    className="w-fit px-1 text-4xl select-none"
+                  />
                   {category.title}
                 </h2>
               </div>
@@ -71,9 +71,10 @@ export default async function ServicesPage() {
                 className="flex flex-wrap justify-center gap-8 px-0 sm:px-4"
               >
                 {services
-                  .filter(
-                    (service) =>
-                      (service.type.category.value as SolutionCategory).id === category.id,
+                  .filter((service) =>
+                    service.category.some(
+                      ({ value }) => (value as SolutionCategory).id === category.id,
+                    ),
                   )
                   .map((service) => (
                     <ProductCard

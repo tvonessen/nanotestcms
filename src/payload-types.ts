@@ -227,13 +227,11 @@ export interface Media {
  */
 export interface Solution {
   id: string;
-  type: {
-    type: 'product' | 'service' | 'other';
-    category: {
-      relationTo: 'solution-categories';
-      value: string | SolutionCategory;
-    };
-  };
+  category: {
+    relationTo: 'solution-categories';
+    value: string | SolutionCategory;
+  }[];
+  type: ('product' | 'service' | 'other')[];
   title: string;
   subtitle: string;
   shortDescription: string;
@@ -241,6 +239,10 @@ export interface Solution {
    * Whether this is a novel solution
    */
   new?: boolean | null;
+  /**
+   * Whether this is discontinued solution
+   */
+  discontinued?: boolean | null;
   details: {
     images: (string | Media)[];
     abstract: string;
@@ -338,7 +340,6 @@ export interface Solution {
  */
 export interface SolutionCategory {
   id: string;
-  type: 'product' | 'service' | 'other';
   title: string;
   description: string;
   categoryIcon?:
@@ -2200,16 +2201,13 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "solutions_select".
  */
 export interface SolutionsSelect<T extends boolean = true> {
-  type?:
-    | T
-    | {
-        type?: T;
-        category?: T;
-      };
+  category?: T;
+  type?: T;
   title?: T;
   subtitle?: T;
   shortDescription?: T;
   new?: T;
+  discontinued?: T;
   details?:
     | T
     | {
@@ -2282,7 +2280,6 @@ export interface ContactFormSelect<T extends boolean = true> {
  * via the `definition` "solution-categories_select".
  */
 export interface SolutionCategoriesSelect<T extends boolean = true> {
-  type?: T;
   title?: T;
   description?: T;
   categoryIcon?: T;

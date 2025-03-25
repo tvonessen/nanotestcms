@@ -24,6 +24,12 @@ export const ContactUsContent: GlobalConfig = {
     },
     max: 10,
   },
+  admin: {
+    livePreview: {
+      url: () =>
+        `${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_SERVER_URL : process.env.NEXT_DEV_SERVER_URL}/contact`,
+    },
+  },
   fields: [
     {
       name: 'content',

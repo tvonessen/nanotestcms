@@ -18,7 +18,7 @@ export async function generateStaticParams() {
     .find({
       collection: 'solutions',
       where: {
-        'type.type': { equals: 'product' },
+        type: { equals: 'product' },
       },
       pagination: false,
       depth: 0,
