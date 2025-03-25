@@ -17,13 +17,15 @@ export default function TeamMembersGallery({ members }: { members: TeamMember[] 
   return (
     <section className="mx-auto">
       <ul className={`${styles.teamGalleryBeehive}`}>
-        {members.map((member) => (
-          <TeamMemberCard
-            key={member.id}
-            member={member}
-            className={`${styles.teamGalleryBee} ${showAll ? 'show-all' : ''}`}
-          />
-        ))}
+        {members
+          .filter((member) => member.name && member.id)
+          .map((member) => (
+            <TeamMemberCard
+              key={member.id}
+              member={member}
+              className={`${styles.teamGalleryBee} ${showAll ? 'show-all' : ''}`}
+            />
+          ))}
       </ul>
       <Button
         fullWidth

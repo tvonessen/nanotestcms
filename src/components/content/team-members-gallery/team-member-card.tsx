@@ -10,7 +10,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
   const clipPathId = `clip-path-${member.id}`;
   const imgUrl =
     (member.portrait as Media)?.sizes?.small?.url ??
-    `https://api.dicebear.com/9.x/personas/svg?seed=${member.name.replaceAll(' ', '+')}&backgroundColor=00a984,6d1b67&backgroundType=gradientLinear&clothingColor=e0e0e0`;
+    `https://api.dicebear.com/9.x/personas/svg?seed="${member.name ?? Math.random().toString(16).slice(2, 10)}"&backgroundColor=00a984,6d1b67&backgroundType=gradientLinear&clothingColor=e0e0e0`;
 
   return (
     <li
