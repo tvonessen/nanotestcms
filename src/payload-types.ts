@@ -343,6 +343,10 @@ export interface SolutionCategory {
   id: string;
   title: string;
   description: string;
+  /**
+   * The position at which this category will be displayed. If another category has the same order, the one created first will be displayed first.
+   */
+  position: number;
   categoryIcon?:
     | (
         | 'acorn'
@@ -2283,6 +2287,7 @@ export interface ContactFormSelect<T extends boolean = true> {
 export interface SolutionCategoriesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
+  position?: T;
   categoryIcon?: T;
   updatedAt?: T;
   createdAt?: T;

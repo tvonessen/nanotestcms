@@ -6,13 +6,13 @@ import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import { Fragment } from 'react';
 
-export default async function ProductsPage() {
+export default async function ServicesPage() {
   const payload = await getPayload({ config });
-  const products: Solution[] = await payload
+  const services: Solution[] = await payload
     .find({
       collection: 'solutions',
       where: {
-        type: { equals: 'product' },
+        'type.type': { equals: 'service' },
       },
       pagination: false,
       overrideAccess: false,
@@ -24,17 +24,18 @@ export default async function ProductsPage() {
       collection: 'solution-categories',
       pagination: false,
       overrideAccess: false,
+      sort: 'position',
     })
     .then((res) => res.docs);
 
-  if (!products.length || !categories.length) {
+  if (!services.length || !categories.length) {
     return notFound();
   }
 
   return (
-    <div key="solution" className="container mx-auto px-4">
-      <div className="my-16" key="products-page-header">
-        <h1 className="text-4xl font-bold mt-8">Our products</h1>
+    <div className="container mx-auto px-4">
+      <div className="my-16" key="services-page-header">
+        <h1 className="text-4xl font-bold mt-8">Our services</h1>
         <p className="text-lg mt-4">
           Nanotest offers a wide range of solutions for thermal characterization and reliability
           testing. Our solutions are designed to meet the needs of our customers in the
@@ -44,8 +45,8 @@ export default async function ProductsPage() {
 
       {categories
         .filter(({ id }) =>
-          products.some((product) =>
-            product.category.some((category) => (category.value as SolutionCategory).id === id),
+          services.some((service) =>
+            service.category.some((category) => (category.value as SolutionCategory).id === id),
           ),
         )
         .map((category) => {
@@ -61,7 +62,7 @@ export default async function ProductsPage() {
                 >
                   <LazyIcon
                     name={category.categoryIcon as string}
-                    className="w-fit px-1 select-none text-4xl"
+                    className="w-fit px-1 text-4xl select-none"
                   />
                   {category.title}
                 </h2>
@@ -70,17 +71,17 @@ export default async function ProductsPage() {
                 key={`${category.title}-body`}
                 className="flex flex-wrap justify-center gap-8 px-0 sm:px-4"
               >
-                {products
-                  .filter((product) =>
-                    product.category.some(
+                {services
+                  .filter((service) =>
+                    service.category.some(
                       ({ value }) => (value as SolutionCategory).id === category.id,
                     ),
                   )
-                  .map((product) => (
+                  .map((service) => (
                     <ProductCard
-                      key={product.slug}
+                      key={service.slug}
                       className="flex-auto lg:flex-[0_0_calc(50%_-_2rem)] xl:flex-[0_0_calc(33.3333%_-_4rem)]"
-                      product={product}
+                      product={service}
                     />
                   ))}
               </div>

@@ -24,6 +24,7 @@ export default async function ServicesPage() {
       collection: 'solution-categories',
       pagination: false,
       overrideAccess: false,
+      sort: 'position',
     })
     .then((res) => res.docs);
 
