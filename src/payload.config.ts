@@ -22,6 +22,7 @@ import revalidateHandler from '@/utils/revalidate';
 import { TeamMembers } from './collections/TeamMembers';
 import { DistroPartners } from './collections/DistroPartners';
 import { ContactUsContent } from './globals/ContactUsContent';
+import { Documents } from './collections/Documents';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -33,7 +34,15 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Solutions, SolutionCategories, TeamMembers, DistroPartners],
+  collections: [
+    Users,
+    Media,
+    Documents,
+    Solutions,
+    SolutionCategories,
+    TeamMembers,
+    DistroPartners,
+  ],
   cors: ['https://www.google.com'],
   csrf: ['http://localhost:3301', 'http://localhost:3303', 'https://nanotest.jutoserver.de'],
   editor: lexicalEditor({

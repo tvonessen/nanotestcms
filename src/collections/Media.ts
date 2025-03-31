@@ -40,9 +40,8 @@ export const Media: CollectionConfig = {
     update: isLoggedIn,
     delete: isLoggedIn,
   },
-
   admin: {
-    group: 'Admin',
+    group: 'Files',
     defaultColumns: ['filename', 'alt', 'tags'],
   },
   fields: [
