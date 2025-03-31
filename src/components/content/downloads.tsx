@@ -4,7 +4,6 @@ import {
   Blueprint,
   BookOpenText,
   DownloadSimple,
-  Eye,
   FileText,
   PaperPlaneTilt,
   PresentationChart,

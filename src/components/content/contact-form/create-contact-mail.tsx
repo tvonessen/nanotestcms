@@ -1,12 +1,14 @@
 import type { ContactFormFields } from './contact-form';
 
-export default function createContactMail(
-  contactFormData: ContactFormFields,
-  to: string,
-  siteUrl?: string,
-) {
+export default function createContactMail({
+  contactFormData,
+  to,
+  bcc,
+  siteUrl,
+}: { contactFormData: ContactFormFields; to: string; bcc?: string; siteUrl?: string }) {
   return {
     to: to,
+    bcc: bcc,
     from: 'Nanotest Contact Form <do-not-reply@nanotest.eu>',
     subject: contactFormData.subject,
     html: `

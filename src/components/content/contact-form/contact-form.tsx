@@ -56,7 +56,12 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(
-          createContactMail(data as ContactFormFields, to as string, window.location.pathname),
+          createContactMail({
+            contactFormData: data as ContactFormFields,
+            to: to as string,
+            bcc: (to as string).includes('info@nanotest.eu') ? undefined : 'info@nanotest.eu',
+            siteUrl: window.location.pathname,
+          }),
         ),
       });
 
