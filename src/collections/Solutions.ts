@@ -10,6 +10,7 @@ import { solutionTypeField } from '@/fields/solutionTypeField';
 import { ContactForm } from '@/blocks/ContactFormBlock';
 import type { Solution } from '@/payload-types';
 import { revalidateHook } from '@/utils/revalidate';
+import { Downloads } from '@/blocks/DownloadsBlock';
 
 const Solutions: CollectionConfig = {
   slug: 'solutions',
@@ -126,7 +127,7 @@ const Solutions: CollectionConfig = {
               label: 'Content',
               type: 'blocks',
               minRows: 1,
-              blocks: [Text, TextImage, Highlight, TextVideo, ContactForm],
+              blocks: [Text, TextImage, Highlight, TextVideo, Downloads, ContactForm],
             },
           ],
         },

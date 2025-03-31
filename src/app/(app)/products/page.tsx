@@ -12,7 +12,7 @@ export default async function ServicesPage() {
     .find({
       collection: 'solutions',
       where: {
-        'type.type': { equals: 'service' },
+        type: { equals: 'product' },
       },
       pagination: false,
       overrideAccess: false,

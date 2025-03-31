@@ -231,6 +231,7 @@ export interface Media {
 export interface Document {
   id: string;
   filename_alt?: string | null;
+  type: 'datasheet' | 'flyer' | 'presentation' | 'whitepaper' | 'manual' | 'document';
   description?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -345,6 +346,7 @@ export interface Solution {
               blockName?: string | null;
               blockType: 'text-video';
             }
+          | Downloads
           | ContactForm
         )[]
       | null;
@@ -1890,6 +1892,16 @@ export interface SolutionCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Downloads".
+ */
+export interface Downloads {
+  docs: (string | Document)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'downloads';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ContactForm".
  */
 export interface ContactForm {
@@ -2233,6 +2245,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface DocumentsSelect<T extends boolean = true> {
   filename_alt?: T;
+  type?: T;
   description?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2302,6 +2315,7 @@ export interface SolutionsSelect<T extends boolean = true> {
                     id?: T;
                     blockName?: T;
                   };
+              downloads?: T | DownloadsSelect<T>;
               'contact-form'?: T | ContactFormSelect<T>;
             };
       };
@@ -2314,6 +2328,15 @@ export interface SolutionsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Downloads_select".
+ */
+export interface DownloadsSelect<T extends boolean = true> {
+  docs?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

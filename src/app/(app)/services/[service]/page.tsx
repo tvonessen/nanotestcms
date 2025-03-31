@@ -2,6 +2,7 @@
 
 import Carousel from '@/components/carousel/carousel';
 import ContactForm from '@/components/content/contact-form/contact-form';
+import Downloads from '@/components/content/downloads';
 import Highlight from '@/components/content/highlight';
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
@@ -47,7 +48,7 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
   return (
     <React.Fragment>
       <main>
-        <div className="container mx-auto">
+        <div className="container mx-auto mb-24">
           {service.details?.images?.length > 0 && (
             <Carousel images={service.details.images as Media[]} />
           )}
@@ -91,6 +92,8 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
                       defaultValues={{ subject: item.subject ?? `Inquiry about ${service.title}` }}
                     />
                   );
+                case 'downloads':
+                  return <Downloads key={item.id} docs={item.docs} />;
                 default:
                   return null;
               }

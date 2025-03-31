@@ -2,6 +2,7 @@
 
 import Carousel from '@/components/carousel/carousel';
 import ContactForm from '@/components/content/contact-form/contact-form';
+import Downloads from '@/components/content/downloads';
 import Highlight from '@/components/content/highlight';
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
@@ -47,7 +48,7 @@ const ProductPage = async ({ params }: { params: Promise<{ product: string }> })
   return (
     <Fragment>
       <main>
-        <div className="container mx-auto" key="product-content">
+        <div className="container mx-auto mb-24" key="product-content">
           {product.details?.images?.length > 0 && (
             <Carousel images={product.details.images as Media[]} />
           )}
@@ -91,6 +92,8 @@ const ProductPage = async ({ params }: { params: Promise<{ product: string }> })
                       defaultValues={{ subject: item.subject ?? `Inquiry about ${product.title}` }}
                     />
                   );
+                case 'downloads':
+                  return <Downloads key={item.id} docs={item.docs} />;
                 default:
                   return null;
               }

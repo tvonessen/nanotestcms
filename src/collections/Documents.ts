@@ -46,6 +46,21 @@ export const Documents: CollectionConfig = {
       },
     },
     {
+      name: 'type',
+      label: 'Type',
+      type: 'select',
+      hasMany: false,
+      required: true,
+      options: [
+        { label: 'Datasheet', value: 'datasheet' },
+        { label: 'Flyer', value: 'flyer' },
+        { label: 'Presentation', value: 'presentation' },
+        { label: 'Whitepaper', value: 'whitepaper' },
+        { label: 'Manual', value: 'manual' },
+        { label: 'Document', value: 'document' },
+      ],
+    },
+    {
       name: 'description',
       type: 'textarea',
     },
