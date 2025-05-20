@@ -149,7 +149,7 @@ const Solutions: CollectionConfig = {
     afterChange: [
       ({ doc }: { doc: Solution }) => {
         if (doc._status === 'draft') return;
-        for (const type in doc.type) {
+        for (const type of doc.type) {
           let path = '/';
           switch (type) {
             case 'product':
