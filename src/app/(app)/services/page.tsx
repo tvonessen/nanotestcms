@@ -2,6 +2,7 @@ import ProductCard from '@/components/partials/product-card';
 import { LazyIcon } from '@/components/utility/lazy-icon';
 import type { Solution, SolutionCategory } from '@/payload-types';
 import config from '@payload-config';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import { Fragment } from 'react';
@@ -34,13 +35,36 @@ export default async function ServicesPage() {
 
   return (
     <div className="container mx-auto px-4">
-      <div className="my-16" key="services-page-header">
+      <div className="max-w-[80ch] my-16 mx-auto" key="services-page-header">
         <h1 className="text-4xl font-bold mt-8">Our services</h1>
         <p className="text-lg mt-4">
-          Nanotest offers a wide range of solutions for thermal characterization and reliability
-          testing. Our solutions are designed to meet the needs of our customers in the
-          semiconductor, automotive, aerospace, and other industries.
+          We provide services all around thermal properties and performance of materials, compounds
+          and systems. Characterization, failure analysis, test stand development, thermal test
+          vehicle design - whatever it is that concerns reliability of electronics, we can do the
+          job.
         </p>
+        <p className="text-lg my-4">
+          Thermal characterization of materials from the wide domain of electronics is a key
+          competencNanotest. We are experiences, well-equipped and ready for your task.
+        </p>
+        <p className="text-lg my-4">
+          Packages, systems and components need proper thermal characterization to evaluate their
+          reliability or itheir individual impact on a parent system's lifetime expectancy.
+        </p>
+        <p className="text-lg my-4">
+          Thermal performance and properties are key indicators for manufacturing and material
+          quality, system reliability and expectable lifetime.
+        </p>
+        <p className="text-lg my-4">
+          TTVs - thermal test vehicles - are genuine multitools for thermal performance testing on a
+          great variety of levels. We provide TTVs first-hand, custom and as complete solution.
+        </p>
+        <Link
+          className="text-primary underline hover:decoration-[3px] focus:no-underline hover:decoration-focus outline-offset-1 focus:rounded-md"
+          href="/contact"
+        >
+          contact us
+        </Link>
       </div>
 
       {categories

@@ -36,7 +36,7 @@
   }
 
   a {
-    @apply text-primary underline;
+    @apply text-primary underline hover:decoration-[3px] focus:no-underline hover:decoration-focus outline-offset-1 focus:rounded-md;
   }
 
   ul:not(.list-check) {

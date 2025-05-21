@@ -2,6 +2,7 @@ import ProductCard from '@/components/partials/product-card';
 import { LazyIcon } from '@/components/utility/lazy-icon';
 import type { Solution, SolutionCategory } from '@/payload-types';
 import config from '@payload-config';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import { Fragment } from 'react';
@@ -34,12 +35,29 @@ export default async function ServicesPage() {
 
   return (
     <div className="container mx-auto px-4">
-      <div className="my-16" key="services-page-header">
-        <h1 className="text-4xl font-bold mt-8">Our services</h1>
-        <p className="text-lg mt-4">
-          Nanotest offers a wide range of solutions for thermal characterization and reliability
-          testing. Our solutions are designed to meet the needs of our customers in the
-          semiconductor, automotive, aerospace, and other industries.
+      <div className="my-16 max-w-[80ch] mx-auto" key="services-page-header">
+        <h1 className="text-4xl font-bold mt-8">Our products</h1>
+        <p className="text-lg my-4">
+          We design and build our measurement systems to match up to latest challenges and needs in
+          electronics development. And we refine them continuously. With many years of experience in
+          the field we profit from a large partner and customer network that allows us to discover
+          trends early and to adapt our solutions lineup timely and efficiently.
+        </p>
+        <p className="text-lg my-4">
+          All our products are designed and manufactured in Germany. We are proud to be a part of
+          the German engineering tradition and to contribute to the success of our customers with
+          our high-quality products.
+        </p>
+        <p className="text-lg my-4">
+          We are happy to support you in your projects and to help you find the right solution for
+          your needs. Please do not hesitate to{' '}
+          <Link
+            className="text-primary underline hover:decoration-[3px] focus:no-underline hover:decoration-focus outline-offset-1 focus:rounded-md"
+            href="/contact"
+          >
+            contact us
+          </Link>{' '}
+          if you have any questions or if you would like to discuss your project with us.
         </p>
       </div>
 
