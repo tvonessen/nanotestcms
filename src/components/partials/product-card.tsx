@@ -28,7 +28,7 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
           />
         </Link>
       </figure>
-      <div className="card-body p-4 md:p-6">
+      <div className="card-body min-w-[33%] p-4 md:p-6">
         <h2 className="card-title text-2xl">
           {product.title}
           {product.new && <div className="badge badge-error text-white">NEW</div>}
