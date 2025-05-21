@@ -64,8 +64,8 @@ export const SolutionCategories: CollectionConfig = {
     ],
     afterChange: [
       async () => {
-        revalidateHook('/products/');
-        revalidateHook('/services/');
+        revalidateHook('/products');
+        revalidateHook('/services');
       },
     ],
   },
