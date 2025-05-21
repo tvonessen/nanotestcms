@@ -1,5 +1,7 @@
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
+import type { TeamMember } from '@/payload-types';
+import { revalidateHook } from '@/utils/revalidate';
 import type { CollectionConfig } from 'payload';
 
 export const TeamMembers: CollectionConfig = {
@@ -67,4 +69,12 @@ export const TeamMembers: CollectionConfig = {
       displayPreview: true,
     },
   ],
+  hooks: {
+    afterChange: [
+      ({ doc }: { doc: TeamMember }) => {
+        if (doc._status === 'draft') return;
+        revalidateHook('/about');
+      },
+    ],
+  },
 };
