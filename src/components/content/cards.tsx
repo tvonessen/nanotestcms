@@ -57,7 +57,7 @@ const Card = ({ solution }: { solution: Solution }) => {
       </figure>
       <div className="card-body gap-0 z-20">
         <h2
-          className={`text-2xl origin-left scale-125 group-hover:scale-100 group-focus-within:scale-100 transition-all font-semibold ${cardImage.isDark ? 'text-white' : 'text-black'} hover:text-white`}
+          className={`text-[clamp(0.9rem,640px,1.5rem)] origin-left scale-125 group-hover:scale-100 group-focus-within:scale-100 transition-[transform,_color] font-semibold ${cardImage.isDark ? 'text-white' : 'text-black'} group-hover:text-white`}
         >
           {solution.title}
         </h2>
