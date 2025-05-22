@@ -74,7 +74,9 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
         />
       </svg>
       <div className="absolute inset-0 w-full h-fit ps-[9%] group-hover:ps-[11%] group-focus-within:ps-[11%] py-3 m-auto opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-[opacity,padding] text-foreground">
-        <h3 className="text-[clamp(0.6rem,220px,1.25rem)] font-bold leading-tight text-nowrap">
+        <h3
+          className={`${member.name.length > 22 ? (member.name.length > 26 ? 'text-[0.9rem]' : 'text-[1.1rem]') : 'text-xl'} font-bold leading-tight`}
+        >
           {member.name}
         </h3>
         <p className="text-md">{member.position}</p>
