@@ -77,7 +77,7 @@ export const ContactUsContent: GlobalConfig = {
     afterChange: [
       ({ doc }: { doc: ContactUs }) => {
         if (doc._status === 'draft') return;
-        revalidateHook('/');
+        revalidateHook('/contact');
       },
     ],
   },
