@@ -24,18 +24,17 @@ const CardsGrid = ({
         </h2>
         <p className="text-lg font-medium mx-auto">{description}</p>
       </div>
-      <div
-        className={`grid auto-cols-auto grid-cols-1 ${solutions.length > 1 && 'sm:grid-cols-2'} ${solutions.length > 2 && 'lg:grid-cols-3'} ${solutions.length > 3 && '2xl:grid-cols-4'} gap-8 sm:gap-6`}
-      >
-        {solutions.map((solution) => (
-          <Card key={solution.id} solution={solution} />
-        ))}
+      <div className="flex justify-center flex-wrap gap-16 sm:gap-12">
+        {solutions.map((solution) => {
+          const widthClass = `w-[calc(100%_/_${Math.max(solutions.length, 3)}_-_2rem)]`;
+          return <Card key={solution.id} solution={solution} className={`${widthClass}`} />;
+        })}
       </div>
     </section>
   );
 };
 
-const Card = ({ solution }: { solution: Solution }) => {
+const Card = ({ solution, className }: { solution: Solution; className?: string }) => {
   const cardImage = solution.details.images[0] as Media;
   cardImage.url = cardImage.sizes?.small?.url ?? cardImage.url;
   cardImage.height = cardImage.sizes?.small?.height ?? cardImage.height;
@@ -43,7 +42,9 @@ const Card = ({ solution }: { solution: Solution }) => {
   cardImage.isDark;
 
   return (
-    <div className="group card mx-auto max-w-[640px] bg-gradient-to-tl from-primary-900 to-primary-300 before:dark:!bg-background before:!bg-foreground image-full shadow-xl hover:scale-105 focus-within:scale-105 transition hover:z-20 focus-visible:z-20">
+    <div
+      className={`group card max-w-[520px] aspect-[3/4] bg-gradient-to-tl from-primary-900 to-primary-300 before:dark:!bg-background before:!bg-foreground image-full shadow-xl hover:scale-105 focus-within:scale-105 transition hover:z-20 focus-visible:z-20 ${className}`}
+    >
       <figure className="object-cover z-10">
         <Image
           alt={solution.title}
@@ -57,7 +58,7 @@ const Card = ({ solution }: { solution: Solution }) => {
       </figure>
       <div className="card-body gap-0 z-20">
         <h2
-          className={`text-2xl origin-left scale-125 group-hover:scale-100 group-focus-within:scale-100 transition-all font-semibold ${cardImage.isDark ? 'text-white' : 'text-black'} hover:text-white`}
+          className={`text-2xl origin-left scale-125 group-hover:scale-100 group-focus-within:scale-100 transition-all font-semibold ${cardImage.isDark ? 'text-white' : 'text-black'} group-hover:text-white`}
         >
           {solution.title}
         </h2>
