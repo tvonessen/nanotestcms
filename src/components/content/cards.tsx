@@ -26,7 +26,12 @@ const CardsGrid = ({
       </div>
       <div className="flex justify-center flex-wrap gap-16 sm:gap-12">
         {solutions.map((solution) => {
-          const widthClass = `w-[calc(100%_/_${Math.max(solutions.length, 3)}_-_2rem)]`;
+          const widthClass =
+            solutions.length >= 3
+              ? 'w-[calc(33%_-_4rem)]'
+              : solutions.length === 2
+                ? 'w-[calc(50%_-_2rem)]'
+                : 'w-full';
           return <Card key={solution.id} solution={solution} className={`${widthClass}`} />;
         })}
       </div>
