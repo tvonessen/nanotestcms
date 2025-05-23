@@ -4141,6 +4141,84 @@ export interface About {
       )[]
     | null;
   teamMembers?: (string | TeamMember)[] | null;
+  content_bottom?:
+    | (
+        | {
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            text_html?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            image: string | Media;
+            text_html?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text-image';
+          }
+        | {
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            videoId: string;
+            text_html?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text-video';
+          }
+        | {
+            title: string;
+            description?: string | null;
+            cards: (string | Solution)[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cards';
+          }
+        | ContactForm
+      )[]
+    | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -4516,6 +4594,46 @@ export interface AboutSelect<T extends boolean = true> {
         'contact-form'?: T | ContactFormSelect<T>;
       };
   teamMembers?: T;
+  content_bottom?:
+    | T
+    | {
+        text?:
+          | T
+          | {
+              text?: T;
+              text_html?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'text-image'?:
+          | T
+          | {
+              text?: T;
+              image?: T;
+              text_html?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'text-video'?:
+          | T
+          | {
+              text?: T;
+              videoId?: T;
+              text_html?: T;
+              id?: T;
+              blockName?: T;
+            };
+        cards?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              cards?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'contact-form'?: T | ContactFormSelect<T>;
+      };
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

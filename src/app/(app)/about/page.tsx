@@ -49,6 +49,31 @@ export default async function AboutPage() {
           <TeamMembersGallery members={about.teamMembers as TeamMember[]} />
         </article>
       )}
+      <article className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
+        {about.content_bottom?.map((item) => {
+          switch (item.blockType) {
+            case 'text':
+              return <Text key={item.id} text={item.text} />;
+            case 'text-image':
+              return <TextImage key={item.id} text={item.text} image={item.image as Media} />;
+            case 'text-video':
+              return <TextVideo key={item.id} text={item.text} videoId={item.videoId as string} />;
+            case 'contact-form':
+              return (
+                <div className="col-span-full">
+                  <ContactForm
+                    key={item.id}
+                    id="contact"
+                    to={item.to}
+                    defaultValues={{ subject: item.subject ?? undefined }}
+                  />
+                </div>
+              );
+            default:
+              return null;
+          }
+        })}
+      </article>
     </div>
   );
 }

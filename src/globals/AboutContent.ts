@@ -48,6 +48,13 @@ export const AboutContent: GlobalConfig = {
       relationTo: 'team-member',
       hasMany: true,
     },
+    {
+      name: 'content_bottom',
+      label: 'Content',
+      type: 'blocks',
+      minRows: 0,
+      blocks: [Text, TextImage, TextVideo, Cards, ContactForm],
+    },
   ],
   hooks: {
     afterChange: [
