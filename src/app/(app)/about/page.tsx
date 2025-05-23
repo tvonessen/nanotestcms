@@ -29,12 +29,14 @@ export default async function AboutPage() {
               return <TextVideo key={item.id} text={item.text} videoId={item.videoId as string} />;
             case 'contact-form':
               return (
-                <ContactForm
-                  key={item.id}
-                  id="contact"
-                  to={item.to}
-                  defaultValues={{ subject: item.subject ?? undefined }}
-                />
+                <div className="col-span-full">
+                  <ContactForm
+                    key={item.id}
+                    id="contact"
+                    to={item.to}
+                    defaultValues={{ subject: item.subject ?? undefined }}
+                  />
+                </div>
               );
             default:
               return null;
