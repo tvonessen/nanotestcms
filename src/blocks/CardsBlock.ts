@@ -8,7 +8,7 @@ export const Cards: Block = {
   },
   fields: [
     { name: 'title', label: 'Title', type: 'text', required: true },
-    { name: 'description', label: 'Description', type: 'text' },
+    { name: 'paragraph', label: 'Paragraph', type: 'richText' },
     {
       name: 'cards',
       label: 'Cards',

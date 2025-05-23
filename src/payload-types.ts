@@ -2508,7 +2508,21 @@ export interface Homepage {
           }
         | {
             title: string;
-            description?: string | null;
+            paragraph?: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
             cards: (string | Solution)[];
             id?: string | null;
             blockName?: string | null;
@@ -4131,7 +4145,21 @@ export interface About {
           }
         | {
             title: string;
-            description?: string | null;
+            paragraph?: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
             cards: (string | Solution)[];
             id?: string | null;
             blockName?: string | null;
@@ -4210,7 +4238,21 @@ export interface About {
           }
         | {
             title: string;
-            description?: string | null;
+            paragraph?: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
             cards: (string | Solution)[];
             id?: string | null;
             blockName?: string | null;
@@ -4517,7 +4559,7 @@ export interface HomepageSelect<T extends boolean = true> {
           | T
           | {
               title?: T;
-              description?: T;
+              paragraph?: T;
               cards?: T;
               id?: T;
               blockName?: T;
@@ -4586,7 +4628,7 @@ export interface AboutSelect<T extends boolean = true> {
           | T
           | {
               title?: T;
-              description?: T;
+              paragraph?: T;
               cards?: T;
               id?: T;
               blockName?: T;
@@ -4627,7 +4669,7 @@ export interface AboutSelect<T extends boolean = true> {
           | T
           | {
               title?: T;
-              description?: T;
+              paragraph?: T;
               cards?: T;
               id?: T;
               blockName?: T;
