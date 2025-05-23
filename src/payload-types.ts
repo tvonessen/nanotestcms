@@ -2506,14 +2506,7 @@ export interface Homepage {
             blockName?: string | null;
             blockType: 'highlight';
           }
-        | {
-            title: string;
-            description?: string | null;
-            cards: (string | Solution)[];
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'cards';
-          }
+        | Cards
         | Features
         | ContactForm
       )[]
@@ -2521,6 +2514,32 @@ export interface Homepage {
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Cards".
+ */
+export interface Cards {
+  title: string;
+  paragraph?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  cards: (string | Solution)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'cards';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4129,14 +4148,7 @@ export interface About {
             blockName?: string | null;
             blockType: 'text-video';
           }
-        | {
-            title: string;
-            description?: string | null;
-            cards: (string | Solution)[];
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'cards';
-          }
+        | Cards
         | ContactForm
       )[]
     | null;
@@ -4208,14 +4220,7 @@ export interface About {
             blockName?: string | null;
             blockType: 'text-video';
           }
-        | {
-            title: string;
-            description?: string | null;
-            cards: (string | Solution)[];
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'cards';
-          }
+        | Cards
         | ContactForm
       )[]
     | null;
@@ -4513,15 +4518,7 @@ export interface HomepageSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        cards?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              cards?: T;
-              id?: T;
-              blockName?: T;
-            };
+        cards?: T | CardsSelect<T>;
         features?: T | FeaturesSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
       };
@@ -4529,6 +4526,17 @@ export interface HomepageSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Cards_select".
+ */
+export interface CardsSelect<T extends boolean = true> {
+  title?: T;
+  paragraph?: T;
+  cards?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4582,15 +4590,7 @@ export interface AboutSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        cards?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              cards?: T;
-              id?: T;
-              blockName?: T;
-            };
+        cards?: T | CardsSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
       };
   teamMembers?: T;
@@ -4623,15 +4623,7 @@ export interface AboutSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        cards?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              cards?: T;
-              id?: T;
-              blockName?: T;
-            };
+        cards?: T | CardsSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
       };
   _status?: T;

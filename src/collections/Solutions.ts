@@ -71,9 +71,11 @@ const Solutions: CollectionConfig = {
       label: 'Short Description',
       type: 'textarea',
       admin: {
-        placeholder: 'A brief description of the solution',
+        placeholder: 'A (very) brief description of the solution',
+        rows: 2,
       },
       required: true,
+      maxLength: 120,
     },
     {
       name: 'new',

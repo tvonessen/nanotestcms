@@ -2,13 +2,14 @@ import type { Block } from 'payload';
 
 export const Cards: Block = {
   slug: 'cards',
+  interfaceName: 'Cards',
   labels: {
     singular: 'Product Cards',
     plural: 'Product Cards',
   },
   fields: [
     { name: 'title', label: 'Title', type: 'text', required: true },
-    { name: 'description', label: 'Description', type: 'text' },
+    { name: 'paragraph', label: 'Paragraph', type: 'richText' },
     {
       name: 'cards',
       label: 'Cards',

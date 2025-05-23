@@ -4,7 +4,6 @@ import Features from '@/components/content/features';
 import Highlight from '@/components/content/highlight';
 import RichTextWrapper from '@/components/content/richtext-wrapper';
 import Jumbo from '@/components/jumbo/jumbo';
-import type { Solution } from '@/payload-types';
 import config from '@/payload.config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
@@ -41,14 +40,7 @@ export default async function Home() {
               />
             );
           case 'cards':
-            return (
-              <CardsGrid
-                key={block.id}
-                title={block.title}
-                description={block.description as string | undefined}
-                solutions={block.cards as Solution[]}
-              />
-            );
+            return <CardsGrid key={block.id} block={block} />;
           case 'features':
             return <Features key={block.id} features={block} />;
           case 'contact-form':
