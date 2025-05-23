@@ -43,12 +43,14 @@ export default async function AboutPage() {
           }
         })}
       </article>
+
       {about.teamMembers && about.teamMembers.length > 0 && (
-        <article className="sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
+        <article className="sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto mb-16">
           <h2 className="text-3xl font-bold">Our Team</h2>
           <TeamMembersGallery members={about.teamMembers as TeamMember[]} />
         </article>
       )}
+
       <article className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
         {about.content_bottom?.map((item) => {
           switch (item.blockType) {
