@@ -25,7 +25,7 @@ export default async function Home() {
         switch (block.blockType) {
           case 'text':
             return (
-              <div key={block.id} className="container my-12 px-8 md:px-12 xl:mx-auto">
+              <div key={block.id} className="container max-w-prose my-16 px-8 md:px-12 xl:mx-auto">
                 <RichTextWrapper text={block.text} />
               </div>
             );

@@ -30,7 +30,7 @@ const Highlight = ({ title, text, link, variant = 'primary' }: HighlightProps) =
         </h2>
         <p className=" mx-auto text-lg my-3">{text}</p>
         <Link
-          className={`btn ${variant === 'primary' ? 'btn-primary' : 'btn-secondary'} rounded-full text-lg px-4 py-2`}
+          className={`btn ${variant === 'primary' ? 'btn-secondary' : 'btn-primary'} rounded-full text-lg px-4 py-2`}
           href={link}
         >
           Learn more
