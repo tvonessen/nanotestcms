@@ -95,7 +95,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
             {member.email && (
               <li>
                 <a
-                  href={`tel:${member.email}`}
+                  href={`mailto:${member.email}`}
                   className="block p-1 bg-transparent rounded-lg transition-colors hover:bg-background focus-visible:bg-background"
                 >
                   <At weight="bold" size={28} />

@@ -20,11 +20,13 @@ export default async function Contact() {
   async function populateContactPartners(key: RegionKey) {
     for (const regionItem of contactUs[key]?.contacts ?? []) {
       if (regionItem.contact.relationTo === 'distro-partner') {
-        const id: string = regionItem.contact.value as string;
-        regionItem.contact.value = await payload.findByID({
-          collection: 'distro-partner',
-          id: id,
-        });
+        if (typeof regionItem.contact.value === 'string') {
+          const id = regionItem.contact.value;
+          regionItem.contact.value = await payload.findByID({
+            collection: 'distro-partner',
+            id: id,
+          });
+        }
       }
     }
   }
