@@ -16,7 +16,7 @@ const CardsGrid = ({
   const { cards, title, paragraph } = block;
 
   return (
-    <section className="container px-4 md:px-8 xl:px-0 mx-auto mt-12">
+    <section className="container px-4 md:px-8 mx-auto mt-12">
       <div className="flex flex-col gap-6 my-12">
         <h2 className="text-3xl text-center font-extrabold bg-clip-text text-transparent bg-gradient-to-tr from-secondary-700 to-secondary-400">
           {title}

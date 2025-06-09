@@ -9,7 +9,7 @@ export default async function Features({ features }: FeaturesProps) {
   return (
     <div className="container my-12 px-8 md:px-12 mx-auto">
       <h2 className="text-4xl font-bold text-center mb-8">{features.title}</h2>
-      <div className="flex flex-col flex-nowrap xl:flex-row gap-8 sm:gap-4 xl:gap-8 items-center">
+      <div className="flex flex-col flex-nowrap xl:flex-row gap-8 sm:gap-4 xl:gap-8 items-top">
         {features.features?.map((feature) => (
           <div
             key={feature.id}
