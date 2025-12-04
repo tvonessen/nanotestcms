@@ -49,6 +49,7 @@ export const Media: CollectionConfig = {
       name: 'alt',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       name: 'tags',
@@ -60,7 +61,7 @@ export const Media: CollectionConfig = {
         { label: 'Service', value: 'service' },
         { label: 'Logo', value: 'logo' },
         { label: 'Team', value: 'team' },
-        { label: 'Other', value: 'other' },
+        { label: {en: 'Other', de: 'Sonstiges'}, value: 'other' },
       ],
     },
     {
@@ -93,10 +94,11 @@ export const Media: CollectionConfig = {
       async ({ doc, req }) => {
         if (doc.mimeType.includes('svg') && req.file) {
           const fileContent = req.file?.data.toString();
-          const goodSvg = fileContent.replace(/<\?xml[\s\S]*?\?>/i, '');
-
-          goodSvg.replaceAll('xmlns:', 'xmlns_').replaceAll('xml:', 'xml_');
-          writeFile(`./media/${doc.filename}`, goodSvg, (err) => console.log(err));
+          if (fileContent != null) {
+            const goodSvg = fileContent.replace(/<\?xml[\s\S]*?\?>/i, '');
+            goodSvg.replaceAll('xmlns:', 'xmlns_').replaceAll('xml:', 'xml_');
+            writeFile(`./media/${doc.filename}`, goodSvg, (err) => console.log(err));
+          }
         }
       },
     ],

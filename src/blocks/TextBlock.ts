@@ -12,6 +12,7 @@ export const Text: Block = {
       name: 'text',
       label: 'Text',
       type: 'richText',
+      localized: true,
       required: true,
     },
     lexicalHTML('text', { name: 'text_html' }),

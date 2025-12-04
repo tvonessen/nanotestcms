@@ -79,6 +79,11 @@ export default buildConfig({
       handler: revalidateHandler,
     },
   ],
+  localization: {
+    locales: [{code: 'en', label: "English"}, {code: 'de', label: "Deutsch"}],
+    defaultLocale: 'en',
+    fallback: true
+  },
   plugins: [],
   globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent],
   secret: process.env.PAYLOAD_SECRET || '',

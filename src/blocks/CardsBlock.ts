@@ -8,8 +8,8 @@ export const Cards: Block = {
     plural: 'Product Cards',
   },
   fields: [
-    { name: 'title', label: 'Title', type: 'text', required: true },
-    { name: 'paragraph', label: 'Paragraph', type: 'richText' },
+    { name: 'title', label: 'Title', type: 'text', required: true, localized: true, },
+    { name: 'paragraph', label: 'Paragraph', type: 'richText', localized: true, },
     {
       name: 'cards',
       label: 'Cards',

@@ -21,7 +21,7 @@ export const ContactForm: Block = {
       type: 'text',
       required: false,
       admin: {
-        placeholder: 'Inquiry about [this record]',
+        placeholder: {en: 'Inquiry about [this record]', de: 'Anfrage bezüglich [dieses Eintrags]'},
       },
     },
   ],

@@ -12,12 +12,14 @@ export const Highlight: Block = {
       label: 'Title',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       name: 'text',
       label: 'Text',
       type: 'textarea',
       required: true,
+      localized: true,
     },
     {
       name: 'link',

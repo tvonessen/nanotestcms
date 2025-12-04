@@ -47,6 +47,7 @@ export const DistroPartners: CollectionConfig = {
       name: 'description',
       label: 'Description',
       type: 'richText',
+      localized: true,
     },
     {
       name: 'logo',

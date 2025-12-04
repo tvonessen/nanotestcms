@@ -14,6 +14,7 @@ export const Features: Block = {
       label: 'Title',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       name: 'features',
@@ -33,12 +34,14 @@ export const Features: Block = {
           label: 'Title',
           type: 'text',
           required: true,
+          localized: true,
         },
         {
           name: 'description',
           label: 'Description',
           type: 'textarea',
           required: true,
+          localized: true,
         },
         iconField(),
       ],

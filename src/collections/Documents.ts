@@ -63,6 +63,7 @@ export const Documents: CollectionConfig = {
     {
       name: 'description',
       type: 'textarea',
+      localized: true,
     },
   ],
 };

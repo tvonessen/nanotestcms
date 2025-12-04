@@ -12,6 +12,7 @@ export const TextVideo: Block = {
       name: 'text',
       label: 'Text',
       type: 'richText',
+      localized: true,
       required: true,
     },
     {

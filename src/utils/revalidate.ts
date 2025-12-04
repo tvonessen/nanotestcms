@@ -3,12 +3,13 @@ import { addDataAndFileToRequest } from 'payload';
 import type { PayloadRequest } from 'payload';
 
 export default async function revalidateHandler(req: PayloadRequest) {
+
   await addDataAndFileToRequest(req);
 
   if (req.method === 'POST') {
     try {
       const body = await req.json?.();
-      await revalidatePath(body.path);
+      revalidatePath(body.path);
       return new Response(JSON.stringify({ revalidated: true }));
     } catch (err) {
       return new Response(JSON.stringify({ error: 'Error revalidating' }), { status: 500 });

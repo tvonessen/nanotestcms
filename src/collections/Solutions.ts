@@ -70,6 +70,7 @@ const Solutions: CollectionConfig = {
       name: 'shortDescription',
       label: 'Short Description',
       type: 'textarea',
+      localized: true,
       admin: {
         placeholder: 'A (very) brief description of the solution',
         rows: 2,
@@ -119,6 +120,7 @@ const Solutions: CollectionConfig = {
               name: 'abstract',
               label: 'Abstract',
               type: 'textarea',
+              localized: true,
               required: true,
               admin: {
                 placeholder: 'A catchy abstract text',
