@@ -11,7 +11,8 @@ services:
     env_file:
       - .env
     environment:
-      - NODE_ENV=production
+      NODE_ENV: production
+      DATABASE_URI: "mongodb://172.17.0.1:27017/nanotest"
 
 volumes:
   nanotestcms-data:

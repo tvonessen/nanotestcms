@@ -21,7 +21,7 @@ COPY . .
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN corepack enable pnpm && pnpm run build
 
@@ -30,9 +30,9 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-#ENV DATABASE_URI_PROD=mongodb://172.28.233.161:27017/nanotest
+ENV DATABASE_URI=mongodb://172.17.0.1:27017/nanotest
 # Uncomment the following line in case you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -41,8 +41,8 @@ COPY --from=builder /app/public ./public
 COPY .env ./.env
 
 # Set the correct permission for prerender cache
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
+RUN mkdir .next data
+RUN chown nextjs:nodejs .next data
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
