@@ -30,6 +30,7 @@ export const Media: CollectionConfig = {
         withoutEnlargement: true,
       },
     ],
+    staticDir: "data/media",
     mimeTypes: ['image/*'],
     adminThumbnail: 'thumb',
     filesRequiredOnCreate: true,

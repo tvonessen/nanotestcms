@@ -1,0 +1,16 @@
+services:
+  payload:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev  # Separates Dockerfile für Entwicklung
+    container_name: nanotestcms-dev
+    volumes:
+      - .:/app  # Source-Code mounten
+      - /app/node_modules  # node_modules im Container behalten
+      - nanotestcms-data:/app/data
+    ports:
+      - "3303:3303"
+    environment:
+      NODE_ENV: development
+    env_file:
+      - .env

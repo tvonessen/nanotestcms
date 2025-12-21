@@ -49,7 +49,7 @@ export default buildConfig({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,
       LinkFeature({
-        enabledCollections: ['solutions'],
+        enabledCollections: ['solutions', "distro-partner", "team-member"],
         maxDepth: 5,
       }),
       // The HTMLConverter Feature is the feature which manages the HTML serializers.
@@ -87,18 +87,12 @@ export default buildConfig({
   plugins: [],
   globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent],
   secret: process.env.PAYLOAD_SECRET || '',
-  serverURL:
-    process.env.NODE_ENV === 'development'
-      ? process.env.NEXT_DEV_SERVER_URL
-      : process.env.NEXT_PUBLIC_SERVER_URL,
+  serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: mongooseAdapter({
-    url:
-      (process.env.NODE_ENV === 'development'
-        ? process.env.DATABASE_URI_DEV
-        : process.env.DATABASE_URI_PROD) ?? false,
+    url: process.env.DATABASE_URI ?? false
   }),
   sharp,
 });
