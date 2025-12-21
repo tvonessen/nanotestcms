@@ -31,7 +31,3 @@ tests
 # Ignore Git files
 .git
 .gitignore
-
-# Ignore Docker-related files (optional)
-Dockerfile.dev
-docker-compose.override.yml

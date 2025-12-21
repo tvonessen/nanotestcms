@@ -2,15 +2,23 @@ services:
   payload:
     build:
       context: .
-      dockerfile: Dockerfile.dev  # Separates Dockerfile für Entwicklung
+      dockerfile: Dockerfile.dev
     container_name: nanotestcms-dev
-    volumes:
-      - .:/app  # Source-Code mounten
-      - /app/node_modules  # node_modules im Container behalten
-      - nanotestcms-data:/app/data
+    image: nanotestcms-dev:latest
+    restart: unless-stopped
     ports:
-      - "3303:3303"
-    environment:
-      NODE_ENV: development
+      - '3000:3000'  # Default Next.js dev port
+    volumes:
+      - .:/app      # Mount the current directory for live-reload
+      - /app/node_modules  # Prevent host/node_modules conflicts
+      - nanotestcms-dev-data:/app/data
     env_file:
       - .env
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+
+volumes:
+  nanotestcms-dev-data:
+    driver: local
