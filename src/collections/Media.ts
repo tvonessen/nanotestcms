@@ -3,6 +3,8 @@ import { imageToBase64, isDarkImage } from '@/app/(payload)/utility/image';
 import type { CollectionConfig } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 
+export const MEDIA_DIR = './data/media';
+
 export const Media: CollectionConfig = {
   slug: 'media',
   upload: {
@@ -30,7 +32,7 @@ export const Media: CollectionConfig = {
         withoutEnlargement: true,
       },
     ],
-    staticDir: '/app/data/media',
+    staticDir: MEDIA_DIR,
     mimeTypes: ['image/*'],
     adminThumbnail: 'thumb',
     filesRequiredOnCreate: true,
@@ -98,7 +100,7 @@ export const Media: CollectionConfig = {
           if (fileContent != null) {
             const goodSvg = fileContent.replace(/<\?xml[\s\S]*?\?>/i, '');
             goodSvg.replaceAll('xmlns:', 'xmlns_').replaceAll('xml:', 'xml_');
-            writeFile(`./media/${doc.filename}`, goodSvg, (err) => console.log(err));
+            writeFile(`${MEDIA_DIR}/${doc.filename}`, goodSvg, (err) => console.log(err));
           }
         }
       },
@@ -111,7 +113,7 @@ export const Media: CollectionConfig = {
           doc.isDark = false;
         } else {
           /* Set blurred image data url */
-          doc.blurDataUrl = imageToBase64(`./media/${doc.sizes.blurred.filename}`);
+          doc.blurDataUrl = imageToBase64(`${MEDIA_DIR}/${doc.sizes.blurred.filename}`);
           doc.isDark = await isDarkImage(doc.blurDataUrl);
         }
       },

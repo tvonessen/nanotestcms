@@ -1,6 +1,8 @@
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import type { CollectionConfig } from 'payload';
 
+export const DOCUMENTS_DIR = './data/documents';
+
 export const Documents: CollectionConfig = {
   slug: 'documents',
   labels: {
@@ -18,7 +20,7 @@ export const Documents: CollectionConfig = {
     delete: isLoggedIn,
   },
   upload: {
-    staticDir: '/app/data/documents',
+    staticDir: DOCUMENTS_DIR,
     mimeTypes: [
       'text/plain',
       'application/pdf',
