@@ -18,7 +18,7 @@ export const Documents: CollectionConfig = {
     delete: isLoggedIn,
   },
   upload: {
-    staticDir: 'data/documents',
+    staticDir: '/app/data/documents',
     mimeTypes: [
       'text/plain',
       'application/pdf',
