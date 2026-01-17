@@ -7,7 +7,7 @@ services:
     ports:
       - '3301:3301'
     volumes:
-      - nanotestcms-data:/app/public
+      - nanotestcms-data:/app/data
 
 volumes:
   nanotestcms-data:

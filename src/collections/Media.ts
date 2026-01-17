@@ -30,7 +30,7 @@ export const Media: CollectionConfig = {
         withoutEnlargement: true,
       },
     ],
-    staticDir: "data/media",
+    staticDir: 'data/media',
     mimeTypes: ['image/*'],
     adminThumbnail: 'thumb',
     filesRequiredOnCreate: true,
@@ -62,7 +62,7 @@ export const Media: CollectionConfig = {
         { label: 'Service', value: 'service' },
         { label: 'Logo', value: 'logo' },
         { label: 'Team', value: 'team' },
-        { label: {en: 'Other', de: 'Sonstiges'}, value: 'other' },
+        { label: { en: 'Other', de: 'Sonstiges' }, value: 'other' },
       ],
     },
     {
