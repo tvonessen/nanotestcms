@@ -1,4 +1,10 @@
-import { House, Microscope, Nut, TagSimple, UsersThree } from '@phosphor-icons/react/dist/ssr';
+import {
+  HouseIcon,
+  MicroscopeIcon,
+  NutIcon,
+  TagSimpleIcon,
+  UsersThreeIcon,
+} from '@phosphor-icons/react/dist/ssr';
 
 export type SiteConfig = typeof siteConfig;
 
@@ -10,27 +16,27 @@ export const siteConfig = {
     {
       label: 'Home',
       href: '/',
-      icon: <House size={27} weight="regular" />,
+      icon: <HouseIcon size={27} weight="regular" />,
     },
     {
       label: 'Products',
       href: '/products',
-      icon: <Microscope size={27} weight="regular" />,
+      icon: <MicroscopeIcon size={27} weight="regular" />,
     },
     {
       label: 'Services',
       href: '/services',
-      icon: <Nut size={27} weight="regular" />,
+      icon: <NutIcon size={27} weight="regular" />,
     },
     {
       label: 'Contact us',
       href: '/contact',
-      icon: <TagSimple size={27} weight="regular" />,
+      icon: <TagSimpleIcon size={27} weight="regular" />,
     },
     {
       label: 'About',
       href: '/about',
-      icon: <UsersThree size={27} weight="regular" />,
+      icon: <UsersThreeIcon size={27} weight="regular" />,
     },
     // {
     //   label: 'Contact',

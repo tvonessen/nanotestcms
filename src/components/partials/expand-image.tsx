@@ -63,7 +63,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
           }}
         />
         <span
-          className={`flex flex-row items-center justify-center font-semibold md:text-lg lg:hidden ${isExpanded && 'opacity-0'} absolute top-0 left-0 h-full w-full ${image.isDark ? ' text-white bg-black' : ' text-black bg-white'} bg-opacity-35 border-1 rounded-md backdrop-blur-[2px] transition-opacity`}
+          className={`flex flex-row items-center justify-center font-semibold md:text-lg lg:hidden ${isExpanded && 'opacity-0'} absolute top-0 left-0 h-full w-full ${image.isDark ? ' text-white bg-black/35' : ' text-black bg-white/35'} border-1 rounded-md backdrop-blur-[2px] transition-opacity`}
           aria-label="Click to expand image to full height"
         >
           Click to

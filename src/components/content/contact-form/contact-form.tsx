@@ -2,12 +2,12 @@
 
 import { Button, Input, Textarea } from '@heroui/react';
 import { CheckIcon } from '@phosphor-icons/react';
-import { type FieldValues, useForm } from 'react-hook-form';
-import React from 'react';
 import type Mail from 'nodemailer/lib/mailer';
 import { enqueueSnackbar } from 'notistack';
-import createContactMail from './create-contact-mail';
+import React from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { type FieldValues, useForm } from 'react-hook-form';
+import createContactMail from './create-contact-mail';
 
 export type ContactFormFields = {
   subject: string;
@@ -157,7 +157,7 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
           isDisabled={isSubmitting || isSubmitSuccessful}
         />
         <Input
-          {...register('phone', { pattern: /^[0-9\+\s]+$/ })}
+          {...register('phone', { pattern: /^[0-9+\s]+$/ })}
           className="col-span-2 sm:col-span-1"
           variant="underlined"
           label="Phone"

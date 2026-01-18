@@ -82,7 +82,7 @@
   }
 
   blockquote {
-    @apply relative ps-8 my-3 py-2 bg-foreground bg-opacity-10 rounded-xl italic;
+    @apply relative ps-8 my-3 py-2 bg-foreground/10 rounded-xl italic;
 
     &::before {
       content: '“';

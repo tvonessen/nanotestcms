@@ -93,7 +93,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
               <button
                 type="button"
                 data-active={i === currentIndex}
-                className="w-3 h-3 rounded-full bg-foreground data-[active=true]:bg-primary bg-opacity-10 data-[active=true]:bg-opacity-60 hover:bg-opacity-35 transition"
+                className="w-3 h-3 rounded-full bg-foreground/10 data-[active=true]:bg-primary/60 hover:bg-foreground/35 transition"
                 aria-label={`Show image No. ${i}`}
                 onClick={() => {
                   slider?.current?.slickGoTo(i);

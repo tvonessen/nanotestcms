@@ -4,7 +4,7 @@ import Features from '@/components/content/features';
 import Highlight from '@/components/content/highlight';
 import RichTextWrapper from '@/components/content/richtext-wrapper';
 import Jumbo from '@/components/jumbo/jumbo';
-import config from '@/payload.config';
+import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import React from 'react';
@@ -50,7 +50,7 @@ export default async function Home() {
                 id="contact"
                 to={block.to}
                 defaultValues={{ subject: block.subject ?? undefined }}
-                className="px-12 my-12 py-12 bg-opacity-5 mx-auto bg-foreground max-xl:w-full xl:max-w-6xl xl:rounded-lg"
+                className="px-12 my-12 py-12 mx-auto bg-foreground/5 max-xl:w-full xl:max-w-6xl xl:rounded-lg"
               />
             );
           default:

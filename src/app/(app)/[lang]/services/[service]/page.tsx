@@ -63,7 +63,7 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
               <p className="my-6 font-medium text-lg">{service.details.abstract}</p>
             </section>
             {/* Content section */}
-            {service.details.content?.map((item, i) => {
+            {service.details.content?.map((item) => {
               switch (item.blockType) {
                 case 'text':
                   return <Text key={item.id} text={item.text} />;
@@ -87,7 +87,7 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
                   return (
                     <ContactForm
                       key={item.id}
-                      className="max-lg:w-screen lg:w-full relative max-lg:left-1/2 max-lg:-translate-x-[50%] mx-auto my-12 col-span-full bg-opacity-5 bg-foreground px-12 py-12 lg:rounded-lg"
+                      className="max-lg:w-screen lg:w-full relative max-lg:left-1/2 max-lg:-translate-x-[50%] mx-auto my-12 col-span-full bg-foreground/5 px-12 py-12 lg:rounded-lg"
                       to={item.to}
                       defaultValues={{ subject: item.subject ?? `Inquiry about ${service.title}` }}
                     />

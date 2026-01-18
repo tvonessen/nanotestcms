@@ -1,9 +1,14 @@
+import { AtIcon, LinkedinLogoIcon, PhoneIcon } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import NanotestLogo from '../nanotest-logo';
 import styles from './footer.module.scss';
-import { At, LinkedinLogo, Phone } from '@phosphor-icons/react/dist/ssr';
 
-const Footer = () => {
+interface FooterProps {
+  lang: string;
+}
+
+async function Footer(props: FooterProps) {
+  const { lang } = props;
   return (
     <footer className={`pt-3 pb-6 mt-3 w-full ${styles.globalFooter}`}>
       <div className="w-full max-w-6xl mx-0 md:mx-auto px-12 flex gap-12 md:gap-24 flex-col-reverse md:flex-row items-center md:items-start justify-center">
@@ -32,30 +37,30 @@ const Footer = () => {
                 className="flex items-center justify-center rounded-lg w-8 h-8 bg-primary hover:bg-secondary focus-visible:bg-secondary  dark:hover:text-background dark:focus-visible:text-background transition-colors"
                 href="tel:+49307002100"
               >
-                <Phone size={24} />
+                <PhoneIcon size={24} />
               </Link>
               <Link
                 className="flex items-center justify-center rounded-lg w-8 h-8 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
                 href="mailto:info@nanotest.eu"
               >
-                <At size={24} />
+                <AtIcon size={24} />
               </Link>
               <Link
                 className="flex items-center justify-center rounded-lg w-8 h-8 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
                 target="_blank"
                 href="https://www.linkedin.com/company/nanotest/"
               >
-                <LinkedinLogo size={24} />
+                <LinkedinLogoIcon size={24} />
               </Link>
               <Link
                 className="text-md flex items-center justify-center rounded-lg h-8 px-2 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
-                href="/about/imprint"
+                href={`/${lang}/about/imprint`}
               >
                 Imprint
               </Link>
               <Link
                 className="text-md flex items-center justify-center rounded-lg h-8 px-2 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
-                href="/about/privacy"
+                href={`/${lang}/about/privacy`}
               >
                 Privacy
               </Link>
@@ -71,6 +76,6 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;

@@ -6,7 +6,7 @@ import DistributorsAccordion, {
   type RegionKey,
 } from '@/components/distributors/distributors-accordion';
 import type { Media } from '@/payload-types';
-import config from '@/payload.config';
+import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 
