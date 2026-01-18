@@ -1,6 +1,6 @@
 'use client';
 
-import { CaretLeft, CaretRight } from '@phosphor-icons/react';
+import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react';
 import React, { Fragment } from 'react';
 import Slider from 'react-slick';
 
@@ -66,7 +66,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
               type="button"
               onClick={prev}
             >
-              <CaretLeft
+              <CaretLeftIcon
                 className={`${images[currentIndex].isDark ? 'text-white' : 'text-black'}`}
                 size={24}
                 weight="bold"
@@ -77,7 +77,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
               type="button"
               onClick={next}
             >
-              <CaretRight
+              <CaretRightIcon
                 className={`${images[currentIndex].isDark ? 'text-white' : 'text-black'}`}
                 size={24}
                 weight="bold"

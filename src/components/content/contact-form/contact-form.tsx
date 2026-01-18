@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Input, Textarea } from '@heroui/react';
-import { Check } from '@phosphor-icons/react';
+import { CheckIcon } from '@phosphor-icons/react';
 import { type FieldValues, useForm } from 'react-hook-form';
 import React from 'react';
 import type Mail from 'nodemailer/lib/mailer';
@@ -180,7 +180,7 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
           >
             {isSubmitSuccessful ? (
               <React.Fragment key="success">
-                <Check size={28} /> We will be in touch
+                <CheckIcon size={28} /> We will be in touch
               </React.Fragment>
             ) : (
               'Hear back from us'

@@ -1,7 +1,7 @@
 'use client';
 
 import type { Media } from '@/payload-types';
-import { ArrowsVertical } from '@phosphor-icons/react';
+import { ArrowsVerticalIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import React, { Fragment } from 'react';
 
@@ -67,7 +67,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
           aria-label="Click to expand image to full height"
         >
           Click to
-          <ArrowsVertical size={24} weight="bold" />
+          <ArrowsVerticalIcon size={24} weight="bold" />
           expand
         </span>
       </div>

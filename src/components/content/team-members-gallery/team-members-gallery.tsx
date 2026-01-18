@@ -5,7 +5,7 @@ import TeamMemberCard from './team-member-card';
 import styles from './team-members-gallery.module.scss';
 import { Button } from '@heroui/react';
 import React from 'react';
-import { CaretDown } from '@phosphor-icons/react';
+import { CaretDownIcon } from '@phosphor-icons/react';
 
 export default function TeamMembersGallery({ members }: { members: TeamMember[] }) {
   const [showAll, setShowAll] = React.useState<boolean>(false);
@@ -35,7 +35,7 @@ export default function TeamMembersGallery({ members }: { members: TeamMember[] 
         size="lg"
         onPress={handleViewAllClick}
       >
-        <CaretDown /> View All <CaretDown />
+        <CaretDownIcon /> View All <CaretDownIcon />
       </Button>
     </section>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { Moon, Sun } from '@phosphor-icons/react';
+import { MoonIcon, SunIcon } from '@phosphor-icons/react';
 import { useTheme } from 'next-themes';
 import React from 'react';
 
@@ -31,7 +31,11 @@ export const ThemeSwitch = () => {
       className="btn btn-square btn-ghost text-background dark:text-foreground no-animation"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
-      {theme !== 'dark' ? <Sun size={27} weight="regular" /> : <Moon size={27} weight="regular" />}
+      {theme !== 'dark' ? (
+        <SunIcon size={27} weight="regular" />
+      ) : (
+        <MoonIcon size={27} weight="regular" />
+      )}
     </button>
   );
 };

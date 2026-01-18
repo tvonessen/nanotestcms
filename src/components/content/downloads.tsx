@@ -1,13 +1,13 @@
 import type { Document } from '@/payload-types';
 import type { IconProps } from '@phosphor-icons/react';
 import {
-  Blueprint,
-  BookOpenText,
-  DownloadSimple,
-  FileText,
-  PaperPlaneTilt,
-  PresentationChart,
-  Scroll,
+  BlueprintIcon,
+  BookOpenTextIcon,
+  DownloadSimpleIcon,
+  FileTextIcon,
+  PaperPlaneTiltIcon,
+  PresentationChartIcon,
+  ScrollIcon,
 } from '@phosphor-icons/react/dist/ssr';
 import { getPayload } from 'payload';
 import config from '@payload-config';
@@ -76,7 +76,7 @@ export default async function Downloads({ docs }: DownloadsProps) {
               aria-label="Download"
               title="Download"
             >
-              <DownloadSimple size={24} weight="bold" />
+              <DownloadSimpleIcon size={24} weight="bold" />
             </a>
           </li>
         ))}
@@ -92,16 +92,16 @@ interface DocumentIconProps extends IconProps {
 function DocumentIcon({ type, ...props }: DocumentIconProps) {
   switch (type) {
     case 'datasheet':
-      return <Blueprint {...props} />;
+      return <BlueprintIcon {...props} />;
     case 'flyer':
-      return <PaperPlaneTilt {...props} />;
+      return <PaperPlaneTiltIcon {...props} />;
     case 'presentation':
-      return <PresentationChart {...props} />;
+      return <PresentationChartIcon {...props} />;
     case 'whitepaper':
-      return <Scroll {...props} />;
+      return <ScrollIcon {...props} />;
     case 'manual':
-      return <BookOpenText {...props} />;
+      return <BookOpenTextIcon {...props} />;
     default:
-      return <FileText {...props} />;
+      return <FileTextIcon {...props} />;
   }
 }
