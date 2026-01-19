@@ -1,15 +1,12 @@
+"use client";
+
 import type { Config } from '@/payload-types';
-import { PersonSimpleRunIcon } from '@phosphor-icons/react/dist/ssr';
+import { PersonSimpleRunIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
+import {useParams} from "next/navigation";
 
-interface NotFoundProps {
-  params: Promise<{
-    lang: Config['locale'];
-  }>;
-}
-
-export default async function NotFound({ params }: NotFoundProps) {
-  const { lang } = await params;
+export default function NotFound() {
+  const {lang} = useParams() as {lang: Config['locale']};
   return (
     <div className="container mx-auto my-24 flex flex-col items-center justify-start">
       <h1 className="text-2xl text-center">Page not found</h1>

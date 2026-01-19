@@ -2,20 +2,17 @@
 import Link from 'next/link';
 import { useParams, useSelectedLayoutSegment } from 'next/navigation';
 import React from 'react';
+import {siteConfig} from "@/config/routes";
+import {Config} from "@/payload-types";
 
 interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  link: {
-    label: string;
-    href: string;
-    icon: React.ReactNode;
-    children?: unknown[];
-  };
+  link: typeof siteConfig.navItems[0];
 }
 
 export function NavLink({ link, ...props }: NavLinkProps) {
   const [mounted, setMounted] = React.useState(false);
   const currentPath = useSelectedLayoutSegment();
-  const { lang } = useParams();
+  const { lang } = useParams() as {lang: Config['locale']};
   const isActive =
     (currentPath === null && link.href === '/') || link.href?.includes(String(currentPath));
 
@@ -39,7 +36,7 @@ export function NavLink({ link, ...props }: NavLinkProps) {
     >
       <span className="inline lg:hidden">{link.icon}</span>
       <span className="inline sm:hidden lg:inline" id={`nav-${link.label}`}>
-        {link.label}
+        {link.label[lang]}
       </span>
     </Link>
   );

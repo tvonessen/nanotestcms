@@ -1,14 +1,11 @@
+"use client";
+
 import type { Config } from '@/payload-types';
 import Link from 'next/link';
+import {useParams} from "next/navigation";
 
-interface HomePageProps {
-  params: Promise<{
-    lang: Config['locale'];
-  }>;
-}
-
-export default async function NotFound({ params }: HomePageProps) {
-  const { lang } = await params;
+export default function NotFound() {
+  const {lang} = useParams() as {lang: Config['locale']};
   return (
     <div className="container mx-auto my-24 flex flex-col items-center">
       <h1 className="text-2xl text-center">404 - Page Not Found</h1>
