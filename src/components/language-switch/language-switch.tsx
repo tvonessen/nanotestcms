@@ -1,19 +1,25 @@
 'use client';
 
 import { Select, SelectItem } from '@heroui/react';
-import { useParams } from 'next/navigation';
+import {useParams, useRouter} from 'next/navigation';
 import type { ChangeEvent } from 'react';
 
 export function LanguageSwitch() {
   const { lang }: { lang: string } = useParams();
+  const router = useRouter()
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedLang = e.target.value;
     if (selectedLang === lang) return;
 
+    console.log(selectedLang);
+
     const currentPath = window.location.pathname;
-    const newPath = currentPath.replace(new RegExp(`^/${lang}/?$`), `/${selectedLang}/`);
-    window.location.href = newPath + window.location.search + window.location.hash;
+    const newPath = currentPath.replace(new RegExp(`\\/${lang}\\/?\\b`), `/${selectedLang}/`);
+
+    console.log(newPath);
+
+    router.push(newPath + window.location.search + window.location.hash);
   };
 
   return (
