@@ -3,15 +3,21 @@ import TeamMembersGallery from '@/components/content/team-members-gallery/team-m
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
 import TextVideo from '@/components/content/text-video';
-import type { Media, TeamMember } from '@/payload-types';
+import type { Config, Media, TeamMember } from '@/payload-types';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 
-export default async function AboutPage() {
+interface AboutPageProps {
+  params: Promise<{ lang: Config['locale'] }>;
+}
+
+export default async function AboutPage({ params }: AboutPageProps) {
+  const { lang } = await params;
   const payload = await getPayload({ config });
   const about = await payload.findGlobal({
     slug: 'about',
+    locale: lang,
   });
 
   if (!about) return notFound();

@@ -1,14 +1,20 @@
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
-import type { Media } from '@/payload-types';
+import type { Config, Media } from '@/payload-types';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 
-export default async function AboutPage() {
+interface AboutPageProps {
+  params: Promise<{ lang: Config['locale'] }>;
+}
+
+export default async function AboutPage({ params }: AboutPageProps) {
+  const { lang } = await params;
   const payload = await getPayload({ config });
   const legal = await payload.findGlobal({
     slug: 'legal',
+    locale: lang,
   });
 
   if (!legal) return notFound();

@@ -1,13 +1,20 @@
 import ProductCard from '@/components/partials/product-card';
 import { LazyIcon } from '@/components/utility/lazy-icon';
-import type { Solution, SolutionCategory } from '@/payload-types';
+import type { Config, Solution, SolutionCategory } from '@/payload-types';
 import config from '@payload-config';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import { Fragment } from 'react';
 
-export default async function ServicesPage() {
+interface ServicesPageProps {
+  params: Promise<{
+    lang: Config['locale'];
+  }>;
+}
+
+export default async function ServicesPage(props: ServicesPageProps) {
+  const { lang } = await props.params;
   const payload = await getPayload({ config });
   const services: Solution[] = await payload
     .find({
@@ -17,6 +24,7 @@ export default async function ServicesPage() {
       },
       pagination: false,
       overrideAccess: false,
+      locale: lang,
     })
     .then((res) => res.docs);
 
@@ -26,6 +34,7 @@ export default async function ServicesPage() {
       pagination: false,
       overrideAccess: false,
       sort: 'position',
+      locale: 'all',
     })
     .then((res) => res.docs);
 
@@ -61,7 +70,7 @@ export default async function ServicesPage() {
         </p>
         <Link
           className="text-primary underline hover:decoration-[3px] focus:no-underline hover:decoration-focus outline-offset-1 focus:rounded-md"
-          href="/contact"
+          href={`/${lang}/contact`}
         >
           contact us
         </Link>
@@ -103,6 +112,7 @@ export default async function ServicesPage() {
                   )
                   .map((service) => (
                     <ProductCard
+                      lang={lang}
                       key={service.slug}
                       className="flex-auto lg:flex-[0_0_calc(50%_-_2rem)] xl:flex-[0_0_calc(33.3333%_-_4rem)]"
                       product={service}

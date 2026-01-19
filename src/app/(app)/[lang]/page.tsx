@@ -4,16 +4,23 @@ import Features from '@/components/content/features';
 import Highlight from '@/components/content/highlight';
 import RichTextWrapper from '@/components/content/richtext-wrapper';
 import Jumbo from '@/components/jumbo/jumbo';
+import type { Config } from '@/payload-types';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import React from 'react';
 
-export default async function Home() {
+interface HomeProps {
+  params: Promise<{ lang: Config['locale'] }>;
+}
+
+export default async function Home(props: HomeProps) {
+  const { lang } = await props.params;
   const payload = await getPayload({ config });
   const homepageContent = await payload.findGlobal({
     slug: 'homepage',
     overrideAccess: false,
+    locale: lang,
   });
 
   if (!homepageContent) return notFound();
@@ -32,6 +39,7 @@ export default async function Home() {
           case 'highlight':
             return (
               <Highlight
+                lang={lang}
                 key={block.id}
                 link={block.link}
                 text={block.text}
@@ -40,7 +48,7 @@ export default async function Home() {
               />
             );
           case 'cards':
-            return <CardsGrid key={block.id} block={block} />;
+            return <CardsGrid lang={lang} key={block.id} block={block} />;
           case 'features':
             return <Features key={block.id} features={block} />;
           case 'contact-form':

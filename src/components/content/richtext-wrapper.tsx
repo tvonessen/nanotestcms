@@ -12,9 +12,12 @@ import {
 
 import '@/styles/richText.scss';
 
-export default function RichTextWrapper({
-  text,
-}: { text: SerializedEditorState<SerializedLexicalNode> }) {
+interface RichTextWrapperProps {
+  text: SerializedEditorState<SerializedLexicalNode>;
+  lang?: string;
+}
+
+export default function RichTextWrapper({ text, lang = 'en' }: RichTextWrapperProps) {
   const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
     if (!linkNode.fields.doc) {
       throw new Error('Expected linkNode.fields.doc to be defined');
@@ -24,7 +27,7 @@ export default function RichTextWrapper({
       throw new Error('Expected value to be an object');
     }
     const slug = value.slug;
-    return `/${relationTo}/${slug}`;
+    return `/${lang}/${relationTo}/${slug}`;
   };
 
   const jsxConverters: JSXConvertersFunction<DefaultNodeTypes> = ({

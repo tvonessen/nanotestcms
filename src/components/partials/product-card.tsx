@@ -1,14 +1,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import type { Media, Solution, SolutionCategory } from '@/payload-types';
+import type { Config, Media, Solution, SolutionCategory } from '@/payload-types';
 
 interface ProductCardProps {
+  lang: Config['locale'];
   product: Solution;
   className?: string;
 }
 
-const ProductCard = ({ product, className }: ProductCardProps) => {
+const ProductCard = ({ lang, product, className }: ProductCardProps) => {
   const categories = product.category.map((category) => category.value) as SolutionCategory[];
   const image = product.details.images[0] as Media;
   const usedImage = image.sizes?.medium ?? image.sizes?.small ?? image.sizes?.thumb ?? image;
@@ -16,7 +17,7 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
   return (
     <div className={`card sm:card-side lg:card bg-base-200 shadow-lg ${className}`}>
       <figure>
-        <Link href={`${product.type[0]}s/${product.slug}`} tabIndex={-1}>
+        <Link href={`/${lang}/${product.type[0]}s/${product.slug}`} tabIndex={-1}>
           <Image
             alt={image.alt}
             blurDataURL={image.blurDataUrl as string}
@@ -43,7 +44,7 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
         <p>{product.subtitle}</p>
         <Link
           className="btn btn-primary text-white mt-4 text-lg"
-          href={`${product.type[0]}s/${product.slug}`}
+          href={`/${lang}/${product.type[0]}s/${product.slug}`}
           title={`View ${product.title} details`}
         >
           View Details

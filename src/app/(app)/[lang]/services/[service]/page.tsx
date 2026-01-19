@@ -7,7 +7,7 @@ import Highlight from '@/components/content/highlight';
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
 import TextVideo from '@/components/content/text-video';
-import type { Media, Solution } from '@/payload-types';
+import type { Config, Media, Solution } from '@/payload-types';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
@@ -23,14 +23,22 @@ export async function generateStaticParams() {
       },
       pagination: false,
       depth: 0,
+      locale: 'all',
     })
     .then((res) => res.docs);
 
   return services.map((service) => ({ service: service.slug }));
 }
 
-export default async function ServicePage({ params }: { params: Promise<{ service: string }> }) {
-  const { service: slug } = await params;
+interface ServicePageProps {
+  params: Promise<{
+    service: string;
+    lang: Config['locale'];
+  }>;
+}
+
+export default async function ServicePage({ params }: ServicePageProps) {
+  const { service: slug, lang } = await params;
 
   const payload = await getPayload({ config });
   const service: Solution = await payload
@@ -38,6 +46,7 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
       collection: 'solutions',
       where: { slug: { equals: slug } },
       overrideAccess: false,
+      locale: lang,
     })
     .then((res) => res.docs[0]);
 
@@ -72,6 +81,7 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
                 case 'highlight':
                   return (
                     <Highlight
+                      lang={lang}
                       key={item.id}
                       title={item.title}
                       text={item.text}

@@ -1,13 +1,16 @@
+import type { Config } from '@/payload-types';
 import Link from 'next/link';
 
 interface HighlightProps {
+  lang: Config['locale'];
   title: string;
   text: string;
   link: string;
   variant?: 'primary' | 'secondary' | undefined | null;
 }
 
-const Highlight = ({ title, text, link, variant = 'primary' }: HighlightProps) => {
+const Highlight = (props: HighlightProps) => {
+  const { lang, title, text, link, variant = 'primary' } = props;
   const gradient =
     variant === 'primary'
       ? 'from-primary-600 to-primary-900 dark:from-primary-200 dark:to-primary'
@@ -31,7 +34,7 @@ const Highlight = ({ title, text, link, variant = 'primary' }: HighlightProps) =
         <p className=" mx-auto text-lg my-3">{text}</p>
         <Link
           className={`btn ${variant === 'primary' ? 'btn-secondary' : 'btn-primary'} rounded-full text-lg px-4 py-2`}
-          href={link}
+          href={`/${lang}/${link}`}
         >
           Learn more
         </Link>

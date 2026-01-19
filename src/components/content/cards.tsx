@@ -3,11 +3,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import RichTextWrapper from './richtext-wrapper';
 
-const CardsGrid = ({
-  block,
-}: {
+interface CardsGridProps {
+  lang: string;
   block: Cards;
-}) => {
+}
+
+const CardsGrid = ({ lang, block }: CardsGridProps) => {
   // filter out solutions that don't have an id (i.e. are not published or deleted)
   if (!block.cards || (block.cards as Solution[]).filter((card) => 'id' in card).length === 0) {
     return null;
@@ -23,7 +24,7 @@ const CardsGrid = ({
         </h2>
         {paragraph && (
           <div className="max-w-[80ch] mx-auto">
-            <RichTextWrapper text={paragraph} />
+            <RichTextWrapper lang={lang} text={paragraph} />
           </div>
         )}
       </div>
@@ -37,14 +38,20 @@ const CardsGrid = ({
                 : cards.length === 2
                   ? 'w-[calc(50%_-_.5rem)]'
                   : 'w-full';
-          return <Card key={card.id} solution={card} className={`${widthClass}`} />;
+          return <Card key={card.id} lang={lang} solution={card} className={`${widthClass}`} />;
         })}
       </div>
     </section>
   );
 };
 
-const Card = ({ solution, className }: { solution: Solution; className?: string }) => {
+interface CardProps {
+  lang: string;
+  solution: Solution;
+  className?: string;
+}
+
+const Card = ({ lang, solution, className }: CardProps) => {
   const cardImage = solution.details.images[0] as Media;
   cardImage.url = cardImage.sizes?.small?.url ?? cardImage.url;
   cardImage.height = cardImage.sizes?.small?.height ?? cardImage.height;
@@ -85,7 +92,7 @@ const Card = ({ solution, className }: { solution: Solution; className?: string 
           <Link
             aria-label={`Learn more about ${solution.title}`}
             className="mt-6 btn btn-primary btn-md focus-visible:outline-focus"
-            href={`/${solution.type[0]}s/${solution.slug}`}
+            href={`/${lang}/${solution.type[0]}s/${solution.slug}`}
           >
             {titleLength > 10 ? 'Read more' : `More about ${solution.title}`}
           </Link>

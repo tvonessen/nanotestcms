@@ -18,15 +18,13 @@ import { ThemeSwitch } from '../theme-switch';
 import { LanguageSwitch } from '@/components/language-switch/language-switch';
 import { Button } from '@heroui/react';
 import { useParams } from 'next/navigation';
-import NavLink from './navlink';
+import { NavLink } from './navlink';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { lang } = useParams();
 
-  const navItems = siteConfig.navItems.map((item) => {
-    return { ...item, href: `/${lang}${item.href}` };
-  });
+  const navItems = siteConfig.navItems;
 
   return (
     <NextUINavbar

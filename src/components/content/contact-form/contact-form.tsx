@@ -2,6 +2,7 @@
 
 import { Button, Input, Textarea } from '@heroui/react';
 import { CheckIcon } from '@phosphor-icons/react';
+import { useParams } from 'next/navigation';
 import type Mail from 'nodemailer/lib/mailer';
 import { enqueueSnackbar } from 'notistack';
 import React from 'react';
@@ -24,6 +25,7 @@ type ContactFormProps = React.HTMLAttributes<HTMLElement> & {
 };
 
 const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: ContactFormProps) => {
+  const { lang } = useParams();
   const {
     register,
     handleSubmit,
