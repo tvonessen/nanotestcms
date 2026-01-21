@@ -4,8 +4,6 @@ import type {
 } from '@payloadcms/richtext-lexical/lexical';
 import RichTextWrapper from './richtext-wrapper';
 
-import '@/styles/text.scss';
-
 const Text = ({ text }: { text: SerializedEditorState<SerializedLexicalNode> }) => {
   return (
     <>

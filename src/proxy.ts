@@ -9,6 +9,7 @@ export async function proxy(request: NextRequest) {
   if (pathname.startsWith('/_next/')) return NextResponse.next();
   if (pathname.startsWith('/static/')) return NextResponse.next();
   if (pathname.startsWith('/admin')) return NextResponse.next();
+  if (pathname.includes('favicon')) return NextResponse.next();
 
   const locale = pathname.split('/')[1] || prev.split('/')[1] || 'en'; // Default to 'en'
 

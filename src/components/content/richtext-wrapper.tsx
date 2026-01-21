@@ -10,8 +10,6 @@ import {
   RichText,
 } from '@payloadcms/richtext-lexical/react';
 
-import '@/styles/richText.scss';
-
 interface RichTextWrapperProps {
   text: SerializedEditorState<SerializedLexicalNode>;
   lang?: string;

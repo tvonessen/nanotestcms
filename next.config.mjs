@@ -14,10 +14,6 @@ export default withPayload({
         port: '3301',
       },
       {
-        hostname: 'localhost',
-        port: '3303',
-      },
-      {
         hostname: 'api.dicebear.com',
       },
       {

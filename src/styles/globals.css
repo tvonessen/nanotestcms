@@ -1,24 +1,29 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin './hero.ts';
+@config "../../tailwind.config.ts";
+
+@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  --primary: rgb(0, 169, 132);
-  --secondary: rgb(32, 78, 74);
-  --accent-01: rgb(243, 182, 31);
-  --accent-02: rgb(138, 79, 125);
-  --focus: #fc8450;
-  --foreground: rgb(21, 21, 21);
-  --background: rgb(245, 248, 248);
+  --primary: 0, 169, 132; /* in HEX: #00A984 */
+  --secondary: 138, 79, 125; /* in HEX: #8A4F7D */
+  --accent-01: 243, 182, 31; /* in HEX: #F3B61F */
+  --accent-02: 32, 78, 74; /* in HEX: #204E4A */
+  --focus: 252, 132, 80; /* in HEX: #FC8450 */
+  --foreground: 21, 21, 21; /* in HEX: #151515 */
+  --background: 245, 248, 248; /* in HEX: #F5F8F8 */
+  --warning: 243, 182, 31; /* in HEX: #F3B61F */
+  --error: 255, 26, 80; /* in HEX: #FF1A50 */
 
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.1s, color 0.1s;
 }
 
-[data-theme="dark"] {
-  --foreground: rgb(245, 248, 248);
-  --background: rgb(21, 21, 21);
-  --accent-01: rgb(138, 79, 125);
-  --accent-02: rgb(243, 182, 31);
+:root[class~="dark"] {
+  --foreground: 245, 248, 248;
+  --background: 21, 21, 21;
+  --secondary: 243, 182, 31;
+  --accent-01: 138, 79, 125;
 }
 
 ::selection {
@@ -27,7 +32,7 @@
 }
 
 *:focus-visible {
-  outline: 2px solid var(--focus);
+  outline: 2px solid rgb(var(--focus));
 }
 
 .grecaptcha-badge {
@@ -59,43 +64,59 @@ header {
   container-type: inline-size;
 }
 
-@layer utilities {
-  /* Animation */
+.abstract + aside {
+  display: none !important;
+}
 
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    12.5% {
-      transform: rotate(45deg);
-    }
-    25% {
-      transform: rotate(90deg);
-    }
-    37.5% {
-      transform: rotate(135deg);
-    }
-    50% {
-      transform: rotate(180deg);
-    }
-    62.5% {
-      transform: rotate(225deg);
-    }
-    75% {
-      transform: rotate(270deg);
-    }
-    87.5% {
-      transform: rotate(315deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+aside:not(:has(img)):not(:has(iframe)) {
+  background: repeating-linear-gradient(
+    -33deg,
+    var(--primary),
+    var(--primary) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+}
+
+@utility file-selections {
+  button .icon {
+    width: 24px;
   }
+}
 
-  .spin-loader {
-    animation-name: spin;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-timing-function: step-end;
+@utility spin-loader {
+  animation-name: spin;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: step-end;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  12.5% {
+    transform: rotate(45deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  37.5% {
+    transform: rotate(135deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  62.5% {
+    transform: rotate(225deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  87.5% {
+    transform: rotate(315deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

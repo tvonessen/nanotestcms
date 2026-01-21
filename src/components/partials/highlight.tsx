@@ -14,10 +14,10 @@ const Highlight = ({ variant = 'primary' }: HighlightProps) => {
       : 'from-secondary-200 to-white dark:to-secondary-700 dark:from-black';
 
   return (
-    <div className={`w-full my-16 py-12 shadow-inner bg-fixed bg-gradient-to-t ${gradient}`}>
+    <div className={`w-full my-16 py-12 shadow-inner bg-fixed bg-linear-to-t ${gradient}`}>
       <div className="container mx-auto px-8 text-background font-medium">
         <h2
-          className={`text-3xl font-extrabold bg-clip-text bg-gradient-to-t text-transparent mb-4 ${textGradient}`}
+          className={`text-3xl font-extrabold bg-clip-text bg-linear-to-t text-transparent mb-4 ${textGradient}`}
         >
           We are thermal experts
         </h2>

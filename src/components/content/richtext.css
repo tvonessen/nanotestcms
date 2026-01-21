@@ -1,4 +1,4 @@
-.rich-text {
+@utility rich-text {
   *:first-child {
     margin-top: 0.5rem;
   }
@@ -85,7 +85,7 @@
     @apply relative ps-8 my-3 py-2 bg-foreground/10 rounded-xl italic;
 
     &::before {
-      content: '“';
+      content: "“";
       @apply absolute top-1 left-3 text-3xl text-primary italic;
     }
   }

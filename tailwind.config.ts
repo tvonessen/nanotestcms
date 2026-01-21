@@ -1,4 +1,4 @@
-import { heroui } from "@heroui/react";
+import { heroui } from '@heroui/react';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -8,38 +8,26 @@ module.exports = {
     './node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    colors: {
+      primary: 'rgb(var(--primary) / <alpha-value>)',
+      text: 'rgb(var(--foreground) / <alpha-value>)',
+      foreground: 'rgb(var(--foreground) / <alpha-value>)',
+      background: 'rgb(var(--background) / <alpha-value>)',
+      warn: 'rgb(var(--warn) / <alpha-value>)',
+      error: 'rgb(var(--error) / <alpha-value>)',
+      transparent: 'transparent',
+      current: 'currentColor',
+    },
   },
   darkMode: 'class',
-  daisyui: {
-    themes: [
-      {
-        light: {
-          primary: '#00a984',
-          secondary: '#6d1b67',
-        },
-        dark: {
-          primary: '#00a984',
-          secondary: '#f3b61f',
-        },
-      },
-    ],
-  },
   plugins: [
-    require('daisyui'),
     heroui({
       themes: {
         light: {
           colors: {
-            foreground: {
-              DEFAULT: '#151515',
-            },
-            background: {
-              DEFAULT: '#f5f5f5',
-            },
-            focus: {
-              DEFAULT: '#fc8450',
-            },
+            foreground: '#151515',
+            background: '#f5f5f5',
+            focus: '#fc8450',
             primary: {
               DEFAULT: '#00a984',
               50: '#e6f6f3',
@@ -79,15 +67,9 @@ module.exports = {
         },
         dark: {
           colors: {
-            foreground: {
-              DEFAULT: '#f9f9f9',
-            },
-            background: {
-              DEFAULT: '#151515',
-            },
-            focus: {
-              DEFAULT: '#fc8450',
-            },
+            foreground: '#f9f9f9',
+            background: '#151515',
+            focus: '#fc8450',
             primary: {
               DEFAULT: '#00a984',
               50: '#e6f6f3',

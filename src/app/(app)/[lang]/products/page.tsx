@@ -81,7 +81,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
             <Fragment key={category.title}>
               <div
                 key={`${category.title}-header`}
-                className="w-[calc(100%_-_1rem)] relative mt-24 mb-8 px-2 py-4 rounded bg-foreground before:absolute before:-left-4 before:top-0 before:w-2 before:bg-primary before:rounded before:h-full translate-x-4"
+                className="w-[calc(100%-1rem)] relative mt-24 mb-8 px-2 py-4 rounded-sm bg-foreground before:absolute before:-left-4 before:top-0 before:w-2 before:bg-primary before:rounded before:h-full translate-x-4"
               >
                 <h2
                   className="text-xl sm:text-2xl md:text-3xl font-semibold text-background flex items-center"

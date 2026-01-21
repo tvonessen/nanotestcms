@@ -44,7 +44,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
           ref={slider}
         >
           {images.map((image) => (
-            <div className="md:px-2 focus:outline-none" key={image.alt}>
+            <div className="md:px-2 focus:outline-hidden" key={image.alt}>
               <Image
                 key={image.filename}
                 className={'sm:rounded-2xl w-full aspect-video object-cover'}
@@ -62,7 +62,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
         {images.length > 1 && (
           <Fragment key="controls">
             <button
-              className="absolute rounded left-1 top-1/2 -translate-y-1/2 z-20 p-6"
+              className="absolute rounded-sm left-1 top-1/2 -translate-y-1/2 z-20 p-6"
               type="button"
               onClick={prev}
             >
@@ -73,7 +73,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
               />
             </button>
             <button
-              className="absolute rounded right-1 top-1/2 -translate-y-1/2 z-20 p-6"
+              className="absolute rounded-sm right-1 top-1/2 -translate-y-1/2 z-20 p-6"
               type="button"
               onClick={next}
             >

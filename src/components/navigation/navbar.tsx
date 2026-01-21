@@ -34,13 +34,14 @@ export const Navbar = () => {
     >
       <Link
         aria-label="Go to homepage"
-        className="btn btn-link focus-visible:outline-focus px-0 no-animation"
+        className="focus-visible:outline-focus px-0 animate-none rounded-md outline-offset-4"
         href={`/${lang}/`}
+        tabIndex={0}
       >
-        <NanotestLogo className="h-10 fill-background dark:fill-foreground hidden md:block" />
+        <NanotestLogo className="h-10 text-background dark:text-foreground hidden md:block" />
         <NanotestLogo
           hideText
-          className="h-10 block md:hidden fill-background dark:fill-foreground"
+          className="h-10 block md:hidden text-background dark:text-foreground"
         />
       </Link>
       <NavbarContent as="div" className="gap-1 md:gap-2" justify="end">

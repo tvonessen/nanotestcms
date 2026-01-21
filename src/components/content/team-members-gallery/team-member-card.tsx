@@ -15,7 +15,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
   return (
     <li
       key={member.id}
-      className={`relative group flex team-member-card w-full aspect-square rounded-2xl focus-visible:outline-none ${className}`}
+      className={`relative group flex team-member-card w-full aspect-square rounded-2xl focus-visible:outline-hidden ${className}`}
       // biome-ignore lint/a11y/noNoninteractiveTabindex: Needs to be focusable for keyboard navigation
       tabIndex={0}
     >

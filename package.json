@@ -16,6 +16,8 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
+    "@heroui/accordion": "^2.2.26",
+    "@heroui/button": "^2.2.29",
     "@heroui/react": "^2.8.7",
     "@payloadcms/db-mongodb": "^3.72.0",
     "@payloadcms/email-nodemailer": "^3.72.0",
@@ -25,7 +27,6 @@
     "@payloadcms/ui": "^3.72.0",
     "@phosphor-icons/core": "^2.1.1",
     "@phosphor-icons/react": "2.1.10",
-    "cross-env": "^10.1.0",
     "framer-motion": "^12.26.2",
     "graphql": "^16.12.0",
     "next": "^16.1.3",
@@ -34,6 +35,7 @@
     "nodemailer": "^7.0.12",
     "notistack": "^3.0.2",
     "payload": "^3.72.0",
+    "postcss": "^8.5.6",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-google-recaptcha-v3": "^1.11.0",
@@ -41,22 +43,21 @@
     "react-slick": "^0.31.0",
     "sharp": "^0.34.5",
     "slick-carousel": "^1.8.1",
+    "tailwindcss": "^4.1.18",
     "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/next": "^9.0.0",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^22.19.7",
     "@types/nodemailer": "^6.4.21",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "@types/react-slick": "^0.23.13",
     "autoprefixer": "^10.4.23",
-    "daisyui": "^4.12.24",
+    "cross-env": "^10.1.0",
     "dotenv": "^16.6.1",
     "esbuild": "^0.27.2",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.19",
     "typescript": "^5.9.3"
   },
   "engines": {

@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@heroui/react';
 import { MoonIcon, SunIcon } from '@phosphor-icons/react';
 import { useTheme } from 'next-themes';
 import React from 'react';
@@ -25,17 +26,19 @@ export const ThemeSwitch = () => {
   if (!mounted) return null;
 
   return (
-    <button
-      type="button"
+    <Button
+      isIconOnly
       aria-label="Toggle website theme"
-      className="btn btn-square btn-ghost text-background dark:text-foreground no-animation"
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      variant="light"
+      color="primary"
+      className="text-background dark:text-foreground no-animation"
+      onPress={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
       {theme !== 'dark' ? (
         <SunIcon size={27} weight="regular" />
       ) : (
         <MoonIcon size={27} weight="regular" />
       )}
-    </button>
+    </Button>
   );
 };

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import type { Config, Media, Solution, SolutionCategory } from '@/payload-types';
+import { Button } from '@heroui/button';
 
 interface ProductCardProps {
   lang: Config['locale'];
@@ -21,7 +22,7 @@ const ProductCard = ({ lang, product, className }: ProductCardProps) => {
           <Image
             alt={image.alt}
             blurDataURL={image.blurDataUrl as string}
-            className="object-cover object-center min-w-full min-h-full brightness-125 contrast-75 hover:contrast-100 transition aspect-[3/2]"
+            className="object-cover object-center min-w-full min-h-full brightness-125 contrast-75 hover:contrast-100 transition aspect-3/2"
             height={image.sizes?.medium?.height ?? 480}
             placeholder="blur"
             src={`${usedImage.url}`}
@@ -43,11 +44,13 @@ const ProductCard = ({ lang, product, className }: ProductCardProps) => {
         </div>
         <p>{product.subtitle}</p>
         <Link
-          className="btn btn-primary text-white mt-4 text-lg"
           href={`/${lang}/${product.type[0]}s/${product.slug}`}
           title={`View ${product.title} details`}
+          passHref
         >
-          View Details
+          <Button color="primary" className="text-white mt-4 text-lg">
+            View Details
+          </Button>
         </Link>
       </div>
     </div>

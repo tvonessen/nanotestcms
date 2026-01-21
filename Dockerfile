@@ -8,8 +8,8 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+# Install dependencies
+COPY package.json pnpm-lock.yaml* .npmrc ./
 RUN corepack enable pnpm
 RUN pnpm i --frozen-lockfile
 

@@ -1,12 +1,13 @@
 'use client';
 
-import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 import React, { Fragment } from 'react';
 import Slider from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import type { Media } from '@/payload-types';
+import { Button } from '@heroui/react';
+import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useInterval } from 'usehooks-ts';
@@ -78,11 +79,11 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
         {images.length > 1 && (
           <Fragment key={'controls'}>
             <button
-              className="absolute rounded left-1 top-1/2 -translate-y-1/2 z-20 p-6"
+              className="absolute rounded-sm left-1 top-1/2 -translate-y-1/2 z-20 p-6"
               type="button"
               onClick={prev}
             >
-              <CaretLeft
+              <CaretLeftIcon
                 className={`${
                   images[currentIndex].isDark
                     ? 'text-white 2xl:text-foreground'
@@ -93,11 +94,11 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
               />
             </button>
             <button
-              className="absolute rounded right-1 top-1/2 -translate-y-1/2 z-20 p-6"
+              className="absolute rounded-sm right-1 top-1/2 -translate-y-1/2 z-20 p-6"
               type="button"
               onClick={next}
             >
-              <CaretRight
+              <CaretRightIcon
                 className={`${
                   images[currentIndex].isDark
                     ? 'text-white 2xl:text-foreground'
@@ -125,7 +126,7 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
         >
           {images.map((image) => (
             <div key={image.blurDataUrl}>
-              <div className="relative focus:outline-none -z-10 overflow-hidden 2xl:rounded-2xl">
+              <div className="relative focus:outline-hidden -z-10 overflow-hidden 2xl:rounded-2xl">
                 <Image
                   className={'aspect-square lg:aspect-video w-full object-cover'}
                   src={image.url as string}
@@ -136,25 +137,28 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
                   placeholder="blur"
                   loading="lazy"
                 />
-                <div className="absolute w-full h-full top-0 left-0 bg-gradient-to-b from-transparent from-75% to-background" />
+                <div className="absolute w-full h-full top-0 left-0 bg-linear-to-b from-transparent from-75% to-background" />
                 <div
                   className="absolute h-0.5 top-0 left-0 bg-primary transition-width duration-75 opacity-60"
                   style={{ width: `${Math.max(step / 2, 0)}%` }}
                 />
               </div>
               <div className="h-full flex flex-col items-center -mt-8 px-4 z-20 gap-6">
-                <h1 className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent text-center bg-gradient-to-t from-primary-700 dark:from-primary-300 to-foreground dark:to-primary-500 pb-4">
+                <h1 className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent text-center bg-linear-to-t from-primary-700 dark:from-primary-300 to-foreground dark:to-primary-500 pb-4">
                   {image.title}
                 </h1>
                 <h2 className="text-xl sm:text-2xl text-center text-foreground opacity-90">
                   {image.description}
                 </h2>
-                <Link
-                  tabIndex={0}
-                  href={image.link}
-                  className="btn btn-primary rounded-full text-lg text-background px-8 mb-2"
-                >
-                  {image.linkLabel || 'Learn More'}
+                <Link tabIndex={0} href={image.link} passHref>
+                  <Button
+                    color="primary"
+                    radius="full"
+                    size="lg"
+                    className="text-background px-8 mb-2"
+                  >
+                    {image.linkLabel || 'Learn More'}
+                  </Button>
                 </Link>
               </div>
             </div>

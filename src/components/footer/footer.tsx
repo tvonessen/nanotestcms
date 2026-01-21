@@ -1,7 +1,7 @@
+import { cn } from '@heroui/react';
 import { AtIcon, LinkedinLogoIcon, PhoneIcon } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import NanotestLogo from '../nanotest-logo';
-import styles from './footer.module.scss';
 
 interface FooterProps {
   lang: string;
@@ -10,9 +10,16 @@ interface FooterProps {
 async function Footer(props: FooterProps) {
   const { lang } = props;
   return (
-    <footer className={`pt-3 pb-6 mt-3 w-full ${styles.globalFooter}`}>
+    <footer
+      className={cn(
+        'pt-3 pb-6 mt-3 w-full',
+        'text-background dark:text-foreground',
+        'bg-foreground dark:bg-background',
+        'border-t-1 border-primary',
+      )}
+    >
       <div className="w-full max-w-6xl mx-0 md:mx-auto px-12 flex gap-12 md:gap-24 flex-col-reverse md:flex-row items-center md:items-start justify-center">
-        <div className="block text-center md:text-left max-w-72 md:max-w-[480px]">
+        <div className="block text-center md:text-left max-w-72 md:max-w-120">
           Nanotest is one of the co-founders and members of{' '}
           <b>ISA - International Semiconductor Alliance</b>, a cooperation of internally leading
           technology companies from the semiconductor industry.
@@ -56,13 +63,13 @@ async function Footer(props: FooterProps) {
                 className="text-md flex items-center justify-center rounded-lg h-8 px-2 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
                 href={`/${lang}/about/imprint`}
               >
-                {lang === "de" ? "Impressum" : "Imprint"}
+                {lang === 'de' ? 'Impressum' : 'Imprint'}
               </Link>
               <Link
                 className="text-md flex items-center justify-center rounded-lg h-8 px-2 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
                 href={`/${lang}/about/privacy`}
               >
-                {lang === "de" ? "Datenschutz" : "Privacy"}
+                {lang === 'de' ? 'Datenschutz' : 'Privacy'}
               </Link>
             </p>
           </div>

@@ -30,7 +30,7 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
       <body className={`min-h-screen bg-background font-sans antialiased ${fontSans.className}`}>
         <Providers>
           <Navbar />
-          <div className="min-h-[calc(100dvh_-_10rem)]">
+          <div className="min-h-[calc(100dvh-10rem)] dark">
             <Suspense fallback={<Loading />}>{children}</Suspense>
           </div>
           <Footer lang={lang} />

@@ -1,4 +1,5 @@
 import type { Cards, Media, Solution } from '@/payload-types';
+import { Button } from '@heroui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import RichTextWrapper from './richtext-wrapper';
@@ -19,7 +20,7 @@ const CardsGrid = ({ lang, block }: CardsGridProps) => {
   return (
     <section className="container px-4 md:px-8 mx-auto mt-12">
       <div className="flex flex-col gap-6 my-12">
-        <h2 className="text-3xl text-center font-extrabold bg-clip-text text-transparent bg-gradient-to-tr from-secondary-700 to-secondary-400">
+        <h2 className="text-3xl text-center font-extrabold bg-clip-text text-transparent bg-linear-to-tr from-secondary-700 to-secondary-400">
           {title}
         </h2>
         {paragraph && (
@@ -62,7 +63,7 @@ const Card = ({ lang, solution, className }: CardProps) => {
 
   return (
     <div
-      className={`group card min-w-64 ${className} max-w-[520px] aspect-[3/4] bg-gradient-to-tl from-primary-900 to-primary-300 before:dark:!bg-background before:!bg-foreground image-full shadow-xl hover:scale-105 focus-within:scale-105 transition hover:z-20 focus-visible:z-20`}
+      className={`group card min-w-64 ${className} max-w-130 aspect-3/4 bg-linear-to-tl from-primary-900 to-primary-300 before:dark:bg-background! before:bg-foreground! image-full shadow-xl hover:scale-105 focus-within:scale-105 transition hover:z-20 focus-visible:z-20`}
     >
       <figure className="object-cover z-10">
         <Image
@@ -91,10 +92,12 @@ const Card = ({ lang, solution, className }: CardProps) => {
         <div className="card-actions justify-end opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
           <Link
             aria-label={`Learn more about ${solution.title}`}
-            className="mt-6 btn btn-primary btn-md focus-visible:outline-focus"
             href={`/${lang}/${solution.type[0]}s/${solution.slug}`}
+            passHref
           >
-            {titleLength > 10 ? 'Read more' : `More about ${solution.title}`}
+            <Button color="primary" size="md" className="mt-6 focus-visible:outline-focus">
+              {titleLength > 10 ? 'Read more' : `More about ${solution.title}`}
+            </Button>
           </Link>
         </div>
       </div>

@@ -1,18 +1,19 @@
 'use client';
+import type { siteConfig } from '@/config/routes';
+import type { Config } from '@/payload-types';
+import { Button, cn } from '@heroui/react';
 import Link from 'next/link';
 import { useParams, useSelectedLayoutSegment } from 'next/navigation';
 import React from 'react';
-import {siteConfig} from "@/config/routes";
-import {Config} from "@/payload-types";
 
 interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  link: typeof siteConfig.navItems[0];
+  link: (typeof siteConfig.navItems)[0];
 }
 
 export function NavLink({ link, ...props }: NavLinkProps) {
   const [mounted, setMounted] = React.useState(false);
   const currentPath = useSelectedLayoutSegment();
-  const { lang } = useParams() as {lang: Config['locale']};
+  const { lang } = useParams() as { lang: Config['locale'] };
   const isActive =
     (currentPath === null && link.href === '/') || link.href?.includes(String(currentPath));
 
@@ -25,19 +26,23 @@ export function NavLink({ link, ...props }: NavLinkProps) {
   if (!mounted) return null;
 
   return (
-    <Link
-      aria-labelledby="`nav-${link.label}`"
-      className="btn btn-ghost no-animation data-[icon-only=true]:btn-square text-background dark:text-foreground font-semibold text-xl data-[active=true]:bg-primary-500 data-[active=true]:text-foreground dark:data-[active=true]:text-background"
-      data-active={isActive}
-      data-icon-only={width < 1024 && width >= 640}
-      href={`/${lang}/${link.href}`}
-      scroll={false}
-      {...props}
-    >
-      <span className="inline lg:hidden">{link.icon}</span>
-      <span className="inline sm:hidden lg:inline" id={`nav-${link.label}`}>
-        {link.label[lang]}
-      </span>
+    <Link href={`/${lang}/${link.href}`} scroll={false} passHref {...props}>
+      <Button
+        aria-labelledby="`nav-${link.label}`"
+        variant={isActive ? 'solid' : 'light'}
+        color="primary"
+        className={cn(
+          'animate-none text-xl font-semibold',
+          isActive && 'text-foreground dark:text-background',
+          !isActive && 'text-background dark:text-foreground',
+        )}
+        isIconOnly={width < 1024 && width >= 640}
+      >
+        <span className="inline lg:hidden">{link.icon}</span>
+        <span className="inline sm:hidden lg:inline" id={`nav-${link.label}`}>
+          {link.label[lang]}
+        </span>
+      </Button>
     </Link>
   );
 }
