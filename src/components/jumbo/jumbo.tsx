@@ -137,7 +137,7 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
                   placeholder={image.blurDataUrl ? 'blur' : 'empty'}
                   loading="lazy"
                 />
-                <div className="absolute w-full h-full top-0 left-0 bg-linear-to-b from-transparent from-75% to-background" />
+                <div className="absolute w-full h-full top-0 left-0 bg-linear-to-b from-75% from-transparent to-background" />
                 <div
                   className="absolute h-0.5 top-0 left-0 bg-primary transition-width duration-75 opacity-60"
                   style={{ width: `${Math.max(step / 2, 0)}%` }}

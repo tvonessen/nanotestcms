@@ -22,11 +22,12 @@ module.exports = {
   darkMode: 'class',
   plugins: [
     heroui({
+      addCommonColors: true,
       themes: {
         light: {
           colors: {
             foreground: '#151515',
-            background: '#f5f5f5',
+            background: '#f5f8f8',
             focus: '#fc8450',
             primary: {
               DEFAULT: '#00a984',
@@ -42,8 +43,8 @@ module.exports = {
               900: '#00221a',
             },
             secondary: {
-              DEFAULT: '#6d1b67',
-              foreground: '#f5f5f5',
+              DEFAULT: '#C25BA2',
+              foreground: '#f5f8f8',
               50: '#FCE8EF',
               100: '#F7CFE0',
               200: '#E9A5C8',
@@ -61,7 +62,7 @@ module.exports = {
             },
             danger: {
               DEFAULT: '#f31240',
-              foreground: '#f5f5f5',
+              foreground: '#f5f8f8',
             },
           },
         },
@@ -103,7 +104,7 @@ module.exports = {
             },
             danger: {
               DEFAULT: '#ff1a50',
-              foreground: '#f5f5f5',
+              foreground: '#f5f8f8',
             },
           },
         },

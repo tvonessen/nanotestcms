@@ -7,18 +7,18 @@ interface HighlightProps {
   title: string;
   text: string;
   link: string;
-  variant?: 'primary' | 'secondary' | undefined | null;
+  color?: 'primary' | 'secondary' | undefined | null;
 }
 
 const Highlight = (props: HighlightProps) => {
-  const { lang, title, text, link, variant = 'primary' } = props;
+  const { lang, title, text, link, color = 'primary' } = props;
   const gradient =
-    variant === 'primary'
+    color === 'primary'
       ? 'from-primary-600 to-primary-900 dark:from-primary-200 dark:to-primary'
       : 'from-secondary-600 to-secondary-900 dark:from-secondary-200 dark:to-secondary';
 
   const textGradient =
-    variant === 'primary'
+    color === 'primary'
       ? 'from-primary-200 to-white dark:to-primary-700 dark:from-black'
       : 'from-secondary-200 to-white dark:to-secondary-700 dark:from-black';
 
@@ -34,7 +34,7 @@ const Highlight = (props: HighlightProps) => {
         </h2>
         <p className=" mx-auto text-lg my-3">{text}</p>
         <Link href={`/${lang}/${link}`} passHref>
-          <Button color={variant ?? 'default'} radius="full" className="text-lg">
+          <Button color={color ?? 'default'} radius="full" className="text-lg">
             Learn more
           </Button>
         </Link>

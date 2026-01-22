@@ -19,7 +19,7 @@
   transition: background-color 0.1s, color 0.1s;
 }
 
-:root[class~="dark"] {
+.dark {
   --foreground: 245, 248, 248;
   --background: 21, 21, 21;
   --secondary: 243, 182, 31;

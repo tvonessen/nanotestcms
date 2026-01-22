@@ -86,7 +86,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                       title={item.title}
                       text={item.text}
                       link={item.link}
-                      variant={item.variant}
+                      color={item.variant}
                     />
                   );
                 case 'text-video':

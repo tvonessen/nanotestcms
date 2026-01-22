@@ -44,7 +44,7 @@ export default async function Home(props: HomeProps) {
                 link={block.link}
                 text={block.text}
                 title={block.title}
-                variant={block.variant}
+                color={block.variant}
               />
             );
           case 'cards':
