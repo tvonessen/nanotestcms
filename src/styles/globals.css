@@ -33,6 +33,11 @@
 
 *:focus-visible {
   outline: 2px solid rgb(var(--focus));
+
+  &input,
+  &textarea {
+    outline: transparent;
+  }
 }
 
 .grecaptcha-badge {

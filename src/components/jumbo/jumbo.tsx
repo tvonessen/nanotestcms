@@ -150,7 +150,7 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
                 <h2 className="text-xl sm:text-2xl text-center text-foreground opacity-90">
                   {image.description}
                 </h2>
-                <Link tabIndex={0} href={image.link} passHref>
+                <Link href={image.link} passHref>
                   <Button
                     color="primary"
                     radius="full"

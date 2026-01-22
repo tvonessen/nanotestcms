@@ -43,7 +43,7 @@ module.exports = {
               900: '#00221a',
             },
             secondary: {
-              DEFAULT: '#C25BA2',
+              DEFAULT: '#9B4B89',
               foreground: '#f5f8f8',
               50: '#FCE8EF',
               100: '#F7CFE0',

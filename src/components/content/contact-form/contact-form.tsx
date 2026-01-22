@@ -94,11 +94,12 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
         Contact us
       </h2>
       <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit(onSubmit)}>
-        <h3 className="col-span-2 -mb-2 text-lg font-medium text-secondary mt-2">Your message</h3>
+        <h3 className="col-span-2 -mb-2 text-lg font-medium text-primary-700 mt-2">Your message</h3>
         <Input
           {...register('subject', { required: true })}
           className="col-span-2"
           variant="underlined"
+          color="secondary"
           isRequired
           isInvalid={!!errors.subject}
           errorMessage="Please enter a subject"
@@ -111,6 +112,7 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
           {...register('message', { required: true })}
           className="col-span-2"
           variant="underlined"
+          color="secondary"
           isRequired
           isInvalid={!!errors.message}
           errorMessage="Please enter a message"
@@ -119,11 +121,12 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
           defaultValue={defaultValues?.message}
           isDisabled={isSubmitting || isSubmitSuccessful}
         />
-        <h3 className="col-span-2 -mb-2 text-lg font-medium text-secondary mt-2">About you</h3>
+        <h3 className="col-span-2 -mb-2 text-lg font-medium text-primary-700 mt-2">About you</h3>
         <Input
           {...register('name', { required: true })}
           className="col-span-2 sm:col-span-1"
           variant="underlined"
+          color="secondary"
           isRequired
           label="Your name"
           type="text"
@@ -136,6 +139,7 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
           {...register('company')}
           className="col-span-2 sm:col-span-1"
           variant="underlined"
+          color="secondary"
           label="Company"
           type="text"
           isInvalid={!!errors.company}
@@ -150,6 +154,7 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
           })}
           className="col-span-2 sm:col-span-1"
           variant="underlined"
+          color="secondary"
           isRequired
           label="Email"
           type="email"
@@ -162,6 +167,7 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
           {...register('phone', { pattern: /^[0-9+\s]+$/ })}
           className="col-span-2 sm:col-span-1"
           variant="underlined"
+          color="secondary"
           label="Phone"
           type="tel"
           isInvalid={!!errors.phone}

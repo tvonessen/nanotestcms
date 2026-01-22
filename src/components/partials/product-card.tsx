@@ -3,6 +3,9 @@ import Link from 'next/link';
 
 import type { Config, Media, Solution, SolutionCategory } from '@/payload-types';
 import { Button } from '@heroui/button';
+import { Card } from '@heroui/card';
+import { Chip } from '@heroui/chip';
+import { cn } from '@heroui/react';
 
 interface ProductCardProps {
   lang: Config['locale'];
@@ -16,7 +19,7 @@ const ProductCard = ({ lang, product, className }: ProductCardProps) => {
   const usedImage = image.sizes?.medium ?? image.sizes?.small ?? image.sizes?.thumb ?? image;
 
   return (
-    <div className={`card sm:card-side lg:card bg-base-200 shadow-lg ${className}`}>
+    <Card shadow="lg" className={cn('bg-base-200 lg:block grid grid-cols-2', className)}>
       <figure>
         <Link href={`/${lang}/${product.type[0]}s/${product.slug}`} tabIndex={-1}>
           <Image
@@ -30,19 +33,30 @@ const ProductCard = ({ lang, product, className }: ProductCardProps) => {
           />
         </Link>
       </figure>
-      <div className="card-body min-w-[33%] p-4 md:p-6">
-        <h2 className="card-title text-2xl">
-          {product.title}
-          {product.new && <div className="badge badge-error text-white">NEW</div>}
-        </h2>
-        <div className="card-actions justify-start">
-          {categories.map((category) => (
-            <div key={category.id} className={'badge whitespace-nowrap opacity-70 badge-outline'}>
-              {category.title}
-            </div>
-          ))}
+      <div className="card-body min-w-[33%] p-4 md:p-6 flex flex-col justify-between">
+        <div>
+          <h2 className="card-title text-2xl leading-none mb-2 flex flex-row flex-wrap gap-[0.5ch] items-end">
+            {product.title}
+            {product.new && (
+              <Chip radius="md" color="danger" className="text-white text-xs h-5 px-0">
+                NEW
+              </Chip>
+            )}
+            {product.discontinued && (
+              <Chip radius="md" color="default" className="text-xs h-5 px-0">
+                Discontinued
+              </Chip>
+            )}
+          </h2>
+          <div className="card-actions justify-start">
+            {categories.map((category) => (
+              <div key={category.id} className={'badge whitespace-nowrap opacity-70 badge-outline'}>
+                {category.title}
+              </div>
+            ))}
+          </div>
+          <p>{product.subtitle}</p>
         </div>
-        <p>{product.subtitle}</p>
         <Link
           href={`/${lang}/${product.type[0]}s/${product.slug}`}
           title={`View ${product.title} details`}
@@ -53,7 +67,7 @@ const ProductCard = ({ lang, product, className }: ProductCardProps) => {
           </Button>
         </Link>
       </div>
-    </div>
+    </Card>
   );
 };
 
