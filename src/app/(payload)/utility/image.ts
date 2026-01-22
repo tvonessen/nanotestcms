@@ -4,24 +4,29 @@ import path from 'path';
 import sharp from 'sharp';
 
 export const imageToBase64 = (imagePath: string) => {
-  // Read the image file synchronously
-  const data = readFileSync(imagePath);
+  try {
+    // Read the image file synchronously
+    const data = readFileSync(imagePath);
 
-  // Convert buffer to base64
-  const base64 = data.toString('base64');
+    // Convert buffer to base64
+    const base64 = data.toString('base64');
 
-  // Get file extension and create MIME type
-  const ext = path.extname(imagePath).slice(1).toLowerCase();
-  const mimeType = `image/${ext}`;
+    // Get file extension and create MIME type
+    const ext = path.extname(imagePath).slice(1).toLowerCase();
+    const mimeType = `image/${ext}`;
 
-  // Construct and return the data URL
-  return `data:${mimeType};base64,${base64}`;
+    // Construct and return the data URL
+    return `data:${mimeType};base64,${base64}`;
+  }
+  catch (error) {
+    console.error('Error converting image to base64:', error);
+    return null;
+  }
 };
 
 export const isDarkImage = async (dataUrl: string, threshold: number = 140) => {
-  const imageBuffer = Buffer.from(dataUrl.split(',')[1], 'base64');
-
   try {
+    const imageBuffer = Buffer.from(dataUrl.split(',')[1], 'base64');
     const { data, info } = await sharp(imageBuffer).raw().toBuffer({ resolveWithObject: true });
 
     const totalPixels = info.width * info.height;
@@ -38,6 +43,6 @@ export const isDarkImage = async (dataUrl: string, threshold: number = 140) => {
     return averageBrightness < threshold;
   } catch (error) {
     console.error('Error analyzing image brightness:', error);
-    throw error;
+    return false;
   }
 };

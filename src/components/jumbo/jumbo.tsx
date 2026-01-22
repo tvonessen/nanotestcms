@@ -134,7 +134,7 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
                   width={image.width as number}
                   height={image.height as number}
                   blurDataURL={image.blurDataUrl as string}
-                  placeholder="blur"
+                  placeholder={image.blurDataUrl ? 'blur' : 'empty'}
                   loading="lazy"
                 />
                 <div className="absolute w-full h-full top-0 left-0 bg-linear-to-b from-transparent from-75% to-background" />

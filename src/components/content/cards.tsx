@@ -72,7 +72,7 @@ const Card = ({ lang, solution, className }: CardProps) => {
           height={cardImage.height as number}
           src={cardImage.url as string}
           width={cardImage.width as number}
-          placeholder="blur"
+          placeholder={cardImage.blurDataUrl ? 'blur' : 'empty'}
           blurDataURL={cardImage.blurDataUrl as string}
         />
       </figure>

@@ -53,7 +53,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
                 width={(image.sizes?.large?.width ?? image.width) as number}
                 height={(image.sizes?.large?.height ?? image.height) as number}
                 blurDataURL={image.blurDataUrl as string}
-                placeholder="blur"
+                placeholder={image.blurDataUrl ? 'blur' : 'empty'}
                 loading="lazy"
               />
             </div>
