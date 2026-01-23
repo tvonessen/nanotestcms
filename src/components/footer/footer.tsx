@@ -12,7 +12,7 @@ async function Footer(props: FooterProps) {
   return (
     <footer
       className={cn(
-        'pt-3 pb-6 mt-3 w-full',
+        'pt-3 pb-6 mt-20 w-full',
         'text-background dark:text-foreground',
         'bg-foreground dark:bg-background',
         'border-t-1 border-primary',
