@@ -79,7 +79,7 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
         {images.length > 1 && (
           <Fragment key={'controls'}>
             <button
-              className="absolute rounded-sm left-1 top-1/2 -translate-y-1/2 z-20 p-6"
+              className="absolute rounded-sm left-1 top-1/2 -translate-y-1/2 z-20 p-6 cursor-pointer"
               type="button"
               onClick={prev}
             >
@@ -94,7 +94,7 @@ const Jumbo = ({ jumbos, className }: JumboProps) => {
               />
             </button>
             <button
-              className="absolute rounded-sm right-1 top-1/2 -translate-y-1/2 z-20 p-6"
+              className="absolute rounded-sm right-1 top-1/2 -translate-y-1/2 z-20 p-6 cursor-pointer"
               type="button"
               onClick={next}
             >
