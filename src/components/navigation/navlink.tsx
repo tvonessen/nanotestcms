@@ -35,6 +35,7 @@ export function NavLink({ link, ...props }: NavLinkProps) {
           'animate-none text-xl font-semibold',
           isActive && 'text-foreground dark:text-background',
           !isActive && 'text-background dark:text-foreground',
+          width < 1204 && width >= 640 && 'min-w-0 px-3',
         )}
         isIconOnly={width < 1024 && width >= 640}
       >
