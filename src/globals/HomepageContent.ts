@@ -44,12 +44,14 @@ export const HomepageContent: GlobalConfig = {
           label: 'Title',
           type: 'text',
           required: true,
+          localized: true,
         },
         {
           name: 'description',
           label: 'Description',
           type: 'text',
           required: true,
+          localized: true,
         },
         {
           name: 'image',
@@ -71,6 +73,7 @@ export const HomepageContent: GlobalConfig = {
               name: 'linkLabel',
               label: 'Link label',
               type: 'text',
+              localized: true,
             },
           ],
         },

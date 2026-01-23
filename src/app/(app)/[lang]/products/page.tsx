@@ -1,4 +1,4 @@
-import ProductCard from '@/components/partials/product-card';
+import { Card } from '@/components/content/cards/card';
 import { LazyIcon } from '@/components/utility/lazy-icon';
 import type { Config, Solution, SolutionCategory } from '@/payload-types';
 import config from '@payload-config';
@@ -105,12 +105,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
                     ),
                   )
                   .map((service) => (
-                    <ProductCard
-                      lang={lang}
-                      key={service.slug}
-                      className="flex-auto lg:flex-[0_0_calc(50%_-_2rem)] xl:flex-[0_0_calc(33.3333%_-_4rem)]"
-                      product={service}
-                    />
+                    <Card lang={lang} solution={service} key={service.slug} />
                   ))}
               </div>
             </Fragment>

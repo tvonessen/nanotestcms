@@ -1,4 +1,4 @@
-import CardsGrid from '@/components/content/cards';
+import { CardsGrid } from '@/components/content/cards/cards-grid';
 import ContactForm from '@/components/content/contact-form/contact-form';
 import Features from '@/components/content/features';
 import Highlight from '@/components/content/highlight';

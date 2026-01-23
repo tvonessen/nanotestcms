@@ -1,7 +1,7 @@
 import { writeFile } from 'node:fs';
+import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { imageToBase64, isDarkImage } from '@/app/(payload)/utility/image';
 import type { CollectionConfig } from 'payload';
-import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 
 export const MEDIA_DIR = './data/media';
 

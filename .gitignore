@@ -43,4 +43,5 @@ next-env.d.ts
 
 /media
 /documents
+/data
 /.pnpm-store/
