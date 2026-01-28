@@ -55,7 +55,7 @@ export default async function Downloads({ docs }: DownloadsProps) {
       <ul className="w-full">
         {documents.map((doc) => (
           <li
-            className="w-full max-w-none grid grid-cols-[48px_4fr_6fr_8ch_48px] gap-x-2 items-center bg-black/10 my-2 p-2 rounded-md"
+            className="w-full max-w-none! grid grid-cols-[48px_4fr_6fr_8ch_48px] gap-x-2 items-center bg-black/10 my-2 p-2 rounded-md"
             key={doc.id}
           >
             <DocumentIcon className="text-secondary" type={doc.type} size={28} weight="bold" />
