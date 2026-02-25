@@ -4,6 +4,7 @@ import {
   NutIcon,
   TagSimpleIcon,
   UsersThreeIcon,
+  GridFourIcon,
 } from '@phosphor-icons/react/dist/ssr';
 import {Config} from "@/payload-types";
 import {ReactNode} from "react";
@@ -47,6 +48,11 @@ export const siteConfig: SiteConfig = {
       label: {en: 'About', de: 'Über uns'},
       href: '/about',
       icon: <UsersThreeIcon size={27} weight="regular" />,
+    },
+    {
+      label: {en: 'Hysudoku', de: 'Hysudoku'},
+      href: '/sudoku',
+      icon: <GridFourIcon size={27} weight="regular" />,
     },
     // {
     //   label: 'Contact',

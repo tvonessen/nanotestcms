@@ -6,7 +6,7 @@ export const Users: CollectionConfig = {
   slug: 'users',
   access: {
     read: isAdminOrSelf,
-    create: isAdmin,
+    create: () => true,
     update: isAdminOrSelf,
     delete: isAdmin,
   },
