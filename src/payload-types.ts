@@ -171,6 +171,8 @@ export interface User {
   password?: string | null;
 }
 /**
+ * File sizes must not exceed 10 MB
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */

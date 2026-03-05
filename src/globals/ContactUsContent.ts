@@ -22,7 +22,7 @@ export const ContactUsContent: GlobalConfig = {
       autosave: false,
       schedulePublish: true,
     },
-    max: 10,
+    max: 50,
   },
   admin: {
     livePreview: {
