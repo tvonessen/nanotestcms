@@ -15,7 +15,7 @@ export const TeamMembers: CollectionConfig = {
       autosave: false,
       schedulePublish: true,
     },
-    maxPerDoc: 10,
+    maxPerDoc: 50,
   },
   admin: {
     defaultColumns: ['name', 'position', 'status'],
@@ -43,18 +43,21 @@ export const TeamMembers: CollectionConfig = {
       type: 'text',
       maxLength: 28,
       required: true,
+      localized: true,
     },
     {
       name: 'phone',
       label: 'Phone',
       type: 'text',
       required: false,
+      localized: true,
     },
     {
       name: 'email',
       label: 'Email',
       type: 'email',
       required: false,
+      localized: true,
     },
     {
       name: 'portrait',

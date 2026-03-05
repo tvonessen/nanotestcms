@@ -38,7 +38,7 @@ const Solutions: CollectionConfig = {
       schedulePublish: true,
       autosave: true,
     },
-    maxPerDoc: 20,
+    maxPerDoc: 50,
   },
   fields: [
     {
@@ -59,12 +59,14 @@ const Solutions: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
+      localized: true,
     },
     {
       name: 'subtitle',
       label: 'Subtitle',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       name: 'shortDescription',

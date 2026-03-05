@@ -16,7 +16,7 @@ export const LegalContent: GlobalConfig = {
       },
       schedulePublish: true,
     },
-    max: 5,
+    max: 50,
   },
   admin: {},
   access: {

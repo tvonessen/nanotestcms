@@ -19,7 +19,7 @@ export const DistroPartners: CollectionConfig = {
       autosave: true,
       schedulePublish: true,
     },
-    maxPerDoc: 10,
+    maxPerDoc: 50,
   },
   admin: {
     useAsTitle: 'name',
@@ -37,11 +37,13 @@ export const DistroPartners: CollectionConfig = {
       name: 'address',
       label: 'Address',
       type: 'richText',
+      localized: true,
     },
     {
       name: 'website',
       label: 'Website',
       type: 'text',
+      localized: true,
     },
     {
       name: 'description',

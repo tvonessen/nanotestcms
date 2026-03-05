@@ -19,7 +19,7 @@ export const AboutContent: GlobalConfig = {
       },
       schedulePublish: true,
     },
-    max: 5,
+    max: 50,
   },
   admin: {
     livePreview: {
