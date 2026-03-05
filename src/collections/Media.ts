@@ -46,6 +46,10 @@ export const Media: CollectionConfig = {
   admin: {
     group: 'Files',
     defaultColumns: ['filename', 'alt', 'tags'],
+    description: {
+      en: "File sizes must not exceed 10 MB",
+      de: 'Dateigrößen dürfen 10 MB nicht überschreiten',
+    },
   },
   fields: [
     {
@@ -107,7 +111,7 @@ export const Media: CollectionConfig = {
     ],
     beforeRead: [
       async ({ doc }) => {
-        if (!doc.sizes.blurred) return;
+      if (!doc.sizes.blurred) return;
         if (doc.mimeType.includes('svg')) {
           doc.blurDataUrl = '';
           doc.isDark = false;
