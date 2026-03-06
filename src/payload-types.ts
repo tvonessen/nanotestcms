@@ -112,9 +112,10 @@ export interface Config {
     'contact-us': ContactUsSelect<false> | ContactUsSelect<true>;
   };
   locale: 'en' | 'de';
-  user: User & {
-    collection: 'users';
+  widgets: {
+    collections: CollectionsWidget;
   };
+  user: User;
   jobs: {
     tasks: {
       schedulePublish: TaskSchedulePublish;
@@ -169,6 +170,7 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+  collection: 'users';
 }
 /**
  * File sizes must not exceed 10 MB
@@ -2546,40 +2548,41 @@ export interface Homepage {
             blockName?: string | null;
             blockType: 'highlight';
           }
-        | Cards
+        | {
+            title: string;
+            paragraph?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            cards: (string | Solution)[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cards';
+          }
         | Features
-        | ContactForm
+        | {
+            to: string;
+            subject?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contact-form';
+          }
       )[]
     | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Cards".
- */
-export interface Cards {
-  title: string;
-  paragraph?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  cards: (string | Solution)[];
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'cards';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4188,8 +4191,35 @@ export interface About {
             blockName?: string | null;
             blockType: 'text-video';
           }
-        | Cards
-        | ContactForm
+        | {
+            title: string;
+            paragraph?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            cards: (string | Solution)[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cards';
+          }
+        | {
+            to: string;
+            subject?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contact-form';
+          }
       )[]
     | null;
   teamMembers?: (string | TeamMember)[] | null;
@@ -4261,12 +4291,44 @@ export interface About {
             blockType: 'text-video';
           }
         | Cards
-        | ContactForm
+        | {
+            to: string;
+            subject?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contact-form';
+          }
       )[]
     | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Cards".
+ */
+export interface Cards {
+  title: string;
+  paragraph?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  cards: (string | Solution)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'cards';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4319,7 +4381,13 @@ export interface Legal {
             blockName?: string | null;
             blockType: 'text-image';
           }
-        | ContactForm
+        | {
+            to: string;
+            subject?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contact-form';
+          }
       )[]
     | null;
   privacy?:
@@ -4367,7 +4435,13 @@ export interface Legal {
             blockName?: string | null;
             blockType: 'text-image';
           }
-        | ContactForm
+        | {
+            to: string;
+            subject?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contact-form';
+          }
       )[]
     | null;
   _status?: ('draft' | 'published') | null;
@@ -4447,7 +4521,13 @@ export interface ContactUs {
             blockName?: string | null;
             blockType: 'text-video';
           }
-        | ContactForm
+        | {
+            to: string;
+            subject?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contact-form';
+          }
       )[]
     | null;
   europe?: {
@@ -4809,6 +4889,16 @@ export interface ContactUsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collections_widget".
+ */
+export interface CollectionsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
