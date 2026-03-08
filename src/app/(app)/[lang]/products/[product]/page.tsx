@@ -7,7 +7,7 @@ import TextImage from '@/components/content/text-image';
 import TextVideo from '@/components/content/text-video';
 import type { Config, Media, Solution } from '@/payload-types';
 import config from '@payload-config';
-import { draftMode } from 'next/headers';
+import { isPreviewEnabled } from '@/utils/preview';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import { Fragment } from 'react';
@@ -40,7 +40,7 @@ const ProductPage = async ({ params }: ProductPageProps) => {
   const { product: slug, lang } = await params;
 
   const payload = await getPayload({ config });
-  const { isEnabled: isDraft } = await draftMode();
+  const isDraft = await isPreviewEnabled();
   const product: Solution = await payload
     .find({
       collection: 'solutions',

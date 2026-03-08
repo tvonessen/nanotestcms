@@ -14,9 +14,7 @@ export const AboutContent: GlobalConfig = {
   label: 'About',
   versions: {
     drafts: {
-      autosave: {
-        interval: 375,
-      },
+      autosave: true,
       schedulePublish: true,
     },
     max: 50,

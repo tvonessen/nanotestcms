@@ -20,6 +20,9 @@ importers:
       '@heroui/react':
         specifier: ^2.8.9
         version: 2.8.9(@types/react@19.2.14)(framer-motion@12.35.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@4.2.1)
+      '@payloadcms/admin-bar':
+        specifier: ^3.79.0
+        version: 3.79.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@payloadcms/db-mongodb':
         specifier: ^3.79.0
         version: 3.79.0(payload@3.79.0(graphql@16.13.1)(typescript@5.9.3))
@@ -1499,6 +1502,12 @@ packages:
   '@parcel/watcher@2.5.6':
     resolution: {integrity: sha512-tmmZ3lQxAe/k/+rNnXQRawJ4NjxO2hqiOLTHvWchtGZULp4RyFeh6aU4XdOYBFe2KE1oShQTv4AblOs2iOrNnQ==}
     engines: {node: '>= 10.0.0'}
+
+  '@payloadcms/admin-bar@3.79.0':
+    resolution: {integrity: sha512-NIUd0wQLmUHk23/3H+6QVJbQPLR9O9gsXc3UbcKVie4CiU9xUmrXdMVt4kNHJGqy3HieEJK/f5vNe5HSRL1xLw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.1 || ^19.1.2 || ^19.2.1
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.1 || ^19.1.2 || ^19.2.1
 
   '@payloadcms/db-mongodb@3.79.0':
     resolution: {integrity: sha512-oLnI73zfUBktCrYaxPTEAxxGE+X6GhEskjuDs1hUIhguWWnTCXyjaLoCO5x0kVj4wWQoCACvvJ4HlGJ+bDOTFA==}
@@ -5756,6 +5765,11 @@ snapshots:
       '@parcel/watcher-win32-arm64': 2.5.6
       '@parcel/watcher-win32-ia32': 2.5.6
       '@parcel/watcher-win32-x64': 2.5.6
+
+  '@payloadcms/admin-bar@3.79.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+    dependencies:
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
 
   '@payloadcms/db-mongodb@3.79.0(payload@3.79.0(graphql@16.13.1)(typescript@5.9.3))':
     dependencies:
