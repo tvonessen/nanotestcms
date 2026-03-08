@@ -31,7 +31,6 @@ export function LanguageSwitch() {
       defaultSelectedKeys={[lang]}
       disallowEmptySelection
       onChange={handleChange}
-      multiple={false}
       items={[
         { key: 'en', label: 'EN' },
         { key: 'de', label: 'DE' },
