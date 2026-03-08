@@ -1,11 +1,11 @@
 'use client';
 
+import { Button } from '@heroui/react';
+import { CaretDownIcon } from '@phosphor-icons/react';
+import React from 'react';
 import type { TeamMember } from '@/payload-types';
 import TeamMemberCard from './team-member-card';
 import styles from './team-members-gallery.module.scss';
-import { Button } from '@heroui/react';
-import React from 'react';
-import { CaretDownIcon } from '@phosphor-icons/react';
 
 export default function TeamMembersGallery({ members }: { members: TeamMember[] }) {
   const [showAll, setShowAll] = React.useState<boolean>(false);
@@ -29,7 +29,7 @@ export default function TeamMembersGallery({ members }: { members: TeamMember[] 
       </ul>
       <Button
         fullWidth
-        className={`md:hidden ${showAll ? 'hidden' : ''} -mt-[100px]`}
+        className={`md:hidden ${showAll || members.length <= 5 ? 'hidden' : ''} -mt-25`}
         variant="flat"
         color="primary"
         size="lg"

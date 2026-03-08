@@ -1,6 +1,6 @@
-import type { Media, TeamMember } from '@/payload-types';
-import { At, Phone, SpinnerGap } from '@phosphor-icons/react/dist/ssr';
+import { AtIcon, PhoneIcon, SpinnerGapIcon } from '@phosphor-icons/react/dist/ssr';
 import type React from 'react';
+import type { Media, TeamMember } from '@/payload-types';
 
 interface TeamMemberCardProps extends React.HTMLProps<HTMLLIElement> {
   member: TeamMember;
@@ -10,7 +10,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
   const clipPathId = `clip-path-${member.id}`;
   const imgUrl =
     (member.portrait as Media)?.sizes?.small?.url ??
-    `https://api.dicebear.com/9.x/personas/svg?seed="${member.name ?? Math.random().toString(16).slice(2, 10)}"&backgroundColor=00a984,6d1b67&backgroundType=gradientLinear&clothingColor=e0e0e0`;
+    `https://api.dicebear.com/9.x/shapes/svg?seed="${member.name ?? Math.random().toString(16).slice(2, 10)}"&backgroundColor=00a984,6d1b67&backgroundType=gradientLinear&clothingColor=e0e0e0`;
 
   return (
     <li
@@ -49,7 +49,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
               clipPath={`url(#${clipPathId})`}
             />
           )}
-          <SpinnerGap
+          <SpinnerGapIcon
             size="33.333333%"
             x={96 / 3}
             y={99 / 3}
@@ -88,7 +88,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
                   href={`tel:${member.phone}`}
                   className="block p-1 bg-transparent rounded-lg transition-colors hover:bg-background focus-visible:bg-background"
                 >
-                  <Phone weight="fill" size={28} />
+                  <PhoneIcon weight="fill" size={28} />
                 </a>
               </li>
             )}
@@ -98,7 +98,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
                   href={`mailto:${member.email}`}
                   className="block p-1 bg-transparent rounded-lg transition-colors hover:bg-background focus-visible:bg-background"
                 >
-                  <At weight="bold" size={28} />
+                  <AtIcon weight="bold" size={28} />
                 </a>
               </li>
             )}
