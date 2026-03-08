@@ -5,6 +5,7 @@ import Loading from '@/app/(app)/[lang]/loading';
 import { Providers } from '@/app/(app)/[lang]/providers';
 import Footer from '@/components/footer/footer';
 import { Navbar } from '@/components/navigation/navbar';
+import { RefreshRouteOnSave } from '@/components/utility/RefreshRouteOnSave';
 import { fontSans } from '@/config/fonts';
 import { siteConfig } from '@/config/routes';
 import { Suspense } from 'react';
@@ -29,6 +30,7 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
       </head>
       <body className={`min-h-screen bg-background font-sans antialiased ${fontSans.className}`}>
         <Providers>
+          <RefreshRouteOnSave />
           <Navbar />
           <div className="min-h-[calc(100dvh-10rem)]">
             <Suspense fallback={<Loading />}>{children}</Suspense>

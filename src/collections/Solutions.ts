@@ -29,8 +29,12 @@ const Solutions: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'category', 'slug'],
     livePreview: {
-      url: ({ data }) =>
-        `${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_SERVER_URL : process.env.NEXT_DEV_SERVER_URL}/${data.type[0]}s/${data.slug}`,
+      url: ({ data, locale }) => {
+        const type = (data.type as string[])?.[0];
+        const segment = type === 'product' ? 'products' : 'services';
+        const redirect = `/${locale?.code ?? 'en'}/${segment}/${data.slug}`;
+        return `${process.env.NEXT_PUBLIC_SERVER_URL}/api/draft?redirect=${redirect}`;
+      },
     },
   },
   versions: {

@@ -6,6 +6,7 @@ import RichTextWrapper from '@/components/content/richtext-wrapper';
 import Jumbo from '@/components/jumbo/jumbo';
 import type { Config } from '@/payload-types';
 import config from '@payload-config';
+import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import React from 'react';
@@ -17,9 +18,11 @@ interface HomeProps {
 export default async function Home(props: HomeProps) {
   const { lang } = await props.params;
   const payload = await getPayload({ config });
+  const { isEnabled: isDraft } = await draftMode();
   const homepageContent = await payload.findGlobal({
     slug: 'homepage',
-    overrideAccess: false,
+    draft: isDraft,
+    overrideAccess: isDraft,
     locale: lang,
   });
 

@@ -18,10 +18,18 @@ export const LegalContent: GlobalConfig = {
     },
     max: 50,
   },
-  admin: {},
+  admin: {
+    // LegalContent covers two sub-pages; livePreview defaults to imprint.
+    // Switch the URL manually in the browser to preview /privacy instead.
+    livePreview: {
+      url: ({ locale }) => {
+        const redirect = `/${locale?.code ?? 'en'}/about/imprint`;
+        return `${process.env.NEXT_PUBLIC_SERVER_URL}/api/draft?redirect=${redirect}`;
+      },
+    },
+  },
   access: {
     read: isPublishedOrLoggedIn,
-    readDrafts: isLoggedIn,
     readVersions: isLoggedIn,
     update: isLoggedIn,
   },
