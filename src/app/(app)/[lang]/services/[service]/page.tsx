@@ -1,5 +1,3 @@
-// Next.js will invalidate the cache when a
-
 import Carousel from '@/components/carousel/carousel';
 import ContactForm from '@/components/content/contact-form/contact-form';
 import Downloads from '@/components/content/downloads';
@@ -9,6 +7,7 @@ import TextImage from '@/components/content/text-image';
 import TextVideo from '@/components/content/text-video';
 import type { Config, Media, Solution } from '@/payload-types';
 import config from '@payload-config';
+import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import React from 'react';
@@ -41,11 +40,13 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const { service: slug, lang } = await params;
 
   const payload = await getPayload({ config });
+  const { isEnabled: isDraft } = await draftMode();
   const service: Solution = await payload
     .find({
       collection: 'solutions',
       where: { slug: { equals: slug } },
-      overrideAccess: false,
+      draft: isDraft,
+      overrideAccess: isDraft,
       locale: lang,
     })
     .then((res) => res.docs[0]);

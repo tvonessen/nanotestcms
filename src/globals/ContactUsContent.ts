@@ -13,7 +13,6 @@ export const ContactUsContent: GlobalConfig = {
   label: 'Contact Us',
   access: {
     read: isPublishedOrLoggedIn,
-    readDrafts: isLoggedIn,
     readVersions: isLoggedIn,
     update: isLoggedIn,
   },
@@ -26,8 +25,10 @@ export const ContactUsContent: GlobalConfig = {
   },
   admin: {
     livePreview: {
-      url: () =>
-        `${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_SERVER_URL : process.env.NEXT_DEV_SERVER_URL}/contact`,
+      url: ({ locale }) => {
+        const redirect = `/${locale?.code ?? 'en'}/contact`;
+        return `${process.env.NEXT_PUBLIC_SERVER_URL}/api/draft?redirect=${redirect}`;
+      },
     },
   },
   fields: [

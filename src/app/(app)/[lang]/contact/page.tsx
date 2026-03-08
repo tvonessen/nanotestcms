@@ -5,16 +5,25 @@ import TextVideo from '@/components/content/text-video';
 import DistributorsAccordion, {
   type RegionKey,
 } from '@/components/distributors/distributors-accordion';
-import type { Media } from '@/payload-types';
+import type { Config, Media } from '@/payload-types';
 import config from '@payload-config';
+import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 
-export default async function Contact() {
+interface ContactPageProps {
+  params: Promise<{ lang: Config['locale'] }>;
+}
+
+export default async function Contact({ params }: ContactPageProps) {
+  const { lang } = await params;
   const payload = await getPayload({ config });
+  const { isEnabled: isDraft } = await draftMode();
   const contactUs = await payload.findGlobal({
     slug: 'contact-us',
-    overrideAccess: false,
+    draft: isDraft,
+    overrideAccess: isDraft,
+    locale: lang,
   });
 
   async function populateContactPartners(key: RegionKey) {

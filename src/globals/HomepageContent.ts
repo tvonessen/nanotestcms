@@ -14,14 +14,15 @@ export const HomepageContent: GlobalConfig = {
   label: 'Homepage',
   access: {
     read: isPublishedOrLoggedIn,
-    readDrafts: isLoggedIn,
     readVersions: isLoggedIn,
     update: isLoggedIn,
   },
   admin: {
     livePreview: {
-      url: () =>
-        `${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_SERVER_URL : process.env.NEXT_DEV_SERVER_URL}`,
+      url: ({ locale }) => {
+        const redirect = `/${locale?.code ?? 'en'}`;
+        return `${process.env.NEXT_PUBLIC_SERVER_URL}/api/draft?redirect=${redirect}`;
+      },
     },
   },
   versions: {
