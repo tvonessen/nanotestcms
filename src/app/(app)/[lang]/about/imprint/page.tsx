@@ -2,7 +2,7 @@ import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
 import type { Config, Media } from '@/payload-types';
 import config from '@payload-config';
-import { draftMode } from 'next/headers';
+import { isPreviewEnabled } from '@/utils/preview';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 
@@ -13,7 +13,7 @@ interface AboutPageProps {
 export default async function AboutPage({ params }: AboutPageProps) {
   const { lang } = await params;
   const payload = await getPayload({ config });
-  const { isEnabled: isDraft } = await draftMode();
+  const isDraft = await isPreviewEnabled();
   const legal = await payload.findGlobal({
     slug: 'legal',
     draft: isDraft,

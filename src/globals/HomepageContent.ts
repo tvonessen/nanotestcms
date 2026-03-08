@@ -27,9 +27,7 @@ export const HomepageContent: GlobalConfig = {
   },
   versions: {
     drafts: {
-      autosave: {
-        interval: 375,
-      },
+      autosave: true,
       schedulePublish: true,
     },
     max: 50,

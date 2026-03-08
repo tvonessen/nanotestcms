@@ -7,7 +7,7 @@ import DistributorsAccordion, {
 } from '@/components/distributors/distributors-accordion';
 import type { Config, Media } from '@/payload-types';
 import config from '@payload-config';
-import { draftMode } from 'next/headers';
+import { isPreviewEnabled } from '@/utils/preview';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 
@@ -18,7 +18,7 @@ interface ContactPageProps {
 export default async function Contact({ params }: ContactPageProps) {
   const { lang } = await params;
   const payload = await getPayload({ config });
-  const { isEnabled: isDraft } = await draftMode();
+  const isDraft = await isPreviewEnabled();
   const contactUs = await payload.findGlobal({
     slug: 'contact-us',
     draft: isDraft,
