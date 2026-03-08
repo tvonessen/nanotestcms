@@ -22,7 +22,7 @@ export async function revalidateHook(path: string) {
   try {
     const response = await fetch(
       String(
-        `${process.env.NODE_ENV === 'development' ? process.env.NEXT_DEV_SERVER_URL : process.env.NEXT_PUBLIC_SERVER_URL}/api/revalidate`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/revalidate`,
       ),
       {
         method: 'post',
