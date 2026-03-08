@@ -1,12 +1,12 @@
 'use client';
 
-import { PayloadAdminBar, PayloadMeUser } from '@payloadcms/admin-bar';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { Button, cn } from '@heroui/react';
 import { Switch } from '@heroui/switch';
+import { PayloadAdminBar, type PayloadMeUser } from '@payloadcms/admin-bar';
 import { ArrowRightIcon } from '@phosphor-icons/react';
 import { SignOutIcon } from '@phosphor-icons/react/ssr';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const serverURL = process.env.NEXT_PUBLIC_SERVER_URL ?? '';
 
@@ -22,7 +22,7 @@ export function AdminBar({ preview: initialPreview }: AdminBarProps) {
   async function logout() {
     await fetch('/api/users/logout', { method: 'POST' });
     setUser(null);
-		window.location.reload();
+    window.location.reload();
   }
 
   async function togglePreview(enable: boolean) {
@@ -41,10 +41,10 @@ export function AdminBar({ preview: initialPreview }: AdminBarProps) {
         style={{ display: 'none' }}
       />
       {user && (
-        <div className="fixed max-w-[calc(100%-1rem)] top-18 right-2 z-99999">
+        <div className="fixed left-2 bottom-2 right-2 z-99999">
           <div
             className={cn(
-              'rounded-lg bg-background/50 p-2 backdrop-blur-md',
+              'rounded-lg bg-background/50 p-2 backdrop-blur-sm',
               'flex flex-row gap-6 justify-between items-center flex-wrap',
               'border border-warning/50',
             )}
