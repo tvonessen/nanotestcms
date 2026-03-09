@@ -5,6 +5,20 @@ import type { CollectionConfig } from 'payload';
 
 export const MEDIA_DIR = './data/media';
 
+/**
+ * MIME types that Payload's Sharp pipeline can resize.
+ * Must mirror `canResizeImage()` in packages/payload/src/uploads/canResizeImage.ts.
+ * For any other type (e.g. SVG) Payload skips size generation entirely.
+ */
+const RESIZABLE_MIME_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'image/tiff',
+  'image/avif',
+];
+
 export const Media: CollectionConfig = {
   slug: 'media',
   upload: {
@@ -98,20 +112,49 @@ export const Media: CollectionConfig = {
   ],
   hooks: {
     afterChange: [
-      async ({ doc, req }) => {
+      async ({ doc, req, operation }) => {
+        // SVG cleanup: strip the XML declaration and sanitise namespace prefixes
+        // so the markup can be safely inlined in HTML / JSX.
         if (doc.mimeType.includes('svg') && req.file) {
           const fileContent = req.file?.data.toString();
           if (fileContent != null) {
-            const goodSvg = fileContent.replace(/<\?xml[\s\S]*?\?>/i, '');
-            goodSvg.replaceAll('xmlns:', 'xmlns_').replaceAll('xml:', 'xml_');
-            writeFile(`${MEDIA_DIR}/${doc.filename}`, goodSvg, (err) => console.log(err));
+            let goodSvg = fileContent.replace(/<\?xml[\s\S]*?\?>/i, '');
+            goodSvg = goodSvg.replaceAll('xmlns:', 'xmlns_').replaceAll('xml:', 'xml_');
+            writeFile(`${MEDIA_DIR}/${doc.filename}`, goodSvg, (err) => {
+              if (err) console.error('Failed to write sanitised SVG file:', err);
+            });
           }
+        }
+
+        // When a non-resizable file (e.g. SVG) replaces an existing image that
+        // previously had generated sizes, Payload skips size generation and
+        // leaves the stale size records in the database.  Clear them so that
+        // subsequent reads do not reference files that no longer exist.
+        if (
+          operation === 'update' &&
+          req.file &&
+          doc.mimeType &&
+          !RESIZABLE_MIME_TYPES.includes(doc.mimeType as string)
+        ) {
+          await req.payload.db.updateOne({
+            collection: 'media',
+            id: doc.id,
+            data: { sizes: {} },
+            // Prefer the request locale; fall back to the configured default locale.
+            // For non-localised fields like `sizes` the value is irrelevant, but the
+            // db adapter requires a locale string.
+            locale: (req.locale ?? req.payload.config.localization?.defaultLocale ?? 'en') as string,
+            req,
+          });
+          return { ...doc, sizes: {} };
         }
       },
     ],
     beforeRead: [
       async ({ doc }) => {
-      if (!doc.sizes.blurred) return;
+        // Use optional chaining: doc.sizes may be null/undefined for non-resizable
+        // uploads such as SVG files.
+        if (!doc.sizes?.blurred) return;
         if (doc.mimeType.includes('svg')) {
           doc.blurDataUrl = '';
           doc.isDark = false;
