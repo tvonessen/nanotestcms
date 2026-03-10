@@ -1,7 +1,7 @@
+import type { CollectionConfig } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { iconField } from '@/fields/iconField';
 import { revalidateHook } from '@/utils/revalidate';
-import type { CollectionConfig } from 'payload';
 
 export const SolutionCategories: CollectionConfig = {
   slug: 'solution-categories',
@@ -65,9 +65,9 @@ export const SolutionCategories: CollectionConfig = {
       },
     ],
     afterChange: [
-      async () => {
-        revalidateHook('/products');
-        revalidateHook('/services');
+      async ({ req }) => {
+        revalidateHook(`${req.locale}/products`);
+        revalidateHook(`${req.locale}/services`);
       },
     ],
   },

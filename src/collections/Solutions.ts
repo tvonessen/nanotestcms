@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload';
+import type { CollectionConfig, PayloadRequest } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { ContactForm } from '@/blocks/ContactFormBlock';
@@ -158,7 +158,7 @@ const Solutions: CollectionConfig = {
   ],
   hooks: {
     afterChange: [
-      ({ doc }: { doc: Solution }) => {
+      ({ doc, req }: { doc: Solution; req: PayloadRequest }) => {
         if (doc._status === 'draft') return;
         for (const type of doc.type) {
           let path = '/';
@@ -172,8 +172,12 @@ const Solutions: CollectionConfig = {
             default:
               break;
           }
-          revalidateHook(`${path}/${doc.slug}`);
-          revalidateHook(path);
+
+          const lang = req.locale ?? 'en';
+          revalidateHook(`${lang}/`);
+          revalidateHook(`${lang}/${path}`);
+          revalidateHook(`${lang}/${path}/${doc.slug}`);
+          revalidateHook(`${lang}/${path}/${doc.slug}`);
         }
       },
     ],

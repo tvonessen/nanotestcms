@@ -1,7 +1,7 @@
 import { writeFile } from 'node:fs';
+import type { CollectionConfig } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { imageToBase64, isDarkImage } from '@/app/(payload)/utility/image';
-import type { CollectionConfig } from 'payload';
 
 export const MEDIA_DIR = './data/media';
 
@@ -61,7 +61,7 @@ export const Media: CollectionConfig = {
     group: 'Files',
     defaultColumns: ['filename', 'alt', 'tags'],
     description: {
-      en: "File sizes must not exceed 10 MB",
+      en: 'File sizes must not exceed 10 MB',
       de: 'Dateigrößen dürfen 10 MB nicht überschreiten',
     },
   },
@@ -143,7 +143,10 @@ export const Media: CollectionConfig = {
             // Prefer the request locale; fall back to the configured default locale.
             // For non-localised fields like `sizes` the value is irrelevant, but the
             // db adapter requires a locale string.
-            locale: (req.locale ?? req.payload.config.localization?.defaultLocale ?? 'en') as string,
+            locale:
+              (req.locale ?? typeof req.payload.config.localization === 'boolean')
+                ? 'en'
+                : (req.payload.config.localization?.defaultLocale ?? 'en'),
             req,
           });
           return { ...doc, sizes: {} };
