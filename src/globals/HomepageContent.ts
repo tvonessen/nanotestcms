@@ -1,3 +1,4 @@
+import type { GlobalConfig } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { Cards } from '@/blocks/CardsBlock';
@@ -5,9 +6,7 @@ import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Features } from '@/blocks/FeaturesBlock';
 import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
-import type { Homepage } from '@/payload-types';
 import { revalidateHook } from '@/utils/revalidate';
-import type { GlobalConfig } from 'payload';
 
 export const HomepageContent: GlobalConfig = {
   slug: 'homepage',
@@ -88,9 +87,9 @@ export const HomepageContent: GlobalConfig = {
   ],
   hooks: {
     afterChange: [
-      ({ doc }: { doc: Homepage }) => {
+      ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook('/');
+        revalidateHook(`${req.locale}/`);
       },
     ],
   },

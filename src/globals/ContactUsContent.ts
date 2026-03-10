@@ -1,12 +1,11 @@
+import type { GlobalConfig, Tab } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
-import type { ContactUs } from '@/payload-types';
 import { revalidateHook } from '@/utils/revalidate';
-import type { GlobalConfig, Tab } from 'payload';
 
 export const ContactUsContent: GlobalConfig = {
   slug: 'contact-us',
@@ -76,9 +75,9 @@ export const ContactUsContent: GlobalConfig = {
   ],
   hooks: {
     afterChange: [
-      ({ doc }: { doc: ContactUs }) => {
+      ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook('/contact');
+        revalidateHook(`${req.locale}/contact`);
       },
     ],
   },

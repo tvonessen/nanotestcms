@@ -1,6 +1,8 @@
+import type { CollectionConfig, PayloadRequest } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
-import type { CollectionConfig } from 'payload';
+import type { Solution } from '@/payload-types';
+import { revalidateHook } from '@/utils/revalidate';
 
 export const DistroPartners: CollectionConfig = {
   slug: 'distro-partner',
@@ -89,4 +91,13 @@ export const DistroPartners: CollectionConfig = {
       ],
     },
   ],
+  hooks: {
+    afterChange: [
+      ({ doc, req }: { doc: Solution; req: PayloadRequest }) => {
+        if (doc._status === 'draft') return;
+        const lang = req.locale ?? 'en';
+        revalidateHook(`${lang}/contact`);
+      },
+    ],
+  },
 };

@@ -1,10 +1,10 @@
+import type { GlobalConfig } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { revalidateHook } from '@/utils/revalidate';
-import type { GlobalConfig } from 'payload';
 
 export const LegalContent: GlobalConfig = {
   slug: 'legal',
@@ -49,10 +49,10 @@ export const LegalContent: GlobalConfig = {
   ],
   hooks: {
     afterChange: [
-      ({ doc }) => {
+      ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook('/about/imprint');
-        revalidateHook('/about/privacy');
+        revalidateHook(`${req.locale}/about/imprint`);
+        revalidateHook(`${req.locale}/about/privacy`);
       },
     ],
   },

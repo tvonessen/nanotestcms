@@ -1,16 +1,17 @@
+import type { CollectionConfig, PayloadRequest } from 'payload';
+import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
+import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
+import { ContactForm } from '@/blocks/ContactFormBlock';
+import { Downloads } from '@/blocks/DownloadsBlock';
+import { Features } from '@/blocks/FeaturesBlock';
 import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
-import type { CollectionConfig } from 'payload';
-import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { slugField } from '@/fields/slugField';
-import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { solutionTypeField } from '@/fields/solutionTypeField';
-import { ContactForm } from '@/blocks/ContactFormBlock';
 import type { Solution } from '@/payload-types';
 import { revalidateHook } from '@/utils/revalidate';
-import { Downloads } from '@/blocks/DownloadsBlock';
 
 const Solutions: CollectionConfig = {
   slug: 'solutions',
@@ -137,7 +138,7 @@ const Solutions: CollectionConfig = {
               label: 'Content',
               type: 'blocks',
               minRows: 1,
-              blocks: [Text, TextImage, Highlight, TextVideo, Downloads, ContactForm],
+              blocks: [Text, TextImage, Highlight, TextVideo, Downloads, ContactForm, Features],
             },
           ],
         },
@@ -157,7 +158,7 @@ const Solutions: CollectionConfig = {
   ],
   hooks: {
     afterChange: [
-      ({ doc }: { doc: Solution }) => {
+      ({ doc, req }: { doc: Solution; req: PayloadRequest }) => {
         if (doc._status === 'draft') return;
         for (const type of doc.type) {
           let path = '/';
@@ -171,8 +172,12 @@ const Solutions: CollectionConfig = {
             default:
               break;
           }
-          revalidateHook(`${path}/${doc.slug}`);
-          revalidateHook(path);
+
+          const lang = req.locale ?? 'en';
+          revalidateHook(`${lang}/`);
+          revalidateHook(`${lang}/${path}`);
+          revalidateHook(`${lang}/${path}/${doc.slug}`);
+          revalidateHook(`${lang}/${path}/${doc.slug}`);
         }
       },
     ],

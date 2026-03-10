@@ -1,8 +1,7 @@
+import type { CollectionConfig } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
-import type { TeamMember } from '@/payload-types';
 import { revalidateHook } from '@/utils/revalidate';
-import type { CollectionConfig } from 'payload';
 
 export const TeamMembers: CollectionConfig = {
   slug: 'team-member',
@@ -74,9 +73,9 @@ export const TeamMembers: CollectionConfig = {
   ],
   hooks: {
     afterChange: [
-      ({ doc }: { doc: TeamMember }) => {
+      ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook('/about');
+        revalidateHook(`${req.locale}/about`);
       },
     ],
   },
