@@ -3,7 +3,7 @@ import { DownloadSimpleIcon } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import { formatFilesize } from '@/components/content/downloads/utils';
 import { resolveCMSLinkHref } from '@/components/utility/cms-link';
-import type { Config, Document, Highlight as HighlightContent } from '@/payload-types';
+import type { Config, Highlight as HighlightContent } from '@/payload-types';
 
 interface HighlightProps {
   lang: Config['locale'];
@@ -15,7 +15,10 @@ const Highlight = (props: HighlightProps) => {
     highlight: { title, text, link, variant, action },
     lang,
   } = props;
-  const download = action === 'download' ? (props.highlight.download as Document) : null;
+  const download =
+    action === 'download' && typeof props.highlight.download === 'object'
+      ? props.highlight.download
+      : null;
   const gradient = {
     primary: 'from-primary to-primary-600 dark:from-primary-400 dark:to-primary',
     secondary: 'from-secondary to-secondary-600 dark:from-secondary-400 dark:to-secondary',
@@ -47,20 +50,20 @@ const Highlight = (props: HighlightProps) => {
           </Link>
         )}
         {action === 'download' && download && (
-          <Link download href={(download as Document).url ?? ''} passHref className="inline-block">
+          <Link download href={download.url ?? ''} passHref className="inline-block">
             <Button
               color="default"
               radius="lg"
               variant="solid"
               className="text-lg flex items-center gap-4"
-              aria-label={`Download ${((download as Document).filename_alt ?? (download as Document).filename) || 'document'}`}
+              aria-label={`Download ${(download.filename_alt ?? download.filename) || 'document'}`}
             >
               <div className="flex flex-row items-center gap-2">
                 <DownloadSimpleIcon size={24} />
-                {(download as Document).filename_alt ?? (download as Document).filename}
+                {download.filename_alt ?? download.filename}
               </div>
               <div className="flex flex-row items-center gap-2 opacity-50 font-light text-small">
-                {formatFilesize((download as Document).filesize)}
+                {formatFilesize(download.filesize)}
               </div>
             </Button>
           </Link>
