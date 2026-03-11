@@ -5,11 +5,16 @@ import TextVideo from '@/components/content/text-video';
 import DistributorsAccordion, {
   type RegionKey,
 } from '@/components/distributors/distributors-accordion';
+import { locales } from '@/config/locales';
 import type { Config, Media } from '@/payload-types';
 import config from '@payload-config';
 import { isPreviewEnabled } from '@/utils/preview';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
+
+export function generateStaticParams() {
+  return locales.map(({ code }) => ({ lang: code }));
+}
 
 interface ContactPageProps {
   params: Promise<{ lang: Config['locale'] }>;

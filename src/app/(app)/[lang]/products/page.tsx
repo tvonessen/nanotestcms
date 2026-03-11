@@ -5,7 +5,12 @@ import { getPayload } from 'payload';
 import { Fragment } from 'react';
 import { Card } from '@/components/content/cards/card';
 import { LazyIcon } from '@/components/utility/lazy-icon';
+import { locales } from '@/config/locales';
 import type { Config, Solution, SolutionCategory } from '@/payload-types';
+
+export function generateStaticParams() {
+  return locales.map(({ code }) => ({ lang: code }));
+}
 
 interface ProductsPageProps {
   params: Promise<{

@@ -4,12 +4,17 @@ import Features from '@/components/content/features';
 import Highlight from '@/components/content/highlight';
 import RichTextWrapper from '@/components/content/richtext-wrapper';
 import Jumbo from '@/components/jumbo/jumbo';
+import { locales } from '@/config/locales';
 import type { Config } from '@/payload-types';
 import config from '@payload-config';
 import { isPreviewEnabled } from '@/utils/preview';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import React from 'react';
+
+export function generateStaticParams() {
+  return locales.map(({ code }) => ({ lang: code }));
+}
 
 interface HomeProps {
   params: Promise<{ lang: Config['locale'] }>;
