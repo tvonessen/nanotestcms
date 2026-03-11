@@ -342,7 +342,7 @@ export interface Solution {
                 url?: string | null;
                 label: string;
               };
-              variant?: ('primary' | 'secondary') | null;
+              variant?: ('primary' | 'secondary' | 'warning' | 'danger') | null;
               id?: string | null;
               blockName?: string | null;
               blockType: 'highlight';
@@ -4132,7 +4132,7 @@ export interface Homepage {
               url?: string | null;
               label: string;
             };
-            variant?: ('primary' | 'secondary') | null;
+            variant?: ('primary' | 'secondary' | 'warning' | 'danger') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'highlight';

@@ -10,27 +10,26 @@ interface HighlightProps {
   title: string;
   text: string;
   link?: CMSLinkData | null;
-  color?: 'primary' | 'secondary' | undefined | null;
+  color?: 'primary' | 'secondary' | 'warning' | 'danger' | undefined | null;
 }
 
 const Highlight = (props: HighlightProps) => {
   const { lang, title, text, link, color = 'primary' } = props;
-  const gradient =
-    color === 'primary'
-      ? 'from-primary-600 to-primary-900 dark:from-primary-200 dark:to-primary'
-      : 'from-secondary-600 to-secondary-900 dark:from-secondary-200 dark:to-secondary';
+  const gradient = {
+    primary: 'from-primary to-primary-600 dark:from-primary-400 dark:to-primary',
+    secondary: 'from-secondary to-secondary-600 dark:from-secondary-400 dark:to-secondary',
+    warning: 'from-warning to-warning-600 dark:from-warning-400 dark:to-warning',
+    danger: 'from-danger to-danger-600 dark:from-danger-400 dark:to-danger',
+  }[color ?? 'primary'];
 
-  const textGradient =
-    color === 'primary'
-      ? 'from-primary-200 to-white dark:to-primary-700 dark:from-black'
-      : 'from-secondary-200 to-white dark:to-secondary-700 dark:from-black';
+  const textGradient = 'from-white/80 to-white dark:to-black/80 dark:from-black';
 
   const href = link ? resolveCMSLinkHref(link, lang) : '#';
   const newTabProps = link?.newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {};
 
   return (
     <section
-      className={`relative left-1/2 -translate-x-[50%] w-screen col-span-full my-12 py-6 shadow-[inset_0_0_100px_#0009] bg-linear-to-t ${gradient}`}
+      className={`relative left-1/2 -translate-x-[50%] w-screen col-span-full my-12 py-6 bg-linear-to-t ${gradient} ${color === 'warning' && 'dark'}`}
     >
       <div className="container mx-auto px-8 text-background text-center font-medium">
         <h2
@@ -38,12 +37,12 @@ const Highlight = (props: HighlightProps) => {
         >
           {title}
         </h2>
-        <p className=" mx-auto text-lg my-3">{text}</p>
+        <p className="mx-auto text-lg my-3">{text}</p>
         {link && (
           <Link href={href} passHref {...newTabProps}>
             <Button
-              color={color ?? 'default'}
-              radius="full"
+              color="default"
+              radius="lg"
               variant={(link.appearance as LinkAppearance) ?? 'solid'}
               className="text-lg"
             >

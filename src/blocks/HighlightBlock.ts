@@ -31,16 +31,7 @@ export const Highlight: Block = {
       admin: {
         isClearable: false,
       },
-      options: [
-        {
-          label: 'Primary',
-          value: 'primary',
-        },
-        {
-          label: 'Secondary',
-          value: 'secondary',
-        },
-      ],
+      options: ['primary', 'secondary', 'warning', 'danger'],
     },
   ],
 };
