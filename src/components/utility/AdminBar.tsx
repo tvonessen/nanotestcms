@@ -49,11 +49,11 @@ export function AdminBar({ preview: initialPreview }: AdminBarProps) {
               'border border-warning/50',
             )}
           >
-            <span className="block text-md font-semibold ms-3">ADMIN BAR</span>
+            <span className="block text-md font-semibold ps-3">ADMIN BAR</span>
             <Switch
               size="sm"
               color="warning"
-              className="ms-1"
+              className="ps-1"
               isSelected={preview}
               onValueChange={(val) => togglePreview(val)}
             >

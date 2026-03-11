@@ -332,7 +332,16 @@ export interface Solution {
           | {
               title: string;
               text: string;
-              link: string;
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?: {
+                  relationTo: 'solutions';
+                  value: string | Solution;
+                } | null;
+                url?: string | null;
+                label: string;
+              };
               variant?: ('primary' | 'secondary') | null;
               id?: string | null;
               blockName?: string | null;
@@ -3870,7 +3879,15 @@ export interface SolutionsSelect<T extends boolean = true> {
                 | {
                     title?: T;
                     text?: T;
-                    link?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                        };
                     variant?: T;
                     id?: T;
                     blockName?: T;
@@ -4065,8 +4082,17 @@ export interface Homepage {
         title: string;
         description: string;
         image: string | Media;
-        link: string;
-        linkLabel?: string | null;
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'solutions';
+            value: string | Solution;
+          } | null;
+          url?: string | null;
+          label: string;
+          appearance?: ('flat' | 'light' | 'solid' | 'bordered' | 'faded' | 'shadow' | 'ghost') | null;
+        };
         id?: string | null;
       }[]
     | null;
@@ -4096,7 +4122,16 @@ export interface Homepage {
         | {
             title: string;
             text: string;
-            link: string;
+            link: {
+              type?: ('reference' | 'custom') | null;
+              newTab?: boolean | null;
+              reference?: {
+                relationTo: 'solutions';
+                value: string | Solution;
+              } | null;
+              url?: string | null;
+              label: string;
+            };
             variant?: ('primary' | 'secondary') | null;
             id?: string | null;
             blockName?: string | null;
@@ -6162,8 +6197,16 @@ export interface HomepageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
-        link?: T;
-        linkLabel?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
         id?: T;
       };
   content?:
@@ -6182,7 +6225,15 @@ export interface HomepageSelect<T extends boolean = true> {
           | {
               title?: T;
               text?: T;
-              link?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
               variant?: T;
               id?: T;
               blockName?: T;

@@ -1,4 +1,5 @@
 import type { Block } from 'payload';
+import { linkField } from '@/fields/linkField';
 
 export const Highlight: Block = {
   slug: 'highlight',
@@ -21,17 +22,15 @@ export const Highlight: Block = {
       required: true,
       localized: true,
     },
-    {
-      name: 'link',
-      label: 'Link',
-      type: 'text',
-      required: true,
-    },
+    linkField({ appearances: false }),
     {
       name: 'variant',
       label: 'Variant',
       type: 'select',
       defaultValue: 'primary',
+      admin: {
+        isClearable: false,
+      },
       options: [
         {
           label: 'Primary',
