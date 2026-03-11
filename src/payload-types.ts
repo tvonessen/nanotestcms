@@ -329,24 +329,7 @@ export interface Solution {
               blockName?: string | null;
               blockType: 'text-image';
             }
-          | {
-              title: string;
-              text: string;
-              link: {
-                type?: ('reference' | 'custom') | null;
-                newTab?: boolean | null;
-                reference?: {
-                  relationTo: 'solutions';
-                  value: string | Solution;
-                } | null;
-                url?: string | null;
-                label: string;
-              };
-              variant?: ('primary' | 'secondary' | 'warning' | 'danger') | null;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'highlight';
-            }
+          | Highlight
           | {
               text: {
                 root: {
@@ -1913,6 +1896,30 @@ export interface SolutionCategory {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Highlight".
+ */
+export interface Highlight {
+  title: string;
+  text: string;
+  action?: ('link' | 'download' | 'none') | null;
+  download?: (string | null) | Document;
+  link?: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?: {
+      relationTo: 'solutions';
+      value: string | Solution;
+    } | null;
+    url?: string | null;
+    label: string;
+  };
+  variant?: ('primary' | 'secondary' | 'warning' | 'danger') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'highlight';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3874,24 +3881,7 @@ export interface SolutionsSelect<T extends boolean = true> {
                     id?: T;
                     blockName?: T;
                   };
-              highlight?:
-                | T
-                | {
-                    title?: T;
-                    text?: T;
-                    link?:
-                      | T
-                      | {
-                          type?: T;
-                          newTab?: T;
-                          reference?: T;
-                          url?: T;
-                          label?: T;
-                        };
-                    variant?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
+              highlight?: T | HighlightSelect<T>;
               'text-video'?:
                 | T
                 | {
@@ -3915,6 +3905,28 @@ export interface SolutionsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Highlight_select".
+ */
+export interface HighlightSelect<T extends boolean = true> {
+  title?: T;
+  text?: T;
+  action?: T;
+  download?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  variant?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4122,7 +4134,9 @@ export interface Homepage {
         | {
             title: string;
             text: string;
-            link: {
+            action?: ('link' | 'download' | 'none') | null;
+            download?: (string | null) | Document;
+            link?: {
               type?: ('reference' | 'custom') | null;
               newTab?: boolean | null;
               reference?: {
@@ -6220,24 +6234,7 @@ export interface HomepageSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        highlight?:
-          | T
-          | {
-              title?: T;
-              text?: T;
-              link?:
-                | T
-                | {
-                    type?: T;
-                    newTab?: T;
-                    reference?: T;
-                    url?: T;
-                    label?: T;
-                  };
-              variant?: T;
-              id?: T;
-              blockName?: T;
-            };
+        highlight?: T | HighlightSelect<T>;
         cards?: T | CardsSelect<T>;
         features?: T | FeaturesSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
