@@ -6,6 +6,7 @@ import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Features } from '@/blocks/FeaturesBlock';
 import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
+import type { Homepage } from '@/payload-types';
 import { revalidateHook } from '@/utils/revalidate';
 
 export const HomepageContent: GlobalConfig = {
@@ -89,7 +90,7 @@ export const HomepageContent: GlobalConfig = {
     afterChange: [
       ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook(`${req.locale}/`);
+        revalidateHook('/', req.locale);
       },
     ],
   },

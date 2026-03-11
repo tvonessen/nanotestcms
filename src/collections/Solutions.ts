@@ -1,4 +1,4 @@
-import type { CollectionConfig, PayloadRequest } from 'payload';
+import type { CollectionConfig } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { ContactForm } from '@/blocks/ContactFormBlock';
@@ -94,6 +94,7 @@ const Solutions: CollectionConfig = {
       },
       type: 'checkbox',
       defaultValue: false,
+      localized: true,
     },
     {
       name: 'discontinued',
@@ -103,6 +104,7 @@ const Solutions: CollectionConfig = {
       },
       type: 'checkbox',
       defaultValue: false,
+      localized: true,
     },
     {
       type: 'tabs',
@@ -158,7 +160,7 @@ const Solutions: CollectionConfig = {
   ],
   hooks: {
     afterChange: [
-      ({ doc, req }: { doc: Solution; req: PayloadRequest }) => {
+      ({ doc, req }) => {
         if (doc._status === 'draft') return;
         for (const type of doc.type) {
           let path = '/';
@@ -172,12 +174,8 @@ const Solutions: CollectionConfig = {
             default:
               break;
           }
-
-          const lang = req.locale ?? 'en';
-          revalidateHook(`${lang}/`);
-          revalidateHook(`${lang}/${path}`);
-          revalidateHook(`${lang}/${path}/${doc.slug}`);
-          revalidateHook(`${lang}/${path}/${doc.slug}`);
+          revalidateHook(`${path}/${doc.slug}`, req.locale);
+          revalidateHook(path, req.locale);
         }
       },
     ],

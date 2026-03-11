@@ -1,11 +1,11 @@
-import { Card } from '@/components/content/cards/card';
-import { LazyIcon } from '@/components/utility/lazy-icon';
-import type { Config, Solution, SolutionCategory } from '@/payload-types';
 import config from '@payload-config';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import { Fragment } from 'react';
+import { Card } from '@/components/content/cards/card';
+import { LazyIcon } from '@/components/utility/lazy-icon';
+import type { Config, Solution, SolutionCategory } from '@/payload-types';
 
 interface ServicesPageProps {
   params: Promise<{
@@ -34,7 +34,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
       pagination: false,
       overrideAccess: false,
       sort: 'position',
-      locale: 'all',
+      locale: lang,
     })
     .then((res) => res.docs);
 

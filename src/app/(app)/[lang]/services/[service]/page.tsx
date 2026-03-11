@@ -1,3 +1,7 @@
+import config from '@payload-config';
+import { notFound } from 'next/navigation';
+import { getPayload } from 'payload';
+import React from 'react';
 import Carousel from '@/components/carousel/carousel';
 import ContactForm from '@/components/content/contact-form/contact-form';
 import Downloads from '@/components/content/downloads';
@@ -6,13 +10,10 @@ import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
 import TextVideo from '@/components/content/text-video';
 import type { Config, Media, Solution } from '@/payload-types';
-import config from '@payload-config';
 import { isPreviewEnabled } from '@/utils/preview';
-import { notFound } from 'next/navigation';
-import { getPayload } from 'payload';
-import React from 'react';
 
-export async function generateStaticParams() {
+export async function generateStaticParams(props: { params: Promise<{ lang: Config['locale'] }> }) {
+  const { lang } = await props.params;
   const payload = await getPayload({ config });
   const services: Solution[] = await payload
     .find({
@@ -22,7 +23,7 @@ export async function generateStaticParams() {
       },
       pagination: false,
       depth: 0,
-      locale: 'all',
+      locale: lang,
     })
     .then((res) => res.docs);
 
