@@ -2,27 +2,27 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
 import { HTMLConverterFeature, LinkFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
+import nodemailer from 'nodemailer';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
-
+import { SolutionCategories } from '@/collections/SolutionCategories';
+import { locales } from '@/config/locales';
+import revalidateHandler from '@/utils/revalidate';
+import { DistroPartners } from './collections/DistroPartners';
+import { Documents } from './collections/Documents';
 import { Media } from './collections/Media';
 import Solutions from './collections/Solutions';
+import { TeamMembers } from './collections/TeamMembers';
 import { Users } from './collections/Users';
+import { nodemailerOptions } from './config/nodemailer';
 import { AboutContent } from './globals/AboutContent';
+import { ContactUsContent } from './globals/ContactUsContent';
 import { HomepageContent } from './globals/HomepageContent';
 import { LegalContent } from './globals/LegalContent';
-import { SolutionCategories } from '@/collections/SolutionCategories';
-import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
-import nodemailer from 'nodemailer';
-import { nodemailerOptions } from './config/nodemailer';
 import { sendEmailEndpoint } from './utils/send-email';
 import validateCaptcha from './utils/validate-captcha';
-import revalidateHandler from '@/utils/revalidate';
-import { TeamMembers } from './collections/TeamMembers';
-import { DistroPartners } from './collections/DistroPartners';
-import { ContactUsContent } from './globals/ContactUsContent';
-import { Documents } from './collections/Documents';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -49,7 +49,7 @@ export default buildConfig({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,
       LinkFeature({
-        enabledCollections: ['solutions', "distro-partner", "team-member"],
+        enabledCollections: ['solutions', 'distro-partner', 'team-member'],
         maxDepth: 5,
       }),
       // The HTMLConverter Feature is the feature which manages the HTML serializers.
@@ -80,9 +80,9 @@ export default buildConfig({
     },
   ],
   localization: {
-    locales: [{code: 'en', label: "English"}, {code: 'de', label: "Deutsch"}],
+    locales,
     defaultLocale: 'en',
-    fallback: true
+    fallback: true,
   },
   plugins: [],
   globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent],
@@ -92,7 +92,7 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI ?? false
+    url: process.env.DATABASE_URI ?? false,
   }),
   sharp,
 });

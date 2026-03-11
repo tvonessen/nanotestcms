@@ -51,8 +51,8 @@ export const LegalContent: GlobalConfig = {
     afterChange: [
       ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook(`${req.locale}/about/imprint`);
-        revalidateHook(`${req.locale}/about/privacy`);
+        revalidateHook('/about/imprint', req.locale);
+        revalidateHook('/about/privacy', req.locale);
       },
     ],
   },

@@ -1,22 +1,22 @@
-import { Card } from '@/components/content/cards/card';
-import { LazyIcon } from '@/components/utility/lazy-icon';
-import type { Config, Solution, SolutionCategory } from '@/payload-types';
 import config from '@payload-config';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import { Fragment } from 'react';
+import { Card } from '@/components/content/cards/card';
+import { LazyIcon } from '@/components/utility/lazy-icon';
+import type { Config, Solution, SolutionCategory } from '@/payload-types';
 
-interface ServicesPageProps {
+interface ProductsPageProps {
   params: Promise<{
     lang: Config['locale'];
   }>;
 }
 
-export default async function ServicesPage({ params }: ServicesPageProps) {
+export default async function ProductsPage({ params }: ProductsPageProps) {
   const { lang } = await params;
   const payload = await getPayload({ config });
-  const services: Solution[] = await payload
+  const products: Solution[] = await payload
     .find({
       collection: 'solutions',
       where: {
@@ -34,11 +34,11 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
       pagination: false,
       overrideAccess: false,
       sort: 'position',
-      locale: 'all',
+      locale: lang,
     })
     .then((res) => res.docs);
 
-  if (!services.length || !categories.length) {
+  if (!products.length || !categories.length) {
     return notFound();
   }
 
@@ -72,8 +72,8 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
 
       {categories
         .filter(({ id }) =>
-          services.some((service) =>
-            service.category.some((category) => (category.value as SolutionCategory).id === id),
+          products.some((product) =>
+            product.category.some((category) => (category.value as SolutionCategory).id === id),
           ),
         )
         .map((category) => {
@@ -98,7 +98,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
                 key={`${category.title}-body`}
                 className="flex flex-wrap justify-center gap-8 px-0 sm:px-4"
               >
-                {services
+                {products
                   .filter((service) =>
                     service.category.some(
                       ({ value }) => (value as SolutionCategory).id === category.id,

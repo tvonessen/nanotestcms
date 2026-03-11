@@ -143,10 +143,9 @@ export const Media: CollectionConfig = {
             // Prefer the request locale; fall back to the configured default locale.
             // For non-localised fields like `sizes` the value is irrelevant, but the
             // db adapter requires a locale string.
-            locale:
-              (req.locale ?? typeof req.payload.config.localization === 'boolean')
-                ? 'en'
-                : (req.payload.config.localization?.defaultLocale ?? 'en'),
+            locale: req.payload.config.localization
+              ? (req.locale ?? req.payload.config.localization?.defaultLocale ?? 'en')
+              : undefined,
             req,
           });
           return { ...doc, sizes: {} };

@@ -75,7 +75,7 @@ export const TeamMembers: CollectionConfig = {
     afterChange: [
       ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook(`${req.locale}/about`);
+        revalidateHook('/about', req.locale);
       },
     ],
   },
