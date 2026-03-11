@@ -12,8 +12,8 @@ import TextVideo from '@/components/content/text-video';
 import type { Config, Media, Solution } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
 
-export async function generateStaticParams(props: { params: Promise<{ lang: Config['locale'] }> }) {
-  const { lang } = await props.params;
+export async function generateStaticParams(props: { params: { lang: string; service: string } }) {
+  const { lang } = props.params;
   const payload = await getPayload({ config });
   const services: Solution[] = await payload
     .find({
@@ -23,7 +23,7 @@ export async function generateStaticParams(props: { params: Promise<{ lang: Conf
       },
       pagination: false,
       depth: 0,
-      locale: lang,
+      locale: lang as Config['locale'],
     })
     .then((res) => res.docs);
 
