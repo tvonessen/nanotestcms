@@ -6,7 +6,7 @@ import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Features } from '@/blocks/FeaturesBlock';
 import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
-import type { Homepage } from '@/payload-types';
+import { linkField } from '@/fields/linkField';
 import { revalidateHook } from '@/utils/revalidate';
 
 export const HomepageContent: GlobalConfig = {
@@ -61,20 +61,7 @@ export const HomepageContent: GlobalConfig = {
         },
         {
           type: 'row',
-          fields: [
-            {
-              name: 'link',
-              label: 'Link',
-              type: 'text',
-              required: true,
-            },
-            {
-              name: 'linkLabel',
-              label: 'Link label',
-              type: 'text',
-              localized: true,
-            },
-          ],
+          fields: [linkField()],
         },
       ],
     },

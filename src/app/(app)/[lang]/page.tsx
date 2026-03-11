@@ -35,7 +35,7 @@ export default async function Home(props: HomeProps) {
 
   return (
     <React.Fragment>
-      {homepageContent?.jumbotron && <Jumbo jumbos={homepageContent.jumbotron} />}
+      {homepageContent?.jumbotron && <Jumbo lang={lang} jumbos={homepageContent.jumbotron} />}
       {homepageContent?.content?.map((block) => {
         switch (block.blockType) {
           case 'text':
