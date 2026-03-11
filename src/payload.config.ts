@@ -1,9 +1,25 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-// storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
-import { HTMLConverterFeature, LinkFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
+import {
+  BlockquoteFeature,
+  BoldFeature,
+  ChecklistFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  InlineCodeFeature,
+  ItalicFeature,
+  LinkFeature,
+  lexicalEditor,
+  OrderedListFeature,
+  ParagraphFeature,
+  SubscriptFeature,
+  SuperscriptFeature,
+  UnderlineFeature,
+  UnorderedListFeature,
+} from '@payloadcms/richtext-lexical';
 import nodemailer from 'nodemailer';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
@@ -46,15 +62,25 @@ export default buildConfig({
   cors: ['https://www.google.com'],
   csrf: ['http://localhost:3301', 'http://localhost:3303', 'https://nanotest.jutoserver.de'],
   editor: lexicalEditor({
-    features: ({ defaultFeatures }) => [
-      ...defaultFeatures,
+    features: () => [
+      BoldFeature(),
+      ItalicFeature(),
+      UnderlineFeature(),
+      ParagraphFeature(),
+      HeadingFeature(),
+      InlineCodeFeature(),
+      SuperscriptFeature(),
+      SubscriptFeature(),
+      UnorderedListFeature(),
+      OrderedListFeature(),
+      ChecklistFeature(),
+      BlockquoteFeature(),
+      FixedToolbarFeature(),
+      HorizontalRuleFeature(),
       LinkFeature({
-        enabledCollections: ['solutions', 'distro-partner', 'team-member'],
+        enabledCollections: ['solutions'],
         maxDepth: 5,
       }),
-      // The HTMLConverter Feature is the feature which manages the HTML serializers.
-      // If you do not pass any arguments to it, it will use the default serializers.
-      HTMLConverterFeature({}),
     ],
   }),
   email: nodemailerAdapter({

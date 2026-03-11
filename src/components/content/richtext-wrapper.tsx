@@ -1,3 +1,4 @@
+import type { Solution } from '@/payload-types';
 import type { DefaultNodeTypes, SerializedLinkNode } from '@payloadcms/richtext-lexical';
 import type {
   SerializedEditorState,
@@ -24,13 +25,19 @@ export default function RichTextWrapper({ text, lang = 'en' }: RichTextWrapperPr
     if (typeof value !== 'object') {
       throw new Error('Expected value to be an object');
     }
-    const slug = value.slug;
-    return `/${lang}/${relationTo}/${slug}`;
+    if (relationTo === 'solutions') {
+      const solution = value as unknown as Solution;
+      const segment = solution.type.includes('product') ? 'products' : 'services';
+      return `/${lang}/${segment}/${solution.slug}`;
+    }
+    return `/${lang}/${relationTo}/${value.slug}`;
   };
 
   const jsxConverters: JSXConvertersFunction<DefaultNodeTypes> = ({
     defaultConverters,
-  }: { defaultConverters: JSXConverters<DefaultNodeTypes> }) => ({
+  }: {
+    defaultConverters: JSXConverters<DefaultNodeTypes>;
+  }) => ({
     ...defaultConverters,
     ...LinkJSXConverter({ internalDocToHref }),
   });

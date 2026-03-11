@@ -1,4 +1,3 @@
-import { lexicalHTML } from '@payloadcms/richtext-lexical';
 import type { Block } from 'payload';
 
 export const TextVideo: Block = {
@@ -21,6 +20,5 @@ export const TextVideo: Block = {
       type: 'text',
       required: true,
     },
-    lexicalHTML('text', { name: 'text_html' }),
   ],
 };

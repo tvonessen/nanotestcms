@@ -1,4 +1,3 @@
-import { lexicalHTML } from '@payloadcms/richtext-lexical';
 import type { Block } from 'payload';
 
 export const Text: Block = {
@@ -15,6 +14,5 @@ export const Text: Block = {
       localized: true,
       required: true,
     },
-    lexicalHTML('text', { name: 'text_html' }),
   ],
 };

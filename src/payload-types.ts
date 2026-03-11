@@ -302,7 +302,6 @@ export interface Solution {
                 };
                 [k: string]: unknown;
               };
-              text_html?: string | null;
               id?: string | null;
               blockName?: string | null;
               blockType: 'text';
@@ -324,7 +323,6 @@ export interface Solution {
                 [k: string]: unknown;
               };
               image: string | Media;
-              text_html?: string | null;
               id?: string | null;
               blockName?: string | null;
               blockType: 'text-image';
@@ -347,7 +345,6 @@ export interface Solution {
                 [k: string]: unknown;
               };
               videoId: string;
-              text_html?: string | null;
               id?: string | null;
               blockName?: string | null;
               blockType: 'text-video';
@@ -3868,7 +3865,6 @@ export interface SolutionsSelect<T extends boolean = true> {
                 | T
                 | {
                     text?: T;
-                    text_html?: T;
                     id?: T;
                     blockName?: T;
                   };
@@ -3877,7 +3873,6 @@ export interface SolutionsSelect<T extends boolean = true> {
                 | {
                     text?: T;
                     image?: T;
-                    text_html?: T;
                     id?: T;
                     blockName?: T;
                   };
@@ -3887,7 +3882,6 @@ export interface SolutionsSelect<T extends boolean = true> {
                 | {
                     text?: T;
                     videoId?: T;
-                    text_html?: T;
                     id?: T;
                     blockName?: T;
                   };
@@ -4126,7 +4120,6 @@ export interface Homepage {
               };
               [k: string]: unknown;
             };
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -5740,7 +5733,6 @@ export interface About {
               };
               [k: string]: unknown;
             };
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -5762,7 +5754,6 @@ export interface About {
               [k: string]: unknown;
             };
             image: string | Media;
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-image';
@@ -5784,7 +5775,6 @@ export interface About {
               [k: string]: unknown;
             };
             videoId: string;
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-video';
@@ -5839,7 +5829,6 @@ export interface About {
               };
               [k: string]: unknown;
             };
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -5861,7 +5850,6 @@ export interface About {
               [k: string]: unknown;
             };
             image: string | Media;
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-image';
@@ -5883,7 +5871,6 @@ export interface About {
               [k: string]: unknown;
             };
             videoId: string;
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-video';
@@ -5952,7 +5939,6 @@ export interface Legal {
               };
               [k: string]: unknown;
             };
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -5974,7 +5960,6 @@ export interface Legal {
               [k: string]: unknown;
             };
             image: string | Media;
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-image';
@@ -6006,7 +5991,6 @@ export interface Legal {
               };
               [k: string]: unknown;
             };
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -6028,7 +6012,6 @@ export interface Legal {
               [k: string]: unknown;
             };
             image: string | Media;
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-image';
@@ -6070,7 +6053,6 @@ export interface ContactUs {
               };
               [k: string]: unknown;
             };
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -6092,7 +6074,6 @@ export interface ContactUs {
               [k: string]: unknown;
             };
             image: string | Media;
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-image';
@@ -6114,7 +6095,6 @@ export interface ContactUs {
               [k: string]: unknown;
             };
             videoId: string;
-            text_html?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-video';
@@ -6230,7 +6210,6 @@ export interface HomepageSelect<T extends boolean = true> {
           | T
           | {
               text?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6267,7 +6246,6 @@ export interface AboutSelect<T extends boolean = true> {
           | T
           | {
               text?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6276,7 +6254,6 @@ export interface AboutSelect<T extends boolean = true> {
           | {
               text?: T;
               image?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6285,7 +6262,6 @@ export interface AboutSelect<T extends boolean = true> {
           | {
               text?: T;
               videoId?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6300,7 +6276,6 @@ export interface AboutSelect<T extends boolean = true> {
           | T
           | {
               text?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6309,7 +6284,6 @@ export interface AboutSelect<T extends boolean = true> {
           | {
               text?: T;
               image?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6318,7 +6292,6 @@ export interface AboutSelect<T extends boolean = true> {
           | {
               text?: T;
               videoId?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6342,7 +6315,6 @@ export interface LegalSelect<T extends boolean = true> {
           | T
           | {
               text?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6351,7 +6323,6 @@ export interface LegalSelect<T extends boolean = true> {
           | {
               text?: T;
               image?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6364,7 +6335,6 @@ export interface LegalSelect<T extends boolean = true> {
           | T
           | {
               text?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6373,7 +6343,6 @@ export interface LegalSelect<T extends boolean = true> {
           | {
               text?: T;
               image?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6396,7 +6365,6 @@ export interface ContactUsSelect<T extends boolean = true> {
           | T
           | {
               text?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6405,7 +6373,6 @@ export interface ContactUsSelect<T extends boolean = true> {
           | {
               text?: T;
               image?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };
@@ -6414,7 +6381,6 @@ export interface ContactUsSelect<T extends boolean = true> {
           | {
               text?: T;
               videoId?: T;
-              text_html?: T;
               id?: T;
               blockName?: T;
             };

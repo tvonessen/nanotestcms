@@ -1,4 +1,3 @@
-import { lexicalHTML } from '@payloadcms/richtext-lexical';
 import type { Block } from 'payload';
 
 export const TextImage: Block = {
@@ -23,6 +22,5 @@ export const TextImage: Block = {
       hasMany: false,
       required: true,
     },
-    lexicalHTML('text', { name: 'text_html' }),
   ],
 };
