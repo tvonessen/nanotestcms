@@ -3,6 +3,7 @@ import { linkField } from '@/fields/linkField';
 
 export const Highlight: Block = {
   slug: 'highlight',
+  interfaceName: 'Highlight',
   labels: {
     singular: 'Highlight',
     plural: 'Highlights',
@@ -22,7 +23,31 @@ export const Highlight: Block = {
       required: true,
       localized: true,
     },
-    linkField({ appearances: false }),
+    {
+      name: 'action',
+      label: 'Action',
+      type: 'select',
+      defaultValue: 'link',
+      admin: {
+        isClearable: false,
+      },
+      options: ['link', 'download', 'none'],
+    },
+    {
+      name: 'download',
+      label: 'Document download',
+      type: 'upload',
+      relationTo: 'documents',
+      hasMany: false,
+      required: true,
+      admin: {
+        condition: (_data, siblingData) => siblingData?.action === 'download',
+      },
+    },
+    linkField({
+      appearances: false,
+      overrides: { admin: { condition: (_data, siblingData) => siblingData?.action === 'link' } },
+    }),
     {
       name: 'variant',
       label: 'Variant',

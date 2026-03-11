@@ -1,16 +1,9 @@
-import type { Document } from '@/payload-types';
 import config from '@payload-config';
-import type { IconProps } from '@phosphor-icons/react';
-import {
-  BlueprintIcon,
-  BookOpenTextIcon,
-  DownloadSimpleIcon,
-  FileTextIcon,
-  PaperPlaneTiltIcon,
-  PresentationChartIcon,
-  ScrollIcon,
-} from '@phosphor-icons/react/dist/ssr';
+import { DownloadSimpleIcon } from '@phosphor-icons/react/dist/ssr';
 import { getPayload } from 'payload';
+import type { Document } from '@/payload-types';
+import { DocumentIcon } from './document-icon';
+import { formatFilesize } from './utils';
 
 interface DownloadsProps {
   docs: (Document | string)[];
@@ -35,17 +28,6 @@ export default async function Downloads({ docs }: DownloadsProps) {
       return document.docs[0];
     }),
   );
-
-  function formatFilesize(size: number | null | undefined) {
-    if (size === null || size === undefined) {
-      return '??? kB';
-    }
-    return size > 1000000
-      ? `${(size / 1000000).toFixed(1)} MB`
-      : size > 1000
-        ? `${Math.round(size / 1000)} kB`
-        : `${size} B`;
-  }
 
   return (
     <section className="container mx-auto col-span-full">
@@ -83,25 +65,4 @@ export default async function Downloads({ docs }: DownloadsProps) {
       </ul>
     </section>
   );
-}
-
-interface DocumentIconProps extends IconProps {
-  type: Document['type'];
-}
-
-function DocumentIcon({ type, ...props }: DocumentIconProps) {
-  switch (type) {
-    case 'datasheet':
-      return <BlueprintIcon {...props} />;
-    case 'flyer':
-      return <PaperPlaneTiltIcon {...props} />;
-    case 'presentation':
-      return <PresentationChartIcon {...props} />;
-    case 'whitepaper':
-      return <ScrollIcon {...props} />;
-    case 'manual':
-      return <BookOpenTextIcon {...props} />;
-    default:
-      return <FileTextIcon {...props} />;
-  }
 }

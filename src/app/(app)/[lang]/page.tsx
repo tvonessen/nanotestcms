@@ -1,3 +1,7 @@
+import config from '@payload-config';
+import { notFound } from 'next/navigation';
+import { getPayload } from 'payload';
+import React from 'react';
 import { CardsGrid } from '@/components/content/cards/cards-grid';
 import ContactForm from '@/components/content/contact-form/contact-form';
 import Features from '@/components/content/features';
@@ -6,11 +10,7 @@ import RichTextWrapper from '@/components/content/richtext-wrapper';
 import Jumbo from '@/components/jumbo/jumbo';
 import { locales } from '@/config/locales';
 import type { Config } from '@/payload-types';
-import config from '@payload-config';
 import { isPreviewEnabled } from '@/utils/preview';
-import { notFound } from 'next/navigation';
-import { getPayload } from 'payload';
-import React from 'react';
 
 export function generateStaticParams() {
   return locales.map(({ code }) => ({ lang: code }));
@@ -45,16 +45,7 @@ export default async function Home(props: HomeProps) {
               </div>
             );
           case 'highlight':
-            return (
-              <Highlight
-                lang={lang}
-                key={block.id}
-                link={block.link}
-                text={block.text}
-                title={block.title}
-                color={block.variant}
-              />
-            );
+            return <Highlight key={block.id} lang={lang} highlight={block} />;
           case 'cards':
             return <CardsGrid lang={lang} key={block.id} block={block} />;
           case 'features':
