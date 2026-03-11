@@ -1,26 +1,27 @@
 import { Button } from '@heroui/button';
+import { DownloadSimpleIcon } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
-import type { CMSLinkData } from '@/components/utility/cms-link';
+import { formatFilesize } from '@/components/content/downloads/utils';
 import { resolveCMSLinkHref } from '@/components/utility/cms-link';
-import type { LinkAppearance } from '@/fields/linkField';
-import type { Config } from '@/payload-types';
+import type { Config, Document, Highlight as HighlightContent } from '@/payload-types';
 
 interface HighlightProps {
   lang: Config['locale'];
-  title: string;
-  text: string;
-  link?: CMSLinkData | null;
-  color?: 'primary' | 'secondary' | 'warning' | 'danger' | undefined | null;
+  highlight: HighlightContent;
 }
 
 const Highlight = (props: HighlightProps) => {
-  const { lang, title, text, link, color = 'primary' } = props;
+  const {
+    highlight: { title, text, link, variant, action },
+    lang,
+  } = props;
+  const download = action === 'download' ? (props.highlight.download as Document) : null;
   const gradient = {
     primary: 'from-primary to-primary-600 dark:from-primary-400 dark:to-primary',
     secondary: 'from-secondary to-secondary-600 dark:from-secondary-400 dark:to-secondary',
     warning: 'from-warning to-warning-600 dark:from-warning-400 dark:to-warning',
     danger: 'from-danger to-danger-600 dark:from-danger-400 dark:to-danger',
-  }[color ?? 'primary'];
+  }[variant ?? 'primary'];
 
   const textGradient = 'from-white/80 to-white dark:to-black/80 dark:from-black';
 
@@ -29,7 +30,7 @@ const Highlight = (props: HighlightProps) => {
 
   return (
     <section
-      className={`relative left-1/2 -translate-x-[50%] w-screen col-span-full my-12 py-6 bg-linear-to-t ${gradient} ${color === 'warning' && 'dark'}`}
+      className={`relative left-1/2 -translate-x-[50%] w-screen col-span-full my-12 py-6 bg-linear-to-t ${gradient} ${variant === 'warning' && 'dark'}`}
     >
       <div className="container mx-auto px-8 text-background text-center font-medium">
         <h2
@@ -38,15 +39,29 @@ const Highlight = (props: HighlightProps) => {
           {title}
         </h2>
         <p className="mx-auto text-lg my-3">{text}</p>
-        {link && (
-          <Link href={href} passHref {...newTabProps}>
+        {action === 'link' && link && (
+          <Link href={href} passHref {...newTabProps} className="inline-block">
+            <Button color="default" radius="lg" variant="solid" className="text-lg">
+              {link.label ?? 'Learn more'}
+            </Button>
+          </Link>
+        )}
+        {action === 'download' && download && (
+          <Link download href={(download as Document).url ?? ''} passHref className="inline-block">
             <Button
               color="default"
               radius="lg"
-              variant={(link.appearance as LinkAppearance) ?? 'solid'}
-              className="text-lg"
+              variant="solid"
+              className="text-lg flex items-center gap-4"
+              aria-label={`Download ${((download as Document).filename_alt ?? (download as Document).filename) || 'document'}`}
             >
-              {link.label ?? 'Learn more'}
+              <div className="flex flex-row items-center gap-2">
+                <DownloadSimpleIcon size={24} />
+                {(download as Document).filename_alt ?? (download as Document).filename}
+              </div>
+              <div className="flex flex-row items-center gap-2 opacity-50 font-light text-small">
+                {formatFilesize((download as Document).filesize)}
+              </div>
             </Button>
           </Link>
         )}
