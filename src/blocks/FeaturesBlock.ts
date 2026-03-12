@@ -1,5 +1,5 @@
-import { iconField } from '@/fields/iconField';
 import type { Block } from 'payload';
+import { iconField } from '@/fields/iconField';
 
 export const Features: Block = {
   slug: 'features',
@@ -20,6 +20,7 @@ export const Features: Block = {
       name: 'features',
       label: 'Features',
       type: 'array',
+      maxRows: 3,
       fields: [
         {
           name: 'image',

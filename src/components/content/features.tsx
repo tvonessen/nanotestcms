@@ -7,13 +7,13 @@ interface FeaturesProps {
 
 export default async function Features({ features }: FeaturesProps) {
   return (
-    <div className="container my-12 px-8 md:px-12 mx-auto">
+    <div className="container mt-12 mb-16 px-8 md:px-12 mx-auto">
       <h2 className="text-4xl font-bold text-center mb-8">{features.title}</h2>
-      <div className="flex flex-col flex-nowrap xl:flex-row gap-8 sm:gap-4 xl:gap-8 items-top">
+      <div className="flex flex-col flex-nowrap lg:flex-row gap-8 sm:gap-4 lg:gap-8 items-top justify-center">
         {features.features?.map((feature) => (
           <div
             key={feature.id}
-            className="flex flex-col sm:flex-row xl:flex-col items-center sm:items-start xl:items-center gap-x-8"
+            className="flex flex-col sm:w-[60ch] lg:w-1/3 mx-auto sm:flex-row lg:flex-col items-center sm:items-start lg:items-center gap-x-8"
           >
             <div className="flex flex-col items-center">
               <FeatureImage image={feature.image as Media} className="w-36 sm:w-48" />
@@ -24,7 +24,7 @@ export default async function Features({ features }: FeaturesProps) {
               )}
             </div>
             <div className="sm:mt-4">
-              <h3 className="text-2xl font-bold mb-2 text-center sm:text-start xl:text-center">
+              <h3 className="text-2xl font-bold mb-2 text-center sm:text-start lg:text-center">
                 {feature.title}
               </h3>
               <p className="text-lg text-center sm:text-start">{feature.description}</p>
