@@ -83,13 +83,11 @@ export default async function ServicePage({ params }: ServicePageProps) {
               case 'text':
                 return <Text key={item.id} {...item} />;
               case 'text-image':
-                return <TextImage key={item.id} text={item.text} image={item.image as Media} />;
+                return <TextImage key={item.id} {...item} />;
               case 'highlight':
                 return <Highlight lang={lang} key={item.id} highlight={item} />;
               case 'text-video':
-                return (
-                  <TextVideo key={item.id} text={item.text} videoId={item.videoId as string} />
-                );
+                return <TextVideo key={item.id} {...item} />;
               case 'contact-form':
                 return (
                   <ContactForm

@@ -1,7 +1,9 @@
 import type { Block } from 'payload';
+import { alignmentField } from '@/fields/alignmentField';
 
 export const TextImage: Block = {
   slug: 'text-image',
+  interfaceName: 'TextImage',
   labels: {
     singular: 'Text and image',
     plural: 'Texts and images',
@@ -22,5 +24,6 @@ export const TextImage: Block = {
       hasMany: false,
       required: true,
     },
+    alignmentField(),
   ],
 };

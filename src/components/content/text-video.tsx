@@ -1,27 +1,30 @@
-import type {
-  SerializedEditorState,
-  SerializedLexicalNode,
-} from '@payloadcms/richtext-lexical/lexical';
+import { cn } from '@heroui/react';
+import type { TextVideo as ITextVideo } from '@/payload-types';
 import RichTextWrapper from './richtext-wrapper';
 
-interface TextVideoProps {
-  text: SerializedEditorState<SerializedLexicalNode>;
-  videoId: string;
-}
-
-const TextVideo = ({ text, videoId }: TextVideoProps) => {
+const TextVideo = (props: ITextVideo) => {
   return (
-    <section className="grid grid-cols-12 gap-4 my-4">
-      <aside className="container mx-auto col-span-12 lg:col-span-5 xl:col-span-4 mt-4">
+    <section className="grid grid-cols-12 gap-4 my-12">
+      <aside
+        className={cn(
+          'container mx-auto col-span-12 lg:col-span-5 xl:col-span-4 mt-4',
+          props.alignment === 'right' && 'order-2',
+        )}
+      >
         <iframe
-          title={`YouTube video ${videoId}`}
-          src={`https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&rel=0&cc_load_policy=1&color=white`}
+          title={`YouTube video ${props.videoId}`}
+          src={`https://www.youtube-nocookie.com/embed/${props.videoId}?enablejsapi=1&rel=0&cc_load_policy=1&color=white`}
           className="w-full aspect-video rounded-lg shadow-md"
           allowFullScreen
         />
       </aside>
-      <div className="col-span-12 lg:col-span-7 xl:col-span-8">
-        <RichTextWrapper text={text} />
+      <div
+        className={cn(
+          'col-span-12 lg:col-span-7 xl:col-span-8',
+          props.alignment === 'right' && 'order-1',
+        )}
+      >
+        <RichTextWrapper text={props.text} />
       </div>
     </section>
   );

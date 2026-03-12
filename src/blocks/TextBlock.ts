@@ -1,4 +1,5 @@
 import type { Block } from 'payload';
+import { alignmentField } from '@/fields/alignmentField';
 
 export const Text: Block = {
   slug: 'text',
@@ -22,5 +23,6 @@ export const Text: Block = {
       localized: true,
       required: false,
     },
+    alignmentField(),
   ],
 };

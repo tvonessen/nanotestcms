@@ -287,57 +287,7 @@ export interface Solution {
      * Deprecated! Use Aside of content block 'Text'
      */
     abstract: string;
-    content?:
-      | (
-          | Text
-          | {
-              text: {
-                root: {
-                  type: string;
-                  children: {
-                    type: any;
-                    version: number;
-                    [k: string]: unknown;
-                  }[];
-                  direction: ('ltr' | 'rtl') | null;
-                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                  indent: number;
-                  version: number;
-                };
-                [k: string]: unknown;
-              };
-              image: string | Media;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'text-image';
-            }
-          | Highlight
-          | {
-              text: {
-                root: {
-                  type: string;
-                  children: {
-                    type: any;
-                    version: number;
-                    [k: string]: unknown;
-                  }[];
-                  direction: ('ltr' | 'rtl') | null;
-                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                  indent: number;
-                  version: number;
-                };
-                [k: string]: unknown;
-              };
-              videoId: string;
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'text-video';
-            }
-          | Downloads
-          | ContactForm
-          | Features
-        )[]
-      | null;
+    content?: (Text | TextImage | Highlight | TextVideo | Downloads | ContactForm | Features)[] | null;
   };
   seo?: {
     keywords?: string | null;
@@ -1913,9 +1863,42 @@ export interface Text {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * *Work in progress* - Auto alignment not yet available
+   */
+  alignment?: ('left' | 'right' | 'auto') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextImage".
+ */
+export interface TextImage {
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  image: string | Media;
+  /**
+   * *Work in progress* - Auto alignment not yet available
+   */
+  alignment?: ('left' | 'right' | 'auto') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'text-image';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1940,6 +1923,35 @@ export interface Highlight {
   id?: string | null;
   blockName?: string | null;
   blockType: 'highlight';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextVideo".
+ */
+export interface TextVideo {
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  videoId: string;
+  /**
+   * *Work in progress* - Auto alignment not yet available
+   */
+  alignment?: ('left' | 'right' | 'auto') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'text-video';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3885,23 +3897,9 @@ export interface SolutionsSelect<T extends boolean = true> {
           | T
           | {
               text?: T | TextSelect<T>;
-              'text-image'?:
-                | T
-                | {
-                    text?: T;
-                    image?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
+              'text-image'?: T | TextImageSelect<T>;
               highlight?: T | HighlightSelect<T>;
-              'text-video'?:
-                | T
-                | {
-                    text?: T;
-                    videoId?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
+              'text-video'?: T | TextVideoSelect<T>;
               downloads?: T | DownloadsSelect<T>;
               'contact-form'?: T | ContactFormSelect<T>;
               features?: T | FeaturesSelect<T>;
@@ -3924,6 +3922,18 @@ export interface SolutionsSelect<T extends boolean = true> {
 export interface TextSelect<T extends boolean = true> {
   text?: T;
   text_right?: T;
+  alignment?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextImage_select".
+ */
+export interface TextImageSelect<T extends boolean = true> {
+  text?: T;
+  image?: T;
+  alignment?: T;
   id?: T;
   blockName?: T;
 }
@@ -3946,6 +3956,17 @@ export interface HighlightSelect<T extends boolean = true> {
         label?: T;
       };
   variant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextVideo_select".
+ */
+export interface TextVideoSelect<T extends boolean = true> {
+  text?: T;
+  videoId?: T;
+  alignment?: T;
   id?: T;
   blockName?: T;
 }
@@ -4162,6 +4183,10 @@ export interface Homepage {
               };
               [k: string]: unknown;
             } | null;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -5790,6 +5815,10 @@ export interface About {
               };
               [k: string]: unknown;
             } | null;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -5811,6 +5840,10 @@ export interface About {
               [k: string]: unknown;
             };
             image: string | Media;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-image';
@@ -5832,6 +5865,10 @@ export interface About {
               [k: string]: unknown;
             };
             videoId: string;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-video';
@@ -5901,6 +5938,10 @@ export interface About {
               };
               [k: string]: unknown;
             } | null;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -5922,6 +5963,10 @@ export interface About {
               [k: string]: unknown;
             };
             image: string | Media;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-image';
@@ -5943,6 +5988,10 @@ export interface About {
               [k: string]: unknown;
             };
             videoId: string;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-video';
@@ -6026,6 +6075,10 @@ export interface Legal {
               };
               [k: string]: unknown;
             } | null;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -6047,6 +6100,10 @@ export interface Legal {
               [k: string]: unknown;
             };
             image: string | Media;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-image';
@@ -6093,6 +6150,10 @@ export interface Legal {
               };
               [k: string]: unknown;
             } | null;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -6114,6 +6175,10 @@ export interface Legal {
               [k: string]: unknown;
             };
             image: string | Media;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-image';
@@ -6170,6 +6235,10 @@ export interface ContactUs {
               };
               [k: string]: unknown;
             } | null;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -6191,6 +6260,10 @@ export interface ContactUs {
               [k: string]: unknown;
             };
             image: string | Media;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-image';
@@ -6212,6 +6285,10 @@ export interface ContactUs {
               [k: string]: unknown;
             };
             videoId: string;
+            /**
+             * *Work in progress* - Auto alignment not yet available
+             */
+            alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text-video';
@@ -6354,22 +6431,8 @@ export interface AboutSelect<T extends boolean = true> {
     | T
     | {
         text?: T | TextSelect<T>;
-        'text-image'?:
-          | T
-          | {
-              text?: T;
-              image?: T;
-              id?: T;
-              blockName?: T;
-            };
-        'text-video'?:
-          | T
-          | {
-              text?: T;
-              videoId?: T;
-              id?: T;
-              blockName?: T;
-            };
+        'text-image'?: T | TextImageSelect<T>;
+        'text-video'?: T | TextVideoSelect<T>;
         cards?: T | CardsSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
       };
@@ -6378,22 +6441,8 @@ export interface AboutSelect<T extends boolean = true> {
     | T
     | {
         text?: T | TextSelect<T>;
-        'text-image'?:
-          | T
-          | {
-              text?: T;
-              image?: T;
-              id?: T;
-              blockName?: T;
-            };
-        'text-video'?:
-          | T
-          | {
-              text?: T;
-              videoId?: T;
-              id?: T;
-              blockName?: T;
-            };
+        'text-image'?: T | TextImageSelect<T>;
+        'text-video'?: T | TextVideoSelect<T>;
         cards?: T | CardsSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
       };
@@ -6411,28 +6460,14 @@ export interface LegalSelect<T extends boolean = true> {
     | T
     | {
         text?: T | TextSelect<T>;
-        'text-image'?:
-          | T
-          | {
-              text?: T;
-              image?: T;
-              id?: T;
-              blockName?: T;
-            };
+        'text-image'?: T | TextImageSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
       };
   privacy?:
     | T
     | {
         text?: T | TextSelect<T>;
-        'text-image'?:
-          | T
-          | {
-              text?: T;
-              image?: T;
-              id?: T;
-              blockName?: T;
-            };
+        'text-image'?: T | TextImageSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
       };
   _status?: T;
@@ -6449,22 +6484,8 @@ export interface ContactUsSelect<T extends boolean = true> {
     | T
     | {
         text?: T | TextSelect<T>;
-        'text-image'?:
-          | T
-          | {
-              text?: T;
-              image?: T;
-              id?: T;
-              blockName?: T;
-            };
-        'text-video'?:
-          | T
-          | {
-              text?: T;
-              videoId?: T;
-              id?: T;
-              blockName?: T;
-            };
+        'text-image'?: T | TextImageSelect<T>;
+        'text-video'?: T | TextVideoSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
       };
   europe?:

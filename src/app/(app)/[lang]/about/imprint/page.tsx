@@ -4,7 +4,7 @@ import { getPayload } from 'payload';
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
 import { locales } from '@/config/locales';
-import type { Config, Media } from '@/payload-types';
+import type { Config } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
 
 export function generateStaticParams() {
@@ -36,7 +36,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
             case 'text':
               return <Text key={item.id} {...item} />;
             case 'text-image':
-              return <TextImage key={item.id} text={item.text} image={item.image as Media} />;
+              return <TextImage key={item.id} {...item} />;
             default:
               return null;
           }

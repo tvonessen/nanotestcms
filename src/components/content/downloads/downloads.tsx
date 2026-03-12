@@ -30,7 +30,7 @@ export default async function Downloads({ docs }: DownloadsProps) {
   );
 
   return (
-    <section className="container mx-auto">
+    <section className="container mx-auto my-12">
       <h2 className="px-5 py-2 bg-secondary text-background text-2xl font-semibold my-2 rounded-md">
         Downloads
       </h2>

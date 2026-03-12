@@ -9,7 +9,7 @@ import DistributorsAccordion, {
   type RegionKey,
 } from '@/components/distributors/distributors-accordion';
 import { locales } from '@/config/locales';
-import type { Config, Media } from '@/payload-types';
+import type { Config } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
 
 export function generateStaticParams() {
@@ -61,11 +61,9 @@ export default async function Contact({ params }: ContactPageProps) {
             case 'text':
               return <Text key={block.id} {...block} />;
             case 'text-image':
-              return <TextImage key={block.id} text={block.text} image={block.image as Media} />;
+              return <TextImage key={block.id} {...block} />;
             case 'text-video':
-              return (
-                <TextVideo key={block.id} text={block.text} videoId={block.videoId as string} />
-              );
+              return <TextVideo key={block.id} {...block} />;
             case 'contact-form':
               return (
                 <ContactForm

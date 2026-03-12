@@ -7,7 +7,7 @@ import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
 import TextVideo from '@/components/content/text-video';
 import { locales } from '@/config/locales';
-import type { Config, Media, TeamMember } from '@/payload-types';
+import type { Config, TeamMember } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
 
 export function generateStaticParams() {
@@ -39,9 +39,9 @@ export default async function AboutPage({ params }: AboutPageProps) {
             case 'text':
               return <Text key={item.id} {...item} />;
             case 'text-image':
-              return <TextImage key={item.id} text={item.text} image={item.image as Media} />;
+              return <TextImage key={item.id} {...item} />;
             case 'text-video':
-              return <TextVideo key={item.id} text={item.text} videoId={item.videoId as string} />;
+              return <TextVideo key={item.id} {...item} />;
             case 'contact-form':
               return (
                 <ContactForm
@@ -70,9 +70,9 @@ export default async function AboutPage({ params }: AboutPageProps) {
             case 'text':
               return <Text key={item.id} {...item} />;
             case 'text-image':
-              return <TextImage key={item.id} text={item.text} image={item.image as Media} />;
+              return <TextImage key={item.id} {...item} />;
             case 'text-video':
-              return <TextVideo key={item.id} text={item.text} videoId={item.videoId as string} />;
+              return <TextVideo key={item.id} {...item} />;
             case 'contact-form':
               return (
                 <ContactForm

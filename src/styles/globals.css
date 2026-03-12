@@ -98,6 +98,14 @@ aside.hatching {
       rgba(var(--background), 0.33)
     );
   }
+
+  &.hatching-reverse::before {
+    background-image: linear-gradient(
+      -60deg,
+      rgba(var(--background), 1),
+      rgba(var(--background), 0.33)
+    );
+  }
 }
 
 @utility file-selections {
