@@ -4,7 +4,7 @@ import RichTextWrapper from './richtext-wrapper';
 
 export default function Text(text: IText) {
   return (
-    <section className="grid grid-cols-12 gap-4 my-12">
+    <section className="grid grid-cols-12 gap-8 my-12 first-of-type:mt-4">
       <aside
         className={cn(
           !text.text_right && 'hatching hidden lg:block opacity-50 rounded-3xl',

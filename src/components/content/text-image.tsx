@@ -6,7 +6,7 @@ import RichTextWrapper from './richtext-wrapper';
 const TextImage = (props: ITextImage) => {
   const image = props.image as Media;
   return (
-    <section className="grid grid-cols-12 gap-4 my-12">
+    <section className="grid grid-cols-12 gap-8 my-12 first-of-type:mt-4">
       <aside
         className={cn(
           'container mx-auto col-span-12 lg:col-span-5 xl:col-span-4 mt-4',
