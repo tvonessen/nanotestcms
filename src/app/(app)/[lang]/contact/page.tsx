@@ -1,3 +1,6 @@
+import config from '@payload-config';
+import { notFound } from 'next/navigation';
+import { getPayload } from 'payload';
 import ContactForm from '@/components/content/contact-form/contact-form';
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
@@ -7,10 +10,7 @@ import DistributorsAccordion, {
 } from '@/components/distributors/distributors-accordion';
 import { locales } from '@/config/locales';
 import type { Config, Media } from '@/payload-types';
-import config from '@payload-config';
 import { isPreviewEnabled } from '@/utils/preview';
-import { notFound } from 'next/navigation';
-import { getPayload } from 'payload';
 
 export function generateStaticParams() {
   return locales.map(({ code }) => ({ lang: code }));
@@ -59,7 +59,7 @@ export default async function Contact({ params }: ContactPageProps) {
         {contactUs.content?.map((block) => {
           switch (block.blockType) {
             case 'text':
-              return <Text key={block.id} text={block.text} />;
+              return <Text key={block.id} {...block} />;
             case 'text-image':
               return <TextImage key={block.id} text={block.text} image={block.image as Media} />;
             case 'text-video':

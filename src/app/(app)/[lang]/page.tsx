@@ -1,3 +1,4 @@
+import { cn } from '@heroui/react';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
@@ -40,8 +41,20 @@ export default async function Home(props: HomeProps) {
         switch (block.blockType) {
           case 'text':
             return (
-              <div key={block.id} className="container max-w-prose my-16 px-8 md:px-12 xl:mx-auto">
-                <RichTextWrapper text={block.text} />
+              <div
+                key={block.id}
+                className={cn(
+                  'container my-16 px-8 md:px-12 mx-auto',
+                  !block.text_right && 'max-w-prose',
+                  block.text_right &&
+                    'grid grid-cols-1 lg:grid-cols-3 max-w-prose lg:max-w-[calc(65ch+30ch)] gap-6',
+                )}
+              >
+                {block.text_right && <RichTextWrapper text={block.text_right} />}
+                <RichTextWrapper
+                  className={block.text_right ? 'lg:col-span-2' : ''}
+                  text={block.text}
+                />
               </div>
             );
           case 'highlight':

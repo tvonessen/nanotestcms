@@ -1,4 +1,4 @@
-import type { Solution } from '@/payload-types';
+import { cn } from '@heroui/react';
 import type { DefaultNodeTypes, SerializedLinkNode } from '@payloadcms/richtext-lexical';
 import type {
   SerializedEditorState,
@@ -10,13 +10,15 @@ import {
   LinkJSXConverter,
   RichText,
 } from '@payloadcms/richtext-lexical/react';
+import type { Solution } from '@/payload-types';
 
 interface RichTextWrapperProps {
   text: SerializedEditorState<SerializedLexicalNode>;
+  className?: string;
   lang?: string;
 }
 
-export default function RichTextWrapper({ text, lang = 'en' }: RichTextWrapperProps) {
+export default function RichTextWrapper({ text, className, lang = 'en' }: RichTextWrapperProps) {
   const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
     if (!linkNode.fields.doc) {
       throw new Error('Expected linkNode.fields.doc to be defined');
@@ -42,5 +44,5 @@ export default function RichTextWrapper({ text, lang = 'en' }: RichTextWrapperPr
     ...LinkJSXConverter({ internalDocToHref }),
   });
 
-  return <RichText className="rich-text" data={text} converters={jsxConverters} />;
+  return <RichText className={cn('rich-text', className)} data={text} converters={jsxConverters} />;
 }
