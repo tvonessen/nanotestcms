@@ -133,6 +133,7 @@ const Solutions: CollectionConfig = {
               required: true,
               admin: {
                 placeholder: 'A catchy abstract text',
+                description: "Deprecated! Use Aside of content block 'Text'",
               },
             },
             {

@@ -33,7 +33,7 @@ const Highlight = (props: HighlightProps) => {
 
   return (
     <section
-      className={`relative left-1/2 -translate-x-[50%] w-screen col-span-full my-12 py-6 bg-linear-to-t ${gradient} ${variant === 'warning' && 'dark'}`}
+      className={`relative left-1/2 -translate-x-[50%] w-screen my-12 py-6 bg-linear-to-t ${gradient} ${variant === 'warning' && 'dark'}`}
     >
       <div className="container mx-auto px-8 text-background text-center font-medium">
         <h2

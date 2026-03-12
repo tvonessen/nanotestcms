@@ -3,7 +3,6 @@ import type {
   SerializedLexicalNode,
 } from '@payloadcms/richtext-lexical/lexical';
 import RichTextWrapper from './richtext-wrapper';
-import { Fragment } from 'react';
 
 interface TextVideoProps {
   text: SerializedEditorState<SerializedLexicalNode>;
@@ -12,7 +11,7 @@ interface TextVideoProps {
 
 const TextVideo = ({ text, videoId }: TextVideoProps) => {
   return (
-    <Fragment key="text-video">
+    <section className="grid grid-cols-12 gap-4 my-4">
       <aside className="container mx-auto col-span-12 lg:col-span-5 xl:col-span-4 mt-4">
         <iframe
           title={`YouTube video ${videoId}`}
@@ -21,10 +20,10 @@ const TextVideo = ({ text, videoId }: TextVideoProps) => {
           allowFullScreen
         />
       </aside>
-      <section className="col-span-12 lg:col-span-7 lg:col-start-6 xl:col-span-8 xl:col-start-5">
+      <div className="col-span-12 lg:col-span-7 xl:col-span-8">
         <RichTextWrapper text={text} />
-      </section>
-    </Fragment>
+      </div>
+    </section>
   );
 };
 

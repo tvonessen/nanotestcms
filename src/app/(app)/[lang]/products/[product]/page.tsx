@@ -1,3 +1,4 @@
+import { cn } from '@heroui/react';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
@@ -58,25 +59,26 @@ const ProductPage = async ({ params }: ProductPageProps) => {
 
   return (
     <main>
-      <div className="container mx-auto mb-24" key="product-content">
+      <div className="container mx-auto mb-24">
         {product.details?.images?.length > 0 && (
           <Carousel images={product.details.images as Media[]} />
         )}
-        <article
-          key={product.title ?? `product-${product.title ?? 'unknown'}`}
-          className="grid grid-cols-12 gap-6 sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto"
-        >
-          {/* Abstract section */}
-          <section className="abstract col-span-12 lg:col-span-5 xl:col-span-4">
-            <h1 className="text-5xl mt-6 leading-none font-black">{product.title}</h1>
-            <p className="text-lg mt-4 text-primary">{product.subtitle}</p>
-            <p className="my-6 font-medium text-lg">{product.details.abstract}</p>
-          </section>
-          {/* Content section */}
+        <section className="sm:mx-4 lg:mx-6 xl:mx-16 2xl:mx-48 mt-2 lg:-mt-16 sticky bottom-8 flex flex-row justify-start">
+          <div
+            className={cn(
+              'w-full lg:w-auto flex flex-col items-start z-30 p-4',
+              'sm:rounded-xl bg-background/80 backdrop-blur-xs lg:drop-shadow-sm dark:lg:drop-shadow-[1px_2px_1px_rgb(255,255,255,0.1)]',
+            )}
+          >
+            <h1 className="inline-block text-5xl leading-none font-black">{product.title}</h1>
+            <p className="inline-block text-lg mt-4 text-secondary">{product.subtitle}</p>
+          </div>
+        </section>
+        <article className="sm:mx-4 md:mx-8 px-4 max-w-6xl lg:mx-auto">
           {product.details.content?.map((item) => {
             switch (item.blockType) {
               case 'text':
-                return <Text key={item.id} text={item.text} />;
+                return <Text key={item.id} {...item} />;
               case 'text-image':
                 return <TextImage key={item.id} text={item.text} image={item.image as Media} />;
               case 'highlight':

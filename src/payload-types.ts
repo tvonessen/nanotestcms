@@ -283,29 +283,13 @@ export interface Solution {
   discontinued?: boolean | null;
   details: {
     images: (string | Media)[];
+    /**
+     * Deprecated! Use Aside of content block 'Text'
+     */
     abstract: string;
     content?:
       | (
-          | {
-              text: {
-                root: {
-                  type: string;
-                  children: {
-                    type: any;
-                    version: number;
-                    [k: string]: unknown;
-                  }[];
-                  direction: ('ltr' | 'rtl') | null;
-                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                  indent: number;
-                  version: number;
-                };
-                [k: string]: unknown;
-              };
-              id?: string | null;
-              blockName?: string | null;
-              blockType: 'text';
-            }
+          | Text
           | {
               text: {
                 root: {
@@ -1893,6 +1877,45 @@ export interface SolutionCategory {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Text".
+ */
+export interface Text {
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  text_right?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'text';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3861,13 +3884,7 @@ export interface SolutionsSelect<T extends boolean = true> {
         content?:
           | T
           | {
-              text?:
-                | T
-                | {
-                    text?: T;
-                    id?: T;
-                    blockName?: T;
-                  };
+              text?: T | TextSelect<T>;
               'text-image'?:
                 | T
                 | {
@@ -3899,6 +3916,16 @@ export interface SolutionsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Text_select".
+ */
+export interface TextSelect<T extends boolean = true> {
+  text?: T;
+  text_right?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4120,6 +4147,21 @@ export interface Homepage {
               };
               [k: string]: unknown;
             };
+            text_right?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -5733,6 +5775,21 @@ export interface About {
               };
               [k: string]: unknown;
             };
+            text_right?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -5829,6 +5886,21 @@ export interface About {
               };
               [k: string]: unknown;
             };
+            text_right?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -5939,6 +6011,21 @@ export interface Legal {
               };
               [k: string]: unknown;
             };
+            text_right?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -5991,6 +6078,21 @@ export interface Legal {
               };
               [k: string]: unknown;
             };
+            text_right?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -6053,6 +6155,21 @@ export interface ContactUs {
               };
               [k: string]: unknown;
             };
+            text_right?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
@@ -6206,13 +6323,7 @@ export interface HomepageSelect<T extends boolean = true> {
   content?:
     | T
     | {
-        text?:
-          | T
-          | {
-              text?: T;
-              id?: T;
-              blockName?: T;
-            };
+        text?: T | TextSelect<T>;
         highlight?: T | HighlightSelect<T>;
         cards?: T | CardsSelect<T>;
         features?: T | FeaturesSelect<T>;
@@ -6242,13 +6353,7 @@ export interface AboutSelect<T extends boolean = true> {
   content?:
     | T
     | {
-        text?:
-          | T
-          | {
-              text?: T;
-              id?: T;
-              blockName?: T;
-            };
+        text?: T | TextSelect<T>;
         'text-image'?:
           | T
           | {
@@ -6272,13 +6377,7 @@ export interface AboutSelect<T extends boolean = true> {
   content_bottom?:
     | T
     | {
-        text?:
-          | T
-          | {
-              text?: T;
-              id?: T;
-              blockName?: T;
-            };
+        text?: T | TextSelect<T>;
         'text-image'?:
           | T
           | {
@@ -6311,13 +6410,7 @@ export interface LegalSelect<T extends boolean = true> {
   imprint?:
     | T
     | {
-        text?:
-          | T
-          | {
-              text?: T;
-              id?: T;
-              blockName?: T;
-            };
+        text?: T | TextSelect<T>;
         'text-image'?:
           | T
           | {
@@ -6331,13 +6424,7 @@ export interface LegalSelect<T extends boolean = true> {
   privacy?:
     | T
     | {
-        text?:
-          | T
-          | {
-              text?: T;
-              id?: T;
-              blockName?: T;
-            };
+        text?: T | TextSelect<T>;
         'text-image'?:
           | T
           | {
@@ -6361,13 +6448,7 @@ export interface ContactUsSelect<T extends boolean = true> {
   content?:
     | T
     | {
-        text?:
-          | T
-          | {
-              text?: T;
-              id?: T;
-              blockName?: T;
-            };
+        text?: T | TextSelect<T>;
         'text-image'?:
           | T
           | {

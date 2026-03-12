@@ -1,18 +1,22 @@
-import type {
-  SerializedEditorState,
-  SerializedLexicalNode,
-} from '@payloadcms/richtext-lexical/lexical';
+import { cn } from '@heroui/react';
+import type { Text as TextBlock } from '@/payload-types';
 import RichTextWrapper from './richtext-wrapper';
 
-const Text = ({ text }: { text: SerializedEditorState<SerializedLexicalNode> }) => {
+export default function Text(text: TextBlock) {
   return (
-    <>
-      <aside className="hidden lg:block col-span-5 xl:col-span-4 opacity-25 rounded-3xl" />
-      <section className="col-span-12 lg:col-start-6 lg:col-span-7 xl:col-start-5 xl:col-span-8">
-        <RichTextWrapper text={text} />
-      </section>
-    </>
+    <section className="grid grid-cols-12 gap-4 my-4">
+      <aside
+        className={cn(
+          !text.text_right && 'hatching hidden lg:block opacity-50 rounded-3xl',
+          text.text_right && 'col-span-12',
+          'lg:col-span-5 xl:col-span-4',
+        )}
+      >
+        {text.text_right && <RichTextWrapper text={text.text_right} />}
+      </aside>
+      <div className="col-span-12 lg:col-span-7 xl:col-span-8">
+        <RichTextWrapper text={text.text} />
+      </div>
+    </section>
   );
-};
-
-export default Text;
+}

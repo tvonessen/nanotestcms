@@ -1,9 +1,9 @@
 'use client';
 
-import type { Media } from '@/payload-types';
 import { ArrowsVerticalIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import React, { Fragment } from 'react';
+import type { Media } from '@/payload-types';
 
 interface ExpandImageProps {
   image: Media;
@@ -36,6 +36,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
 
   return (
     <Fragment key="expand-image">
+      {/** biome-ignore lint/a11y/noStaticElementInteractions: Expandable image */}
       <div
         className={`group relative ${isExpandable && 'cursor-pointer'}`}
         onClick={toggleExpand}
@@ -64,14 +65,13 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
         />
         <span
           className={`flex flex-row items-center justify-center font-semibold md:text-lg lg:hidden ${isExpanded && 'opacity-0'} absolute top-0 left-0 h-full w-full ${image.isDark ? ' text-white bg-black/35' : ' text-black bg-white/35'} border-1 rounded-md backdrop-blur-[2px] transition-opacity`}
-          aria-label="Click to expand image to full height"
         >
           Click to
           <ArrowsVerticalIcon size={24} weight="bold" />
           expand
         </span>
       </div>
-      <center className="mt-2 opacity-80 lg:text-left">{alt}</center>
+      <center className="mt-1 ms-1 text-sm opacity-80 lg:text-left">{alt}</center>
     </Fragment>
   );
 };

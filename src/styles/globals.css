@@ -1,9 +1,9 @@
 @import "tailwindcss";
 @config "../../tailwind.config.ts";
 
-@plugin './hero.ts';
+@plugin "./hero.ts";
 
-@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@source "../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -17,7 +17,9 @@
   --warning: 243, 182, 31; /* in HEX: #F3B61F */
   --error: 255, 26, 80; /* in HEX: #FF1A50 */
 
-  transition: background-color 0.1s, color 0.1s;
+  transition:
+    background-color 0.1s,
+    color 0.1s;
 }
 
 .dark {
@@ -74,7 +76,7 @@ header {
   display: none !important;
 }
 
-aside:not(:has(img)):not(:has(iframe)) {
+aside.hatching {
   background: repeating-linear-gradient(
     -33deg,
     rgb(var(--primary)),
