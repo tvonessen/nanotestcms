@@ -110,6 +110,15 @@ export default buildConfig({
     defaultLocale: 'en',
     fallback: true,
   },
+  jobs: {
+    autoRun: [
+      {
+        cron: '* * * * *',
+        limit: 100,
+        allQueues: true,
+      },
+    ],
+  },
   plugins: [],
   globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent],
   secret: process.env.PAYLOAD_SECRET || '',
