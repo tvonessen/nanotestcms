@@ -63,11 +63,16 @@ const ProductPage = async ({ params }: ProductPageProps) => {
         {product.details?.images?.length > 0 && (
           <Carousel images={product.details.images as Media[]} />
         )}
-        <section className="sm:mx-4 lg:mx-6 xl:mx-16 2xl:mx-48 mt-2 lg:-mt-16 sticky bottom-8 flex flex-row justify-start">
+        <section
+          className={cn(
+            'sticky bottom-8 flex flex-row justify-start max-w-6xl',
+            'sm:mx-4 xl:mx-20 2xl:mx-52 lg:-mt-24',
+          )}
+        >
           <div
             className={cn(
-              'w-full lg:w-auto flex flex-col items-start z-30 p-4',
-              'sm:rounded-xl bg-background/80 backdrop-blur-xs lg:drop-shadow-sm dark:lg:drop-shadow-[1px_2px_1px_rgb(255,255,255,0.1)]',
+              'w-full lg:w-auto lg:min-w-[calc(5/12*(100%-11*2rem)+4*2rem)] xl:min-w-[calc(4/12*(100%-11*2rem)+3*2rem)] flex flex-col items-start z-30 p-4',
+              'sm:rounded-xl bg-background/80 backdrop-blur-xs shadow-xl',
             )}
           >
             <h1 className="inline-block text-5xl leading-none font-black">{product.title}</h1>
