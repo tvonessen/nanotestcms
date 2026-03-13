@@ -34,7 +34,7 @@ export default async function Downloads({ docs }: DownloadsProps) {
     }),
   ).then((docs) => docs.filter((docs) => typeof docs === 'object'));
 
-  if (docs.length === 0) return null;
+  if (documents.length === 0) return null;
 
   return (
     <section className="container mx-auto my-12">
