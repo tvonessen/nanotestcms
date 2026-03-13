@@ -8,7 +8,7 @@ const TextVideo = (props: ITextVideo) => {
       <aside
         className={cn(
           'container mx-auto col-span-12 lg:col-span-5 xl:col-span-4 mt-4',
-          props.alignment === 'right' && 'order-2',
+          props.alignment === 'right' && 'lg:order-2',
         )}
       >
         <iframe
@@ -21,7 +21,7 @@ const TextVideo = (props: ITextVideo) => {
       <div
         className={cn(
           'col-span-12 lg:col-span-7 xl:col-span-8',
-          props.alignment === 'right' && 'order-1',
+          props.alignment === 'right' && 'lg:order-1',
         )}
       >
         <RichTextWrapper text={props.text} />
