@@ -20,14 +20,21 @@ export default async function Downloads({ docs }: DownloadsProps) {
       // If doc is an object, return it
       if (typeof doc === 'object') return doc;
       // If doc is a string (id), fetch it from the database
-      const document = await payload.find({
-        collection: 'documents',
-        where: { id: { equals: doc } },
-        overrideAccess: false,
-      });
-      return document.docs[0];
+      try {
+        return (
+          (await payload.findByID({
+            collection: 'documents',
+            id: doc,
+            overrideAccess: false,
+          })) ?? false
+        );
+      } catch {
+        return;
+      }
     }),
-  );
+  ).then((docs) => docs.filter((docs) => typeof docs === 'object'));
+
+  if (docs.length === 0) return null;
 
   return (
     <section className="container mx-auto my-12">
