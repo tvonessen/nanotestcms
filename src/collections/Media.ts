@@ -78,7 +78,7 @@ export const Media: CollectionConfig = {
       hasMany: true,
       required: true,
       options: [
-        { label: 'Solution', value: 'solution' },
+        { label: { en: 'Product', de: 'Produkt' }, value: 'solution' },
         { label: 'Service', value: 'service' },
         { label: 'Logo', value: 'logo' },
         { label: 'Team', value: 'team' },
