@@ -12,6 +12,7 @@ import TextImage from '@/components/content/text-image';
 import TextVideo from '@/components/content/text-video';
 import type { Config, Media, Solution } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
+import { resolveAutoAlignment } from '@/utils/resolve-auto-alignment';
 
 export async function generateStaticParams(props: { params: { lang: string; product: string } }) {
   const { lang } = props.params;
@@ -80,7 +81,7 @@ const ProductPage = async ({ params }: ProductPageProps) => {
           </div>
         </section>
         <article className="sm:mx-4 md:mx-8 px-4 max-w-6xl lg:mx-auto">
-          {product.details.content?.map((item) => {
+          {resolveAutoAlignment(product.details.content ?? []).map((item) => {
             switch (item.blockType) {
               case 'text':
                 return <Text key={item.id} {...item} />;

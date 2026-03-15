@@ -9,6 +9,7 @@ import TextVideo from '@/components/content/text-video';
 import { locales } from '@/config/locales';
 import type { Config, TeamMember } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
+import { resolveAutoAlignment } from '@/utils/resolve-auto-alignment';
 
 export function generateStaticParams() {
   return locales.map(({ code }) => ({ lang: code }));
@@ -34,7 +35,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
   return (
     <div className="container mx-auto">
       <article className="sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
-        {about.content?.map((item) => {
+        {resolveAutoAlignment(about.content ?? []).map((item) => {
           switch (item.blockType) {
             case 'text':
               return <Text key={item.id} {...item} />;
@@ -65,7 +66,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
       )}
 
       <article className="sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
-        {about.content_bottom?.map((item) => {
+        {resolveAutoAlignment(about.content_bottom ?? []).map((item) => {
           switch (item.blockType) {
             case 'text':
               return <Text key={item.id} {...item} />;

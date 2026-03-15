@@ -5,7 +5,8 @@ export function alignmentField(overrides: Partial<Field> = {}) {
     name: 'alignment',
     type: 'select',
     admin: {
-      description: '*Work in progress* - Auto alignment not yet available',
+      description:
+        'Auto: alternates direction relative to the preceding text/text-image/text-video block.',
     },
     options: [
       {
@@ -22,7 +23,6 @@ export function alignmentField(overrides: Partial<Field> = {}) {
       },
     ],
     defaultValue: 'left',
-    validate: (value: unknown) => value !== 'auto' || 'Automatic alignment is not yet available.',
   };
   return deepMerge(alignmentField, overrides);
 }

@@ -1864,7 +1864,7 @@ export interface Text {
     [k: string]: unknown;
   } | null;
   /**
-   * *Work in progress* - Auto alignment not yet available
+   * Auto: alternates direction relative to the preceding text/text-image/text-video block.
    */
   alignment?: ('left' | 'right' | 'auto') | null;
   id?: string | null;
@@ -1893,7 +1893,7 @@ export interface TextImage {
   };
   image: string | Media;
   /**
-   * *Work in progress* - Auto alignment not yet available
+   * Auto: alternates direction relative to the preceding text/text-image/text-video block.
    */
   alignment?: ('left' | 'right' | 'auto') | null;
   id?: string | null;
@@ -1946,7 +1946,7 @@ export interface TextVideo {
   };
   videoId: string;
   /**
-   * *Work in progress* - Auto alignment not yet available
+   * Auto: alternates direction relative to the preceding text/text-image/text-video block.
    */
   alignment?: ('left' | 'right' | 'auto') | null;
   id?: string | null;
@@ -4184,7 +4184,7 @@ export interface Homepage {
               [k: string]: unknown;
             } | null;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -5816,7 +5816,7 @@ export interface About {
               [k: string]: unknown;
             } | null;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -5841,7 +5841,7 @@ export interface About {
             };
             image: string | Media;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -5866,7 +5866,7 @@ export interface About {
             };
             videoId: string;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -5939,7 +5939,7 @@ export interface About {
               [k: string]: unknown;
             } | null;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -5964,7 +5964,7 @@ export interface About {
             };
             image: string | Media;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -5989,7 +5989,7 @@ export interface About {
             };
             videoId: string;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -6076,7 +6076,7 @@ export interface Legal {
               [k: string]: unknown;
             } | null;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -6101,7 +6101,7 @@ export interface Legal {
             };
             image: string | Media;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -6151,7 +6151,7 @@ export interface Legal {
               [k: string]: unknown;
             } | null;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -6176,7 +6176,7 @@ export interface Legal {
             };
             image: string | Media;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -6236,7 +6236,7 @@ export interface ContactUs {
               [k: string]: unknown;
             } | null;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -6261,7 +6261,7 @@ export interface ContactUs {
             };
             image: string | Media;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;
@@ -6286,7 +6286,7 @@ export interface ContactUs {
             };
             videoId: string;
             /**
-             * *Work in progress* - Auto alignment not yet available
+             * Auto: alternates direction relative to the preceding text/text-image/text-video block.
              */
             alignment?: ('left' | 'right' | 'auto') | null;
             id?: string | null;

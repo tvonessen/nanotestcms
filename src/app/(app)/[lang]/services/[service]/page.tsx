@@ -12,6 +12,7 @@ import TextImage from '@/components/content/text-image';
 import TextVideo from '@/components/content/text-video';
 import type { Config, Media, Solution } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
+import { resolveAutoAlignment } from '@/utils/resolve-auto-alignment';
 
 export async function generateStaticParams(props: { params: { lang: string; service: string } }) {
   const { lang } = props.params;
@@ -78,7 +79,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
           key={service.title ?? `service-${service.title ?? 'unknown'}`}
           className="sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto"
         >
-          {service.details.content?.map((item) => {
+          {resolveAutoAlignment(service.details.content ?? []).map((item) => {
             switch (item.blockType) {
               case 'text':
                 return <Text key={item.id} {...item} />;
