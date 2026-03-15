@@ -1,3 +1,4 @@
+import { Hexagon } from '@/components/hexagon';
 import type { Features as FeaturesBlock, Media } from '@/payload-types';
 import { LazyIcon } from '../utility/lazy-icon';
 
@@ -10,36 +11,64 @@ export default async function Features({ features }: FeaturesProps) {
 
   const hasDescriptions = features.features.some((feature) => feature.description);
 
-  return (
-    <div className="container mt-12 mb-16 px-8 md:px-12 mx-auto">
-      <h2 className="text-4xl font-bold text-center mb-8">{features.title}</h2>
-      <div className="flex flex-col flex-nowrap lg:flex-row gap-8 sm:gap-4 lg:gap-8 items-top justify-center">
-        {features.features?.map((feature) => (
-          <div
-            key={feature.id}
-            className="flex flex-col sm:w-[60ch] lg:w-1/3 mx-auto sm:flex-row lg:flex-col items-center sm:items-start lg:items-center gap-x-8"
-          >
-            <div className="flex flex-col items-center">
-              <FeatureImage image={feature.image as Media} className="w-36 sm:w-48" />
-              {feature.icon && (
-                <div className="rounded-full bg-primary text-white aspect-square p-2 -mt-9 border-5 border-background">
-                  <LazyIcon name={feature.icon} size={32} />
-                </div>
-              )}
+  if (features.size === 'compact') {
+    return (
+      <div className="container my-16 ps-10 md:ps-8 xl:ps-6 mx-auto">
+        {features.title && (
+          <h2 className="text-4xl font-bold text-center mb-8">{features.title}</h2>
+        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {features.features.map((feature) => (
+            <div
+              key={feature.id}
+              className="grid grid-cols-[48px_auto] gap-4 justify-start items-center"
+            >
+              <figure className="relative flex justify-center items-center size-12 text-primary">
+                <LazyIcon name={String(feature.icon)} size={32} className="text-foreground" />
+                <Hexagon className="absolute inset-0" />
+              </figure>
+              <div>
+                <h3 className="text-xl text-primary font-semibold mb-1">{feature.title}</h3>
+              </div>
             </div>
-            <div className="sm:mt-4">
-              <h3 className="text-2xl font-bold mb-2 text-center sm:text-start lg:text-center">
-                {feature.title}
-              </h3>
-              {hasDescriptions && (
-                <p className="text-lg text-center sm:text-start">{feature.description ?? ''}</p>
-              )}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className="container mt-12 mb-16 px-8 md:px-12 mx-auto">
+        {features.title && (
+          <h2 className="text-4xl font-bold text-center mb-8">{features.title}</h2>
+        )}
+        <div className="flex flex-col flex-nowrap lg:flex-row gap-8 sm:gap-4 lg:gap-8 items-top justify-center">
+          {features.features?.map((feature) => (
+            <div
+              key={feature.id}
+              className="flex flex-col sm:w-[60ch] lg:w-1/3 mx-auto sm:flex-row lg:flex-col items-center sm:items-start lg:items-center gap-x-8"
+            >
+              <div className="flex flex-col items-center">
+                <FeatureImage image={feature.image as Media} className="w-36 sm:w-48" />
+                {feature.icon && (
+                  <div className="rounded-full bg-primary text-white aspect-square p-2 -mt-9 border-5 border-background">
+                    <LazyIcon name={feature.icon} size={32} />
+                  </div>
+                )}
+              </div>
+              <div className="sm:mt-4">
+                <h3 className="text-2xl font-bold mb-2 text-center sm:text-start lg:text-center">
+                  {feature.title}
+                </h3>
+                {hasDescriptions && (
+                  <p className="text-lg text-center sm:text-start">{feature.description ?? ''}</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 }
 
 const FeatureImage = ({ image, className }: { image: Media; className?: string }) => {

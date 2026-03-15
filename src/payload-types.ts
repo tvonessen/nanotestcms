@@ -1979,10 +1979,11 @@ export interface ContactForm {
  * via the `definition` "Features".
  */
 export interface Features {
-  title: string;
+  size?: ('full' | 'compact') | null;
+  title?: string | null;
   features?:
     | {
-        image: string | Media;
+        image?: (string | null) | Media;
         title: string;
         description?: string | null;
         icon?:
@@ -3994,6 +3995,7 @@ export interface ContactFormSelect<T extends boolean = true> {
  * via the `definition` "Features_select".
  */
 export interface FeaturesSelect<T extends boolean = true> {
+  size?: T;
   title?: T;
   features?:
     | T
@@ -4234,10 +4236,11 @@ export interface Homepage {
             blockType: 'cards';
           }
         | {
-            title: string;
+            size?: ('full' | 'compact') | null;
+            title?: string | null;
             features?:
               | {
-                  image: string | Media;
+                  image?: (string | null) | Media;
                   title: string;
                   description?: string | null;
                   icon?:

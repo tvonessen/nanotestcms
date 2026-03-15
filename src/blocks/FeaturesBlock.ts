@@ -10,10 +10,23 @@ export const Features: Block = {
   },
   fields: [
     {
+      name: 'size',
+      label: { en: 'Größe', de: 'Size' },
+      type: 'select',
+      options: [
+        { label: { en: 'Full', de: 'Voll' }, value: 'full' },
+        { label: { en: 'Compact', de: 'Kompakt' }, value: 'compact' },
+      ],
+      defaultValue: 'full',
+      admin: {
+        isClearable: false,
+      },
+    },
+    {
       name: 'title',
       label: 'Title',
       type: 'text',
-      required: true,
+      required: false,
       localized: true,
     },
     {
@@ -29,6 +42,9 @@ export const Features: Block = {
           relationTo: 'media',
           required: true,
           hasMany: false,
+          admin: {
+            condition: (_data, _siblingData, ctx) => ctx.blockData.size === 'full',
+          },
         },
         {
           name: 'title',
@@ -43,6 +59,7 @@ export const Features: Block = {
           type: 'textarea',
           required: false,
           localized: true,
+          admin: { condition: (_data, _siblingData, ctx) => ctx.blockData.size === 'full' },
         },
         iconField(),
       ],
