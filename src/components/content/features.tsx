@@ -6,6 +6,10 @@ interface FeaturesProps {
 }
 
 export default async function Features({ features }: FeaturesProps) {
+  if (!features || !features.features || !features.features.length) return null;
+
+  const hasDescriptions = features.features.some((feature) => feature.description);
+
   return (
     <div className="container mt-12 mb-16 px-8 md:px-12 mx-auto">
       <h2 className="text-4xl font-bold text-center mb-8">{features.title}</h2>
@@ -27,7 +31,9 @@ export default async function Features({ features }: FeaturesProps) {
               <h3 className="text-2xl font-bold mb-2 text-center sm:text-start lg:text-center">
                 {feature.title}
               </h3>
-              <p className="text-lg text-center sm:text-start">{feature.description}</p>
+              {hasDescriptions && (
+                <p className="text-lg text-center sm:text-start">{feature.description ?? ''}</p>
+              )}
             </div>
           </div>
         ))}

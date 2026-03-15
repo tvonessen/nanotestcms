@@ -1984,7 +1984,7 @@ export interface Features {
     | {
         image: string | Media;
         title: string;
-        description: string;
+        description?: string | null;
         icon?:
           | (
               | 'acorn'
@@ -4239,7 +4239,7 @@ export interface Homepage {
               | {
                   image: string | Media;
                   title: string;
-                  description: string;
+                  description?: string | null;
                   icon?:
                     | (
                         | 'acorn'

@@ -41,7 +41,7 @@ export const Features: Block = {
           name: 'description',
           label: 'Description',
           type: 'textarea',
-          required: true,
+          required: false,
           localized: true,
         },
         iconField(),
