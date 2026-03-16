@@ -2,18 +2,24 @@ import { cn } from '@heroui/react';
 import type { TextVideo as ITextVideo } from '@/payload-types';
 import RichTextWrapper from './richtext-wrapper';
 
-const TextVideo = (props: ITextVideo) => {
+interface TextVideoProps {
+  block: ITextVideo;
+  className?: string;
+}
+
+const TextVideo = (props: TextVideoProps) => {
+  const { className, block } = props;
   return (
-    <section className="grid grid-cols-12 gap-8 my-12 first-of-type:mt-4">
+    <section className={cn('grid grid-cols-12 gap-8 my-12 first-of-type:mt-4', className)}>
       <aside
         className={cn(
           'container mx-auto col-span-12 lg:col-span-5 xl:col-span-4 mt-4',
-          props.alignment === 'right' && 'lg:order-2',
+          block.alignment === 'right' && 'lg:order-2',
         )}
       >
         <iframe
-          title={`YouTube video ${props.videoId}`}
-          src={`https://www.youtube-nocookie.com/embed/${props.videoId}?enablejsapi=1&rel=0&cc_load_policy=1&color=white`}
+          title={`YouTube video ${block.videoId}`}
+          src={`https://www.youtube-nocookie.com/embed/${block.videoId}?enablejsapi=1&rel=0&cc_load_policy=1&color=white`}
           className="w-full aspect-video rounded-lg shadow-md"
           allowFullScreen
         />
@@ -21,10 +27,10 @@ const TextVideo = (props: ITextVideo) => {
       <div
         className={cn(
           'col-span-12 lg:col-span-7 xl:col-span-8',
-          props.alignment === 'right' && 'lg:order-1',
+          block.alignment === 'right' && 'lg:order-1',
         )}
       >
-        <RichTextWrapper text={props.text} />
+        <RichTextWrapper text={block.text} />
       </div>
     </section>
   );

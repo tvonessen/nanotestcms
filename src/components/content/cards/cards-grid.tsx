@@ -5,9 +5,11 @@ import { Card } from './card';
 interface CardsGridProps {
   lang: string;
   block: Cards;
+  className?: string;
 }
 
-export function CardsGrid({ lang, block }: CardsGridProps) {
+export function CardsGrid(props: CardsGridProps) {
+  const { lang, block, className } = props;
   // filter out solutions that don't have an id (i.e. are not published or deleted)
   if (!block.cards || (block.cards as Solution[]).filter((card) => 'id' in card).length === 0) {
     return null;
@@ -16,7 +18,7 @@ export function CardsGrid({ lang, block }: CardsGridProps) {
   const { cards, title, paragraph } = block;
 
   return (
-    <section>
+    <section className={className}>
       <div className="flex flex-col gap-6 my-12">
         <h2 className="text-3xl text-center font-extrabold bg-clip-text text-transparent bg-linear-to-tr from-secondary-700 to-secondary-400">
           {title}

@@ -1,8 +1,7 @@
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
-import Text from '@/components/content/text';
-import TextImage from '@/components/content/text-image';
+import { Content } from '@/components/content/content';
 import { locales } from '@/config/locales';
 import type { Config } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
@@ -31,16 +30,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
   return (
     <div className="container mx-auto">
       <article className="sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
-        {legal.privacy?.map((item) => {
-          switch (item.blockType) {
-            case 'text':
-              return <Text key={item.id} {...item} />;
-            case 'text-image':
-              return <TextImage key={item.id} {...item} />;
-            default:
-              return null;
-          }
-        })}
+        <Content blocks={legal.privacy} lang={lang} />
       </article>
     </div>
   );

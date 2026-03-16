@@ -1,4 +1,5 @@
 import { Button } from '@heroui/button';
+import { cn } from '@heroui/react';
 import { DownloadSimpleIcon } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import { formatFilesize } from '@/components/content/downloads/utils';
@@ -8,22 +9,27 @@ import type { Config, Highlight as HighlightContent } from '@/payload-types';
 interface HighlightProps {
   lang: Config['locale'];
   highlight: HighlightContent;
+  className?: string;
 }
 
 const Highlight = (props: HighlightProps) => {
   const {
     highlight: { title, text, link, variant, action },
     lang,
+    className,
   } = props;
   const download =
     action === 'download' && typeof props.highlight.download === 'object'
       ? props.highlight.download
       : null;
   const gradient = {
-    primary: 'from-primary to-primary-600 dark:from-primary-400 dark:to-primary',
-    secondary: 'from-secondary to-secondary-600 dark:from-secondary-400 dark:to-secondary',
-    warning: 'from-warning to-warning-600 dark:from-warning-400 dark:to-warning',
-    danger: 'from-danger to-danger-600 dark:from-danger-400 dark:to-danger',
+    primary:
+      'after:from-primary after:to-primary-600 after:dark:from-primary-400 after:dark:to-primary',
+    secondary:
+      'after:from-secondary after:to-secondary-600 after:dark:from-secondary-400 after:dark:to-secondary',
+    warning:
+      'after:from-warning after:to-warning-600 after:dark:from-warning-400 after:dark:to-warning',
+    danger: 'after:from-danger after:to-danger-600 after:dark:from-danger-400 after:dark:to-danger',
   }[variant ?? 'primary'];
 
   const textGradient = 'from-white/80 to-white dark:to-black/80 dark:from-black';
@@ -33,9 +39,14 @@ const Highlight = (props: HighlightProps) => {
 
   return (
     <section
-      className={`relative left-1/2 -translate-x-[50%] w-screen my-12 py-6 bg-linear-to-t ${gradient} ${variant === 'warning' && 'dark'}`}
+      className={cn(
+        'relative my-12 py-6',
+        'after:absolute after:-left-full after:w-[300%] after:h-full after:top-0',
+        `after:bg-linear-to-t after:z-0 ${gradient} ${variant === 'warning' ? 'dark' : ''}`,
+        className,
+      )}
     >
-      <div className="container mx-auto px-8 text-background text-center font-medium">
+      <div className="relative container mx-auto px-8 text-background text-center font-medium z-10">
         <h2
           className={`text-3xl font-extrabold bg-clip-text bg-linear-to-t text-transparent mb-3 ${textGradient}`}
         >

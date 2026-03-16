@@ -1,10 +1,7 @@
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
-import ContactForm from '@/components/content/contact-form/contact-form';
-import Text from '@/components/content/text';
-import TextImage from '@/components/content/text-image';
-import TextVideo from '@/components/content/text-video';
+import { Content } from '@/components/content/content';
 import DistributorsAccordion, {
   type RegionKey,
 } from '@/components/distributors/distributors-accordion';
@@ -56,27 +53,7 @@ export default async function Contact({ params }: ContactPageProps) {
   return (
     <div className="container mx-auto mt-16">
       <article className="max-w-6xl lg:mx-auto px-4">
-        {contactUs.content?.map((block) => {
-          switch (block.blockType) {
-            case 'text':
-              return <Text key={block.id} {...block} />;
-            case 'text-image':
-              return <TextImage key={block.id} {...block} />;
-            case 'text-video':
-              return <TextVideo key={block.id} {...block} />;
-            case 'contact-form':
-              return (
-                <ContactForm
-                  key={block.id}
-                  id="contact"
-                  to={block.to}
-                  defaultValues={{ subject: block.subject ?? undefined }}
-                />
-              );
-            default:
-              return null;
-          }
-        })}
+        <Content lang={lang} blocks={contactUs.content} />
       </article>
       <article className="max-w-6xl px-4 lg:mx-auto mt-16">
         <h2 className="text-2xl text-primary px-4">Contact partners</h2>

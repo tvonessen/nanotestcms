@@ -1,8 +1,7 @@
 'use client';
 
-import { Button, Input, Textarea } from '@heroui/react';
+import { Button, cn, Input, Textarea } from '@heroui/react';
 import { CheckIcon } from '@phosphor-icons/react';
-import { useParams } from 'next/navigation';
 import type Mail from 'nodemailer/lib/mailer';
 import { enqueueSnackbar } from 'notistack';
 import React from 'react';
@@ -22,10 +21,11 @@ export type ContactFormFields = {
 type ContactFormProps = React.HTMLAttributes<HTMLElement> & {
   defaultValues?: Partial<ContactFormFields>;
   to?: string | Mail.Address | (Mail.Address | string)[];
+  className?: string;
 };
 
-const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: ContactFormProps) => {
-  const { lang } = useParams();
+const ContactForm = (props: ContactFormProps) => {
+  const { defaultValues, to = 'tobias@hybit.media', className } = props;
   const {
     register,
     handleSubmit,
@@ -38,7 +38,10 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      if (!executeRecaptcha) throw new Error('Failed to load captcha');
+      if (!executeRecaptcha) {
+        console.error('Failed to load captcha');
+        return;
+      }
       const token = await executeRecaptcha('contact_form');
       const isHuman = await fetch('/api/dont-bother-me', {
         method: 'POST',
@@ -49,7 +52,7 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
       });
 
       if (!isHuman.ok) {
-        throw new Error('Failed to validate captcha');
+        console.error('Failed to validate captcha');
       }
 
       const response = await fetch('/api/send-email', {
@@ -68,7 +71,7 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
       });
 
       if (!response.ok) {
-        throw new Error(
+        console.error(
           'Failed to send email. Please try again or contact us through other channels.',
         );
       }
@@ -89,8 +92,14 @@ const ContactForm = ({ defaultValues, to = 'tobias@hybit.media', ...props }: Con
   };
 
   return (
-    <section {...props} className={`${props.className}`}>
-      <h2 className="text-3xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-t from-primary-200 to-black dark:to-primary-300 dark:from-white mb-4">
+    <section
+      className={cn(
+        'max-lg:w-screen lg:w-full relative max-lg:left-1/2 max-lg:-translate-x-[50%]',
+        'mx-auto my-12 col-span-full  px-12 py-12 lg:rounded-lg',
+        className,
+      )}
+    >
+      <h2 className="text-3xl text-center font-bold text-transparent bg-clip-text bg-linear-to-t from-primary-200 to-black dark:to-primary-300 dark:from-white mb-4">
         Contact us
       </h2>
       <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit(onSubmit)}>

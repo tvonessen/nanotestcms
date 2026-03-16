@@ -1,15 +1,11 @@
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
-import ContactForm from '@/components/content/contact-form/contact-form';
+import { Content } from '@/components/content/content';
 import TeamMembersGallery from '@/components/content/team-members-gallery/team-members-gallery';
-import Text from '@/components/content/text';
-import TextImage from '@/components/content/text-image';
-import TextVideo from '@/components/content/text-video';
 import { locales } from '@/config/locales';
 import type { Config, TeamMember } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
-import { resolveAutoAlignment } from '@/utils/resolve-auto-alignment';
 
 export function generateStaticParams() {
   return locales.map(({ code }) => ({ lang: code }));
@@ -35,27 +31,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
   return (
     <div className="container mx-auto">
       <article className="sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
-        {resolveAutoAlignment(about.content ?? []).map((item) => {
-          switch (item.blockType) {
-            case 'text':
-              return <Text key={item.id} {...item} />;
-            case 'text-image':
-              return <TextImage key={item.id} {...item} />;
-            case 'text-video':
-              return <TextVideo key={item.id} {...item} />;
-            case 'contact-form':
-              return (
-                <ContactForm
-                  key={item.id}
-                  id="contact"
-                  to={item.to}
-                  defaultValues={{ subject: item.subject ?? undefined }}
-                />
-              );
-            default:
-              return null;
-          }
-        })}
+        <Content lang={lang} blocks={about.content} />
       </article>
 
       {about.teamMembers && about.teamMembers.length > 0 && (
@@ -66,27 +42,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
       )}
 
       <article className="sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
-        {resolveAutoAlignment(about.content_bottom ?? []).map((item) => {
-          switch (item.blockType) {
-            case 'text':
-              return <Text key={item.id} {...item} />;
-            case 'text-image':
-              return <TextImage key={item.id} {...item} />;
-            case 'text-video':
-              return <TextVideo key={item.id} {...item} />;
-            case 'contact-form':
-              return (
-                <ContactForm
-                  key={item.id}
-                  id="contact"
-                  to={item.to}
-                  defaultValues={{ subject: item.subject ?? undefined }}
-                />
-              );
-            default:
-              return null;
-          }
-        })}
+        <Content lang={lang} blocks={about.content_bottom} />
       </article>
     </div>
   );

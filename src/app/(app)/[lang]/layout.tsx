@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
 import '@/styles/globals.css';
+import { cn } from '@heroui/react';
+import { Suspense } from 'react';
 import Loading from '@/app/(app)/[lang]/loading';
 import { Providers } from '@/app/(app)/[lang]/providers';
 import Footer from '@/components/footer/footer';
@@ -10,7 +12,6 @@ import { RefreshRouteOnSave } from '@/components/utility/RefreshRouteOnSave';
 import { fontSans } from '@/config/fonts';
 import { siteConfig } from '@/config/routes';
 import { isPreviewEnabled } from '@/utils/preview';
-import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: {
@@ -31,7 +32,12 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
       <head>
         <title>{siteConfig.title}</title>
       </head>
-      <body className={`min-h-screen bg-background font-sans antialiased ${fontSans.className}`}>
+      <body
+        className={cn(
+          'min-h-screen bg-background font-sans antialiased overflow-x-hidden',
+          fontSans.className,
+        )}
+      >
         <Providers>
           <AdminBar preview={isDraft} />
           <RefreshRouteOnSave />

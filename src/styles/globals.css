@@ -72,10 +72,6 @@ header {
   container-type: inline-size;
 }
 
-.abstract + aside {
-  display: none !important;
-}
-
 aside.hatching {
   background: repeating-linear-gradient(
     -33deg,

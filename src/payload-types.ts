@@ -6309,7 +6309,7 @@ export interface ContactUs {
     contacts?:
       | {
           country: string;
-          contact:
+          contact: (
             | {
                 relationTo: 'distro-partner';
                 value: string | DistroPartner;
@@ -6317,7 +6317,8 @@ export interface ContactUs {
             | {
                 relationTo: 'team-member';
                 value: string | TeamMember;
-              };
+              }
+          )[];
           id?: string | null;
         }[]
       | null;
@@ -6326,7 +6327,7 @@ export interface ContactUs {
     contacts?:
       | {
           country: string;
-          contact:
+          contact: (
             | {
                 relationTo: 'distro-partner';
                 value: string | DistroPartner;
@@ -6334,7 +6335,8 @@ export interface ContactUs {
             | {
                 relationTo: 'team-member';
                 value: string | TeamMember;
-              };
+              }
+          )[];
           id?: string | null;
         }[]
       | null;
@@ -6343,7 +6345,7 @@ export interface ContactUs {
     contacts?:
       | {
           country: string;
-          contact:
+          contact: (
             | {
                 relationTo: 'distro-partner';
                 value: string | DistroPartner;
@@ -6351,7 +6353,8 @@ export interface ContactUs {
             | {
                 relationTo: 'team-member';
                 value: string | TeamMember;
-              };
+              }
+          )[];
           id?: string | null;
         }[]
       | null;
@@ -6360,7 +6363,7 @@ export interface ContactUs {
     contacts?:
       | {
           country: string;
-          contact:
+          contact: (
             | {
                 relationTo: 'distro-partner';
                 value: string | DistroPartner;
@@ -6368,7 +6371,8 @@ export interface ContactUs {
             | {
                 relationTo: 'team-member';
                 value: string | TeamMember;
-              };
+              }
+          )[];
           id?: string | null;
         }[]
       | null;

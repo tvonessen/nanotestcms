@@ -1,4 +1,3 @@
-import type { Media, Solution } from '@/payload-types';
 import { Button } from '@heroui/button';
 import { CardBody, CardHeader, Card as HeroUICard } from '@heroui/card';
 import { Chip } from '@heroui/chip';
@@ -6,6 +5,7 @@ import { cn } from '@heroui/react';
 import { ArrowSquareInIcon } from '@phosphor-icons/react/ssr';
 import Image from 'next/image';
 import Link from 'next/link';
+import type { Media, Solution } from '@/payload-types';
 
 interface CardProps {
   lang: string;
@@ -37,7 +37,7 @@ export function Card({ lang, solution, className }: CardProps) {
         <h2
           className={cn(
             'relative bottom-0 w-full right-0 pb-4 pt-20 px-6 origin-right text-4xl font-semibold',
-            'bg-gradient-to-t from-background/75 to-transparent',
+            'bg-linear-to-t from-background/75 to-transparent',
           )}
         >
           {solution.title}

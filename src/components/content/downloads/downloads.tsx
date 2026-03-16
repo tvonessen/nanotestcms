@@ -1,3 +1,4 @@
+import { cn } from '@heroui/react';
 import config from '@payload-config';
 import { DownloadSimpleIcon } from '@phosphor-icons/react/dist/ssr';
 import { getPayload } from 'payload';
@@ -7,9 +8,12 @@ import { formatFilesize } from './utils';
 
 interface DownloadsProps {
   docs: (Document | string)[];
+  className?: string;
 }
 
-export default async function Downloads({ docs }: DownloadsProps) {
+export default async function Downloads(props: DownloadsProps) {
+  const { docs, className } = props;
+
   if (!docs || docs.length === 0) {
     return null;
   }
@@ -37,7 +41,7 @@ export default async function Downloads({ docs }: DownloadsProps) {
   if (documents.length === 0) return null;
 
   return (
-    <section className="container mx-auto my-12">
+    <section className={cn('container mx-auto my-12', className)}>
       <h2 className="px-5 py-2 bg-secondary text-background text-2xl font-semibold my-2 rounded-md">
         Downloads
       </h2>

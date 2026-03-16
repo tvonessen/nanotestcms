@@ -1,19 +1,22 @@
+import { cn } from '@heroui/react';
 import { Hexagon } from '@/components/hexagon';
 import type { Features as FeaturesBlock, Media } from '@/payload-types';
 import { LazyIcon } from '../utility/lazy-icon';
 
 interface FeaturesProps {
   features: FeaturesBlock;
+  className?: string;
 }
 
-export default async function Features({ features }: FeaturesProps) {
+export default async function Features(props: FeaturesProps) {
+  const { features, className } = props;
   if (!features || !features.features || !features.features.length) return null;
 
   const hasDescriptions = features.features.some((feature) => feature.description);
 
   if (features.size === 'compact') {
     return (
-      <div className="container my-16 ps-10 md:ps-8 xl:ps-6 mx-auto">
+      <div className={cn('container my-16 ps-10 md:ps-8 xl:ps-6 mx-auto', className)}>
         {features.title && (
           <h2 className="text-4xl font-bold text-center mb-8">{features.title}</h2>
         )}
@@ -37,7 +40,7 @@ export default async function Features({ features }: FeaturesProps) {
     );
   } else {
     return (
-      <div className="container mt-12 mb-16 px-8 md:px-12 mx-auto">
+      <div className={cn('container mt-12 mb-16 px-8 md:px-12 mx-auto', className)}>
         {features.title && (
           <h2 className="text-4xl font-bold text-center mb-8">{features.title}</h2>
         )}

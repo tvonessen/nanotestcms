@@ -65,6 +65,7 @@ export const ContactUsContent: GlobalConfig = {
                   type: 'relationship',
                   required: true,
                   relationTo: ['distro-partner', 'team-member'],
+                  hasMany: true,
                 },
               ],
             },
