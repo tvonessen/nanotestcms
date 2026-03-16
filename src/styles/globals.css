@@ -30,8 +30,8 @@
 }
 
 ::selection {
-  background: var(--accent-01);
-  color: var(--foreground);
+  background: rgb(var(--accent-01));
+  color: rgb(var(--foreground));
 }
 
 *:focus-visible {
