@@ -43,7 +43,11 @@ export default function DistributorsAccordion(props: DistributorsAccordionProps)
   return (
     <Accordion variant="splitted">
       {regions.map((region) => (
-        <AccordionItem key={region.key} title={region.label}>
+        <AccordionItem
+          key={region.key}
+          title={region.label}
+          classNames={{ trigger: 'cursor-pointer' }}
+        >
           <RegionTabs countries={region.countries} />
         </AccordionItem>
       ))}

@@ -54,9 +54,6 @@ export const ContactUsContent: GlobalConfig = {
               name: 'countries',
               label: 'Countries',
               type: 'array',
-              admin: {
-                initCollapsed: true,
-              },
               fields: [
                 { name: 'country', label: 'Country', type: 'text', required: true },
                 {

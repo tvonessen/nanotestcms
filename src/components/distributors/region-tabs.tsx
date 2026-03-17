@@ -47,7 +47,8 @@ export default function RegionTabs({ countries }: RegionTabsProps) {
       classNames={{
         tabWrapper: 'border-2',
         tabList: 'flex flex-col sm:flex-row flex-wrap border-2',
-        tab: 'w-full sm:w-auto',
+        tab: 'w-full sm:w-auto cursor-pointer',
+        panel: 'pb-4 px-2',
       }}
       fullWidth
       variant="light"
@@ -61,7 +62,9 @@ export default function RegionTabs({ countries }: RegionTabsProps) {
         .sort((a, b) => a.label.localeCompare(b.label))
         .map((region) => (
           <Tab key={region.id} title={region.label}>
-            <div className="flex flex-col">{region.content}</div>
+            <div className="flex rounded-md gap-2 flex-col md:flex-row flex-wrap justify-stretch">
+              {region.content}
+            </div>
           </Tab>
         ))}
     </Tabs>
