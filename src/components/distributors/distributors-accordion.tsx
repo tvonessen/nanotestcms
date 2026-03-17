@@ -1,6 +1,6 @@
 'use client';
 
-import { Accordion, AccordionItem } from '@heroui/react';
+import { Accordion, AccordionItem, cn } from '@heroui/react';
 import React from 'react';
 import type { ContactUs } from '@/payload-types';
 import RegionTabs from './region-tabs';
@@ -46,7 +46,16 @@ export default function DistributorsAccordion(props: DistributorsAccordionProps)
         <AccordionItem
           key={region.key}
           title={region.label}
-          classNames={{ trigger: 'cursor-pointer' }}
+          classNames={{
+            trigger: 'cursor-pointer',
+            indicator: 'text-foreground text-xl',
+            base: cn(
+              'border-3 border-default dark:border-default-200',
+              'not-data-open:bg-default not-data-open:hover:border-default-200',
+              'shadow-xs transition-all not-data-open:hover:dark:border-default-300',
+              'not-data-open:hover:bg-default-200 not-data-open:dark:hover:bg-default-300',
+            ),
+          }}
         >
           <RegionTabs countries={region.countries} />
         </AccordionItem>

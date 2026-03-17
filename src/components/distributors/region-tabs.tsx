@@ -48,7 +48,7 @@ export default function RegionTabs({ countries }: RegionTabsProps) {
         tabWrapper: 'border-2',
         tabList: 'flex flex-col sm:flex-row flex-wrap border-2',
         tab: 'w-full sm:w-auto cursor-pointer',
-        panel: 'pb-4 px-2',
+        panel: 'pb-2 md:pb-3 px-0 md:px-1 xl:pb-4 xl:px-2',
       }}
       fullWidth
       variant="light"
