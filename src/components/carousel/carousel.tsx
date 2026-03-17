@@ -6,8 +6,8 @@ import Slider from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import type { Media } from '@/payload-types';
 import Image from 'next/image';
+import type { Media } from '@/payload-types';
 
 interface CarouselProps {
   images: Media[];
@@ -62,7 +62,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
         {images.length > 1 && (
           <Fragment key="controls">
             <button
-              className="absolute rounded-sm left-1 top-1/2 -translate-y-1/2 z-20 p-6"
+              className="absolute rounded-sm left-1 top-1/2 -translate-y-1/2 z-20 p-6 cursor-pointer"
               type="button"
               onClick={prev}
             >
@@ -73,7 +73,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
               />
             </button>
             <button
-              className="absolute rounded-sm right-1 top-1/2 -translate-y-1/2 z-20 p-6"
+              className="absolute rounded-sm right-1 top-1/2 -translate-y-1/2 z-20 p-6 cursor-pointer"
               type="button"
               onClick={next}
             >
