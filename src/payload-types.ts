@@ -6306,10 +6306,10 @@ export interface ContactUs {
       )[]
     | null;
   europe?: {
-    contacts?:
+    countries?:
       | {
           country: string;
-          contact: (
+          contacts: (
             | {
                 relationTo: 'distro-partner';
                 value: string | DistroPartner;
@@ -6324,10 +6324,10 @@ export interface ContactUs {
       | null;
   };
   america?: {
-    contacts?:
+    countries?:
       | {
           country: string;
-          contact: (
+          contacts: (
             | {
                 relationTo: 'distro-partner';
                 value: string | DistroPartner;
@@ -6342,10 +6342,10 @@ export interface ContactUs {
       | null;
   };
   asia?: {
-    contacts?:
+    countries?:
       | {
           country: string;
-          contact: (
+          contacts: (
             | {
                 relationTo: 'distro-partner';
                 value: string | DistroPartner;
@@ -6360,10 +6360,10 @@ export interface ContactUs {
       | null;
   };
   africa?: {
-    contacts?:
+    countries?:
       | {
           country: string;
-          contact: (
+          contacts: (
             | {
                 relationTo: 'distro-partner';
                 value: string | DistroPartner;
@@ -6498,44 +6498,44 @@ export interface ContactUsSelect<T extends boolean = true> {
   europe?:
     | T
     | {
-        contacts?:
+        countries?:
           | T
           | {
               country?: T;
-              contact?: T;
+              contacts?: T;
               id?: T;
             };
       };
   america?:
     | T
     | {
-        contacts?:
+        countries?:
           | T
           | {
               country?: T;
-              contact?: T;
+              contacts?: T;
               id?: T;
             };
       };
   asia?:
     | T
     | {
-        contacts?:
+        countries?:
           | T
           | {
               country?: T;
-              contact?: T;
+              contacts?: T;
               id?: T;
             };
       };
   africa?:
     | T
     | {
-        contacts?:
+        countries?:
           | T
           | {
               country?: T;
-              contact?: T;
+              contacts?: T;
               id?: T;
             };
       };

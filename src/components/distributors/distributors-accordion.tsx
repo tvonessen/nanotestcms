@@ -1,55 +1,50 @@
 'use client';
 
-import type { ContactUs, DistroPartner, TeamMember } from '@/payload-types';
 import { Accordion, AccordionItem } from '@heroui/react';
 import React from 'react';
+import type { ContactUs } from '@/payload-types';
 import RegionTabs from './region-tabs';
 
-const regions = ['europe', 'america', 'asia', 'africa'] as const;
-const RegionLabels: Record<RegionKey, string> = {
-  europe: 'Europe',
-  america: 'North and South America',
-  asia: 'Asia and Australia',
-  africa: 'Africa and Middle East',
+const regionKeys = ['europe', 'america', 'asia', 'africa'] as const;
+const RegionLabels = {
+  europe: { en: 'Europe', de: 'Europa' },
+  america: { en: 'North and South America', de: 'Nord- und Südamerika' },
+  asia: { en: 'Asia and Australia', de: 'Asien und Australien' },
+  africa: { en: 'Africa and Middle East', de: 'Afrika und Naher Osten' },
 };
-export type RegionKey = (typeof regions)[number];
+export type RegionKey = (typeof regionKeys)[number];
 
-export default function DistributorsAccordion({ contactUs }: { contactUs: ContactUs }) {
-  const distributorRegions = React.useMemo(() => {
-    return regions
-      .filter((region) => {
-        if (Array.isArray(contactUs[region as RegionKey]?.contacts)) {
-          return (contactUs[region as RegionKey]?.contacts as Array<unknown>).length > 0;
-        }
-      })
-      .map((region) => ({
-        key: region,
-        label: RegionLabels[region],
-        contacts: contactUs[region as RegionKey]?.contacts as Array<{
-          id: string | null;
-          country: string;
-          contact:
-            | {
-                relationTo: 'distro-partner';
-                value: DistroPartner;
-              }
-            | {
-                relationTo: 'team-member';
-                value: TeamMember;
-              };
-        }>,
-      }));
-  }, [contactUs]);
+interface DistributorsAccordionProps {
+  contactUs: ContactUs;
+  lang: 'de' | 'en';
+}
 
-  if (distributorRegions.length === 0) {
+export default function DistributorsAccordion(props: DistributorsAccordionProps) {
+  const { contactUs, lang } = props;
+  const availableRegions = regionKeys.filter((region) => {
+    const countries = contactUs[region]?.countries;
+    return Array.isArray(countries) && countries.length > 0;
+  });
+
+  const regions = React.useMemo(() => {
+    return availableRegions.map((region) => ({
+      key: region,
+      label: RegionLabels[region][lang],
+      countries: contactUs[region as RegionKey]?.countries ?? [],
+    }));
+  }, [lang, availableRegions, contactUs]);
+
+  if (regions.length === 0) {
     return null;
   }
 
+  if (!regions || regions.length === 0) return null;
+
   return (
     <Accordion variant="splitted">
-      {distributorRegions.map((region) => (
+      {regions.map((region) => (
         <AccordionItem key={region.key} title={region.label}>
-          <RegionTabs contacts={region.contacts} />
+          <RegionTabs countries={region.countries} />
         </AccordionItem>
       ))}
     </Accordion>

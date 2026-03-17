@@ -51,8 +51,8 @@ export const ContactUsContent: GlobalConfig = {
           label: region.label,
           fields: [
             {
-              name: 'contacts',
-              label: 'Contacts and distribution partners',
+              name: 'countries',
+              label: 'Countries',
               type: 'array',
               admin: {
                 initCollapsed: true,
@@ -60,8 +60,8 @@ export const ContactUsContent: GlobalConfig = {
               fields: [
                 { name: 'country', label: 'Country', type: 'text', required: true },
                 {
-                  name: 'contact',
-                  label: 'Contact',
+                  name: 'contacts',
+                  label: 'Contacts',
                   type: 'relationship',
                   required: true,
                   relationTo: ['distro-partner', 'team-member'],

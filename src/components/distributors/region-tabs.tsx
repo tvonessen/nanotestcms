@@ -1,39 +1,46 @@
 'use client';
 
-import type { DistroPartner, TeamMember } from '@/payload-types';
 import { Tab, Tabs } from '@heroui/react';
 import React from 'react';
+import type { DistroPartner, TeamMember } from '@/payload-types';
 import DistroPartnerContact from './distro-partner-contact';
 import TeamMemberContact from './team-member-contact';
 
 interface RegionTabsProps {
-  contacts: {
+  countries: {
     country: string;
-    contact:
+    contacts: (
       | {
           relationTo: 'distro-partner';
-          value: DistroPartner;
+          value: string | DistroPartner;
         }
       | {
           relationTo: 'team-member';
-          value: TeamMember;
-        };
+          value: string | TeamMember;
+        }
+    )[];
   }[];
 }
 
-export default function RegionTabs({ contacts }: RegionTabsProps) {
+export default function RegionTabs({ countries }: RegionTabsProps) {
   const regions = React.useMemo(() => {
-    return contacts.map((region) => ({
-      id: region.country,
-      label: region.country,
-      content:
-        region.contact.relationTo === 'distro-partner' ? (
-          <DistroPartnerContact contact={region.contact.value as DistroPartner} />
-        ) : (
-          <TeamMemberContact contact={region.contact.value as TeamMember} />
+    return countries.map(({ country, contacts }) => ({
+      id: country,
+      label: country,
+      content: contacts
+        .filter((contact) => typeof contact.value === 'object')
+        .map(({ relationTo, value }) =>
+          relationTo === 'distro-partner' ? (
+            <DistroPartnerContact
+              key={(value as DistroPartner).id}
+              contact={value as DistroPartner}
+            />
+          ) : (
+            <TeamMemberContact key={(value as TeamMember).id} contact={value as TeamMember} />
+          ),
         ),
     }));
-  }, [contacts]);
+  }, [countries]);
 
   return (
     <Tabs
@@ -54,7 +61,7 @@ export default function RegionTabs({ contacts }: RegionTabsProps) {
         .sort((a, b) => a.label.localeCompare(b.label))
         .map((region) => (
           <Tab key={region.id} title={region.label}>
-            {region.content}
+            <div className="flex flex-col">{region.content}</div>
           </Tab>
         ))}
     </Tabs>
