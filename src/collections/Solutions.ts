@@ -10,7 +10,6 @@ import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
 import { slugField } from '@/fields/slugField';
 import { solutionTypeField } from '@/fields/solutionTypeField';
-import type { Solution } from '@/payload-types';
 import { revalidateHook } from '@/utils/revalidate';
 
 const Solutions: CollectionConfig = {

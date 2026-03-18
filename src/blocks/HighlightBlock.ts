@@ -24,31 +24,6 @@ export const Highlight: Block = {
       localized: true,
     },
     {
-      name: 'action',
-      label: 'Action',
-      type: 'select',
-      defaultValue: 'link',
-      admin: {
-        isClearable: false,
-      },
-      options: ['link', 'download', 'none'],
-    },
-    {
-      name: 'download',
-      label: 'Document download',
-      type: 'upload',
-      relationTo: 'documents',
-      hasMany: false,
-      required: true,
-      admin: {
-        condition: (_data, siblingData) => siblingData?.action === 'download',
-      },
-    },
-    linkField({
-      appearances: false,
-      overrides: { admin: { condition: (_data, siblingData) => siblingData?.action === 'link' } },
-    }),
-    {
       name: 'variant',
       label: 'Variant',
       type: 'select',
@@ -57,6 +32,43 @@ export const Highlight: Block = {
         isClearable: false,
       },
       options: ['primary', 'secondary', 'warning', 'danger'],
+    },
+    {
+      name: 'actions',
+      type: 'array',
+      maxRows: 2,
+      admin: { initCollapsed: true },
+      fields: [
+        {
+          name: 'type',
+          label: 'Type of action',
+          type: 'select',
+          defaultValue: 'link',
+          admin: {
+            isClearable: false,
+          },
+          options: ['link', 'download', 'none'],
+        },
+        {
+          name: 'download',
+          label: 'Document download',
+          type: 'upload',
+          relationTo: 'documents',
+          hasMany: false,
+          required: true,
+          admin: {
+            condition: (_data, siblingData) => {
+              return siblingData?.type === 'download';
+            },
+          },
+        },
+        linkField({
+          appearances: ['solid', 'flat'],
+          overrides: {
+            admin: { condition: (_data, siblingData) => siblingData?.type === 'link' },
+          },
+        }),
+      ],
     },
   ],
 };

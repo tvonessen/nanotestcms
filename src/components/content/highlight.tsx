@@ -1,6 +1,6 @@
 import { Button } from '@heroui/button';
 import { cn } from '@heroui/react';
-import { DownloadSimpleIcon } from '@phosphor-icons/react/dist/ssr';
+import { DownloadSimpleIcon, ShareFatIcon } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import { formatFilesize } from '@/components/content/downloads/utils';
 import { resolveCMSLinkHref } from '@/components/utility/cms-link';
@@ -8,20 +8,16 @@ import type { Config, Highlight as HighlightContent } from '@/payload-types';
 
 interface HighlightProps {
   lang: Config['locale'];
-  highlight: HighlightContent;
+  block: HighlightContent;
   className?: string;
 }
 
 const Highlight = (props: HighlightProps) => {
   const {
-    highlight: { title, text, link, variant, action },
+    block: { title, text, variant, actions },
     lang,
     className,
   } = props;
-  const download =
-    action === 'download' && typeof props.highlight.download === 'object'
-      ? props.highlight.download
-      : null;
   const gradient = {
     primary:
       'after:from-primary after:to-primary-600 after:dark:from-primary-400 after:dark:to-primary',
@@ -33,9 +29,6 @@ const Highlight = (props: HighlightProps) => {
   }[variant ?? 'primary'];
 
   const textGradient = 'from-white/80 to-white dark:to-black/80 dark:from-black';
-
-  const href = link ? resolveCMSLinkHref(link, lang) : '#';
-  const newTabProps = link?.newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {};
 
   return (
     <section
@@ -53,32 +46,67 @@ const Highlight = (props: HighlightProps) => {
           {title}
         </h2>
         <p className="mx-auto text-lg my-3">{text}</p>
-        {action === 'link' && link && (
-          <Link href={href} passHref {...newTabProps} className="inline-block">
-            <Button color="default" radius="lg" variant="solid" className="text-lg">
-              {link.label ?? 'Learn more'}
-            </Button>
-          </Link>
-        )}
-        {action === 'download' && download && (
-          <Link download href={download.url ?? ''} passHref className="inline-block">
-            <Button
-              color="default"
-              radius="lg"
-              variant="solid"
-              className="text-lg flex items-center gap-4"
-              aria-label={`Download ${(download.filename_alt ?? download.filename) || 'document'}`}
-            >
-              <div className="flex flex-row items-center gap-2">
-                <DownloadSimpleIcon size={24} />
-                {download.filename_alt ?? download.filename}
-              </div>
-              <div className="flex flex-row items-center gap-2 opacity-50 font-light text-small">
-                {formatFilesize(download.filesize)}
-              </div>
-            </Button>
-          </Link>
-        )}
+        <div className="relative flex flex-row flex-wrap gap-2 justify-center items-center">
+          {actions?.map((action) => {
+            if (action.type === 'link' && !!action.link) {
+              const link = action.link;
+              console.info(link);
+              const href = link ? resolveCMSLinkHref(link, lang) : '#';
+              const newTabProps = link?.newTab
+                ? { target: '_blank', rel: 'noopener noreferrer' }
+                : {};
+              return (
+                <Link
+                  key={action.id}
+                  href={href}
+                  passHref
+                  {...newTabProps}
+                  className="inline-block"
+                >
+                  <Button
+                    color="default"
+                    radius="lg"
+                    variant={link.appearance ?? 'solid'}
+                    className="text-lg text-foreground"
+                  >
+                    <ShareFatIcon className="size-6" /> {link.label ?? 'Learn more'}
+                  </Button>
+                </Link>
+              );
+            }
+            if (
+              action.type === 'download' &&
+              !!action.download &&
+              typeof action.download === 'object'
+            ) {
+              return (
+                <Link
+                  key={action.id}
+                  download
+                  href={action.download.url ?? ''}
+                  passHref
+                  className="inline-block"
+                >
+                  <Button
+                    color="default"
+                    radius="lg"
+                    variant="solid"
+                    className="text-lg flex items-center gap-4"
+                    aria-label={`Download ${(action.download.filename_alt ?? action.download.filename) || 'document'}`}
+                  >
+                    <div className="flex flex-row items-center gap-2">
+                      <DownloadSimpleIcon className="size-6" />
+                      {action.download.filename_alt ?? action.download.filename}
+                    </div>
+                    <div className="flex flex-row items-center gap-2 opacity-50 font-light text-small">
+                      {formatFilesize(action.download.filesize)}
+                    </div>
+                  </Button>
+                </Link>
+              );
+            } else return null;
+          })}
+        </div>
       </div>
     </section>
   );

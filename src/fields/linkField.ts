@@ -8,7 +8,7 @@ type LinkFieldOptions = {
    * Pass an array of appearances to show an appearance select, or `false` to omit it entirely.
    * Defaults to ['default', 'outline'] when omitted.
    */
-  appearances?: LinkAppearance[] | false;
+  appearances?: LinkAppearance[] | boolean;
   /** When true, omits the label text field from the group. */
   disableLabel?: boolean;
   /** Deep-merged into the generated GroupField — use to rename the field or add admin options. */
@@ -105,15 +105,9 @@ export const linkField = ({
   }
 
   if (appearances !== false) {
-    const effectiveAppearances: LinkAppearance[] = appearances ?? [
-      'flat',
-      'light',
-      'solid',
-      'bordered',
-      'faded',
-      'shadow',
-      'ghost',
-    ];
+    const effectiveAppearances: LinkAppearance[] = Array.isArray(appearances)
+      ? appearances
+      : ['flat', 'light', 'solid', 'bordered', 'faded', 'shadow', 'ghost'];
     field.fields.push({
       name: 'appearance',
       type: 'select',
@@ -122,10 +116,7 @@ export const linkField = ({
       admin: {
         isClearable: false,
       },
-      options: effectiveAppearances.map((value) => ({
-        label: value.charAt(0).toUpperCase() + value.slice(1),
-        value,
-      })),
+      options: effectiveAppearances,
     });
   }
 

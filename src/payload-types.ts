@@ -1907,19 +1907,25 @@ export interface TextImage {
 export interface Highlight {
   title: string;
   text: string;
-  action?: ('link' | 'download' | 'none') | null;
-  download?: (string | null) | Document;
-  link?: {
-    type?: ('reference' | 'custom') | null;
-    newTab?: boolean | null;
-    reference?: {
-      relationTo: 'solutions';
-      value: string | Solution;
-    } | null;
-    url?: string | null;
-    label: string;
-  };
   variant?: ('primary' | 'secondary' | 'warning' | 'danger') | null;
+  actions?:
+    | {
+        type?: ('link' | 'download' | 'none') | null;
+        download?: (string | null) | Document;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'solutions';
+            value: string | Solution;
+          } | null;
+          url?: string | null;
+          label: string;
+          appearance?: ('solid' | 'flat') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'highlight';
@@ -3945,18 +3951,24 @@ export interface TextImageSelect<T extends boolean = true> {
 export interface HighlightSelect<T extends boolean = true> {
   title?: T;
   text?: T;
-  action?: T;
-  download?: T;
-  link?:
+  variant?: T;
+  actions?:
     | T
     | {
         type?: T;
-        newTab?: T;
-        reference?: T;
-        url?: T;
-        label?: T;
+        download?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        id?: T;
       };
-  variant?: T;
   id?: T;
   blockName?: T;
 }
@@ -4196,19 +4208,25 @@ export interface Homepage {
         | {
             title: string;
             text: string;
-            action?: ('link' | 'download' | 'none') | null;
-            download?: (string | null) | Document;
-            link?: {
-              type?: ('reference' | 'custom') | null;
-              newTab?: boolean | null;
-              reference?: {
-                relationTo: 'solutions';
-                value: string | Solution;
-              } | null;
-              url?: string | null;
-              label: string;
-            };
             variant?: ('primary' | 'secondary' | 'warning' | 'danger') | null;
+            actions?:
+              | {
+                  type?: ('link' | 'download' | 'none') | null;
+                  download?: (string | null) | Document;
+                  link?: {
+                    type?: ('reference' | 'custom') | null;
+                    newTab?: boolean | null;
+                    reference?: {
+                      relationTo: 'solutions';
+                      value: string | Solution;
+                    } | null;
+                    url?: string | null;
+                    label: string;
+                    appearance?: ('solid' | 'flat') | null;
+                  };
+                  id?: string | null;
+                }[]
+              | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'highlight';

@@ -80,7 +80,7 @@ export function Content(props: ContentProps) {
               <Highlight
                 lang={lang}
                 key={block.id}
-                highlight={block}
+                block={block}
                 className={classNames?.highlight}
               />
             );
