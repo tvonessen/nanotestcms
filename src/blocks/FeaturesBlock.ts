@@ -33,7 +33,17 @@ export const Features: Block = {
       name: 'features',
       label: 'Features',
       type: 'array',
-      maxRows: 3,
+      maxRows: 6,
+      validate: (value, { siblingData }) => {
+        if (
+          (siblingData as { size?: string })?.size === 'full' &&
+          Array.isArray(value) &&
+          value.length > 3
+        ) {
+          return 'Too many features for the full view. Only max. 3 are allowed.';
+        }
+        return true;
+      },
       fields: [
         {
           name: 'image',

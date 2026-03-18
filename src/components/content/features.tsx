@@ -17,15 +17,21 @@ export default async function Features(props: FeaturesProps) {
 
   if (features.size === 'compact') {
     return (
-      <div className={cn('container my-16 ps-10 md:ps-8 xl:ps-6 mx-auto', className)}>
+      <div className={cn('container w-fit my-16 ps-10 md:ps-8 xl:ps-6 mx-auto', className)}>
         {features.title && (
           <h2 className="text-4xl font-bold text-center mb-8">{features.title}</h2>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-[auto_auto] xl:grid-cols-[auto_auto_auto] gap-6">
+        <div
+          className={cn(
+            'grid grid-cols-1 gap-6',
+            features.features.length >= 2 && 'md:grid-cols-[auto_auto]',
+            features.features.length >= 3 && 'xl:grid-cols-[auto_auto_auto]',
+          )}
+        >
           {features.features.map((feature) => (
             <div
               key={feature.id}
-              className="grid grid-cols-[48px_auto] gap-4 justify-start items-center"
+              className="grid grid-cols-[48px_auto] gap-4 mx-6 min-w-56 justify-start items-center"
             >
               <figure className="relative flex justify-center items-center size-12 text-primary">
                 <LazyIcon name={String(feature.icon)} size={32} className="text-foreground" />
