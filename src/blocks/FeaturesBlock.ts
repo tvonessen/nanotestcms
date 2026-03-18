@@ -56,7 +56,7 @@ export const Features: Block = {
         {
           name: 'description',
           label: 'Description',
-          type: 'textarea',
+          type: 'richText',
           required: false,
           localized: true,
           admin: { condition: (_data, _siblingData, ctx) => ctx.blockData.size === 'full' },

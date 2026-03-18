@@ -1,4 +1,5 @@
 import { cn } from '@heroui/react';
+import RichTextWrapper from '@/components/content/richtext-wrapper';
 import { Hexagon } from '@/components/hexagon';
 import type { Features as FeaturesBlock, Media } from '@/payload-types';
 import { LazyIcon } from '../utility/lazy-icon';
@@ -20,7 +21,7 @@ export default async function Features(props: FeaturesProps) {
         {features.title && (
           <h2 className="text-4xl font-bold text-center mb-8">{features.title}</h2>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-[auto_auto] xl:grid-cols-[auto_auto_auto] gap-6">
           {features.features.map((feature) => (
             <div
               key={feature.id}
@@ -63,7 +64,13 @@ export default async function Features(props: FeaturesProps) {
                   {feature.title}
                 </h3>
                 {hasDescriptions && (
-                  <p className="text-lg text-center sm:text-start">{feature.description ?? ''}</p>
+                  <div className="flex flex-col items-center">
+                    {feature.description ? (
+                      <RichTextWrapper text={feature.description ?? ''} />
+                    ) : (
+                      <p>&nbsp;</p>
+                    )}
+                  </div>
                 )}
               </div>
             </div>
@@ -106,7 +113,7 @@ const FeatureImage = ({ image, className }: { image: Media; className?: string }
           clipPath={`url(#${image.id})`}
         />
         <image
-          href={String(image.sizes?.small?.url)}
+          href={image.sizes?.small?.url ?? image.url ?? ''}
           width="100%"
           height="100%"
           preserveAspectRatio="xMidYMid slice"

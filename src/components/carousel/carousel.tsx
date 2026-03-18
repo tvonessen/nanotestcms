@@ -48,7 +48,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
               <Image
                 key={image.filename}
                 className={'sm:rounded-2xl w-full aspect-video object-cover'}
-                src={(image.sizes?.large?.url ?? image.url) as string}
+                src={image.sizes?.large?.url ?? image.url ?? ''}
                 alt={image.alt}
                 width={(image.sizes?.large?.width ?? image.width) as number}
                 height={(image.sizes?.large?.height ?? image.height) as number}

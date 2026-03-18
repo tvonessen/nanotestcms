@@ -1991,7 +1991,21 @@ export interface Features {
     | {
         image?: (string | null) | Media;
         title: string;
-        description?: string | null;
+        description?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
         icon?:
           | (
               | 'acorn'
@@ -4260,7 +4274,21 @@ export interface Homepage {
               | {
                   image?: (string | null) | Media;
                   title: string;
-                  description?: string | null;
+                  description?: {
+                    root: {
+                      type: string;
+                      children: {
+                        type: any;
+                        version: number;
+                        [k: string]: unknown;
+                      }[];
+                      direction: ('ltr' | 'rtl') | null;
+                      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                      indent: number;
+                      version: number;
+                    };
+                    [k: string]: unknown;
+                  } | null;
                   icon?:
                     | (
                         | 'acorn'

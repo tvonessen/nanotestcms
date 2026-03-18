@@ -12,7 +12,7 @@ interface ExpandImageProps {
 }
 
 const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
-  const { url, width, height } = image || {};
+  const { url, sizes, width, height } = image;
   const [isExpandable, setIsExpandable] = React.useState(expandable);
   const [isExpanded, setIsExpanded] = React.useState(!expandable);
 
@@ -26,7 +26,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
     return () => window.removeEventListener('resize', handleResize);
   });
 
-  if (!url) {
+  if (!sizes?.medium?.url || !url) {
     return null;
   }
 
@@ -45,7 +45,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
         <Image
           className={'w-full rounded-lg object-cover transition-all duration-500'}
           loading="lazy"
-          src={url as string}
+          src={sizes?.medium?.url ?? image.url ?? ''}
           width={768}
           height={((width as number) / 768) * (height as number)}
           alt={image.alt}
