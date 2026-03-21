@@ -4246,23 +4246,34 @@ export interface Homepage {
             blockType: 'highlight';
           }
         | {
-            title: string;
-            paragraph?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
+            /**
+             * Pick the source for the cards. If you pick 'Solutions', you can select individual solutions to display. If you pick 'Solution category', you can select a solution category, and all solutions in that category will be displayed.
+             */
+            source?: ('solutions' | 'category') | null;
+            solutionsFields?: {
+              title: string;
+              paragraph?: {
+                root: {
+                  type: string;
+                  children: {
+                    type: any;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
                   version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            cards: (string | Solution)[];
+                };
+                [k: string]: unknown;
+              } | null;
+              cards: (string | Solution)[];
+            };
+            categoryFields?: {
+              category: string | SolutionCategory;
+              types: ('product' | 'service' | 'other')[];
+              count?: string | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'cards';
@@ -5923,23 +5934,34 @@ export interface About {
             blockType: 'text-video';
           }
         | {
-            title: string;
-            paragraph?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
+            /**
+             * Pick the source for the cards. If you pick 'Solutions', you can select individual solutions to display. If you pick 'Solution category', you can select a solution category, and all solutions in that category will be displayed.
+             */
+            source?: ('solutions' | 'category') | null;
+            solutionsFields?: {
+              title: string;
+              paragraph?: {
+                root: {
+                  type: string;
+                  children: {
+                    type: any;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
                   version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            cards: (string | Solution)[];
+                };
+                [k: string]: unknown;
+              } | null;
+              cards: (string | Solution)[];
+            };
+            categoryFields?: {
+              category: string | SolutionCategory;
+              types: ('product' | 'service' | 'other')[];
+              count?: string | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'cards';
@@ -6064,23 +6086,34 @@ export interface About {
  * via the `definition` "Cards".
  */
 export interface Cards {
-  title: string;
-  paragraph?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
+  /**
+   * Pick the source for the cards. If you pick 'Solutions', you can select individual solutions to display. If you pick 'Solution category', you can select a solution category, and all solutions in that category will be displayed.
+   */
+  source?: ('solutions' | 'category') | null;
+  solutionsFields?: {
+    title: string;
+    paragraph?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
         version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  cards: (string | Solution)[];
+      };
+      [k: string]: unknown;
+    } | null;
+    cards: (string | Solution)[];
+  };
+  categoryFields?: {
+    category: string | SolutionCategory;
+    types: ('product' | 'service' | 'other')[];
+    count?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'cards';
@@ -6469,9 +6502,21 @@ export interface HomepageSelect<T extends boolean = true> {
  * via the `definition` "Cards_select".
  */
 export interface CardsSelect<T extends boolean = true> {
-  title?: T;
-  paragraph?: T;
-  cards?: T;
+  source?: T;
+  solutionsFields?:
+    | T
+    | {
+        title?: T;
+        paragraph?: T;
+        cards?: T;
+      };
+  categoryFields?:
+    | T
+    | {
+        category?: T;
+        types?: T;
+        count?: T;
+      };
   id?: T;
   blockName?: T;
 }

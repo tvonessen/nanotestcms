@@ -1,36 +1,113 @@
-import type { Cards, Solution } from '@/payload-types';
+import config from '@payload-config';
+import { getPayload } from 'payload';
+import { LazyIcon } from '@/components/utility/lazy-icon';
+import type { Cards, Solution, SolutionCategory } from '@/payload-types';
+import { isPreviewEnabled } from '@/utils/preview';
 import RichTextWrapper from '../richtext-wrapper';
 import { Card } from './card';
 
+interface getSolutionsByCategoryAndTypesProps {
+  category?: string | SolutionCategory;
+  types?: string[];
+  lang: 'en' | 'de';
+}
+
+async function getSolutionsAndCategories(args: getSolutionsByCategoryAndTypesProps) {
+  if (!args.types || !args.category) return { solutions: undefined, category: undefined };
+
+  const payload = await getPayload({ config });
+  const isDraft = await isPreviewEnabled();
+
+  const solutions = await payload
+    .find({
+      collection: 'solutions',
+      locale: args.lang,
+      draft: isDraft,
+      where: {
+        'category.value': { contains: args.category },
+        type: { in: args.types },
+      },
+      pagination: false,
+    })
+    .then((res) => res.docs);
+
+  const category = await payload.findByID({
+    collection: 'solution-categories',
+    locale: args.lang,
+    draft: isDraft,
+    id: typeof args.category === 'string' ? args.category : args.category?.id,
+  });
+
+  return {
+    solutions,
+    category,
+  };
+}
+
 interface CardsGridProps {
-  lang: string;
+  lang: 'de' | 'en';
   block: Cards;
   className?: string;
 }
 
-export function CardsGrid(props: CardsGridProps) {
+export async function CardsGrid(props: CardsGridProps) {
   const { lang, block, className } = props;
-  // filter out solutions that don't have an id (i.e. are not published or deleted)
-  if (!block.cards || (block.cards as Solution[]).filter((card) => 'id' in card).length === 0) {
-    return null;
+
+  /* Get Solutions based on block config */
+  let solutions: Solution[] | undefined;
+  let category: SolutionCategory | undefined;
+
+  if (!block.source || !['solutions', 'category'].includes(block.source)) return null;
+
+  if (block.source === 'solutions') {
+    solutions = block.solutionsFields?.cards.filter(
+      (card) => typeof card !== 'string',
+    ) as Solution[];
+  } else {
+    const data = await getSolutionsAndCategories({
+      category: block.categoryFields?.category,
+      types: block.categoryFields?.types,
+      lang: lang,
+    });
+    category = data.category;
+    solutions = category ? data.solutions : undefined; // No solutions without a valid category
   }
 
-  const { cards, title, paragraph } = block;
+  if (!solutions || solutions.length === 0) return null;
 
   return (
     <section className={className}>
-      <div className="flex flex-col gap-6 my-12">
-        <h2 className="text-3xl text-center font-extrabold bg-clip-text text-transparent bg-linear-to-tr from-secondary-700 to-secondary-400">
-          {title}
-        </h2>
-        {paragraph && (
-          <div className="max-w-[80ch] mx-auto">
-            <RichTextWrapper lang={lang} text={paragraph} />
-          </div>
-        )}
-      </div>
+      {block.source === 'solutions' && (
+        <div className="flex flex-col gap-6 my-12">
+          {block.solutionsFields?.title && (
+            <h2 className="text-3xl text-center font-extrabold bg-clip-text text-transparent bg-linear-to-tr from-secondary-700 to-secondary-400">
+              {block.solutionsFields.title}
+            </h2>
+          )}
+          {block.solutionsFields?.paragraph && (
+            <div className="max-w-[80ch] mx-auto">
+              <RichTextWrapper lang={lang} text={block.solutionsFields.paragraph} />
+            </div>
+          )}
+        </div>
+      )}
+
+      {block.source === 'category' && (
+        <div className="w-[calc(100%-1rem)] relative mt-24 mb-8 px-2 py-4 rounded-sm bg-foreground before:absolute before:-left-4 before:top-0 before:w-2 before:bg-primary before:rounded before:h-full translate-x-4">
+          <h2
+            className="text-xl sm:text-2xl md:text-3xl font-semibold text-background flex items-center"
+            id={category?.id}
+          >
+            <LazyIcon
+              name={category?.categoryIcon as string}
+              className="w-fit px-1 text-4xl select-none"
+            />
+            {category?.title}
+          </h2>
+        </div>
+      )}
       <div className="flex justify-center flex-wrap gap-x-6 gap-y-10 sm:gap-y-6">
-        {(cards as Solution[]).map((card) => {
+        {solutions.map((card) => {
           return <Card key={card.id} lang={lang} solution={card} />;
         })}
       </div>

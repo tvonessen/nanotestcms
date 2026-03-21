@@ -50,7 +50,6 @@ const Highlight = (props: HighlightProps) => {
           {actions?.map((action) => {
             if (action.type === 'link' && !!action.link) {
               const link = action.link;
-              console.info(link);
               const href = link ? resolveCMSLinkHref(link, lang) : '#';
               const newTabProps = link?.newTab
                 ? { target: '_blank', rel: 'noopener noreferrer' }

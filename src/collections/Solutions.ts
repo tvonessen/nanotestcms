@@ -47,7 +47,7 @@ const Solutions: CollectionConfig = {
   fields: [
     {
       name: 'category',
-      label: 'Category',
+      label: { en: 'Categories', de: 'Kategorien' },
       type: 'relationship',
       relationTo: ['solution-categories'],
       required: true,
