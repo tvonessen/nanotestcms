@@ -2,6 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
+import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs';
 import {
   BlockquoteFeature,
   BoldFeature,
@@ -23,6 +24,7 @@ import {
 import nodemailer from 'nodemailer';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
+import { Pages } from '@/collections/Pages';
 import { SolutionCategories } from '@/collections/SolutionCategories';
 import { locales } from '@/config/locales';
 import revalidateHandler from '@/utils/revalidate';
@@ -58,6 +60,7 @@ export default buildConfig({
     SolutionCategories,
     TeamMembers,
     DistroPartners,
+    Pages,
   ],
   cors: ['https://www.google.com'],
   csrf: ['http://localhost:3301', 'http://localhost:3303', 'https://nanotest.jutoserver.de'],
@@ -119,7 +122,13 @@ export default buildConfig({
       },
     ],
   },
-  plugins: [],
+  plugins: [
+    nestedDocsPlugin({
+      collections: ['pages'],
+      generateLabel: (_, doc) => String(doc.title),
+      generateURL: (docs) => docs.reduce((url, doc) => `${url}/${String(doc.slug)}`, ''),
+    }),
+  ],
   globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent],
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
