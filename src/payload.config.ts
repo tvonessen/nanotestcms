@@ -2,7 +2,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
-import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs';
 import {
   BlockquoteFeature,
   BoldFeature,
@@ -122,13 +121,7 @@ export default buildConfig({
       },
     ],
   },
-  plugins: [
-    nestedDocsPlugin({
-      collections: ['pages'],
-      generateLabel: (_, doc) => String(doc.title),
-      generateURL: (docs) => docs.reduce((url, doc) => `${url}/${String(doc.slug)}`, ''),
-    }),
-  ],
+  plugins: [],
   globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent],
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL,

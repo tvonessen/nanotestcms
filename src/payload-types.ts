@@ -3602,16 +3602,9 @@ export interface Page {
   id: string;
   title: string;
   slug: string;
-  content?: (Text | TextImage | TextVideo | Cards | Highlight | Features | ContactForm | Downloads)[] | null;
   parent?: (string | null) | Page;
-  breadcrumbs?:
-    | {
-        doc?: (string | null) | Page;
-        url?: string | null;
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  url?: string | null;
+  content?: (Text | TextImage | TextVideo | Cards | Highlight | Features | ContactForm | Downloads)[] | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -4154,6 +4147,8 @@ export interface DistroPartnerSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  parent?: T;
+  url?: T;
   content?:
     | T
     | {
@@ -4165,15 +4160,6 @@ export interface PagesSelect<T extends boolean = true> {
         features?: T | FeaturesSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
         downloads?: T | DownloadsSelect<T>;
-      };
-  parent?: T;
-  breadcrumbs?:
-    | T
-    | {
-        doc?: T;
-        url?: T;
-        label?: T;
-        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;
