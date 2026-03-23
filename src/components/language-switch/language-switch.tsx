@@ -24,6 +24,7 @@ export function LanguageSwitch() {
       color="default"
       size="md"
       aria-label="Select Language"
+      className="hidden"
       classNames={{
         base: 'w-18 ms-1.5',
         trigger: 'cursor-pointer',
