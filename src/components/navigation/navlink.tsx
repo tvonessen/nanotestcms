@@ -8,9 +8,10 @@ import type { Config } from '@/payload-types';
 interface NavLinkProps {
   link: NavItem;
   onClick?: () => void;
+  fullWidth?: boolean;
 }
 
-export function NavLink({ link, onClick }: NavLinkProps) {
+export function NavLink({ link, onClick, fullWidth }: NavLinkProps) {
   const currentPath = useSelectedLayoutSegment();
   const { lang } = useParams() as { lang: Config['locale'] };
   const isActive =
@@ -24,8 +25,11 @@ export function NavLink({ link, onClick }: NavLinkProps) {
       onPress={onClick}
       variant={isActive ? 'solid' : 'light'}
       color="primary"
+      fullWidth={fullWidth}
       className={cn(
         'animate-none text-xl font-semibold',
+        'not-lg:pe-12 not-lg:py-6',
+        !isActive && 'not-lg:bg-default/50',
         isActive && 'text-foreground dark:text-background',
         !isActive && 'text-background dark:text-foreground',
       )}

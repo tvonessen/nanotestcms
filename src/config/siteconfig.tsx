@@ -1,12 +1,10 @@
-import type { ReactNode } from 'react';
 import type { Config } from '@/payload-types';
 
 export type NavItem = {
   label: Record<Config['locale'], string>;
   href: string;
-  icon?: ReactNode;
-  children: NavItem[];
-  solutions: NavItem[];
+  children?: NavItem[];
+  solutions?: NavItem[];
 };
 
 export type SiteConfig = {

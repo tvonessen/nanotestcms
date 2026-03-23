@@ -4,8 +4,6 @@ import {
   Accordion,
   AccordionItem,
   Button,
-  Chip,
-  cn,
   NavbarContent,
   NavbarMenu,
   NavbarMenuItem,
@@ -21,40 +19,11 @@ import type { Config } from '@/payload-types';
 import NanotestLogo from '../nanotest-logo';
 import { ThemeSwitch } from '../theme-switch';
 import { NavDropdown } from './nav-dropdown';
+import { PageLink, SolutionLinks } from './nav-items';
 import { NavLink } from './navlink';
 
 interface NavbarProps {
   navItems: NavItem[];
-}
-
-function MobileSolutions({
-  solutions,
-  lang,
-  pathname,
-  onNavigate,
-}: {
-  solutions: NavItem[];
-  lang: Config['locale'];
-  pathname: string;
-  onNavigate: () => void;
-}) {
-  if (!solutions.length) return null;
-  return (
-    <div className="flex flex-wrap gap-1.5 mt-1.5 px-1">
-      {solutions.map((sol) => (
-        <Link key={sol.href} href={`/${lang}${sol.href}`} onClick={onNavigate}>
-          <Chip
-            size="sm"
-            variant={pathname === `/${lang}${sol.href}` ? 'solid' : 'flat'}
-            color="primary"
-            className="cursor-pointer"
-          >
-            {sol.label[lang]}
-          </Chip>
-        </Link>
-      ))}
-    </div>
-  );
 }
 
 export const Navbar = ({ navItems }: NavbarProps) => {
@@ -76,16 +45,12 @@ export const Navbar = ({ navItems }: NavbarProps) => {
         href={`/${lang}/`}
         tabIndex={0}
       >
-        <NanotestLogo className="h-10 text-background dark:text-foreground hidden md:block" />
-        <NanotestLogo
-          hideText
-          className="h-10 block md:hidden text-background dark:text-foreground"
-        />
+        <NanotestLogo className="h-10 text-background dark:text-foreground" />
       </Link>
 
       {/* Desktop navigation */}
-      <NavbarContent as="div" className="gap-1 md:gap-2" justify="end">
-        <div className="hidden sm:flex gap-2">
+      <NavbarContent as="div" className="gap-1 lg:gap-2" justify="end">
+        <div className="hidden lg:flex gap-2">
           {navItems.map((item) =>
             item.children?.length || item.solutions?.length ? (
               <NavDropdown key={item.href} item={item} />
@@ -101,17 +66,17 @@ export const Navbar = ({ navItems }: NavbarProps) => {
           aria-label="Open the navigation"
           as={NavbarMenuToggle}
           onPress={() => setIsOpen(!isOpen)}
-          className="flex sm:hidden text-background dark:text-foreground"
+          className="flex lg:hidden text-background dark:text-foreground"
           variant="light"
         />
       </NavbarContent>
 
       {/* Mobile menu */}
       <NavbarMenu as="div" className="bg-foreground/85 dark:bg-background/85" onClick={() => {}}>
-        <div className="mx-4 mt-2 flex flex-col justify-center items-center gap-2">
+        <div className="mx-4 mt-2 mb-12 flex flex-col justify-center items-center gap-2">
           {navItems.map((item) =>
             item.children?.length || item.solutions?.length ? (
-              <NavbarMenuItem key={item.href} as="div" className="w-full max-w-sm">
+              <NavbarMenuItem key={item.href} as="div" className="w-full">
                 <Accordion isCompact className="px-0">
                   <AccordionItem
                     key={item.href}
@@ -121,66 +86,54 @@ export const Navbar = ({ navItems }: NavbarProps) => {
                       </span>
                     }
                     classNames={{
-                      trigger: 'py-1',
+                      trigger:
+                        'py-2 cursor-pointer bg-default/50 hover:bg-primary/15 rounded-lg px-3 transition-colors',
                       content: 'pb-3',
                       indicator: 'text-background dark:text-foreground',
+                      title: 'flex-1 text-center',
                     }}
                   >
-                    {/* Root level box */}
-                    <div className="rounded-xl bg-background/10 dark:bg-foreground/10 p-3">
-                      <Link
-                        href={`/${lang}${item.href}`}
-                        onClick={closeMenu}
-                        className={cn(
-                          'block text-lg font-bold py-2 px-3 rounded-lg',
-                          pathname === `/${lang}${item.href}`
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-background/10 dark:bg-foreground/10 text-background dark:text-foreground hover:bg-background/20 dark:hover:bg-foreground/20',
-                        )}
-                      >
-                        {item.label[lang]}
-                      </Link>
-                      <MobileSolutions
+                    <div className="p-1 bg-default-50 dark:bg-default-50 rounded-xl flex flex-col gap-2">
+                      <PageLink
+                        item={item}
+                        lang={lang}
+                        pathname={pathname}
+                        className="font-bold text-medium"
+                        onNavigate={closeMenu}
+                      />
+
+                      {(item.children ?? []).map((child) => (
+                        <PageLink
+                          key={child.href}
+                          item={child}
+                          lang={lang}
+                          pathname={pathname}
+                          onNavigate={closeMenu}
+                          className="font-bold text-medium"
+                        >
+                          <SolutionLinks
+                            solutions={child.solutions ?? []}
+                            lang={lang}
+                            pathname={pathname}
+                            onNavigate={closeMenu}
+                            className="-ms-1"
+                          />
+                        </PageLink>
+                      ))}
+
+                      <SolutionLinks
                         solutions={item.solutions ?? []}
                         lang={lang}
                         pathname={pathname}
                         onNavigate={closeMenu}
                       />
-
-                      {/* Children */}
-                      {(item.children ?? []).length > 0 && (
-                        <div className="mt-2 rounded-lg bg-background/10 dark:bg-foreground/10 p-2 flex flex-col gap-1">
-                          {(item.children ?? []).map((child) => (
-                            <div key={child.href}>
-                              <Link
-                                href={`/${lang}${child.href}`}
-                                onClick={closeMenu}
-                                className={cn(
-                                  'block text-base py-2 px-3 rounded-lg',
-                                  pathname === `/${lang}${child.href}`
-                                    ? 'bg-primary text-primary-foreground font-medium'
-                                    : 'bg-background/10 dark:bg-foreground/10 text-background/80 dark:text-foreground/80 hover:bg-background/20 dark:hover:bg-foreground/20',
-                                )}
-                              >
-                                {child.label[lang]}
-                              </Link>
-                              <MobileSolutions
-                                solutions={child.solutions ?? []}
-                                lang={lang}
-                                pathname={pathname}
-                                onNavigate={closeMenu}
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      )}
                     </div>
                   </AccordionItem>
                 </Accordion>
               </NavbarMenuItem>
             ) : (
-              <NavbarMenuItem key={item.href} as="div">
-                <NavLink link={item} onClick={closeMenu} />
+              <NavbarMenuItem key={item.href} as="div" className="w-full">
+                <NavLink link={item} onClick={closeMenu} fullWidth />
               </NavbarMenuItem>
             ),
           )}
