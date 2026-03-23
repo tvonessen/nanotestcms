@@ -12,7 +12,7 @@ import {
 } from '@heroui/react';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { LanguageSwitch } from '@/components/language-switch/language-switch';
 import type { NavItem } from '@/config/siteconfig';
 import type { Config } from '@/payload-types';
@@ -30,6 +30,16 @@ export const Navbar = ({ navItems }: NavbarProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { lang } = useParams() as { lang: Config['locale'] };
   const pathname = usePathname();
+
+  useEffect(() => {
+    function handleResize(e: UIEvent) {
+      if (e.target instanceof Window && e.target.innerWidth >= 1024) setIsOpen(false);
+    }
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  });
 
   const closeMenu = () => setIsOpen(false);
 
