@@ -100,7 +100,10 @@ export const Pages: CollectionConfig = {
       name: 'parent',
       type: 'relationship',
       relationTo: 'pages',
-      filterOptions: ({ id }) => ({ id: { not_equals: id } }),
+      filterOptions: ({ id }) => ({
+        id: { not_equals: id },
+        parent: { exists: false },
+      }),
       admin: { position: 'sidebar' },
     },
     {
@@ -109,6 +112,17 @@ export const Pages: CollectionConfig = {
       admin: { readOnly: true, position: 'sidebar' },
       hooks: {
         beforeChange: [({ siblingData }) => siblingData.url],
+      },
+    },
+    {
+      name: 'childPages',
+      type: 'join',
+      collection: 'pages',
+      on: 'parent',
+      admin: {
+        position: 'sidebar',
+        allowCreate: false,
+        defaultColumns: ['title', 'slug'],
       },
     },
     {

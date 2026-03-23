@@ -5,6 +5,8 @@ export type NavItem = {
   label: Record<Config['locale'], string>;
   href: string;
   icon?: ReactNode;
+  children: NavItem[];
+  solutions: NavItem[];
 };
 
 export type SiteConfig = {

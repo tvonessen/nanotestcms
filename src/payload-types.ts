@@ -81,7 +81,11 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    pages: {
+      childPages: 'pages';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -3604,6 +3608,11 @@ export interface Page {
   slug: string;
   parent?: (string | null) | Page;
   url?: string | null;
+  childPages?: {
+    docs?: (string | Page)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   content?: (Text | TextImage | TextVideo | Cards | Highlight | Features | ContactForm | Downloads)[] | null;
   updatedAt: string;
   createdAt: string;
@@ -4149,6 +4158,7 @@ export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   parent?: T;
   url?: T;
+  childPages?: T;
   content?:
     | T
     | {
