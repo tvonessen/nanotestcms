@@ -7,8 +7,8 @@ import { Content } from '@/components/content/content';
 import type { Config, Media, Solution } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
 
-export async function generateStaticParams(props: { params: Promise<{ lang: string }> }) {
-  const { lang } = await props.params;
+export async function generateStaticParams({ params }: { params: { lang: string } }) {
+  const { lang } = params;
   const payload = await getPayload({ config });
 
   const solutions: Solution[] = await payload
