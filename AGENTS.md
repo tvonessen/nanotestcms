@@ -46,7 +46,6 @@ Key files: `src/app/(app)/[lang]/products/[product]/page.tsx`, `src/components/c
 - The `[lang]` segment in every public route carries the locale; pass it as `locale: lang` to every Payload query.
 - Payload fields are localized at field level via `localized: true`; `fallback: true` is set globally.
 - `generateStaticParams()` on every page must iterate `locales.map(({ code }) => ({ lang: code }))`.
-- Nav labels are typed as `Record<Config['locale'], string>` (see `src/config/routes.tsx`).
 
 ## Payload Schema Conventions
 

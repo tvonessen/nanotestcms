@@ -60,9 +60,22 @@ export async function CardsGrid(props: CardsGridProps) {
   if (!block.source || !['solutions', 'category'].includes(block.source)) return null;
 
   if (block.source === 'solutions') {
-    solutions = block.solutionsFields?.cards.filter(
-      (card) => typeof card !== 'string',
-    ) as Solution[];
+    const ids = (block.solutionsFields?.cards ?? []).map((card) =>
+      typeof card === 'string' ? card : card.id,
+    );
+    if (ids.length === 0) return null;
+
+    const payload = await getPayload({ config });
+    const isDraft = await isPreviewEnabled();
+    solutions = await payload
+      .find({
+        collection: 'solutions',
+        locale: lang,
+        draft: isDraft,
+        where: { id: { in: ids } },
+        pagination: false,
+      })
+      .then((res) => res.docs);
   } else {
     const data = await getSolutionsAndCategories({
       category: block.categoryFields?.category,

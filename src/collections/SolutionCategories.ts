@@ -66,8 +66,7 @@ export const SolutionCategories: CollectionConfig = {
     ],
     afterChange: [
       async ({ req }) => {
-        revalidateHook('/products', req.locale);
-        revalidateHook('/services', req.locale);
+        revalidateHook('/nt', req.locale);
       },
     ],
   },

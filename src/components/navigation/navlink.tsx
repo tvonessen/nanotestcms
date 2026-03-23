@@ -1,13 +1,13 @@
 'use client';
-import type { siteConfig } from '@/config/routes';
-import type { Config } from '@/payload-types';
 import { Button, cn } from '@heroui/react';
 import Link from 'next/link';
 import { useParams, useSelectedLayoutSegment } from 'next/navigation';
 import React from 'react';
+import type { NavItem } from '@/config/siteconfig';
+import type { Config } from '@/payload-types';
 
 interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  link: (typeof siteConfig.navItems)[0];
+  link: NavItem;
 }
 
 export function NavLink({ link, ...props }: NavLinkProps) {

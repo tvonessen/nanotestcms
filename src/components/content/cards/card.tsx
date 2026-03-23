@@ -14,11 +14,13 @@ interface CardProps {
 }
 
 export function Card({ lang, solution, className }: CardProps) {
-  const cardImage = solution.details.images[0] as Media;
-  cardImage.url = cardImage.sizes?.small?.url ?? cardImage.url;
-  cardImage.height = cardImage.sizes?.small?.height ?? cardImage.height;
-  cardImage.width = cardImage.sizes?.small?.width ?? cardImage.width;
-  cardImage.isDark;
+  const raw = solution.details.images?.[0];
+  if (!raw || typeof raw === 'string') return null;
+
+  const cardImage = raw as Media;
+  const src = cardImage.sizes?.small?.url ?? cardImage.url;
+  const height = cardImage.sizes?.small?.height ?? cardImage.height;
+  const width = cardImage.sizes?.small?.width ?? cardImage.width;
 
   return (
     <HeroUICard
@@ -73,7 +75,7 @@ export function Card({ lang, solution, className }: CardProps) {
 
         <Link
           aria-label={`Learn more about ${solution.title}`}
-          href={`/${lang}/${solution.type[0]}s/${solution.slug}`}
+          href={`/${lang}/nt/${solution.slug}`}
           passHref
           className="w-full"
         >
@@ -95,9 +97,9 @@ export function Card({ lang, solution, className }: CardProps) {
           'group-hover:opacity-30 transition-all duration-400 group-hover:blur-xs',
           'group-focus-within:opacity-30 transition-all group-focus-within:blur-xs',
         )}
-        height={cardImage.height as number}
-        src={cardImage.url as string}
-        width={cardImage.width as number}
+        height={height as number}
+        src={src as string}
+        width={width as number}
         placeholder={cardImage.blurDataUrl ? 'blur' : 'empty'}
         blurDataURL={cardImage.blurDataUrl as string}
       />

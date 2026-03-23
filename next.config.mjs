@@ -26,11 +26,4 @@ export default withPayload({
     qualities: [70, 85, 100],
     unoptimized: process.env.NODE_ENV !== 'production',
   },
-  // redirects: async () => [
-  //   {
-  //     source: '/tima',
-  //     destination: '/solutions/tima',
-  //     permanent: false,
-  //   },
-  // ],
 });

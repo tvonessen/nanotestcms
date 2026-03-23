@@ -29,8 +29,7 @@ export default function RichTextWrapper({ text, className, lang = 'en' }: RichTe
     }
     if (relationTo === 'solutions') {
       const solution = value as unknown as Solution;
-      const segment = solution.type.includes('product') ? 'products' : 'services';
-      return `/${lang}/${segment}/${solution.slug}`;
+      return `/${lang}/nt/${solution.slug}`;
     }
     return `/${lang}/${relationTo}/${value.slug}`;
   };

@@ -30,9 +30,7 @@ const Solutions: CollectionConfig = {
     defaultColumns: ['title', 'type', 'category', 'slug'],
     livePreview: {
       url: ({ data, locale }) => {
-        const type = (data.type as string[])?.[0];
-        const segment = type === 'product' ? 'products' : 'services';
-        const redirect = `/${locale?.code ?? 'en'}/${segment}/${data.slug}`;
+        const redirect = `/${locale?.code ?? 'en'}/nt/${data.slug}`;
         return `${process.env.NEXT_PUBLIC_SERVER_URL}/api/draft?redirect=${redirect}`;
       },
     },
@@ -162,21 +160,8 @@ const Solutions: CollectionConfig = {
     afterChange: [
       ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        for (const type of doc.type) {
-          let path = '/';
-          switch (type) {
-            case 'product':
-              path += 'products';
-              break;
-            case 'service':
-              path += 'services';
-              break;
-            default:
-              break;
-          }
-          revalidateHook(`${path}/${doc.slug}`, req.locale);
-          revalidateHook(path, req.locale);
-        }
+        revalidateHook(`/nt/${doc.slug}`, req.locale);
+        revalidateHook('/nt', req.locale);
       },
     ],
   },

@@ -1,11 +1,10 @@
-import Image from 'next/image';
-import Link from 'next/link';
-
-import type { Config, Media, Solution, SolutionCategory } from '@/payload-types';
 import { Button } from '@heroui/button';
 import { Card } from '@heroui/card';
 import { Chip } from '@heroui/chip';
 import { cn } from '@heroui/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import type { Config, Media, Solution, SolutionCategory } from '@/payload-types';
 
 interface ProductCardProps {
   lang: Config['locale'];
@@ -21,7 +20,7 @@ const ProductCard = ({ lang, product, className }: ProductCardProps) => {
   return (
     <Card shadow="lg" className={cn('bg-base-200 lg:block grid grid-cols-2', className)}>
       <figure>
-        <Link href={`/${lang}/${product.type[0]}s/${product.slug}`} tabIndex={-1}>
+        <Link href={`/${lang}/nt/${product.slug}`} tabIndex={-1}>
           <Image
             alt={image.alt}
             blurDataURL={image.blurDataUrl as string}
@@ -57,11 +56,7 @@ const ProductCard = ({ lang, product, className }: ProductCardProps) => {
           </div>
           <p>{product.subtitle}</p>
         </div>
-        <Link
-          href={`/${lang}/${product.type[0]}s/${product.slug}`}
-          title={`View ${product.title} details`}
-          passHref
-        >
+        <Link href={`/${lang}/nt/${product.slug}`} title={`View ${product.title} details`} passHref>
           <Button color="primary" className="text-white mt-4 text-lg">
             View Details
           </Button>

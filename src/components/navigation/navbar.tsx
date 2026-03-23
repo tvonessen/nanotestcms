@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  Button,
   NavbarContent,
   NavbarMenu,
   NavbarMenuItem,
@@ -8,23 +9,21 @@ import {
   Navbar as NextUINavbar,
 } from '@heroui/react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React from 'react';
-
-import { siteConfig } from '@/config/routes';
-
+import { LanguageSwitch } from '@/components/language-switch/language-switch';
+import type { NavItem } from '@/config/siteconfig';
 import NanotestLogo from '../nanotest-logo';
 import { ThemeSwitch } from '../theme-switch';
-
-import { LanguageSwitch } from '@/components/language-switch/language-switch';
-import { Button } from '@heroui/react';
-import { useParams } from 'next/navigation';
 import { NavLink } from './navlink';
 
-export const Navbar = () => {
+interface NavbarProps {
+  navItems: NavItem[];
+}
+
+export const Navbar = ({ navItems }: NavbarProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { lang } = useParams();
-
-  const navItems = siteConfig.navItems;
 
   return (
     <NextUINavbar

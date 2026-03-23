@@ -1,6 +1,6 @@
-import type { Solution } from '@/payload-types';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import type { Solution } from '@/payload-types';
 
 /** Shape of the populated link group field produced by `linkField()`. */
 export type CMSLinkData = {
@@ -26,7 +26,7 @@ interface CMSLinkProps {
 /**
  * Resolves a `CMSLinkData` object to a plain href string.
  *
- * - `type === 'reference'`: constructs `/{lang}/products|services/{slug}` from the
+ * - `type === 'reference'`: constructs `/{lang}/nt/{slug}` from the
  *   populated Solution document.
  * - `type === 'custom'` (or fallback): returns `data.url` or `'#'`.
  */
@@ -34,9 +34,7 @@ export function resolveCMSLinkHref(data: CMSLinkData, lang: string): string {
   if (data.type === 'reference' && data.reference?.value) {
     const ref = data.reference.value;
     if (typeof ref !== 'string') {
-      const solution = ref as Solution;
-      const segment = solution.type.includes('product') ? 'products' : 'services';
-      return `/${lang}/${segment}/${solution.slug}`;
+      return `/${lang}/nt/${(ref as Solution).slug}`;
     }
   }
   return data.url ?? '#';
