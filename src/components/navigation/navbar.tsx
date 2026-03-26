@@ -4,6 +4,7 @@ import {
   Accordion,
   AccordionItem,
   Button,
+  cn,
   NavbarContent,
   NavbarMenu,
   NavbarMenuItem,
@@ -98,8 +99,12 @@ export const Navbar = ({ navItems }: NavbarProps) => {
                       </span>
                     }
                     classNames={{
-                      trigger:
-                        'py-2 cursor-pointer bg-default/50 hover:bg-primary/15 rounded-lg px-3 transition-colors',
+                      trigger: cn(
+                        'py-2 cursor-pointer rounded-lg px-3 transition-colors',
+                        pathname.startsWith(`/${lang}${item.href}`) && 'bg-primary',
+                        !pathname.startsWith(`/${lang}${item.href}`) &&
+                          'bg-default/50 hover:bg-primary/15',
+                      ),
                       content: 'pb-3',
                       indicator: 'text-background dark:text-foreground',
                       title: 'flex-1 text-center',
