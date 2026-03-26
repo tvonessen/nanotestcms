@@ -1,7 +1,7 @@
+import type { CollectionConfig } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { revalidateHook } from '@/utils/revalidate';
-import {CollectionConfig} from "payload";
 
 export const DistroPartners: CollectionConfig = {
   slug: 'distro-partner',
@@ -45,6 +45,8 @@ export const DistroPartners: CollectionConfig = {
       label: 'Website',
       type: 'text',
       localized: true,
+      validate: (value: string | null | undefined) =>
+        !value || /^https:\/\//.test(value) || 'Website must start with "https://"',
     },
     {
       name: 'description',
