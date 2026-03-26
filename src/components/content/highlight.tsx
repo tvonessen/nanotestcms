@@ -18,35 +18,49 @@ const Highlight = (props: HighlightProps) => {
     lang,
     className,
   } = props;
-  const gradient = {
-    primary:
-      'after:from-primary after:to-primary-600 after:dark:from-primary-400 after:dark:to-primary',
-    secondary:
-      'after:from-secondary after:to-secondary-600 after:dark:from-secondary-400 after:dark:to-secondary',
-    warning:
-      'after:from-warning after:to-warning-600 after:dark:from-warning-400 after:dark:to-warning',
-    danger: 'after:from-danger after:to-danger-600 after:dark:from-danger-400 after:dark:to-danger',
-  }[variant ?? 'primary'];
+  function getGradient(
+    prefix: 'after' | 'before',
+    variant?: 'primary' | 'secondary' | 'warning' | 'danger' | null,
+  ) {
+    const variants = {
+      after: {
+        primary: `after:from-primary after:to-primary-600 after:dark:from-primary-400 after:dark:to-primary`,
+        secondary: `after:from-secondary after:to-secondary-600 after:dark:from-secondary-400 after:dark:to-secondary`,
+        warning: `after:from-warning after:to-warning-600 after:dark:from-warning-400 after:dark:to-warning`,
+        danger: `after:from-danger after:to-danger-600 after:dark:from-danger-400 after:dark:to-danger`,
+      },
+      before: {
+        primary: `before:from-primary before:to-primary-600 before:dark:from-primary-400 before:dark:to-primary`,
+        secondary: `before:from-secondary before:to-secondary-600 before:dark:from-secondary-400 before:dark:to-secondary`,
+        warning: `before:from-warning before:to-warning-600 before:dark:from-warning-400 before:dark:to-warning`,
+        danger: `before:from-danger before:to-danger-600 before:dark:from-danger-400 before:dark:to-danger`,
+      },
+    };
+    return variants[prefix][variant ?? 'primary'];
+  }
 
   const textGradient = 'from-white/80 to-white dark:to-black/80 dark:from-black';
 
   return (
     <section
       className={cn(
-        'relative my-12 py-6',
-        'after:absolute after:-left-full after:w-[300%] after:h-full after:top-0',
-        `after:bg-linear-to-t after:z-0 ${gradient} ${variant === 'warning' ? 'dark' : ''}`,
+        `relative my-12 py-6 z-0`,
+        variant === 'warning' && 'dark',
+        'before:absolute before:w-full before:h-full before:top-0 before:left-0 before:rounded-lg',
+        `before:bg-linear-to-t before:z-[-1] ${getGradient('before', variant)} `,
+        'after:absolute after:w-[200vw] after:-left-[50vw] after:h-[calc(100%-0.5rem)] after:top-1 after:opacity-85',
+        `after:bg-linear-to-t after:z-[-2] ${getGradient('after', variant)}`,
         className,
       )}
     >
-      <div className="relative container mx-auto px-8 text-background text-center font-medium z-10">
+      <div className="container mx-auto px-8 text-background text-center font-medium">
         <h2
           className={`text-3xl font-extrabold bg-clip-text bg-linear-to-t text-transparent mb-3 ${textGradient}`}
         >
           {title}
         </h2>
         <p className="mx-auto text-lg my-3">{text}</p>
-        <div className="relative flex flex-row flex-wrap gap-2 justify-center items-center">
+        <div className="flex flex-row flex-wrap gap-2 justify-center items-center">
           {actions?.map((action) => {
             if (action.type === 'link' && !!action.link) {
               const link = action.link;

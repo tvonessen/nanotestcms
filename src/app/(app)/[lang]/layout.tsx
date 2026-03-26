@@ -152,17 +152,12 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
       <head>
         <title>{siteConfig.title}</title>
       </head>
-      <body
-        className={cn(
-          'min-h-screen bg-background font-sans antialiased overflow-x-hidden',
-          fontSans.className,
-        )}
-      >
+      <body className={cn('min-h-screen bg-background font-sans antialiased ', fontSans.className)}>
         <Providers>
           <AdminBar preview={isDraft} />
           <RefreshRouteOnSave />
           <Navbar navItems={navItems} />
-          <div className="min-h-[calc(100dvh-10rem)]">
+          <div className="min-h-[calc(100dvh-10rem)] w-full overflow-x-hidden">
             <Suspense fallback={<Loading />}>{children}</Suspense>
           </div>
           <Footer lang={lang} />

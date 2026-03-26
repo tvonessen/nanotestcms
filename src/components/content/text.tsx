@@ -10,7 +10,7 @@ interface TextProps {
 export default function Text(props: TextProps) {
   const { block, className } = props;
   return (
-    <section className={cn('grid grid-cols-12 gap-8 my-12 first-of-type:mt-4', className)}>
+    <section className={cn('grid grid-cols-12 gap-4 md:gap-8 my-12 first-of-type:mt-4', className)}>
       <aside
         className={cn(
           !block.text_right && 'hatching hidden lg:block opacity-50 rounded-3xl',

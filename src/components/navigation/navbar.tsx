@@ -10,6 +10,7 @@ import {
   NavbarMenuToggle,
   Navbar as NextUINavbar,
 } from '@heroui/react';
+import { ListIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -55,7 +56,7 @@ export const Navbar = ({ navItems }: NavbarProps) => {
         href={`/${lang}/`}
         tabIndex={0}
       >
-        <NanotestLogo className="h-10 text-background dark:text-foreground" />
+        <NanotestLogo className="h-8 sm:h-9 md:h-10 text-background dark:text-foreground" />
       </Link>
 
       {/* Desktop navigation */}
@@ -75,8 +76,9 @@ export const Navbar = ({ navItems }: NavbarProps) => {
           isIconOnly
           aria-label="Open the navigation"
           as={NavbarMenuToggle}
+          icon={<ListIcon size={36} weight="light" />}
           onPress={() => setIsOpen(!isOpen)}
-          className="flex lg:hidden text-background dark:text-foreground"
+          className="flex lg:hidden text-background dark:text-foreground text-xl ms-2"
           variant="light"
         />
       </NavbarContent>

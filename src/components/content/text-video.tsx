@@ -10,7 +10,7 @@ interface TextVideoProps {
 const TextVideo = (props: TextVideoProps) => {
   const { className, block } = props;
   return (
-    <section className={cn('grid grid-cols-12 gap-8 my-12 first-of-type:mt-4', className)}>
+    <section className={cn('grid grid-cols-12 gap-4 md:gap-8 my-12 first-of-type:mt-4', className)}>
       <aside
         className={cn(
           'container mx-auto col-span-12 lg:col-span-5 xl:col-span-4 mt-4',
