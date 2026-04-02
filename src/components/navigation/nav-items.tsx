@@ -26,17 +26,19 @@ export function SolutionLinks({
       {solutions.map((sol) => {
         const isActive = pathname === `/${lang}${sol.href}`;
         return (
-          <Link key={sol.href} href={`/${lang}${sol.href}`} onClick={onNavigate}>
-            <Button
-              size="md"
-              radius="md"
-              variant="solid"
-              color={isActive ? 'primary' : 'default'}
-              className={cn('cursor-pointer', !isActive && 'hover:bg-primary/50')}
-            >
-              {sol.label[lang]}
-            </Button>
-          </Link>
+          <Button
+            key={sol.href}
+            href={`/${lang}${sol.href}`}
+            onNavigate={onNavigate}
+            as={Link}
+            size="md"
+            radius="md"
+            variant="solid"
+            color={isActive ? 'primary' : 'default'}
+            className={cn('cursor-pointer', !isActive && 'hover:bg-primary/50')}
+          >
+            {sol.label[lang]}
+          </Button>
         );
       })}
     </div>

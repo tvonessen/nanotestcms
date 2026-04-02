@@ -75,12 +75,18 @@ export function MobileNavDropdown({ item, lang, pathname, onClose }: MobileNavDr
               />
             </PageLink>
           ))}
-          <SolutionLinks
-            solutions={item.solutions ?? []}
-            lang={lang}
-            pathname={pathname}
-            onNavigate={close}
-          />
+          {item.solutions?.map((solution) => (
+            <PageLink
+              key={solution.href}
+              lang={lang}
+              pathname={pathname}
+              onNavigate={close}
+              item={{
+                href: `/${lang}${solution.href}`,
+                label: solution.label,
+              }}
+            />
+          ))}
         </div>
       )}
     </div>
@@ -141,7 +147,7 @@ export function NavDropdown({ item }: NavDropdownProps) {
                   lang={lang}
                   pathname={pathname}
                   onNavigate={close}
-                  className="font-bold text-medium"
+                  className="font-semibold text-medium"
                 >
                   <SolutionLinks
                     solutions={child.solutions ?? []}
@@ -153,12 +159,19 @@ export function NavDropdown({ item }: NavDropdownProps) {
                 </PageLink>
               ))}
 
-              <SolutionLinks
-                solutions={item.solutions ?? []}
-                lang={lang}
-                pathname={pathname}
-                onNavigate={close}
-              />
+              {item.solutions?.map((solution) => (
+                <PageLink
+                  key={solution.href}
+                  lang={lang}
+                  pathname={pathname}
+                  onNavigate={close}
+                  className="font-semibold text-medium"
+                  item={{
+                    href: `/${lang}${solution.href}`,
+                    label: solution.label,
+                  }}
+                />
+              ))}
             </div>
           </nav>
         </PopoverContent>
