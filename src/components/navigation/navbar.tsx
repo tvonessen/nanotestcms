@@ -1,10 +1,7 @@
 'use client';
 
 import {
-  Accordion,
-  AccordionItem,
   Button,
-  cn,
   NavbarContent,
   NavbarMenu,
   NavbarMenuItem,
@@ -20,8 +17,7 @@ import type { NavItem } from '@/config/siteconfig';
 import type { Config } from '@/payload-types';
 import NanotestLogo from '../nanotest-logo';
 import { ThemeSwitch } from '../theme-switch';
-import { NavDropdown } from './nav-dropdown';
-import { PageLink, SolutionLinks } from './nav-items';
+import { MobileNavDropdown, NavDropdown } from './nav-dropdown';
 import { NavLink } from './navlink';
 
 interface NavbarProps {
@@ -90,63 +86,12 @@ export const Navbar = ({ navItems }: NavbarProps) => {
           {navItems.map((item) =>
             item.children?.length || item.solutions?.length ? (
               <NavbarMenuItem key={item.href} as="div" className="w-full">
-                <Accordion isCompact className="px-0">
-                  <AccordionItem
-                    key={item.href}
-                    title={
-                      <span className="text-xl font-semibold text-background dark:text-foreground">
-                        {item.label[lang]}
-                      </span>
-                    }
-                    classNames={{
-                      trigger: cn(
-                        'py-2 cursor-pointer rounded-lg px-3 transition-colors',
-                        pathname.startsWith(`/${lang}${item.href}`) && 'bg-primary',
-                        !pathname.startsWith(`/${lang}${item.href}`) &&
-                          'bg-default/50 hover:bg-primary/15',
-                      ),
-                      content: 'pb-3',
-                      indicator: 'text-background dark:text-foreground',
-                      title: 'flex-1 text-center',
-                    }}
-                  >
-                    <div className="p-1 bg-default-50 dark:bg-default-50 rounded-xl flex flex-col gap-2">
-                      <PageLink
-                        item={item}
-                        lang={lang}
-                        pathname={pathname}
-                        className="font-bold text-medium"
-                        onNavigateAction={closeMenu}
-                      />
-
-                      {(item.children ?? []).map((child) => (
-                        <PageLink
-                          key={child.href}
-                          item={child}
-                          lang={lang}
-                          pathname={pathname}
-                          onNavigateAction={closeMenu}
-                          className="font-bold text-medium"
-                        >
-                          <SolutionLinks
-                            solutions={child.solutions ?? []}
-                            lang={lang}
-                            pathname={pathname}
-                            onNavigateAction={closeMenu}
-                            className="-ms-1"
-                          />
-                        </PageLink>
-                      ))}
-
-                      <SolutionLinks
-                        solutions={item.solutions ?? []}
-                        lang={lang}
-                        pathname={pathname}
-                        onNavigateAction={closeMenu}
-                      />
-                    </div>
-                  </AccordionItem>
-                </Accordion>
+                <MobileNavDropdown
+                  item={item}
+                  lang={lang}
+                  pathname={pathname}
+                  onClose={closeMenu}
+                />
               </NavbarMenuItem>
             ) : (
               <NavbarMenuItem key={item.href} as="div" className="w-full">

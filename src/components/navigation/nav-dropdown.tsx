@@ -9,6 +9,84 @@ import type { NavItem } from '@/config/siteconfig';
 import type { Config } from '@/payload-types';
 import { PageLink, SolutionLinks } from './nav-items';
 
+interface MobileNavDropdownProps {
+  item: NavItem;
+  lang: Config['locale'];
+  pathname: string;
+  onClose: () => void;
+}
+
+export function MobileNavDropdown({ item, lang, pathname, onClose }: MobileNavDropdownProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const isActive =
+    pathname === `/${lang}${item.href}` || pathname.startsWith(`/${lang}${item.href}/`);
+  const children = item.children ?? [];
+
+  const close = () => {
+    setIsOpen(false);
+    onClose();
+  };
+
+  return (
+    <div className="flex flex-col w-full">
+      <div className="flex items-center w-full">
+        <NavLink
+          link={item}
+          onClick={close}
+          fullWidth
+          className="border-e border-e-background rounded-e-none"
+        />
+        <Button
+          isIconOnly
+          variant={isActive || isOpen ? 'solid' : 'light'}
+          color="primary"
+          onPress={() => setIsOpen((prev) => !prev)}
+          className={cn(
+            'animate-none rounded-s-none h-12 w-16',
+            (isActive || isOpen) && 'text-foreground dark:text-background',
+            !isActive && !isOpen && 'text-background dark:text-foreground',
+            !isActive && !isOpen && 'not-lg:bg-default/50',
+          )}
+        >
+          <CaretDownIcon
+            size={16}
+            weight="bold"
+            className={cn('transition-transform duration-200', isOpen && 'rotate-180')}
+          />
+        </Button>
+      </div>
+      {isOpen && (
+        <div className="p-1 mt-1 bg-default-50 dark:bg-default-50 rounded-xl flex flex-col gap-2">
+          {children.map((child) => (
+            <PageLink
+              key={child.href}
+              item={child}
+              lang={lang}
+              pathname={pathname}
+              onNavigate={close}
+              className="font-bold text-medium"
+            >
+              <SolutionLinks
+                solutions={child.solutions ?? []}
+                lang={lang}
+                pathname={pathname}
+                onNavigate={close}
+                className="-ms-1"
+              />
+            </PageLink>
+          ))}
+          <SolutionLinks
+            solutions={item.solutions ?? []}
+            lang={lang}
+            pathname={pathname}
+            onNavigate={close}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
 interface NavDropdownProps {
   item: NavItem;
 }
