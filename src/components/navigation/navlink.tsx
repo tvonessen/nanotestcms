@@ -9,9 +9,10 @@ interface NavLinkProps {
   link: NavItem;
   onClick?: () => void;
   fullWidth?: boolean;
+  className?: string;
 }
 
-export function NavLink({ link, onClick, fullWidth }: NavLinkProps) {
+export function NavLink({ link, onClick, fullWidth, className }: NavLinkProps) {
   const currentPath = useSelectedLayoutSegment();
   const { lang } = useParams() as { lang: Config['locale'] };
   const isActive =
@@ -32,6 +33,7 @@ export function NavLink({ link, onClick, fullWidth }: NavLinkProps) {
         !isActive && 'not-lg:bg-default/50',
         isActive && 'text-foreground dark:text-background',
         !isActive && 'text-background dark:text-foreground',
+        className,
       )}
     >
       {link.label[lang]}

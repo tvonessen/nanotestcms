@@ -116,7 +116,7 @@ export const Navbar = ({ navItems }: NavbarProps) => {
                         lang={lang}
                         pathname={pathname}
                         className="font-bold text-medium"
-                        onNavigate={closeMenu}
+                        onNavigateAction={closeMenu}
                       />
 
                       {(item.children ?? []).map((child) => (
@@ -125,14 +125,14 @@ export const Navbar = ({ navItems }: NavbarProps) => {
                           item={child}
                           lang={lang}
                           pathname={pathname}
-                          onNavigate={closeMenu}
+                          onNavigateAction={closeMenu}
                           className="font-bold text-medium"
                         >
                           <SolutionLinks
                             solutions={child.solutions ?? []}
                             lang={lang}
                             pathname={pathname}
-                            onNavigate={closeMenu}
+                            onNavigateAction={closeMenu}
                             className="-ms-1"
                           />
                         </PageLink>
@@ -142,7 +142,7 @@ export const Navbar = ({ navItems }: NavbarProps) => {
                         solutions={item.solutions ?? []}
                         lang={lang}
                         pathname={pathname}
-                        onNavigate={closeMenu}
+                        onNavigateAction={closeMenu}
                       />
                     </div>
                   </AccordionItem>
