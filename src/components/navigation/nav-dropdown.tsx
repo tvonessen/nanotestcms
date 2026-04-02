@@ -81,10 +81,7 @@ export function MobileNavDropdown({ item, lang, pathname, onClose }: MobileNavDr
               lang={lang}
               pathname={pathname}
               onNavigate={close}
-              item={{
-                href: `/${lang}${solution.href}`,
-                label: solution.label,
-              }}
+              item={solution}
             />
           ))}
         </div>
@@ -166,10 +163,7 @@ export function NavDropdown({ item }: NavDropdownProps) {
                   pathname={pathname}
                   onNavigate={close}
                   className="font-semibold text-medium"
-                  item={{
-                    href: `/${lang}${solution.href}`,
-                    label: solution.label,
-                  }}
+                  item={solution}
                 />
               ))}
             </div>
