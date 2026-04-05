@@ -62,7 +62,7 @@ export function PageLink({
 }) {
   const router = useRouter();
   const fullHref = `/${lang}${item.href}`;
-  const isExact = pathname === fullHref;
+  const isActive = pathname === fullHref;
 
   const handleClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('a, button')) return;
@@ -84,8 +84,8 @@ export function PageLink({
         }
       }}
       className={cn(
-        'flex rounded-lg px-3 py-2 mx-1 mt-1 flex-col gap-2 cursor-pointer transition-colors',
-        isExact
+        'flex rounded-lg px-2 py-1 flex-col cursor-pointer transition-colors',
+        isActive
           ? 'bg-primary/75 text-primary-foreground font-semibold'
           : 'bg-default-200/50 hover:bg-default-300/60 dark:bg-default-100/50 dark:hover:bg-default-200/60',
         className,

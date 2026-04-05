@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@heroui/react';
+import { Button, cn } from '@heroui/react';
 import { MoonIcon, SunIcon } from '@phosphor-icons/react';
 import { useTheme } from 'next-themes';
 import React from 'react';
@@ -23,18 +23,17 @@ export const ThemeSwitch = () => {
     return () => setMounted(false);
   }, [theme, setTheme]);
 
-  if (!mounted) return null;
-
   return (
     <Button
       isIconOnly
       aria-label="Toggle website theme"
       variant="light"
       color="primary"
-      className="text-background dark:text-foreground no-animation"
+      disabled={!mounted}
+      className={cn('text-background dark:text-foreground no-animation', !mounted && 'opacity-30')}
       onPress={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
-      {theme !== 'dark' ? (
+      {mounted && theme !== 'dark' ? (
         <SunIcon size={27} weight="regular" />
       ) : (
         <MoonIcon size={27} weight="regular" />

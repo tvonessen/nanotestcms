@@ -30,12 +30,7 @@ export function MobileNavDropdown({ item, lang, pathname, onClose }: MobileNavDr
   return (
     <div className="flex flex-col w-full">
       <div className="flex items-center w-full">
-        <NavLink
-          link={item}
-          onClick={close}
-          fullWidth
-          className="border-e border-e-background rounded-e-none"
-        />
+        <NavLink link={item} onClick={close} fullWidth className="me-0.5 rounded-e-none ps-18" />
         <Button
           isIconOnly
           variant={isActive || isOpen ? 'solid' : 'light'}
@@ -56,7 +51,7 @@ export function MobileNavDropdown({ item, lang, pathname, onClose }: MobileNavDr
         </Button>
       </div>
       {isOpen && (
-        <div className="p-1 mt-1 bg-default-50 dark:bg-default-50 rounded-xl flex flex-col gap-2">
+        <div className="p-1 pb-2 mt-2 border-2 border-primary/50 rounded-xl flex flex-col gap-2">
           {children.map((child) => (
             <PageLink
               key={child.href}
@@ -108,11 +103,7 @@ export function NavDropdown({ item }: NavDropdownProps) {
 
   return (
     <div className="flex items-center">
-      <NavLink
-        link={item}
-        onClick={close}
-        className="border-e border-e-background rounded-e-none"
-      />
+      <NavLink link={item} onClick={close} className="me-px rounded-e-none pe-2" />
       <Popover
         placement="bottom-start"
         offset={12}
