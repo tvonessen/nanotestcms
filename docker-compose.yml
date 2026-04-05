@@ -6,8 +6,10 @@ services:
     restart: unless-stopped
     ports:
       - '3301:3301'
+    network_mode: bridge
     volumes:
       - nanotestcms-data:/app/data
+    env_file: .env
 
 volumes:
   nanotestcms-data:
