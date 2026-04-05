@@ -278,7 +278,25 @@ export interface Solution {
   type: ('product' | 'service' | 'other')[];
   title: string;
   subtitle: string;
+  /**
+   * [DEPRECATED] Use Abstract richtText below instead
+   */
   shortDescription: string;
+  abstract: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   /**
    * Whether this is a novel solution
    */
@@ -3974,6 +3992,7 @@ export interface SolutionsSelect<T extends boolean = true> {
   title?: T;
   subtitle?: T;
   shortDescription?: T;
+  abstract?: T;
   new?: T;
   discontinued?: T;
   details?:

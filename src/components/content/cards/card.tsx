@@ -5,6 +5,7 @@ import { cn } from '@heroui/react';
 import { ArrowSquareInIcon } from '@phosphor-icons/react/ssr';
 import Image from 'next/image';
 import Link from 'next/link';
+import RichTextWrapper from '@/components/content/richtext-wrapper';
 import type { Media, Solution } from '@/payload-types';
 
 interface CardProps {
@@ -51,11 +52,15 @@ export function Card({ lang, solution, className }: CardProps) {
           'opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-400',
         )}
       >
-        <div>
-          <h2 className={cn('mb-2 origin-left text-3xl text-background font-semibold')}>
+        <div className="max-h-[calc(100%-4rem)] overflow-y-scroll">
+          <h2 className={cn('origin-left text-3xl text-background font-semibold')}>
             {solution.title}
           </h2>
-          <div className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+          <div
+            className={cn(
+              'opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity',
+            )}
+          >
             {solution.new && (
               <Chip color="danger" size="sm" className="-ms-1">
                 NEW
@@ -66,10 +71,10 @@ export function Card({ lang, solution, className }: CardProps) {
                 Discontinued
               </Chip>
             )}
-            <p className="text-sm block my-4 text-primary-300 dark:text-primary-700">
+            <p className="text-sm block my-1 text-primary-300 dark:text-primary-700">
               {solution.subtitle}
             </p>
-            <p className="text-background taxt-md">{solution.shortDescription}</p>
+            <RichTextWrapper text={solution.abstract} lang={lang} className="text-background" />
           </div>
         </div>
 
@@ -77,7 +82,7 @@ export function Card({ lang, solution, className }: CardProps) {
           aria-label={`Learn more about ${solution.title}`}
           href={`/${lang}/nt/${solution.slug}`}
           passHref
-          className="w-full"
+          className="relative bottom-0 left-0 w-full"
         >
           <Button
             color="primary"

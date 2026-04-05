@@ -77,10 +77,18 @@ const Solutions: CollectionConfig = {
       localized: true,
       admin: {
         placeholder: 'A (very) brief description of the solution',
+        description: '[DEPRECATED] Use Abstract richtText below instead',
         rows: 2,
       },
       required: true,
       maxLength: 120,
+    },
+    {
+      name: 'abstract',
+      label: 'Abstract (Short description)',
+      type: 'richText',
+      localized: true,
+      required: true,
     },
     {
       name: 'new',
