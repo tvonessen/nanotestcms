@@ -203,6 +203,20 @@ aside.hatching {
   }
 }
 
+@utility scroll-shadow {
+  @apply overflow-y-scroll;
+  background-color: rgb(var(--foreground));
+  background-image:
+    linear-gradient(rgb(var(--foreground)) 30%, transparent),
+    linear-gradient(transparent, rgb(var(--foreground)) 70%),
+    radial-gradient(farthest-side at 50% 0, rgba(var(--background), 0.4), transparent),
+    radial-gradient(farthest-side at 50% 100%, rgba(var(--background), 0.4), transparent);
+  background-repeat: no-repeat;
+  background-size: 100% 3rem, 100% 3rem, 100% 1rem, 100% 1rem;
+  background-position: top, bottom, top, bottom;
+  background-attachment: local, local, scroll, scroll;
+}
+
 @utility spin-loader {
   animation-name: spin;
   animation-duration: 1s;

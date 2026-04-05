@@ -52,7 +52,7 @@ export function Card({ lang, solution, className }: CardProps) {
           'opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-400',
         )}
       >
-        <div className="max-h-[calc(100%-4rem)] overflow-y-scroll">
+        <div className="max-h-[calc(100%-4rem)] rounded-md scroll-shadow">
           <h2 className={cn('origin-left text-3xl text-background font-semibold')}>
             {solution.title}
           </h2>
