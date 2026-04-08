@@ -52,7 +52,7 @@ export function Card({ lang, solution, className }: CardProps) {
           'opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-400',
         )}
       >
-        <div className="max-h-[calc(100%-4rem)] rounded-md scroll-shadow">
+        <div className="max-h-[calc(100%-4.25rem)] w-full px-1 overflow-y-auto rounded-md scrollbar-hide">
           <h2 className={cn('origin-left text-3xl text-background font-semibold')}>
             {solution.title}
           </h2>
@@ -99,7 +99,7 @@ export function Card({ lang, solution, className }: CardProps) {
         alt={solution.title}
         className={cn(
           'min-h-full min-w-full object-cover scale-103',
-          'group-hover:opacity-30 transition-all duration-400 group-hover:blur-xs',
+          'group-hover:opacity-20 transition-all duration-400 group-hover:blur-xs',
           'group-focus-within:opacity-30 transition-all group-focus-within:blur-xs',
         )}
         height={height as number}

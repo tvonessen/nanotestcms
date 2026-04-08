@@ -44,6 +44,7 @@
 }
 
 .grecaptcha-badge {
+  /* biome-ignore lint/complexity/noImportantStyles: fine to use it here */
   visibility: hidden !important;
 }
 
@@ -70,38 +71,6 @@ section,
 footer,
 header {
   container-type: inline-size;
-}
-
-aside.hatching {
-  background: repeating-linear-gradient(
-    -33deg,
-    rgb(var(--primary)),
-    rgb(var(--primary)) 1px,
-    transparent 1px,
-    transparent 10px
-  );
-  position: relative;
-  border-radius: var(--radius-xl);
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background-image: linear-gradient(
-      60deg,
-      rgba(var(--background), 1),
-      rgba(var(--background), 0.33)
-    );
-  }
-
-  &.hatching-reverse::before {
-    background-image: linear-gradient(
-      -60deg,
-      rgba(var(--background), 1),
-      rgba(var(--background), 0.33)
-    );
-  }
 }
 
 @utility file-selections {
@@ -151,6 +120,23 @@ aside.hatching {
     @apply text-primary underline hover:decoration-[3px] focus:no-underline hover:decoration-focus outline-offset-1 focus:rounded-md;
   }
 
+  ol {
+    @apply list-decimal ml-5;
+
+    li:has(ol),
+    li:has(ul) {
+      list-style: none;
+    }
+
+    li::marker {
+      font-weight: bold;
+    }
+
+    ol {
+      list-style-type: upper-alpha;
+    }
+  }
+
   ul:not(.list-check) {
     @apply list-disc ml-6;
 
@@ -176,23 +162,6 @@ aside.hatching {
     }
   }
 
-  ol {
-    @apply list-decimal ml-5;
-
-    li:has(ol),
-    li:has(ul) {
-      list-style: none;
-    }
-
-    li::marker {
-      font-weight: bold;
-    }
-
-    ol {
-      list-style-type: upper-alpha;
-    }
-  }
-
   blockquote {
     @apply relative ps-8 pe-4 my-3 py-2 bg-foreground/10 rounded-xl italic;
 
@@ -203,18 +172,36 @@ aside.hatching {
   }
 }
 
-@utility scroll-shadow {
-  @apply overflow-y-scroll;
-  background-color: rgb(var(--foreground));
-  background-image:
-    linear-gradient(rgb(var(--foreground)) 30%, transparent),
-    linear-gradient(transparent, rgb(var(--foreground)) 70%),
-    radial-gradient(farthest-side at 50% 0, rgba(var(--background), 0.4), transparent),
-    radial-gradient(farthest-side at 50% 100%, rgba(var(--background), 0.4), transparent);
-  background-repeat: no-repeat;
-  background-size: 100% 3rem, 100% 3rem, 100% 1rem, 100% 1rem;
-  background-position: top, bottom, top, bottom;
-  background-attachment: local, local, scroll, scroll;
+aside.hatching {
+  background: repeating-linear-gradient(
+    -33deg,
+    rgb(var(--primary)),
+    rgb(var(--primary)) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  position: relative;
+  border-radius: var(--radius-xl);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-image: linear-gradient(
+      60deg,
+      rgba(var(--background), 1),
+      rgba(var(--background), 0.33)
+    );
+  }
+
+  &.hatching-reverse::before {
+    background-image: linear-gradient(
+      -60deg,
+      rgba(var(--background), 1),
+      rgba(var(--background), 0.33)
+    );
+  }
 }
 
 @utility spin-loader {
