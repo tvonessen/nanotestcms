@@ -4,6 +4,7 @@ import { Cards } from '@/blocks/CardsBlock';
 import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Downloads } from '@/blocks/DownloadsBlock';
 import { Features } from '@/blocks/FeaturesBlock';
+import { Hero } from '@/blocks/HeroBlock';
 import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
@@ -129,7 +130,17 @@ export const Pages: CollectionConfig = {
       name: 'content',
       type: 'blocks',
       minRows: 1,
-      blocks: [Text, TextImage, TextVideo, Cards, Highlight, Features, ContactForm, Downloads],
+      blocks: [
+        Hero,
+        Text,
+        TextImage,
+        TextVideo,
+        Cards,
+        Highlight,
+        Features,
+        ContactForm,
+        Downloads,
+      ],
     },
   ],
 };

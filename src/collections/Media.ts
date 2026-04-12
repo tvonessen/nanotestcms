@@ -72,6 +72,7 @@ export const Media: CollectionConfig = {
       required: true,
       localized: true,
     },
+    { name: 'caption', type: 'richText', required: false, localized: true },
     {
       name: 'tags',
       type: 'select',

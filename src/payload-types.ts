@@ -187,6 +187,21 @@ export interface User {
 export interface Media {
   id: string;
   alt: string;
+  caption?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   tags: ('solution' | 'service' | 'logo' | 'team' | 'other')[];
   blurDataUrl?: string | null;
   isDark?: boolean | null;
@@ -3631,10 +3646,21 @@ export interface Page {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  content?: (Text | TextImage | TextVideo | Cards | Highlight | Features | ContactForm | Downloads)[] | null;
+  content?: (Hero | Text | TextImage | TextVideo | Cards | Highlight | Features | ContactForm | Downloads)[] | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Hero".
+ */
+export interface Hero {
+  images: (string | Media)[];
+  showCaption?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3893,6 +3919,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  caption?: T;
   tags?: T;
   blurDataUrl?: T;
   isDark?: T;
@@ -4181,6 +4208,7 @@ export interface PagesSelect<T extends boolean = true> {
   content?:
     | T
     | {
+        hero?: T | HeroSelect<T>;
         text?: T | TextSelect<T>;
         'text-image'?: T | TextImageSelect<T>;
         'text-video'?: T | TextVideoSelect<T>;
@@ -4193,6 +4221,16 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Hero_select".
+ */
+export interface HeroSelect<T extends boolean = true> {
+  images?: T;
+  showCaption?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

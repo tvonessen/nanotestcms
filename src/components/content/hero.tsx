@@ -1,23 +1,33 @@
 'use client';
 
 import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react';
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import Slider from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { cn } from '@heroui/react';
 import Image from 'next/image';
+import RichTextWrapper from '@/components/content/richtext-wrapper';
 import type { Media } from '@/payload-types';
 
-interface CarouselProps {
-  images: Media[];
+interface HeroProps {
+  images?: (Media | unknown)[] | null;
+  showCaption?: boolean;
   className?: string;
 }
 
-const Carousel = ({ images, className }: CarouselProps) => {
+const Hero = (props: HeroProps) => {
+  const { className, showCaption = false } = props;
+
   const INITIAL_SLIDE = 0;
   const slider = React.useRef<Slider>(null);
   const [currentIndex, setCurrentIndex] = React.useState(INITIAL_SLIDE);
+
+  const images = useMemo(() => {
+    if (!props.images) return [] as Media[];
+    return props.images.filter((img) => img !== null && typeof img === 'object') as Media[];
+  }, [props.images]);
 
   const next = () => {
     slider.current?.slickNext();
@@ -26,6 +36,8 @@ const Carousel = ({ images, className }: CarouselProps) => {
   const prev = () => {
     slider.current?.slickPrev();
   };
+
+  if (images.length === 0) return null;
 
   return (
     <Fragment key="carousel">
@@ -44,7 +56,7 @@ const Carousel = ({ images, className }: CarouselProps) => {
           ref={slider}
         >
           {images.map((image) => (
-            <div className="md:px-2 focus:outline-hidden" key={image.alt}>
+            <div className="relative md:px-2 focus:outline-hidden" key={image.alt}>
               <Image
                 key={image.filename}
                 className={'sm:rounded-2xl w-full aspect-video object-cover'}
@@ -56,6 +68,16 @@ const Carousel = ({ images, className }: CarouselProps) => {
                 placeholder={image.blurDataUrl ? 'blur' : 'empty'}
                 loading="lazy"
               />
+              {showCaption && image.caption && (
+                <div
+                  className={cn(
+                    'absolute bottom-2 inset-x-4 rounded-lg',
+                    'bg-background/70 backdrop-blur-xs opacity-80',
+                  )}
+                >
+                  <RichTextWrapper text={image.caption} className="mx-auto w-fit *:w-fit" />
+                </div>
+              )}
             </div>
           ))}
         </Slider>
@@ -107,4 +129,4 @@ const Carousel = ({ images, className }: CarouselProps) => {
   );
 };
 
-export default Carousel;
+export default Hero;

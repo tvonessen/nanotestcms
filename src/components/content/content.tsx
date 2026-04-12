@@ -2,6 +2,7 @@ import { CardsGrid } from '@/components/content/cards/cards-grid';
 import ContactForm from '@/components/content/contact-form/contact-form';
 import Downloads from '@/components/content/downloads/downloads';
 import Features from '@/components/content/features';
+import Hero from '@/components/content/hero';
 import Highlight from '@/components/content/highlight';
 import Text from '@/components/content/text';
 import TextImage from '@/components/content/text-image';
@@ -11,7 +12,9 @@ import type {
   ContactForm as ContactFormBlock,
   Downloads as DownloadsBlock,
   Features as FeaturesBlock,
+  Hero as HeroBlock,
   Highlight as HighlightBlock,
+  Media,
   Text as TextBlock,
   TextImage as TextImageBlock,
   TextVideo as TextVideoBlock,
@@ -22,6 +25,7 @@ type ContentBlock =
   | ContactFormBlock
   | DownloadsBlock
   | FeaturesBlock
+  | HeroBlock
   | HighlightBlock
   | TextBlock
   | TextImageBlock
@@ -60,7 +64,8 @@ interface ContentProps {
     | 'downloads'
     | 'features'
     | 'highlight'
-    | 'contactForm',
+    | 'contactForm'
+    | 'hero',
     string
   >;
 }
@@ -75,6 +80,15 @@ export function Content(props: ContentProps) {
             return <Text key={block.id} block={block} className={classNames?.text} />;
           case 'text-image':
             return <TextImage key={block.id} block={block} className={classNames?.textImage} />;
+          case 'hero':
+            return (
+              <Hero
+                key={block.id}
+                images={block.images as Media[]}
+                showCaption={!!block.showCaption}
+                className={classNames?.hero}
+              />
+            );
           case 'highlight':
             return (
               <Highlight

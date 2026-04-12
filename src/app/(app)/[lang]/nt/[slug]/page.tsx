@@ -2,8 +2,8 @@ import { cn } from '@heroui/react';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
-import Carousel from '@/components/carousel/carousel';
 import { Content } from '@/components/content/content';
+import Hero from '@/components/content/hero';
 import type { Config, Media, Solution } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
 
@@ -55,7 +55,7 @@ export default async function NTDetailPage({ params }: NTDetailProps) {
     <main>
       <div className="container mx-auto mb-24">
         {solution.details?.images?.length > 0 && (
-          <Carousel images={solution.details.images as Media[]} />
+          <Hero images={solution.details.images as Media[]} />
         )}
         <section
           className={cn(
