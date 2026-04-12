@@ -10,12 +10,14 @@ interface NavLinkProps {
   onClick?: () => void;
   fullWidth?: boolean;
   className?: string;
+  isActive?: boolean;
 }
 
-export function NavLink({ link, onClick, fullWidth, className }: NavLinkProps) {
+export function NavLink({ link, onClick, fullWidth, className, ...props }: NavLinkProps) {
   const currentPath = useSelectedLayoutSegment();
   const { lang } = useParams() as { lang: Config['locale'] };
   const isActive =
+    props.isActive ||
     (currentPath === null && link.href === '/') ||
     (currentPath !== null && `/${currentPath}` === link.href);
 

@@ -30,7 +30,13 @@ export function MobileNavDropdown({ item, lang, pathname, onClose }: MobileNavDr
   return (
     <div className="flex flex-col w-full">
       <div className="flex items-center w-full">
-        <NavLink link={item} onClick={close} fullWidth className="me-0.5 rounded-e-none ps-18" />
+        <NavLink
+          link={item}
+          onClick={close}
+          fullWidth
+          className="me-0.5 rounded-e-none ps-18"
+          isActive={isActive}
+        />
         <Button
           isIconOnly
           variant={isActive || isOpen ? 'solid' : 'light'}
@@ -103,7 +109,12 @@ export function NavDropdown({ item }: NavDropdownProps) {
 
   return (
     <div className="flex items-center">
-      <NavLink link={item} onClick={close} className="me-px rounded-e-none pe-2" />
+      <NavLink
+        link={item}
+        onClick={close}
+        className="me-px rounded-e-none pe-2"
+        isActive={isActive}
+      />
       <Popover
         placement="bottom-start"
         offset={12}
