@@ -24,7 +24,8 @@ export function SolutionLinks({
   return (
     <div className={cn('flex flex-wrap gap-3 p-1', className)}>
       {solutions.map((sol) => {
-        const isActive = pathname === `/${lang}${sol.href}`;
+        const solHref = `/${lang}${sol.href}`;
+        const isActive = pathname === solHref || pathname.startsWith(`${solHref}/`);
         return (
           <Button
             key={sol.href}
@@ -62,7 +63,7 @@ export function PageLink({
 }) {
   const router = useRouter();
   const fullHref = `/${lang}${item.href}`;
-  const isActive = pathname === fullHref;
+  const isActive = pathname === fullHref || pathname.startsWith(`${fullHref}/`);
 
   const handleClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('a, button')) return;

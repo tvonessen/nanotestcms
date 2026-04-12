@@ -9,6 +9,24 @@ import type { NavItem } from '@/config/siteconfig';
 import type { Config } from '@/payload-types';
 import { PageLink, SolutionLinks } from './nav-items';
 
+function isNavItemActive(item: NavItem, pathname: string, lang: string): boolean {
+  const matchesHref = (href: string) => {
+    const full = `/${lang}${href}`;
+    return pathname === full || pathname.startsWith(`${full}/`);
+  };
+  if (matchesHref(item.href)) return true;
+  for (const sol of item.solutions ?? []) {
+    if (matchesHref(sol.href)) return true;
+  }
+  for (const child of item.children ?? []) {
+    if (matchesHref(child.href)) return true;
+    for (const sol of child.solutions ?? []) {
+      if (matchesHref(sol.href)) return true;
+    }
+  }
+  return false;
+}
+
 interface MobileNavDropdownProps {
   item: NavItem;
   lang: Config['locale'];
@@ -18,8 +36,7 @@ interface MobileNavDropdownProps {
 
 export function MobileNavDropdown({ item, lang, pathname, onClose }: MobileNavDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const isActive =
-    pathname === `/${lang}${item.href}` || pathname.startsWith(`/${lang}${item.href}/`);
+  const isActive = isNavItemActive(item, pathname, lang);
   const children = item.children ?? [];
 
   const close = () => {
@@ -100,8 +117,7 @@ export function NavDropdown({ item }: NavDropdownProps) {
   const { lang } = useParams() as { lang: Config['locale'] };
   const [isOpen, setIsOpen] = useState(false);
 
-  const isActive =
-    pathname === `/${lang}${item.href}` || pathname.startsWith(`/${lang}${item.href}/`);
+  const isActive = isNavItemActive(item, pathname, lang);
 
   const children = item.children ?? [];
 
