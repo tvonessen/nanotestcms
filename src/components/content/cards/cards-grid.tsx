@@ -4,7 +4,7 @@ import { LazyIcon } from '@/components/utility/lazy-icon';
 import type { Cards, Solution, SolutionCategory } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
 import RichTextWrapper from '../richtext-wrapper';
-import { Card } from './card';
+import { Card, ManualCard } from './card';
 
 interface getSolutionsByCategoryAndTypesProps {
   category?: string | SolutionCategory;
@@ -57,7 +57,34 @@ export async function CardsGrid(props: CardsGridProps) {
   let solutions: Solution[] | undefined;
   let category: SolutionCategory | undefined;
 
-  if (!block.source || !['solutions', 'category'].includes(block.source)) return null;
+  if (!block.source || !['solutions', 'category', 'manual'].includes(block.source)) return null;
+
+  if (block.source === 'manual') {
+    const cards = block.manualFields?.cards ?? [];
+    if (cards.length === 0) return null;
+
+    return (
+      <section className={className}>
+        <div className="flex flex-col gap-6 my-12">
+          {block.manualFields?.title && (
+            <h2 className="text-3xl text-center font-extrabold bg-clip-text text-transparent bg-linear-to-tr from-secondary-700 to-secondary-400">
+              {block.manualFields.title}
+            </h2>
+          )}
+          {block.manualFields?.paragraph && (
+            <div className="max-w-[80ch] mx-auto">
+              <RichTextWrapper lang={lang} text={block.manualFields.paragraph} />
+            </div>
+          )}
+        </div>
+        <div className="flex justify-center flex-wrap gap-x-6 gap-y-10 sm:gap-y-6">
+          {cards.map((card) => (
+            <ManualCard key={card.id} lang={lang} card={card} />
+          ))}
+        </div>
+      </section>
+    );
+  }
 
   if (block.source === 'solutions') {
     const ids = (block.solutionsFields?.cards ?? []).map((card) =>

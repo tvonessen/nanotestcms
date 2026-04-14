@@ -1954,10 +1954,15 @@ export interface Highlight {
         link?: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
-          reference?: {
-            relationTo: 'solutions';
-            value: string | Solution;
-          } | null;
+          reference?:
+            | ({
+                relationTo: 'solutions';
+                value: string | Solution;
+              } | null)
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null);
           url?: string | null;
           label: string;
           appearance?: ('solid' | 'flat') | null;
@@ -1968,6 +1973,37 @@ export interface Highlight {
   id?: string | null;
   blockName?: string | null;
   blockType: 'highlight';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: string;
+  title: string;
+  slug: string;
+  parent?: (string | null) | Page;
+  url?: string | null;
+  childPages?: {
+    docs?: (string | Page)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  content?: (Hero | Text | TextImage | TextVideo | Cards | Highlight | Features | ContactForm | Downloads)[] | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Hero".
+ */
+export interface Hero {
+  images: (string | Media)[];
+  showCaption?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2000,24 +2036,93 @@ export interface TextVideo {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Downloads".
+ * via the `definition` "Cards".
  */
-export interface Downloads {
-  docs: (string | Document)[];
+export interface Cards {
+  /**
+   * Pick the source for the cards. 'Solutions' lets you pick individual solutions. 'Solution category' displays all solutions in a category. 'Manual' lets you define each card's title, image, and link yourself.
+   */
+  source?: ('solutions' | 'category' | 'manual') | null;
+  solutionsFields?: {
+    title: string;
+    paragraph?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    cards: (string | Solution)[];
+  };
+  categoryFields?: {
+    category: string | SolutionCategory;
+    types: ('product' | 'service' | 'other')[];
+    count?: string | null;
+  };
+  manualFields?: {
+    title: string;
+    paragraph?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    cards: {
+      title: string;
+      description?: {
+        root: {
+          type: string;
+          children: {
+            type: any;
+            version: number;
+            [k: string]: unknown;
+          }[];
+          direction: ('ltr' | 'rtl') | null;
+          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+          indent: number;
+          version: number;
+        };
+        [k: string]: unknown;
+      } | null;
+      image: string | Media;
+      link: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        reference?:
+          | ({
+              relationTo: 'solutions';
+              value: string | Solution;
+            } | null)
+          | ({
+              relationTo: 'pages';
+              value: string | Page;
+            } | null);
+        url?: string | null;
+        label: string;
+      };
+      id?: string | null;
+    }[];
+  };
   id?: string | null;
   blockName?: string | null;
-  blockType: 'downloads';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContactForm".
- */
-export interface ContactForm {
-  to: string;
-  subject?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'contact-form';
+  blockType: 'cards';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3570,6 +3675,27 @@ export interface Features {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactForm".
+ */
+export interface ContactForm {
+  to: string;
+  subject?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contact-form';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Downloads".
+ */
+export interface Downloads {
+  docs: (string | Document)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'downloads';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-member".
  */
 export interface TeamMember {
@@ -3630,74 +3756,6 @@ export interface DistroPartner {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
- */
-export interface Page {
-  id: string;
-  title: string;
-  slug: string;
-  parent?: (string | null) | Page;
-  url?: string | null;
-  childPages?: {
-    docs?: (string | Page)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  content?: (Hero | Text | TextImage | TextVideo | Cards | Highlight | Features | ContactForm | Downloads)[] | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Hero".
- */
-export interface Hero {
-  images: (string | Media)[];
-  showCaption?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'hero';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Cards".
- */
-export interface Cards {
-  /**
-   * Pick the source for the cards. If you pick 'Solutions', you can select individual solutions to display. If you pick 'Solution category', you can select a solution category, and all solutions in that category will be displayed.
-   */
-  source?: ('solutions' | 'category') | null;
-  solutionsFields?: {
-    title: string;
-    paragraph?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    cards: (string | Solution)[];
-  };
-  categoryFields?: {
-    category: string | SolutionCategory;
-    types: ('product' | 'service' | 'other')[];
-    count?: string | null;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'cards';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4252,6 +4310,29 @@ export interface CardsSelect<T extends boolean = true> {
         types?: T;
         count?: T;
       };
+  manualFields?:
+    | T
+    | {
+        title?: T;
+        paragraph?: T;
+        cards?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              image?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
   id?: T;
   blockName?: T;
 }
@@ -4340,10 +4421,15 @@ export interface Homepage {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
-          reference?: {
-            relationTo: 'solutions';
-            value: string | Solution;
-          } | null;
+          reference?:
+            | ({
+                relationTo: 'solutions';
+                value: string | Solution;
+              } | null)
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null);
           url?: string | null;
           label: string;
           appearance?: ('flat' | 'light' | 'solid' | 'bordered' | 'faded' | 'shadow' | 'ghost') | null;

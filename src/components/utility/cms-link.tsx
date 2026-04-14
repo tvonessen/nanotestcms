@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import type { Solution } from '@/payload-types';
+import type { Page, Solution } from '@/payload-types';
 
 /** Shape of the populated link group field produced by `linkField()`. */
 export type CMSLinkData = {
   type?: 'reference' | 'custom' | null;
-  reference?: {
-    relationTo: 'solutions';
-    value: string | Solution;
-  } | null;
+  reference?:
+    | { relationTo: 'solutions'; value: string | Solution }
+    | { relationTo: 'pages'; value: string | Page }
+    | null;
   url?: string | null;
   newTab?: boolean | null;
   label?: string | null;
@@ -26,15 +26,20 @@ interface CMSLinkProps {
 /**
  * Resolves a `CMSLinkData` object to a plain href string.
  *
- * - `type === 'reference'`: constructs `/{lang}/nt/{slug}` from the
- *   populated Solution document.
+ * - `type === 'reference'` + `solutions`: constructs `/{lang}/nt/{slug}`
+ * - `type === 'reference'` + `pages`: constructs `/{lang}{page.url}`
  * - `type === 'custom'` (or fallback): returns `data.url` or `'#'`.
  */
 export function resolveCMSLinkHref(data: CMSLinkData, lang: string): string {
   if (data.type === 'reference' && data.reference?.value) {
     const ref = data.reference.value;
     if (typeof ref !== 'string') {
-      return `/${lang}/nt/${(ref as Solution).slug}`;
+      if (data.reference.relationTo === 'solutions') {
+        return `/${lang}/nt/${(ref as Solution).slug}`;
+      }
+      if (data.reference.relationTo === 'pages') {
+        return `/${lang}${(ref as Page).url}`;
+      }
     }
   }
   return data.url ?? '#';

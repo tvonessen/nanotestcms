@@ -6,7 +6,8 @@ import { ArrowSquareInIcon } from '@phosphor-icons/react/ssr';
 import Image from 'next/image';
 import Link from 'next/link';
 import RichTextWrapper from '@/components/content/richtext-wrapper';
-import type { Media, Solution } from '@/payload-types';
+import { type CMSLinkData, resolveCMSLinkHref } from '@/components/utility/cms-link';
+import type { Cards, Media, Solution } from '@/payload-types';
 
 interface CardProps {
   lang: string;
@@ -97,6 +98,96 @@ export function Card({ lang, solution, className }: CardProps) {
       </CardBody>
       <Image
         alt={solution.title}
+        className={cn(
+          'min-h-full min-w-full object-cover scale-103',
+          'group-hover:opacity-20 transition-all duration-400 group-hover:blur-xs',
+          'group-focus-within:opacity-30 transition-all group-focus-within:blur-xs',
+        )}
+        height={height as number}
+        src={src as string}
+        width={width as number}
+        placeholder={cardImage.blurDataUrl ? 'blur' : 'empty'}
+        blurDataURL={cardImage.blurDataUrl as string}
+      />
+    </HeroUICard>
+  );
+}
+
+type ManualCardData = NonNullable<NonNullable<Cards['manualFields']>['cards']>[number];
+
+interface ManualCardProps {
+  lang: string;
+  card: ManualCardData;
+  className?: string;
+}
+
+export function ManualCard({ lang, card, className }: ManualCardProps) {
+  if (!card.image || typeof card.image === 'string') return null;
+
+  const cardImage = card.image as Media;
+  const src = cardImage.sizes?.small?.url ?? cardImage.url;
+  const height = cardImage.sizes?.small?.height ?? cardImage.height;
+  const width = cardImage.sizes?.small?.width ?? cardImage.width;
+  const href = resolveCMSLinkHref(card.link as CMSLinkData, lang);
+  const newTabProps = card.link.newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+
+  return (
+    <HeroUICard
+      className={cn(
+        'group w-[320px] aspect-3/4',
+        'shadow-none hover:z-20 focus-visible:z-20 bg-foreground',
+        className,
+      )}
+    >
+      <CardHeader
+        className={cn(
+          'absolute h-full p-0 z-10 flex flex-col text-right justify-end items-end opacity-100',
+          'group-hover:opacity-0 group-focus-within:opacity-0 transition-opacity duration-400',
+        )}
+      >
+        <h2
+          className={cn(
+            'relative bottom-0 w-full right-0 pb-4 pt-20 px-6 origin-right text-4xl font-semibold',
+            'bg-linear-to-t from-background/75 to-transparent',
+          )}
+        >
+          {card.title}
+        </h2>
+      </CardHeader>
+      <CardBody
+        className={cn(
+          'absolute h-full z-10 top-1 flex flex-col items-start justify-between',
+          'opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-400',
+        )}
+      >
+        <div className="max-h-[calc(100%-4.25rem)] w-full px-1 overflow-y-auto rounded-md scrollbar-hide">
+          <h2 className="origin-left text-3xl text-background font-semibold">{card.title}</h2>
+          {card.description && (
+            <div className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+              <RichTextWrapper text={card.description} lang={lang} className="text-background" />
+            </div>
+          )}
+        </div>
+
+        <Link
+          aria-label={`Learn more about ${card.title}`}
+          href={href}
+          className="relative bottom-0 left-0 w-full"
+          {...newTabProps}
+        >
+          <Button
+            color="primary"
+            variant="solid"
+            radius="md"
+            size="lg"
+            className="w-full mb-1 focus-visible:outline-focus font-semibold"
+          >
+            {card.link.label ?? card.title} <ArrowSquareInIcon size={24} />
+          </Button>
+        </Link>
+      </CardBody>
+      <Image
+        alt={card.title}
         className={cn(
           'min-h-full min-w-full object-cover scale-103',
           'group-hover:opacity-20 transition-all duration-400 group-hover:blur-xs',

@@ -1,4 +1,5 @@
 import type { Block } from 'payload';
+import { linkField } from '@/fields/linkField';
 import { solutionTypeField } from '@/fields/solutionTypeField';
 
 export const Cards: Block = {
@@ -15,13 +16,14 @@ export const Cards: Block = {
       type: 'select',
       admin: {
         description: {
-          en: "Pick the source for the cards. If you pick 'Solutions', you can select individual solutions to display. If you pick 'Solution category', you can select a solution category, and all solutions in that category will be displayed.",
-          de: "Wählen Sie die Quelle für die Karten aus. Wenn Sie 'Solutions' auswählen, können Sie einzelne Lösungen auswählen, die angezeigt werden sollen. Wenn Sie 'Solution category' auswählen, können Sie eine Lösungskategorie auswählen, und alle Lösungen in dieser Kategorie werden angezeigt.",
+          en: "Pick the source for the cards. 'Solutions' lets you pick individual solutions. 'Solution category' displays all solutions in a category. 'Manual' lets you define each card's title, image, and link yourself.",
+          de: "Wählen Sie die Quelle für die Karten aus. 'Solutions' erlaubt die Auswahl einzelner Lösungen. 'Solution category' zeigt alle Lösungen einer Kategorie. 'Manuell' ermöglicht es, Titel, Bild und Link jeder Karte selbst zu definieren.",
         },
       },
       options: [
         { value: 'solutions', label: 'Solutions' },
         { value: 'category', label: 'Solution category' },
+        { value: 'manual', label: 'Manual cards' },
       ],
     },
     {
@@ -96,6 +98,36 @@ export const Cards: Block = {
               },
             ],
           },
+        },
+      ],
+    },
+    {
+      name: 'manualFields',
+      label: false,
+      type: 'group',
+      admin: { condition: (_data, siblingData) => siblingData.source === 'manual' },
+      fields: [
+        { name: 'title', label: 'Title', type: 'text', required: true, localized: true },
+        { name: 'paragraph', label: 'Paragraph', type: 'richText', localized: true },
+        {
+          name: 'cards',
+          label: 'Cards',
+          type: 'array',
+          required: true,
+          minRows: 1,
+          fields: [
+            { name: 'title', label: 'Title', type: 'text', required: true, localized: true },
+            { name: 'description', label: 'Description', type: 'richText', localized: true },
+            {
+              name: 'image',
+              label: 'Background image',
+              type: 'upload',
+              relationTo: 'media' as never,
+              required: true,
+              displayPreview: true,
+            },
+            linkField({ appearances: false }),
+          ],
         },
       ],
     },

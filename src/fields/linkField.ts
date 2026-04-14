@@ -70,7 +70,7 @@ export const linkField = ({
         name: 'reference',
         type: 'relationship',
         label: 'Document to link to',
-        relationTo: ['solutions'],
+        relationTo: ['solutions', 'pages'],
         maxDepth: 1,
         required: true,
         admin: {

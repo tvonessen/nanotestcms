@@ -44,7 +44,6 @@ export const Pages: CollectionConfig = {
     drafts: {
       autosave: true,
       schedulePublish: true,
-      validate: true,
     },
   },
   admin: {
