@@ -117,6 +117,7 @@ export const Cards: Block = {
           minRows: 1,
           fields: [
             { name: 'title', label: 'Title', type: 'text', required: true, localized: true },
+            { name: 'subtitle', label: 'Untertitel', type: 'text', localized: true },
             { name: 'description', label: 'Description', type: 'richText', localized: true },
             {
               name: 'image',

@@ -28,7 +28,7 @@ export function Card({ lang, solution, className }: CardProps) {
     <HeroUICard
       className={cn(
         'group w-[320px] aspect-3/4',
-        'shadow-none hover:z-20 focus-visible:z-20 bg-foreground',
+        'shadow-none hover:z-20 focus-visible:z-20',
         className,
       )}
     >
@@ -40,8 +40,8 @@ export function Card({ lang, solution, className }: CardProps) {
       >
         <h2
           className={cn(
-            'relative bottom-0 w-full right-0 pb-4 pt-20 px-6 origin-right text-4xl font-semibold',
-            'bg-linear-to-t from-background/75 to-transparent',
+            'relative bottom-0 w-full right-0 pb-4 pt-30 px-6 origin-right text-4xl font-semibold',
+            'bg-linear-to-t from-15% from-background/90 to-transparent',
           )}
         >
           {solution.title}
@@ -49,8 +49,9 @@ export function Card({ lang, solution, className }: CardProps) {
       </CardHeader>
       <CardBody
         className={cn(
-          'absolute h-full z-10 top-1 flex flex-col items-start justify-between',
+          'absolute h-full z-10 top-0 flex flex-col items-start justify-between',
           'opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-400',
+          'bg-foreground/75 backdrop-blur-xs',
         )}
       >
         <div className="max-h-[calc(100%-4.25rem)] w-full px-1 overflow-y-auto rounded-md scrollbar-hide">
@@ -98,11 +99,7 @@ export function Card({ lang, solution, className }: CardProps) {
       </CardBody>
       <Image
         alt={solution.title}
-        className={cn(
-          'min-h-full min-w-full object-cover scale-103',
-          'group-hover:opacity-20 transition-all duration-400 group-hover:blur-xs',
-          'group-focus-within:opacity-30 transition-all group-focus-within:blur-xs',
-        )}
+        className="min-h-full min-w-full object-cover scale-103"
         height={height as number}
         src={src as string}
         width={width as number}
@@ -135,7 +132,7 @@ export function ManualCard({ lang, card, className }: ManualCardProps) {
     <HeroUICard
       className={cn(
         'group w-[320px] aspect-3/4',
-        'shadow-none hover:z-20 focus-visible:z-20 bg-foreground',
+        'shadow-none hover:z-20 focus-visible:z-20',
         className,
       )}
     >
@@ -156,14 +153,20 @@ export function ManualCard({ lang, card, className }: ManualCardProps) {
       </CardHeader>
       <CardBody
         className={cn(
-          'absolute h-full z-10 top-1 flex flex-col items-start justify-between',
+          'absolute h-full z-10 top-0 flex flex-col items-start justify-between',
           'opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-400',
+          'bg-foreground/75 backdrop-blur-xs',
         )}
       >
         <div className="max-h-[calc(100%-4.25rem)] w-full px-1 overflow-y-auto rounded-md scrollbar-hide">
           <h2 className="origin-left text-3xl text-background font-semibold">{card.title}</h2>
           {card.description && (
             <div className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+              {card.subtitle && (
+                <p className="text-sm block my-1 text-primary-300 dark:text-primary-700">
+                  {card.subtitle}
+                </p>
+              )}
               <RichTextWrapper text={card.description} lang={lang} className="text-background" />
             </div>
           )}
@@ -188,11 +191,7 @@ export function ManualCard({ lang, card, className }: ManualCardProps) {
       </CardBody>
       <Image
         alt={card.title}
-        className={cn(
-          'min-h-full min-w-full object-cover scale-103',
-          'group-hover:opacity-20 transition-all duration-400 group-hover:blur-xs',
-          'group-focus-within:opacity-30 transition-all group-focus-within:blur-xs',
-        )}
+        className="min-h-full min-w-full object-cover scale-103"
         height={height as number}
         src={src as string}
         width={width as number}

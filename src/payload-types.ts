@@ -2086,6 +2086,7 @@ export interface Cards {
     } | null;
     cards: {
       title: string;
+      subtitle?: string | null;
       description?: {
         root: {
           type: string;
@@ -4319,6 +4320,7 @@ export interface CardsSelect<T extends boolean = true> {
           | T
           | {
               title?: T;
+              subtitle?: T;
               description?: T;
               image?: T;
               link?:
