@@ -2039,88 +2039,65 @@ export interface TextVideo {
  * via the `definition` "Cards".
  */
 export interface Cards {
-  /**
-   * Pick the source for the cards. 'Solutions' lets you pick individual solutions. 'Solution category' displays all solutions in a category. 'Manual' lets you define each card's title, image, and link yourself.
-   */
-  source?: ('solutions' | 'category' | 'manual') | null;
-  solutionsFields?: {
-    title: string;
-    paragraph?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
+  useCategoryTitle?: boolean | null;
+  title?: string | null;
+  titleCategory?: (string | null) | SolutionCategory;
+  paragraph?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
         version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    cards: (string | Solution)[];
-  };
-  categoryFields?: {
-    category: string | SolutionCategory;
-    types: ('product' | 'service' | 'other')[];
-    count?: string | null;
-  };
-  manualFields?: {
-    title: string;
-    paragraph?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    cards: {
-      title: string;
-      subtitle?: string | null;
-      description?: {
-        root: {
-          type: string;
-          children: {
-            type: any;
-            version: number;
-            [k: string]: unknown;
-          }[];
-          direction: ('ltr' | 'rtl') | null;
-          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-          indent: number;
-          version: number;
-        };
         [k: string]: unknown;
-      } | null;
-      image: string | Media;
-      link: {
-        type?: ('reference' | 'custom') | null;
-        newTab?: boolean | null;
-        reference?:
-          | ({
-              relationTo: 'solutions';
-              value: string | Solution;
-            } | null)
-          | ({
-              relationTo: 'pages';
-              value: string | Page;
-            } | null);
-        url?: string | null;
-        label: string;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  cards: {
+    /**
+     * Pick 'Solution' to link an existing solution, or 'Manual' to define the card content yourself.
+     */
+    source: 'solution' | 'manual';
+    solution?: (string | null) | Solution;
+    title?: string | null;
+    subtitle?: string | null;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
       };
-      id?: string | null;
-    }[];
-  };
+      [k: string]: unknown;
+    } | null;
+    image?: (string | null) | Media;
+    link?: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'solutions';
+            value: string | Solution;
+          } | null)
+        | ({
+            relationTo: 'pages';
+            value: string | Page;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+    id?: string | null;
+  }[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'cards';
@@ -4296,44 +4273,29 @@ export interface HeroSelect<T extends boolean = true> {
  * via the `definition` "Cards_select".
  */
 export interface CardsSelect<T extends boolean = true> {
-  source?: T;
-  solutionsFields?:
+  useCategoryTitle?: T;
+  title?: T;
+  titleCategory?: T;
+  paragraph?: T;
+  cards?:
     | T
     | {
+        source?: T;
+        solution?: T;
         title?: T;
-        paragraph?: T;
-        cards?: T;
-      };
-  categoryFields?:
-    | T
-    | {
-        category?: T;
-        types?: T;
-        count?: T;
-      };
-  manualFields?:
-    | T
-    | {
-        title?: T;
-        paragraph?: T;
-        cards?:
+        subtitle?: T;
+        description?: T;
+        image?: T;
+        link?:
           | T
           | {
-              title?: T;
-              subtitle?: T;
-              description?: T;
-              image?: T;
-              link?:
-                | T
-                | {
-                    type?: T;
-                    newTab?: T;
-                    reference?: T;
-                    url?: T;
-                    label?: T;
-                  };
-              id?: T;
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
             };
+        id?: T;
       };
   id?: T;
   blockName?: T;

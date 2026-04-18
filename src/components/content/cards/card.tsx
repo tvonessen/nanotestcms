@@ -110,7 +110,7 @@ export function Card({ lang, solution, className }: CardProps) {
   );
 }
 
-type ManualCardData = NonNullable<NonNullable<Cards['manualFields']>['cards']>[number];
+type ManualCardData = NonNullable<Cards['cards']>[number];
 
 interface ManualCardProps {
   lang: string;
@@ -126,7 +126,7 @@ export function ManualCard({ lang, card, className }: ManualCardProps) {
   const height = cardImage.sizes?.small?.height ?? cardImage.height;
   const width = cardImage.sizes?.small?.width ?? cardImage.width;
   const href = resolveCMSLinkHref(card.link as CMSLinkData, lang);
-  const newTabProps = card.link.newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+  const newTabProps = card.link?.newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {};
 
   return (
     <HeroUICard
@@ -185,12 +185,12 @@ export function ManualCard({ lang, card, className }: ManualCardProps) {
             size="lg"
             className="w-full mb-1 focus-visible:outline-focus font-semibold"
           >
-            {card.link.label ?? card.title} <ArrowSquareInIcon size={24} />
+            {card.link?.label ?? card.title} <ArrowSquareInIcon size={24} />
           </Button>
         </Link>
       </CardBody>
       <Image
-        alt={card.title}
+        alt={card.title as string}
         className="min-h-full min-w-full object-cover scale-103"
         height={height as number}
         src={src as string}

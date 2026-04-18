@@ -60,43 +60,16 @@ async function getNavItems(lang: Config['locale']): Promise<NavItem[]> {
     for (const block of page.content ?? []) {
       if (block.blockType !== 'cards') continue;
 
-      if (block.source === 'solutions' && block.solutionsFields?.cards) {
-        for (const card of block.solutionsFields.cards) {
-          const id = typeof card === 'string' ? card : card.id;
-          const sol = solutionMap.get(id);
-          if (sol?.slug && !seenIds.has(id)) {
-            seenIds.add(id);
-            solutions.push({
-              label: { [lang]: sol.title } as Record<Config['locale'], string>,
-              href: `/nt/${sol.slug}`,
-            });
-          }
-        }
-      }
-
-      if (block.source === 'category' && block.categoryFields) {
-        const catId =
-          typeof block.categoryFields.category === 'string'
-            ? block.categoryFields.category
-            : block.categoryFields.category?.id;
-        const types = block.categoryFields.types ?? [];
-
-        if (catId) {
-          for (const [solId, sol] of solutionMap) {
-            if (!sol.slug || seenIds.has(solId)) continue;
-            const matchesCat = sol.category?.some((c) => {
-              const cid = typeof c.value === 'string' ? c.value : c.value?.id;
-              return cid === catId;
-            });
-            const matchesType = sol.type?.some((t) => types.includes(t));
-            if (matchesCat && matchesType) {
-              seenIds.add(solId);
-              solutions.push({
-                label: { [lang]: sol.title } as Record<Config['locale'], string>,
-                href: `/nt/${sol.slug}`,
-              });
-            }
-          }
+      for (const card of block.cards ?? []) {
+        if (card.source !== 'solution' || !card.solution) continue;
+        const id = typeof card.solution === 'string' ? card.solution : card.solution.id;
+        const sol = solutionMap.get(id);
+        if (sol?.slug && !seenIds.has(id)) {
+          seenIds.add(id);
+          solutions.push({
+            label: { [lang]: sol.title } as Record<Config['locale'], string>,
+            href: `/nt/${sol.slug}`,
+          });
         }
       }
     }
