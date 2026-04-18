@@ -36,7 +36,7 @@ async function Footer(props: FooterProps) {
           <div className="relative ps-3 before:absolute before:left-0 before:top-0 before:w-1 before:h-full before:bg-primary before:rounded text-lg">
             <h3 className="font-semibold text-nowrap">Berliner Nanotest und Design GmbH</h3>
             <p className="text-sm opacity-80">
-              Volmerstr. 9 B <span className="text-primary">|</span> D-12489 Berlin{' '}
+              Gerhardt-Sedlmayr-Str. 11 <span className="text-primary">|</span> D-12487 Berlin{' '}
               <span className="text-primary">|</span> Germany
             </p>
             <p className="mt-10 flex gap-2">
