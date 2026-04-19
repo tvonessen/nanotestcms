@@ -1,3 +1,4 @@
+import type { GlobalConfig } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { Cards } from '@/blocks/CardsBlock';
@@ -6,7 +7,6 @@ import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
 import { revalidateHook } from '@/utils/revalidate';
-import {GlobalConfig} from "payload";
 
 export const AboutContent: GlobalConfig = {
   slug: 'about',
@@ -58,7 +58,7 @@ export const AboutContent: GlobalConfig = {
     afterChange: [
       async ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook('/about', req.locale);
+        await revalidateHook('/about', req.locale);
       },
     ],
   },

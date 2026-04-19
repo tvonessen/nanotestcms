@@ -49,10 +49,10 @@ export const LegalContent: GlobalConfig = {
   ],
   hooks: {
     afterChange: [
-      ({ doc, req }) => {
+      async ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook('/about/imprint', req.locale);
-        revalidateHook('/about/privacy', req.locale);
+        await revalidateHook('/about/imprint', req.locale);
+        await revalidateHook('/about/privacy', req.locale);
       },
     ],
   },

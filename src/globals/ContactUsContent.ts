@@ -73,9 +73,9 @@ export const ContactUsContent: GlobalConfig = {
   ],
   hooks: {
     afterChange: [
-      ({ doc, req }) => {
+      async ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook('/contact', req.locale);
+        await revalidateHook('/contact', req.locale);
       },
     ],
   },

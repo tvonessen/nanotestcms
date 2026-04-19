@@ -94,9 +94,9 @@ export const DistroPartners: CollectionConfig = {
   ],
   hooks: {
     afterChange: [
-      async ({ doc }) => {
+      async ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook('/contact');
+        await revalidateHook('/contact', req.locale);
       },
     ],
   },

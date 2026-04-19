@@ -166,10 +166,10 @@ const Solutions: CollectionConfig = {
   ],
   hooks: {
     afterChange: [
-      ({ doc, req }) => {
+      async ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook(`/nt/${doc.slug}`, req.locale);
-        revalidateHook('/nt', req.locale);
+        await revalidateHook(`/nt/${doc.slug}`, req.locale);
+        await revalidateHook('/', req.locale);
       },
     ],
   },

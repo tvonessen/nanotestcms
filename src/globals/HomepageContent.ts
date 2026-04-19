@@ -75,9 +75,9 @@ export const HomepageContent: GlobalConfig = {
   ],
   hooks: {
     afterChange: [
-      ({ doc, req }) => {
+      async ({ doc, req }) => {
         if (doc._status === 'draft') return;
-        revalidateHook('/', req.locale);
+        await revalidateHook('/', req.locale);
       },
     ],
   },

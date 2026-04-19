@@ -61,28 +61,32 @@ export const Pages: CollectionConfig = {
     ],
     afterChange: [
       async ({ doc, req }) => {
-        // Cascade: update children's url when this page changes
-        const children = await req.payload.find({
-          collection: 'pages',
-          where: { parent: { equals: doc.id } },
-          depth: 0,
-          pagination: false,
-        });
+        // Cascade: update children's url when this page is published.
+        // Skip while in draft to avoid published children revalidating with
+        // a URL derived from a not-yet-live parent slug.
+        if (doc._status !== 'draft') {
+          const children = await req.payload.find({
+            collection: 'pages',
+            where: { parent: { equals: doc.id } },
+            depth: 0,
+            pagination: false,
+          });
 
-        for (const child of children.docs) {
-          const newURL = `${doc.url}/${child.slug}`;
-          if (child.url !== newURL) {
-            await req.payload.update({
-              collection: 'pages',
-              id: child.id,
-              data: { url: newURL },
-              depth: 0,
-            });
+          for (const child of children.docs) {
+            const newURL = `${doc.url}/${child.slug}`;
+            if (child.url !== newURL) {
+              await req.payload.update({
+                collection: 'pages',
+                id: child.id,
+                data: { url: newURL },
+                depth: 0,
+              });
+            }
           }
         }
 
         if (doc._status !== 'draft' && doc.url) {
-          revalidateHook(doc.url, req.locale);
+          await revalidateHook(doc.url, req.locale);
         }
       },
     ],

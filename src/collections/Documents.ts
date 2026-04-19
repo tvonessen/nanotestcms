@@ -1,5 +1,6 @@
-import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import type { CollectionConfig } from 'payload';
+import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
+import { revalidateHook } from '@/utils/revalidate';
 
 export const DOCUMENTS_DIR = './data/documents';
 
@@ -68,4 +69,36 @@ export const Documents: CollectionConfig = {
       localized: true,
     },
   ],
+  hooks: {
+    afterChange: [
+      // Revalidate all solution and custom-page routes that may embed a
+      // DownloadsBlock referencing this document. Documents have no draft
+      // support, so every save is immediately live.
+      async ({ req }) => {
+        const payload = req.payload;
+
+        const solutions = await payload.find({
+          collection: 'solutions',
+          pagination: false,
+          depth: 0,
+          locale: 'en',
+        });
+        for (const solution of solutions.docs) {
+          await revalidateHook(`/nt/${solution.slug}`);
+        }
+
+        const pages = await payload.find({
+          collection: 'pages',
+          pagination: false,
+          depth: 0,
+          where: { _status: { equals: 'published' } },
+        });
+        for (const page of pages.docs) {
+          if (page.url) {
+            await revalidateHook(page.url);
+          }
+        }
+      },
+    ],
+  },
 };
