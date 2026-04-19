@@ -2,7 +2,7 @@
 
 import { Button, cn, Popover, PopoverContent, PopoverTrigger } from '@heroui/react';
 import { CaretDownIcon } from '@phosphor-icons/react';
-import { useParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { NavLink } from '@/components/navigation/navlink';
 import type { NavItem } from '@/config/siteconfig';
@@ -49,6 +49,7 @@ export function MobileNavDropdown({ item, lang, pathname, onClose }: MobileNavDr
       <div className="flex items-center w-full">
         <NavLink
           link={item}
+          lang={lang}
           onClick={close}
           fullWidth
           className="me-0.5 rounded-e-none ps-18"
@@ -110,11 +111,11 @@ export function MobileNavDropdown({ item, lang, pathname, onClose }: MobileNavDr
 
 interface NavDropdownProps {
   item: NavItem;
+  lang: Config['locale'];
 }
 
-export function NavDropdown({ item }: NavDropdownProps) {
+export function NavDropdown({ item, lang }: NavDropdownProps) {
   const pathname = usePathname();
-  const { lang } = useParams() as { lang: Config['locale'] };
   const [isOpen, setIsOpen] = useState(false);
 
   const isActive = isNavItemActive(item, pathname, lang);
@@ -127,6 +128,7 @@ export function NavDropdown({ item }: NavDropdownProps) {
     <div className="flex items-center">
       <NavLink
         link={item}
+        lang={lang}
         onClick={close}
         className="me-px rounded-e-none pe-2"
         isActive={isActive}

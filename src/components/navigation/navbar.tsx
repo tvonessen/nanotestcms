@@ -10,7 +10,7 @@ import {
 } from '@heroui/react';
 import { ListIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
-import { useParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { LanguageSwitch } from '@/components/language-switch/language-switch';
 import type { NavItem } from '@/config/siteconfig';
@@ -22,11 +22,11 @@ import { NavLink } from './navlink';
 
 interface NavbarProps {
   navItems: NavItem[];
+  lang: Config['locale'];
 }
 
-export const Navbar = ({ navItems }: NavbarProps) => {
+export const Navbar = ({ navItems, lang }: NavbarProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { lang } = useParams() as { lang: Config['locale'] };
   const pathname = usePathname();
 
   useEffect(() => {
@@ -61,9 +61,9 @@ export const Navbar = ({ navItems }: NavbarProps) => {
         <div className="hidden lg:flex gap-2">
           {navItems.map((item) =>
             item.children?.length || item.solutions?.length ? (
-              <NavDropdown key={item.href} item={item} />
+              <NavDropdown key={item.href} item={item} lang={lang} />
             ) : (
-              <NavLink key={item.href} link={item} />
+              <NavLink key={item.href} link={item} lang={lang} />
             ),
           )}
         </div>
@@ -95,7 +95,7 @@ export const Navbar = ({ navItems }: NavbarProps) => {
               </NavbarMenuItem>
             ) : (
               <NavbarMenuItem key={item.href} as="div" className="w-full">
-                <NavLink link={item} onClick={closeMenu} fullWidth />
+                <NavLink link={item} onClick={closeMenu} fullWidth lang={lang} />
               </NavbarMenuItem>
             ),
           )}

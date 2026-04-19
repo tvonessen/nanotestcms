@@ -27,19 +27,18 @@ export function SolutionLinks({
         const solHref = `/${lang}${sol.href}`;
         const isActive = pathname === solHref || pathname.startsWith(`${solHref}/`);
         return (
-          <Button
-            key={sol.href}
-            href={`/${lang}${sol.href}`}
-            onNavigate={onNavigate}
-            as={Link}
-            size="md"
-            radius="md"
-            variant="solid"
-            color={isActive ? 'primary' : 'default'}
-            className={cn('cursor-pointer', !isActive && 'hover:bg-primary/50')}
-          >
-            {sol.label[lang]}
-          </Button>
+          <Link key={sol.href} href={`/${lang}${sol.href}`}>
+            <Button
+              onPress={onNavigate}
+              size="md"
+              radius="md"
+              variant="solid"
+              color={isActive ? 'primary' : 'default'}
+              className={cn('cursor-pointer', !isActive && 'hover:bg-primary/50')}
+            >
+              {sol.label[lang]}
+            </Button>
+          </Link>
         );
       })}
     </div>

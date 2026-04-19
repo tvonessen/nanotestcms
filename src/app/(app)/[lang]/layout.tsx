@@ -126,10 +126,10 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
         <title>{siteConfig.title}</title>
       </head>
       <body className={cn('min-h-screen bg-background font-sans antialiased ', fontSans.className)}>
-        <Providers>
+        <Providers lang={lang}>
           <AdminBar preview={isDraft} />
           <RefreshRouteOnSave />
-          <Navbar navItems={navItems} />
+          <Navbar navItems={navItems} lang={lang as Config['locale']} />
           <div className="min-h-[calc(100dvh-10rem)] w-full overflow-x-hidden">
             <Suspense fallback={<Loading />}>{children}</Suspense>
           </div>
