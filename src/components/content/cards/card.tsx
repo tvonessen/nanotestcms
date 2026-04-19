@@ -41,7 +41,7 @@ export function Card({ lang, solution, className }: CardProps) {
         <h2
           className={cn(
             'relative bottom-0 w-full right-0 pb-4 pt-30 px-6 origin-right text-4xl font-semibold',
-            'bg-linear-to-t from-15% from-background/90 to-transparent',
+            'bg-linear-to-t from-15% from-background/85 to-transparent',
           )}
         >
           {solution.title}
@@ -144,8 +144,8 @@ export function ManualCard({ lang, card, className }: ManualCardProps) {
       >
         <h2
           className={cn(
-            'relative bottom-0 w-full right-0 pb-4 pt-20 px-6 origin-right text-4xl font-semibold',
-            'bg-linear-to-t from-background/75 to-transparent',
+            'relative bottom-0 w-full right-0 pb-4 pt-30 px-6 origin-right text-4xl font-semibold',
+            'bg-linear-to-t from-15% from-background/85 to-transition',
           )}
         >
           {card.title}
