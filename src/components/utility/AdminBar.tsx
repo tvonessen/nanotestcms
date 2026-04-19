@@ -16,7 +16,7 @@ type AdminBarProps = {
 
 export function AdminBar({ preview: initialPreview }: AdminBarProps) {
   const router = useRouter();
-  const [preview, setPreview] = useState(initialPreview);
+  const [preview, setPreview] = useState(initialPreview ?? false);
   const [user, setUser] = useState<PayloadMeUser>(null);
 
   async function logout() {

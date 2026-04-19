@@ -49,6 +49,10 @@ export const Pages: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'url'],
+    livePreview: {
+      url: ({ data }) =>
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/draft?redirect=${data.url || '/'}`,
+    },
   },
   hooks: {
     beforeChange: [

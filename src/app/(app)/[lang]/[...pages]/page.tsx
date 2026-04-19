@@ -4,6 +4,7 @@ import { getPayload } from 'payload';
 import { Content } from '@/components/content/content';
 import { locales } from '@/config/locales';
 import type { Config, Page as PageType } from '@/payload-types';
+import { buildMetadata } from '@/utils/generateMeta';
 import { isPreviewEnabled } from '@/utils/preview';
 
 export async function generateStaticParams() {
@@ -36,6 +37,21 @@ interface PagesRouteProps {
     lang: Config['locale'];
     pages: string[];
   }>;
+}
+
+export async function generateMetadata({ params }: PagesRouteProps) {
+  const { lang, pages: segments } = await params;
+  const requestedPath = `/${segments.join('/')}`;
+  const payload = await getPayload({ config });
+  const result = await payload.find({
+    collection: 'pages',
+    locale: lang,
+    where: { url: { equals: requestedPath }, _status: { equals: 'published' } },
+    depth: 1,
+    limit: 1,
+  });
+  const page = result.docs[0];
+  return buildMetadata(page?.meta, { title: page?.title }, lang);
 }
 
 export default async function PagesRoute({ params }: PagesRouteProps) {

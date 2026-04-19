@@ -71,19 +71,6 @@ const Solutions: CollectionConfig = {
       localized: true,
     },
     {
-      name: 'shortDescription',
-      label: 'Short Description',
-      type: 'textarea',
-      localized: true,
-      admin: {
-        placeholder: 'A (very) brief description of the solution',
-        description: '[DEPRECATED] Use Abstract richtText below instead',
-        rows: 2,
-      },
-      required: true,
-      maxLength: 120,
-    },
-    {
       name: 'abstract',
       label: 'Abstract (Short description)',
       type: 'richText',
@@ -131,32 +118,11 @@ const Solutions: CollectionConfig = {
               },
             },
             {
-              name: 'abstract',
-              label: 'Abstract',
-              type: 'textarea',
-              localized: true,
-              required: true,
-              admin: {
-                placeholder: 'A catchy abstract text',
-                description: "Deprecated! Use Aside of content block 'Text'",
-              },
-            },
-            {
               name: 'content',
               label: 'Content',
               type: 'blocks',
               minRows: 1,
               blocks: [Text, TextImage, Highlight, TextVideo, Downloads, ContactForm, Features],
-            },
-          ],
-        },
-        {
-          name: 'seo',
-          label: 'SEO',
-          fields: [
-            {
-              name: 'keywords',
-              type: 'text',
             },
           ],
         },

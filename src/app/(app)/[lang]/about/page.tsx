@@ -5,6 +5,7 @@ import { Content } from '@/components/content/content';
 import TeamMembersGallery from '@/components/content/team-members-gallery/team-members-gallery';
 import { locales } from '@/config/locales';
 import type { Config, TeamMember } from '@/payload-types';
+import { buildMetadata } from '@/utils/generateMeta';
 import { isPreviewEnabled } from '@/utils/preview';
 
 export function generateStaticParams() {
@@ -13,6 +14,13 @@ export function generateStaticParams() {
 
 interface AboutPageProps {
   params: Promise<{ lang: Config['locale'] }>;
+}
+
+export async function generateMetadata({ params }: AboutPageProps) {
+  const { lang } = await params;
+  const payload = await getPayload({ config });
+  const about = await payload.findGlobal({ slug: 'about', locale: lang, depth: 1 });
+  return buildMetadata(about?.meta, { title: 'About — Nanotest' }, lang);
 }
 
 export default async function AboutPage({ params }: AboutPageProps) {

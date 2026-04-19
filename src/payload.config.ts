@@ -2,6 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
+import { seoPlugin } from '@payloadcms/plugin-seo';
 import {
   BlockquoteFeature,
   BoldFeature,
@@ -121,7 +122,17 @@ export default buildConfig({
       },
     ],
   },
-  plugins: [],
+  plugins: [
+    seoPlugin({
+      collections: ['solutions', 'pages'],
+      globals: ['homepage', 'about', 'contact-us', 'legal'],
+      uploadsCollection: 'media',
+      tabbedUI: true,
+      generateTitle: ({ doc }) => `${doc?.title ?? ''} — Nanotest`,
+      generateDescription: ({ doc }) => doc?.subtitle ?? doc?.description ?? '',
+      generateImage: ({ doc }) => doc?.details?.images?.[0] ?? null,
+    }),
+  ],
   globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent],
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL,

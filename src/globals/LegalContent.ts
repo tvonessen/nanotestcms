@@ -46,6 +46,44 @@ export const LegalContent: GlobalConfig = {
       minRows: 1,
       blocks: [Text, TextImage, ContactForm],
     },
+    // The SEO plugin adds a `meta` group (title/description/image) for the imprint page.
+    // privacyMeta mirrors that structure for the privacy page.
+    {
+      name: 'privacyMeta',
+      label: 'Privacy Page SEO',
+      type: 'group',
+      admin: {
+        description: 'SEO metadata for the Privacy Policy page.',
+      },
+      fields: [
+        {
+          name: 'title',
+          label: 'Meta Title',
+          type: 'text',
+          admin: {
+            description:
+              'Overrides the browser tab title and search engine title for the Privacy page.',
+          },
+        },
+        {
+          name: 'description',
+          label: 'Meta Description',
+          type: 'textarea',
+          admin: {
+            description: 'Overrides the search engine snippet for the Privacy page.',
+          },
+        },
+        {
+          name: 'image',
+          label: 'OG Image',
+          type: 'upload',
+          relationTo: 'media',
+          admin: {
+            description: 'Open Graph image for the Privacy page.',
+          },
+        },
+      ],
+    },
   ],
   hooks: {
     afterChange: [

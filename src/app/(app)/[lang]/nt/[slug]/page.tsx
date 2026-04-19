@@ -5,6 +5,7 @@ import { getPayload } from 'payload';
 import { Content } from '@/components/content/content';
 import Hero from '@/components/content/hero';
 import type { Config, Media, Solution } from '@/payload-types';
+import { buildMetadata } from '@/utils/generateMeta';
 import { isPreviewEnabled } from '@/utils/preview';
 
 export async function generateStaticParams({ params }: { params: { lang: string } }) {
@@ -28,6 +29,24 @@ interface NTDetailProps {
     slug: string;
     lang: Config['locale'];
   }>;
+}
+
+export async function generateMetadata({ params }: NTDetailProps) {
+  const { slug, lang } = await params;
+  const payload = await getPayload({ config });
+  const result = await payload.find({
+    collection: 'solutions',
+    where: { slug: { equals: slug } },
+    locale: lang,
+    depth: 1,
+    limit: 1,
+  });
+  const solution = result.docs[0];
+  return buildMetadata(
+    solution?.meta,
+    { title: solution?.title, description: solution?.subtitle },
+    lang,
+  );
 }
 
 export default async function NTDetailPage({ params }: NTDetailProps) {

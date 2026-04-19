@@ -293,10 +293,6 @@ export interface Solution {
   type: ('product' | 'service' | 'other')[];
   title: string;
   subtitle: string;
-  /**
-   * [DEPRECATED] Use Abstract richtText below instead
-   */
-  shortDescription: string;
   abstract: {
     root: {
       type: string;
@@ -322,16 +318,17 @@ export interface Solution {
   discontinued?: boolean | null;
   details: {
     images: (string | Media)[];
-    /**
-     * Deprecated! Use Aside of content block 'Text'
-     */
-    abstract: string;
     content?: (Text | TextImage | Highlight | TextVideo | Downloads | ContactForm | Features)[] | null;
   };
-  seo?: {
-    keywords?: string | null;
-  };
   slug?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1990,6 +1987,14 @@ export interface Page {
     totalDocs?: number;
   };
   content?: (Hero | Text | TextImage | TextVideo | Cards | Highlight | Features | ContactForm | Downloads)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -4054,7 +4059,6 @@ export interface SolutionsSelect<T extends boolean = true> {
   type?: T;
   title?: T;
   subtitle?: T;
-  shortDescription?: T;
   abstract?: T;
   new?: T;
   discontinued?: T;
@@ -4062,7 +4066,6 @@ export interface SolutionsSelect<T extends boolean = true> {
     | T
     | {
         images?: T;
-        abstract?: T;
         content?:
           | T
           | {
@@ -4075,12 +4078,14 @@ export interface SolutionsSelect<T extends boolean = true> {
               features?: T | FeaturesSelect<T>;
             };
       };
-  seo?:
+  slug?: T;
+  meta?:
     | T
     | {
-        keywords?: T;
+        title?: T;
+        description?: T;
+        image?: T;
       };
-  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -4254,6 +4259,13 @@ export interface PagesSelect<T extends boolean = true> {
         'contact-form'?: T | ContactFormSelect<T>;
         downloads?: T | DownloadsSelect<T>;
       };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -4402,6 +4414,14 @@ export interface Homepage {
       }[]
     | null;
   content?: (Text | Highlight | Cards | Features | ContactForm)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -4415,6 +4435,14 @@ export interface About {
   content?: (Text | TextImage | TextVideo | Cards | ContactForm)[] | null;
   teamMembers?: (string | TeamMember)[] | null;
   content_bottom?: (Text | TextImage | TextVideo | Cards | ContactForm)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -4427,6 +4455,31 @@ export interface Legal {
   id: string;
   imprint?: (Text | TextImage | ContactForm)[] | null;
   privacy?: (Text | TextImage | ContactForm)[] | null;
+  /**
+   * SEO metadata for the Privacy Policy page.
+   */
+  privacyMeta?: {
+    /**
+     * Overrides the browser tab title and search engine title for the Privacy page.
+     */
+    title?: string | null;
+    /**
+     * Overrides the search engine snippet for the Privacy page.
+     */
+    description?: string | null;
+    /**
+     * Open Graph image for the Privacy page.
+     */
+    image?: (string | null) | Media;
+  };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -4510,6 +4563,14 @@ export interface ContactUs {
         }[]
       | null;
   };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -4546,6 +4607,13 @@ export interface HomepageSelect<T extends boolean = true> {
         features?: T | FeaturesSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
       };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -4575,6 +4643,13 @@ export interface AboutSelect<T extends boolean = true> {
         cards?: T | CardsSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
       };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -4598,6 +4673,20 @@ export interface LegalSelect<T extends boolean = true> {
         text?: T | TextSelect<T>;
         'text-image'?: T | TextImageSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
+      };
+  privacyMeta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   _status?: T;
   updatedAt?: T;
@@ -4660,6 +4749,13 @@ export interface ContactUsSelect<T extends boolean = true> {
               contacts?: T;
               id?: T;
             };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   _status?: T;
   updatedAt?: T;
