@@ -75,6 +75,7 @@ export interface Config {
     'team-member': TeamMember;
     'distro-partner': DistroPartner;
     pages: Page;
+    redirects: Redirect;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
@@ -95,6 +96,7 @@ export interface Config {
     'team-member': TeamMemberSelect<false> | TeamMemberSelect<true>;
     'distro-partner': DistroPartnerSelect<false> | DistroPartnerSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -3741,6 +3743,42 @@ export interface DistroPartner {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Define memorable short URLs (aliases) that redirect visitors to solutions, pages, or external URLs.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects".
+ */
+export interface Redirect {
+  id: string;
+  /**
+   * The alias path without a leading slash, e.g. "thermal-analysis". No locale prefix required.
+   */
+  from: string;
+  toType: 'solution' | 'page' | 'external';
+  /**
+   * The solution/product this alias points to.
+   */
+  toSolution?: (string | null) | Solution;
+  /**
+   * The page this alias points to.
+   */
+  toPage?: (string | null) | Page;
+  /**
+   * Full URL including protocol, e.g. https://example.com/page.
+   */
+  toExternal?: string | null;
+  /**
+   * Disable to temporarily deactivate this redirect without deleting it.
+   */
+  enabled?: boolean | null;
+  /**
+   * ⚠️ Permanent redirects are cached indefinitely by browsers and search engines. Though, important for proper SEO. Only enable this when final. It is very difficult to undo after users and crawlers have cached it. Leave unchecked (302 Temporary) while testing.
+   */
+  permanent?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -3887,6 +3925,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: string | Page;
+      } | null)
+    | ({
+        relationTo: 'redirects';
+        value: string | Redirect;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -4311,6 +4353,21 @@ export interface CardsSelect<T extends boolean = true> {
       };
   id?: T;
   blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects_select".
+ */
+export interface RedirectsSelect<T extends boolean = true> {
+  from?: T;
+  toType?: T;
+  toSolution?: T;
+  toPage?: T;
+  toExternal?: T;
+  enabled?: T;
+  permanent?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

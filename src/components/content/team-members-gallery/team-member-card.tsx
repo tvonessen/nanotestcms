@@ -54,7 +54,7 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
             x={96 / 3}
             y={99 / 3}
             color="var(--primary)"
-            className="[transform-origin:center] spin-loader"
+            className="origin-center spin-loader"
           />
           <image
             href={imgUrl}

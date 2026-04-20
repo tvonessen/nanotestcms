@@ -25,9 +25,11 @@ import nodemailer from 'nodemailer';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
 import { Pages } from '@/collections/Pages';
+import { Redirects } from '@/collections/Redirects';
 import { SolutionCategories } from '@/collections/SolutionCategories';
 import { locales } from '@/config/locales';
 import revalidateHandler from '@/utils/revalidate';
+import redirectMapHandler from '@/utils/redirect-map';
 import { DistroPartners } from './collections/DistroPartners';
 import { Documents } from './collections/Documents';
 import { Media } from './collections/Media';
@@ -61,6 +63,7 @@ export default buildConfig({
     TeamMembers,
     DistroPartners,
     Pages,
+    Redirects,
   ],
   cors: ['https://www.google.com'],
   csrf: ['http://localhost:3301', 'http://localhost:3303', 'https://nanotest.jutoserver.de'],
@@ -106,6 +109,11 @@ export default buildConfig({
       path: '/revalidate',
       method: 'post',
       handler: revalidateHandler,
+    },
+    {
+      path: '/redirect-map',
+      method: 'get',
+      handler: redirectMapHandler,
     },
   ],
   localization: {
