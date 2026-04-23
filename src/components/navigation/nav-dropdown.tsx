@@ -75,7 +75,7 @@ export function MobileNavDropdown({ item, lang, pathname, onClose }: MobileNavDr
         </Button>
       </div>
       {isOpen && (
-        <div className="p-1 pb-2 mt-2 border-2 border-primary/50 rounded-xl flex flex-col gap-2">
+        <div className="p-2 mt-2 border-2 border-primary/50 rounded-xl flex flex-col gap-2">
           {children.map((child) => (
             <PageLink
               key={child.href}

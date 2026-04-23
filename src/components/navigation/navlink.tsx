@@ -22,7 +22,7 @@ export function NavLink({ link, lang, onClick, fullWidth, className, ...props }:
     (currentPath !== null && `/${currentPath}` === link.href);
 
   return (
-    <Link href={`/${lang}${link.href}`}>
+    <Link href={`/${lang}${link.href}`} className="grow">
       <Button
         onPress={onClick}
         variant={isActive ? 'solid' : 'light'}
