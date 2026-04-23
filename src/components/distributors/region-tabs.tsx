@@ -58,15 +58,13 @@ export default function RegionTabs({ countries }: RegionTabsProps) {
       aria-label="Contact Regions"
       items={regions}
     >
-      {regions
-        .sort((a, b) => a.label.localeCompare(b.label))
-        .map((region) => (
-          <Tab key={region.id} title={region.label}>
-            <div className="flex rounded-md gap-2 flex-col md:flex-row flex-wrap justify-stretch">
-              {region.content}
-            </div>
-          </Tab>
-        ))}
+      {regions.map((region) => (
+        <Tab key={region.id} title={region.label}>
+          <div className="flex rounded-md gap-2 flex-col md:flex-row flex-wrap justify-stretch">
+            {region.content}
+          </div>
+        </Tab>
+      ))}
     </Tabs>
   );
 }
