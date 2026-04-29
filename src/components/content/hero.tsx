@@ -66,6 +66,7 @@ const Hero = (props: HeroProps) => {
                 height={(image.sizes?.large?.height ?? image.height) as number}
                 blurDataURL={image.blurDataUrl as string}
                 placeholder={image.blurDataUrl ? 'blur' : 'empty'}
+                sizes="(max-width: 1280px) 100vw, 1280px"
                 loading="lazy"
               />
               {showCaption && image.caption && (

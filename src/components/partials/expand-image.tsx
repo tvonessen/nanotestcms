@@ -51,6 +51,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
           alt={image.alt}
           blurDataURL={image.blurDataUrl as string}
           placeholder={image.blurDataUrl ? 'blur' : 'empty'}
+          sizes="(max-width: 1024px) 100vw, 50vw"
           tabIndex={0}
           quality={80}
           unoptimized={image.mimeType?.includes('svg')}

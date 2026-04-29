@@ -139,12 +139,13 @@ const Jumbo = ({ jumbos, className, lang }: JumboProps) => {
                 <div className="relative focus:outline-hidden -z-10 overflow-hidden 2xl:rounded-2xl">
                   <Image
                     className={'aspect-square lg:aspect-video w-full object-cover'}
-                    src={image.url as string}
+                    src={(image.sizes?.large?.url ?? image.url) as string}
                     alt={image.alt}
-                    width={image.width as number}
-                    height={image.height as number}
+                    width={(image.sizes?.large?.width ?? image.width) as number}
+                    height={(image.sizes?.large?.height ?? image.height) as number}
                     blurDataURL={image.blurDataUrl as string}
                     placeholder={image.blurDataUrl ? 'blur' : 'empty'}
+                    sizes="100vw"
                     loading="lazy"
                   />
                   <div className="absolute w-full h-full top-0 left-0 bg-linear-to-b from-75% from-transparent to-background" />
