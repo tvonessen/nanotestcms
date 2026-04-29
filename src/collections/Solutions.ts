@@ -136,6 +136,7 @@ const Solutions: CollectionConfig = {
         if (doc._status === 'draft') return;
         await revalidateHook(`/nt/${doc.slug}`, req.locale);
         await revalidateHook('/', req.locale);
+        await revalidateHook('/', req.locale, 'layout');
       },
     ],
   },

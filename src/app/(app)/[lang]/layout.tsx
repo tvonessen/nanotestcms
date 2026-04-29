@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
 };
 
-async function getNavItems(lang: Config['locale']): Promise<NavItem[]> {
+async function getNavItems(lang: Config['locale'], isDraft: boolean): Promise<NavItem[]> {
   const payload = await getPayload({ config });
 
   const staticItems: NavItem[] = [{ label: { en: 'Home', de: 'Start' }, href: '/' }];
@@ -40,6 +40,9 @@ async function getNavItems(lang: Config['locale']): Promise<NavItem[]> {
       pagination: false,
       depth: 0,
       locale: lang,
+      draft: isDraft,
+      overrideAccess: isDraft,
+      where: isDraft ? undefined : { _status: { equals: 'published' } },
     }),
     payload.find({
       collection: 'solutions',
@@ -47,7 +50,9 @@ async function getNavItems(lang: Config['locale']): Promise<NavItem[]> {
       pagination: false,
       depth: 0,
       locale: lang,
-      where: { _status: { equals: 'published' } },
+      draft: isDraft,
+      overrideAccess: isDraft,
+      where: isDraft ? undefined : { _status: { equals: 'published' } },
     }),
   ]);
 
@@ -119,7 +124,7 @@ async function getNavItems(lang: Config['locale']): Promise<NavItem[]> {
 export default async function RootLayout({ children, params }: LayoutProps<'/[lang]'>) {
   const { lang } = await params;
   const isDraft = await isPreviewEnabled();
-  const navItems = await getNavItems(lang as Config['locale']);
+  const navItems = await getNavItems(lang as Config['locale'], isDraft);
   return (
     <html suppressHydrationWarning lang="en">
       <head>

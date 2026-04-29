@@ -91,6 +91,7 @@ export const Pages: CollectionConfig = {
 
         if (doc._status !== 'draft' && doc.url) {
           await revalidateHook(doc.url, req.locale);
+          await revalidateHook('/', req.locale, 'layout');
         }
       },
     ],

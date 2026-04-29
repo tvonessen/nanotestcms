@@ -10,7 +10,7 @@ export default async function revalidateHandler(req: PayloadRequest) {
     try {
       const body = await req.json?.();
       console.info('### Revalidating: ', body.path);
-      revalidatePath(body.path);
+      revalidatePath(body.path, body.type);
       return new Response(JSON.stringify({ revalidated: true }));
     } catch (_err) {
       return new Response(JSON.stringify({ error: 'Error revalidating' }), { status: 500 });
@@ -19,14 +19,19 @@ export default async function revalidateHandler(req: PayloadRequest) {
   return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
 }
 
-export async function revalidateHook(path: string, locale?: string) {
+type RevalidatePathType = 'page' | 'layout';
+
+export async function revalidateHook(path: string, locale?: string, type?: RevalidatePathType) {
   const validLocale = locale && locales.some((loc) => locale === loc.code);
   const localesToRevalidate = validLocale ? [locale] : locales.map((loc) => loc.code);
   for (const loc of localesToRevalidate) {
     try {
       await fetch(String(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/revalidate`), {
         method: 'post',
-        body: JSON.stringify({ path: `/${loc}/${path}`.replaceAll('//', '/') }),
+        body: JSON.stringify({
+          path: `/${loc}/${path}`.replaceAll('//', '/'),
+          type,
+        }),
       });
     } catch (err) {
       console.error((err as Error).message);
