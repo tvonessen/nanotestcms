@@ -33,7 +33,15 @@ export const Features: Block = {
       name: 'features',
       label: 'Features',
       type: 'array',
-      maxRows: 3,
+      validate: (
+        value,
+        { siblingData }: { siblingData: { size?: 'full' | 'compact' } | undefined },
+      ) => {
+        if (siblingData?.size === 'compact') return true;
+        if (!value || value.length <= 3) return true;
+
+        return 'Full features blocks may contain at most 3 items.';
+      },
       fields: [
         {
           name: 'image',

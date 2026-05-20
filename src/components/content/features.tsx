@@ -11,31 +11,33 @@ interface FeaturesProps {
 
 export default async function Features(props: FeaturesProps) {
   const { features, className } = props;
-  if (!features || !features.features || !features.features.length) return null;
+  if (!features?.features?.length) return null;
 
-  const hasDescriptions = features.features.some((feature) => feature.description);
-
+  const featureItems = features.features;
+  const hasDescriptions = featureItems.some((feature) => feature.description);
   if (features.size === 'compact') {
     return (
-      <div className={cn('w-fit my-16 ps-10 md:ps-8 xl:ps-6 mx-auto', className)}>
+      <div className={cn('container my-16 px-8 md:px-12 mx-auto', className)}>
         {features.title && (
           <h2 className="text-4xl font-bold text-center mb-8">{features.title}</h2>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-[auto_auto] xl:grid-cols-[auto_auto_auto] gap-12">
-          {features.features.map((feature, idx) => (
+        <div className="flex flex-wrap flex-col sm:flex-row items-center justify-center gap-x-10 gap-y-8">
+          {featureItems.map((feature) => (
             <div
               key={feature.id}
-              className={cn(
-                'grid grid-cols-[48px_auto] gap-4 justify-start items-center',
-                idx === 2 && 'md:col-span-2 md:justify-center xl:col-span-1 xl:justify-start',
-              )}
+              className="inline-grid max-w-full flex-none grid-cols-[48px_14rem] gap-4 items-center sm:grid-cols-[48px_fit-content(20rem)] xl:grid-cols-[48px_fit-content(24rem)]"
             >
               <figure className="relative flex justify-center items-center size-12 text-primary">
                 <LazyIcon name={String(feature.icon)} size={32} className="text-foreground" />
                 <Hexagon className="absolute inset-0" />
               </figure>
               <div>
-                <h3 className="text-xl text-primary font-semibold mb-1">{feature.title}</h3>
+                <h3
+                  className="text-xl text-primary font-semibold mb-1 wrap-break-word text-pretty"
+                  title={feature.title}
+                >
+                  {feature.title}
+                </h3>
               </div>
             </div>
           ))}
@@ -49,7 +51,7 @@ export default async function Features(props: FeaturesProps) {
           <h2 className="text-4xl font-bold text-center mb-8">{features.title}</h2>
         )}
         <div className="flex flex-col flex-nowrap lg:flex-row gap-8 sm:gap-4 lg:gap-8 items-top justify-center">
-          {features.features?.map((feature) => (
+          {featureItems.map((feature) => (
             <div
               key={feature.id}
               className="flex flex-col sm:w-[60ch] lg:w-1/3 mx-auto sm:flex-row lg:flex-col items-center sm:items-start lg:items-center gap-x-8"
