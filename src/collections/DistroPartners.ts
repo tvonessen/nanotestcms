@@ -46,7 +46,7 @@ export const DistroPartners: CollectionConfig = {
       type: 'text',
       localized: true,
       validate: (value: string | null | undefined) =>
-        !value || /^https:\/\//.test(value) || 'Website must start with "https://"',
+        !value || /^http(s)?:\/\//.test(value) || 'Website must start with "http:// or https://"',
     },
     {
       name: 'description',
