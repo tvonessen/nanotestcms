@@ -28,8 +28,8 @@ import { Pages } from '@/collections/Pages';
 import { Redirects } from '@/collections/Redirects';
 import { SolutionCategories } from '@/collections/SolutionCategories';
 import { locales } from '@/config/locales';
-import revalidateHandler from '@/utils/revalidate';
 import redirectMapHandler from '@/utils/redirect-map';
+import revalidateHandler from '@/utils/revalidate';
 import { DistroPartners } from './collections/DistroPartners';
 import { Documents } from './collections/Documents';
 import { Media } from './collections/Media';
@@ -46,6 +46,7 @@ import validateCaptcha from './utils/validate-captcha';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+export type SupportedLocale = 'de' | 'en';
 
 export default buildConfig({
   admin: {

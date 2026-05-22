@@ -1,10 +1,10 @@
-import config from '@payload-config';
+import config, { type SupportedLocale } from '@payload-config';
 import { getPayload } from 'payload';
 import { LazyIcon } from '@/components/utility/lazy-icon';
 import type { Cards, Solution, SolutionCategory } from '@/payload-types';
 import { isPreviewEnabled } from '@/utils/preview';
 import RichTextWrapper from '../richtext-wrapper';
-import { Card, ManualCard } from './card';
+import { Card } from './card';
 
 interface CardsGridProps {
   lang: 'de' | 'en';
@@ -12,15 +12,9 @@ interface CardsGridProps {
   className?: string;
 }
 
-export async function CardsGrid(props: CardsGridProps) {
-  const { lang, block, className } = props;
-  const cards = block.cards ?? [];
-  if (cards.length === 0) return null;
-
+async function buildCards(cards: Cards['cards'], lang: SupportedLocale, isDraft: boolean) {
   const payload = await getPayload({ config });
-  const isDraft = await isPreviewEnabled();
 
-  // Collect unique solution IDs and batch-fetch them
   const solutionIds = [
     ...new Set(
       cards
@@ -28,9 +22,7 @@ export async function CardsGrid(props: CardsGridProps) {
         .map((c) => (typeof c.solution === 'string' ? c.solution : c.solution?.id)),
     ),
   ];
-
   let solutionMap = new Map<string, Solution>();
-
   if (solutionIds.length > 0) {
     const fetched = await payload
       .find({
@@ -44,21 +36,7 @@ export async function CardsGrid(props: CardsGridProps) {
     solutionMap = new Map(fetched.map((s) => [s.id, s]));
   }
 
-  // Resolve category title if needed
-  let category: SolutionCategory | undefined;
-  if (block.useCategoryTitle && block.titleCategory) {
-    const catId =
-      typeof block.titleCategory === 'string' ? block.titleCategory : block.titleCategory.id;
-    category = await payload.findByID({
-      collection: 'solution-categories',
-      locale: lang,
-      draft: isDraft,
-      id: catId,
-    });
-  }
-
-  // Build renderable cards, skipping invalid rows
-  const renderable = cards
+  return cards
     .map((card) => {
       if (card.source === 'solution') {
         const id = typeof card.solution === 'string' ? card.solution : card.solution?.id;
@@ -73,6 +51,33 @@ export async function CardsGrid(props: CardsGridProps) {
       return null;
     })
     .filter(Boolean);
+}
+
+export type RenderableCard = Awaited<ReturnType<typeof buildCards>>[number];
+
+export async function CardsGrid(props: CardsGridProps) {
+  const { lang, block, className } = props;
+  const payload = await getPayload({ config });
+  const cards = block.cards ?? [];
+  if (cards.length === 0) return null;
+
+  const isDraft = await isPreviewEnabled();
+
+  // Resolve category title if needed
+  let category: SolutionCategory | undefined;
+  if (block.useCategoryTitle && block.titleCategory) {
+    const catId =
+      typeof block.titleCategory === 'string' ? block.titleCategory : block.titleCategory.id;
+    category = await payload.findByID({
+      collection: 'solution-categories',
+      locale: lang,
+      draft: isDraft,
+      id: catId,
+    });
+  }
+
+  // Collect unique solution IDs and batch-fetch them
+  const renderable = await buildCards(cards, lang, isDraft);
 
   if (renderable.length === 0) return null;
 
@@ -112,10 +117,7 @@ export async function CardsGrid(props: CardsGridProps) {
       <div className="flex justify-center flex-wrap gap-x-6 gap-y-10 sm:gap-y-6">
         {renderable.map((item) => {
           if (!item) return null;
-          if (item.type === 'solution') {
-            return <Card key={item.key} lang={lang} solution={item.solution} />;
-          }
-          return <ManualCard key={item.key} lang={lang} card={item.card} />;
+          return <Card key={item.key} lang={lang} content={item} />;
         })}
       </div>
     </section>

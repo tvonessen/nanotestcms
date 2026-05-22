@@ -56,7 +56,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
           quality={80}
           unoptimized={image.mimeType?.includes('svg')}
           onError={(e) => {
-            console.error(e);
+            process.env.NODE_ENV !== 'production' && console.error(e);
           }}
           style={{
             aspectRatio: isExpanded || !isExpandable ? `${width}/${height}` : '4 / 1',
