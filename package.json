@@ -5,15 +5,15 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
-    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev --port 3301",
-    "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
-    "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
-    "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
+    "build": "next build",
+    "dev": "next dev --port 3301",
+    "devsafe": "rm -rf .next && next dev",
+    "generate:importmap": "payload generate:importmap",
+    "generate:types": "payload generate:types",
     "db:sync": "node scripts/sync_db.js",
-    "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
-    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
+    "lint": "next lint",
+    "payload": "payload",
+    "start": "dotenv -c -- node .next/standalone/server.js"
   },
   "dependencies": {
     "@heroui/accordion": "^2.2.29",
