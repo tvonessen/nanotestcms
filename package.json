@@ -13,7 +13,7 @@
     "db:sync": "node scripts/sync_db.js",
     "lint": "next lint",
     "payload": "payload",
-    "start": "dotenv -c -- node .next/standalone/server.js"
+    "start": "dotenv -c -- node next start"
   },
   "dependencies": {
     "@heroui/accordion": "^2.2.29",
