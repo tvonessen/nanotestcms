@@ -5,6 +5,7 @@ import { cn } from '@heroui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Config, Media, Solution, SolutionCategory } from '@/payload-types';
+import { resolveAssetURL } from '@/utils/public-url';
 
 interface ProductCardProps {
   lang: Config['locale'];
@@ -27,7 +28,7 @@ const ProductCard = ({ lang, product, className }: ProductCardProps) => {
             className="object-cover object-center min-w-full min-h-full brightness-125 contrast-75 hover:contrast-100 transition aspect-3/2"
             height={image.sizes?.medium?.height ?? 480}
             placeholder={image.blurDataUrl ? 'blur' : 'empty'}
-            src={`${usedImage.url}`}
+            src={resolveAssetURL(usedImage.url)}
             width={usedImage.width ?? 640}
           />
         </Link>

@@ -5,6 +5,7 @@ import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
+import { buildDraftPreviewURL } from '@/utils/public-url';
 import { revalidateHook } from '@/utils/revalidate';
 
 export const ContactUsContent: GlobalConfig = {
@@ -26,7 +27,7 @@ export const ContactUsContent: GlobalConfig = {
     livePreview: {
       url: ({ locale }) => {
         const redirect = `/${locale?.code ?? 'en'}/contact`;
-        return `${process.env.NEXT_PUBLIC_SERVER_URL}/api/draft?redirect=${redirect}`;
+        return buildDraftPreviewURL(redirect);
       },
     },
   },

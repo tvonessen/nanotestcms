@@ -7,8 +7,7 @@ import { ArrowRightIcon } from '@phosphor-icons/react';
 import { SignOutIcon } from '@phosphor-icons/react/ssr';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
-const serverURL = process.env.NEXT_PUBLIC_SERVER_URL ?? '';
+import { publicServerURL } from '@/utils/public-url';
 
 type AdminBarProps = {
   preview?: boolean;
@@ -34,7 +33,7 @@ export function AdminBar({ preview: initialPreview }: AdminBarProps) {
   return (
     <>
       <PayloadAdminBar
-        cmsURL={serverURL}
+        cmsURL={publicServerURL}
         preview={preview}
         onAuthChange={(nextUser) => setUser(nextUser)}
         onPreviewExit={() => togglePreview(false)}

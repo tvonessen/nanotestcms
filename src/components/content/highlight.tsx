@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { formatFilesize } from '@/components/content/downloads/utils';
 import { resolveCMSLinkHref } from '@/components/utility/cms-link';
 import type { Config, Highlight as HighlightContent } from '@/payload-types';
+import { resolveAssetURL } from '@/utils/public-url';
 
 interface HighlightProps {
   lang: Config['locale'];
@@ -62,7 +63,7 @@ const Highlight = (props: HighlightProps) => {
         <p className="mx-auto text-lg my-3">{text}</p>
         <div className="flex flex-row flex-wrap gap-2 justify-center items-center">
           {actions?.map((action) => {
-            if (action.type === 'link' && !!action.link) {
+            if (action.type === 'link' && action.link) {
               const link = action.link;
               const href = link ? resolveCMSLinkHref(link, lang) : '#';
               const newTabProps = link?.newTab
@@ -89,14 +90,14 @@ const Highlight = (props: HighlightProps) => {
             }
             if (
               action.type === 'download' &&
-              !!action.download &&
+              action.download &&
               typeof action.download === 'object'
             ) {
               return (
                 <Link
                   key={action.id}
                   download
-                  href={action.download.url ?? ''}
+                  href={resolveAssetURL(action.download.url)}
                   passHref
                   className="inline-block"
                 >

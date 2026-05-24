@@ -14,6 +14,7 @@ import type { CMSLinkData } from '@/components/utility/cms-link';
 import { resolveCMSLinkHref } from '@/components/utility/cms-link';
 import type { LinkAppearance } from '@/fields/linkField';
 import type { Media } from '@/payload-types';
+import { resolveAssetURL } from '@/utils/public-url';
 
 interface JumboProps {
   jumbos: {
@@ -37,7 +38,7 @@ const Jumbo = ({ jumbos, className, lang }: JumboProps) => {
     const { image, title, description, link } = jumbo;
     const img = image as Media;
     return {
-      url: img.sizes?.large?.url ?? img.url,
+      url: resolveAssetURL(img.sizes?.large?.url ?? img.url),
       alt: img.alt,
       width: img.sizes?.large?.width ?? img.width,
       height: img.sizes?.large?.height ?? img.height,
@@ -139,7 +140,7 @@ const Jumbo = ({ jumbos, className, lang }: JumboProps) => {
                 <div className="relative focus:outline-hidden -z-10 overflow-hidden 2xl:rounded-2xl">
                   <Image
                     className={'aspect-square lg:aspect-video w-full object-cover'}
-                    src={(image.sizes?.large?.url ?? image.url) as string}
+                    src={resolveAssetURL(image.sizes?.large?.url ?? image.url)}
                     alt={image.alt}
                     width={(image.sizes?.large?.width ?? image.width) as number}
                     height={(image.sizes?.large?.height ?? image.height) as number}

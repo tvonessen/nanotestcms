@@ -9,6 +9,7 @@ import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
+import { buildDraftPreviewURL } from '@/utils/public-url';
 import { revalidateHook } from '@/utils/revalidate';
 
 async function resolveURL(
@@ -50,8 +51,7 @@ export const Pages: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'url'],
     livePreview: {
-      url: ({ data }) =>
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/draft?redirect=${data.url || '/'}`,
+      url: ({ data }) => buildDraftPreviewURL(data.url || '/'),
     },
   },
   hooks: {

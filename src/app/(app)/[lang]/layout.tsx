@@ -126,7 +126,7 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
   const isDraft = await isPreviewEnabled();
   const navItems = await getNavItems(lang as Config['locale'], isDraft);
   return (
-    <html suppressHydrationWarning lang="en">
+    <html suppressHydrationWarning lang={lang}>
       <head>
         <title>{siteConfig.title}</title>
       </head>

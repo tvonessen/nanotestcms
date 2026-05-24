@@ -2,6 +2,7 @@ import { cn } from '@heroui/react';
 import RichTextWrapper from '@/components/content/richtext-wrapper';
 import { Hexagon } from '@/components/hexagon';
 import type { Features as FeaturesBlock, Media } from '@/payload-types';
+import { resolveAssetURL } from '@/utils/public-url';
 import { LazyIcon } from '../utility/lazy-icon';
 
 interface FeaturesProps {
@@ -118,7 +119,7 @@ const FeatureImage = ({ image, className }: { image: Media; className?: string }
           clipPath={`url(#${image.id})`}
         />
         <image
-          href={image.sizes?.small?.url ?? image.url ?? ''}
+          href={resolveAssetURL(image.sizes?.small?.url ?? image.url)}
           width="100%"
           height="100%"
           preserveAspectRatio="xMidYMid slice"

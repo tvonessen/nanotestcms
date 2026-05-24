@@ -4,6 +4,7 @@ import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLogge
 import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
+import { buildDraftPreviewURL } from '@/utils/public-url';
 import { revalidateHook } from '@/utils/revalidate';
 
 export const LegalContent: GlobalConfig = {
@@ -22,7 +23,7 @@ export const LegalContent: GlobalConfig = {
     livePreview: {
       url: ({ locale }) => {
         const redirect = `/${locale?.code ?? 'en'}/about/imprint`;
-        return `${process.env.NEXT_PUBLIC_SERVER_URL}/api/draft?redirect=${redirect}`;
+        return buildDraftPreviewURL(redirect);
       },
     },
   },

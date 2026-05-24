@@ -41,8 +41,26 @@ import { AboutContent } from './globals/AboutContent';
 import { ContactUsContent } from './globals/ContactUsContent';
 import { HomepageContent } from './globals/HomepageContent';
 import { LegalContent } from './globals/LegalContent';
+import { publicServerURL } from './utils/public-url';
 import { sendEmailEndpoint } from './utils/send-email';
 import validateCaptcha from './utils/validate-captcha';
+
+const cors = [publicServerURL, 'https://www.google.com', 'https://p-r7tphp.project.space'].filter(
+  Boolean,
+);
+
+const csrf = Array.from(
+  new Set(
+    [
+      publicServerURL,
+      'http://localhost:3301',
+      'https://p-r7tphp.project.space',
+      'https://nanotest.eu',
+      'https://www.nanotest.eu',
+      'https://nanotest.jutoserver.de',
+    ].filter(Boolean),
+  ),
+);
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -66,19 +84,8 @@ export default buildConfig({
     Pages,
     Redirects,
   ],
-  cors: [
-    process.env.NEXT_PUBLIC_SERVER_URL as string,
-    'https://www.google.com',
-    'https://p-r7tphp.project.space',
-  ],
-  csrf: [
-    process.env.NEXT_PUBLIC_SERVER_URL as string,
-    'http://localhost:3301',
-    'https://p-r7tphp.project.space',
-    'https://nanotest.eu',
-    'https://www.nanotest.eu',
-    'https://nanotest.jutoserver.de',
-  ],
+  cors,
+  csrf,
   editor: lexicalEditor({
     features: () => [
       BoldFeature(),
@@ -155,7 +162,7 @@ export default buildConfig({
   ],
   globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent],
   secret: process.env.PAYLOAD_SECRET || '',
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
+  serverURL: publicServerURL || undefined,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

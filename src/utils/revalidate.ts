@@ -2,6 +2,7 @@ import { revalidatePath } from 'next/cache';
 import type { PayloadRequest } from 'payload';
 import { addDataAndFileToRequest } from 'payload';
 import { locales } from '@/config/locales';
+import { buildInternalURL } from '@/utils/server-url';
 
 export default async function revalidateHandler(req: PayloadRequest) {
   await addDataAndFileToRequest(req);
@@ -26,7 +27,7 @@ export async function revalidateHook(path: string, locale?: string, type?: Reval
   const localesToRevalidate = validLocale ? [locale] : locales.map((loc) => loc.code);
   for (const loc of localesToRevalidate) {
     try {
-      await fetch(String(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/revalidate`), {
+      await fetch(buildInternalURL('/api/revalidate'), {
         method: 'post',
         body: JSON.stringify({
           path: `/${loc}/${path}`.replaceAll('//', '/'),

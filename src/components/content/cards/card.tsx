@@ -10,6 +10,7 @@ import type { RenderableCard } from '@/components/content/cards/cards-grid';
 import RichTextWrapper from '@/components/content/richtext-wrapper';
 import { type CMSLinkData, resolveCMSLinkHref } from '@/components/utility/cms-link';
 import type { Media, Solution } from '@/payload-types';
+import { resolveAssetURL } from '@/utils/public-url';
 
 interface CardProps {
   lang: string;
@@ -38,7 +39,7 @@ export async function Card({ lang, content: data, className }: CardProps) {
   if (!raw) return null;
 
   const cardImage = raw as Media;
-  const src = cardImage.sizes?.small?.url ?? cardImage.url;
+  const src = resolveAssetURL(cardImage.sizes?.small?.url ?? cardImage.url);
   const height = cardImage.sizes?.small?.height ?? cardImage.height;
   const width = cardImage.sizes?.small?.width ?? cardImage.width;
 

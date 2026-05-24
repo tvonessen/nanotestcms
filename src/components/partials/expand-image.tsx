@@ -4,6 +4,7 @@ import { ArrowsVerticalIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import React, { Fragment } from 'react';
 import type { Media } from '@/payload-types';
+import { resolveAssetURL } from '@/utils/public-url';
 
 interface ExpandImageProps {
   image: Media;
@@ -45,7 +46,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
         <Image
           className={'w-full rounded-lg object-cover transition-all duration-500'}
           loading="lazy"
-          src={sizes?.medium?.url ?? image.url ?? ''}
+          src={resolveAssetURL(sizes?.medium?.url ?? image.url)}
           width={768}
           height={((width as number) / 768) * (height as number)}
           alt={image.alt}

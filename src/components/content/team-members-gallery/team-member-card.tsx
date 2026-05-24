@@ -1,6 +1,7 @@
 import { AtIcon, PhoneIcon, SpinnerGapIcon } from '@phosphor-icons/react/dist/ssr';
 import type React from 'react';
 import type { Media, TeamMember } from '@/payload-types';
+import { resolveAssetURL } from '@/utils/public-url';
 
 interface TeamMemberCardProps extends React.HTMLProps<HTMLLIElement> {
   member: TeamMember;
@@ -9,7 +10,7 @@ interface TeamMemberCardProps extends React.HTMLProps<HTMLLIElement> {
 export default function TeamMemberCard({ member, className }: TeamMemberCardProps) {
   const clipPathId = `clip-path-${member.id}`;
   const imgUrl =
-    (member.portrait as Media)?.sizes?.small?.url ??
+    resolveAssetURL((member.portrait as Media)?.sizes?.small?.url) ||
     `https://api.dicebear.com/9.x/shapes/svg?seed="${member.name ?? Math.random().toString(16).slice(2, 10)}"&backgroundColor=00a984,6d1b67&backgroundType=gradientLinear&clothingColor=e0e0e0`;
 
   return (

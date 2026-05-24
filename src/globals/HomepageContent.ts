@@ -7,6 +7,7 @@ import { Features } from '@/blocks/FeaturesBlock';
 import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
 import { linkField } from '@/fields/linkField';
+import { buildDraftPreviewURL } from '@/utils/public-url';
 import { revalidateHook } from '@/utils/revalidate';
 
 export const HomepageContent: GlobalConfig = {
@@ -21,7 +22,7 @@ export const HomepageContent: GlobalConfig = {
     livePreview: {
       url: ({ locale }) => {
         const redirect = `/${locale?.code ?? 'en'}`;
-        return `${process.env.NEXT_PUBLIC_SERVER_URL}/api/draft?redirect=${redirect}`;
+        return buildDraftPreviewURL(redirect);
       },
     },
   },

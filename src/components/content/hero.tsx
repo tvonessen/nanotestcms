@@ -10,6 +10,7 @@ import { cn } from '@heroui/react';
 import Image from 'next/image';
 import RichTextWrapper from '@/components/content/richtext-wrapper';
 import type { Media } from '@/payload-types';
+import { resolveAssetURL } from '@/utils/public-url';
 
 interface HeroProps {
   images?: (Media | unknown)[] | null;
@@ -60,7 +61,7 @@ const Hero = (props: HeroProps) => {
               <Image
                 key={image.filename}
                 className={'sm:rounded-2xl w-full aspect-video object-cover'}
-                src={image.sizes?.large?.url ?? image.url ?? ''}
+                src={resolveAssetURL(image.sizes?.large?.url ?? image.url)}
                 alt={image.alt}
                 width={(image.sizes?.large?.width ?? image.width) as number}
                 height={(image.sizes?.large?.height ?? image.height) as number}

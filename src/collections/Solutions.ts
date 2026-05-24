@@ -10,6 +10,7 @@ import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
 import { slugField } from '@/fields/slugField';
 import { solutionTypeField } from '@/fields/solutionTypeField';
+import { buildDraftPreviewURL } from '@/utils/public-url';
 import { revalidateHook } from '@/utils/revalidate';
 
 const Solutions: CollectionConfig = {
@@ -31,7 +32,7 @@ const Solutions: CollectionConfig = {
     livePreview: {
       url: ({ data, locale }) => {
         const redirect = `/${locale?.code ?? 'en'}/nt/${data.slug}`;
-        return `${process.env.NEXT_PUBLIC_SERVER_URL}/api/draft?redirect=${redirect}`;
+        return buildDraftPreviewURL(redirect);
       },
     },
   },

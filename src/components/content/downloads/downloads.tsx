@@ -3,6 +3,7 @@ import config from '@payload-config';
 import { DownloadSimpleIcon } from '@phosphor-icons/react/dist/ssr';
 import { getPayload } from 'payload';
 import type { Document } from '@/payload-types';
+import { resolveAssetURL } from '@/utils/public-url';
 import { DocumentIcon } from './document-icon';
 import { formatFilesize } from './utils';
 
@@ -64,7 +65,7 @@ export default async function Downloads(props: DownloadsProps) {
             <p>{formatFilesize(doc.filesize)}</p>
             <a
               className="px-2 py-1 rounded-md bg-primary text-background flex items-center justify-center hover:bg-secondary transition-colors"
-              href={doc.url as string}
+              href={resolveAssetURL(doc.url)}
               download={doc.filename_alt ?? doc.filename}
               aria-label="Download"
               title="Download"

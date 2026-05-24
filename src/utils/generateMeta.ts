@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
+import { getOpenGraphLocale } from '@/config/locales';
+
 import { siteConfig } from '@/config/siteconfig';
 import type { Media } from '@/payload-types';
+import { resolveAssetURL } from '@/utils/public-url';
 
 type MetaGroup = {
   title?: string | null;
@@ -23,7 +26,7 @@ export function buildMetadata(
 
   const ogImage =
     meta?.image && typeof meta.image === 'object' && meta.image.url
-      ? [{ url: meta.image.url, alt: meta.image.alt ?? '' }]
+      ? [{ url: resolveAssetURL(meta.image.url), alt: meta.image.alt ?? '' }]
       : [];
 
   return {
@@ -32,7 +35,7 @@ export function buildMetadata(
     openGraph: {
       title,
       description,
-      locale,
+      locale: getOpenGraphLocale(locale),
       images: ogImage,
     },
   };
