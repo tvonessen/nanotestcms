@@ -67,7 +67,12 @@ export default buildConfig({
     Redirects,
   ],
   cors: ['https://www.google.com'],
-  csrf: ['http://localhost:3301', 'http://localhost:3303', 'https://nanotest.jutoserver.de'],
+  csrf: [
+    'http://localhost:3301',
+    'https://nanotest.eu',
+    'https://www.nanotest.eu',
+    'https://nanotest.jutoserver.de',
+  ],
   editor: lexicalEditor({
     features: () => [
       BoldFeature(),

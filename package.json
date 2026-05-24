@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "next build",
-    "dev": "next dev --port 3301",
-    "devsafe": "rm -rf .next && next dev",
+    "dev": "PORT=3301 dotenv -c -- next dev",
+    "devsafe": "PORT=3301 rm -rf .next && dotenv -c -- next dev",
     "generate:importmap": "payload generate:importmap",
     "generate:types": "payload generate:types",
     "db:sync": "node scripts/sync_db.js",

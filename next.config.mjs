@@ -2,7 +2,7 @@ import { withPayload } from '@payloadcms/next/withPayload';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
+  output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
 };
 
 export default withPayload({
@@ -10,20 +10,22 @@ export default withPayload({
   images: {
     remotePatterns: [
       {
-        hostname: 'localhost',
-        port: '3301',
+        hostname: process.env.HOSTNAME,
+        port: process.env.PORT,
       },
       {
         hostname: 'api.dicebear.com',
       },
       {
-        hostname: 'nanotest.jutoserver.de',
+        hostname: 'nanotest.eu',
+      },
+      {
+        hostname: 'www.nanotest.eu',
       },
       {
         hostname: 'nanotest-dev.jutoserver.de',
       },
     ],
     qualities: [70, 85, 100],
-    unoptimized: process.env.NODE_ENV !== 'production',
   },
 });

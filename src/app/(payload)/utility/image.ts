@@ -1,5 +1,5 @@
-import { readFileSync } from 'fs';
-import path from 'path';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import sharp from 'sharp';
 
 export const imageToBase64 = (imagePath: string) => {
@@ -16,11 +16,10 @@ export const imageToBase64 = (imagePath: string) => {
 
     // Construct and return the data URL
     return `data:${mimeType};base64,${base64}`;
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Error converting image to base64:', error);
     // Return a generic blurred image
-    return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQCAIAAABCwWJuAAAACXBIWXMAAAsTAAALEwEAmpwYAAACdklEQVR4nB3Cy0/TcAAA4N+6dq9upb92fbfroN3aPbqxsSFkm2PIeEjYhkHERBwQnMyDCTFgMOhhiY8YHwdNiCYwCXrw5MmD8WKMHjhoYoiGv8L4uomP6JcPzJ6bX15b2X78YPf97ucv334e/Dn49fvr9x8fPu4/efZ849HT1t2N5ctXQfXESL15er212t55+Or1y729d5/291+8eXtrc3v9xu0LrZvN1SunmudB30CmNl1ebEytXVpqb7V2tq6123fu3b++tLpcb56tN5szC2emFxZBrpTJlfoy+d6JWuniylR9brzRqB47Xh4eK2Xz/f2FfGGwlB8aAJ2mEUrEtXg03mOVRw9lC+l4j5XNWVaPZaYSiYxlpWOpbAxEkuFIytCiumpoibQZSZqqoRlx3UxosXSoO2VoRlckFgRmUtNjXWKnzCmSqqvBcEDWlGA4oBmKGQvq4YCiSQFNBqwkMLLAiDzFMZBjSZbxC4wQ4EWV5xRBVDhZFXiZBTgk/aJf0Viap3EIvRRJ0CQOOyALOxhIcbQPEj7SByBHBnRG7KRklSOZDi/l9UFCkPwekvBBAjKQ43maoYHDhzsJD+J2MwKFE7iL8BIUwQtQlCWaowjo4wUO0l7A8R5IuZw4pihU1BRj0aAoQUmmU916KBSkGWiaesTUwMxUOZ+PFw+nx45kh4rdI8O9lepgpTpWqQ1PVEcLxUJtsjI5OQ5EhSNogqBJRvBDjlKNrmg6kcwmTs5OzzfmBo+O9hZzFM8C4EAAagMIwDwY5rIjGGJDbQ43iqAIsAMERZxupxPHAEDtiAsDDrvNgdpQG7D/i2D2/1HUiSIYimD2v1lFgv5RCJfdAAAAAElFTkSuQmCC";
+    return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQCAIAAABCwWJuAAAACXBIWXMAAAsTAAALEwEAmpwYAAACdklEQVR4nB3Cy0/TcAAA4N+6dq9upb92fbfroN3aPbqxsSFkm2PIeEjYhkHERBwQnMyDCTFgMOhhiY8YHwdNiCYwCXrw5MmD8WKMHjhoYoiGv8L4uomP6JcPzJ6bX15b2X78YPf97ucv334e/Dn49fvr9x8fPu4/efZ849HT1t2N5ctXQfXESL15er212t55+Or1y729d5/291+8eXtrc3v9xu0LrZvN1SunmudB30CmNl1ebEytXVpqb7V2tq6123fu3b++tLpcb56tN5szC2emFxZBrpTJlfoy+d6JWuniylR9brzRqB47Xh4eK2Xz/f2FfGGwlB8aAJ2mEUrEtXg03mOVRw9lC+l4j5XNWVaPZaYSiYxlpWOpbAxEkuFIytCiumpoibQZSZqqoRlx3UxosXSoO2VoRlckFgRmUtNjXWKnzCmSqqvBcEDWlGA4oBmKGQvq4YCiSQFNBqwkMLLAiDzFMZBjSZbxC4wQ4EWV5xRBVDhZFXiZBTgk/aJf0Viap3EIvRRJ0CQOOyALOxhIcbQPEj7SByBHBnRG7KRklSOZDi/l9UFCkPwekvBBAjKQ43maoYHDhzsJD+J2MwKFE7iL8BIUwQtQlCWaowjo4wUO0l7A8R5IuZw4pihU1BRj0aAoQUmmU916KBSkGWiaesTUwMxUOZ+PFw+nx45kh4rdI8O9lepgpTpWqQ1PVEcLxUJtsjI5OQ5EhSNogqBJRvBDjlKNrmg6kcwmTs5OzzfmBo+O9hZzFM8C4EAAagMIwDwY5rIjGGJDbQ43iqAIsAMERZxupxPHAEDtiAsDDrvNgdpQG7D/i2D2/1HUiSIYimD2v1lFgv5RCJfdAAAAAElFTkSuQmCC';
   }
 };
 
