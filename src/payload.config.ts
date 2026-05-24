@@ -68,6 +68,7 @@ export default buildConfig({
   ],
   cors: ['https://www.google.com'],
   csrf: [
+    process.env.NEXT_PUBLIC_SERVER_URL as string,
     'http://localhost:3301',
     'https://nanotest.eu',
     'https://www.nanotest.eu',

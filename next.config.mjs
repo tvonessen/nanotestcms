@@ -10,8 +10,7 @@ export default withPayload({
   images: {
     remotePatterns: [
       {
-        hostname: process.env.HOSTNAME,
-        port: process.env.PORT,
+        hostname: 'localhost',
       },
       {
         hostname: 'api.dicebear.com',
@@ -23,9 +22,10 @@ export default withPayload({
         hostname: 'www.nanotest.eu',
       },
       {
-        hostname: 'nanotest-dev.jutoserver.de',
+        hostname: 'nanotest.jutoserver.de',
       },
     ],
     qualities: [70, 85, 100],
+    dangerouslyAllowLocalIP: true,
   },
 });
