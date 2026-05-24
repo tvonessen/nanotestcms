@@ -36,8 +36,12 @@ find_running_pid() {
     fi
   fi
 
-  ps ax -o pid= -o command= | awk -v dest="/${DEST}/server.js" '
-    index($0, "node") && index($0, dest) { print $1; exit }
+  if [[ "${PROCESS_MATCH:-}" == '' ]]; then
+    return 0
+  fi
+
+  ps ax -o pid= -o command= | awk -v match="$PROCESS_MATCH" '
+    index($0, "node") && index($0, match) { print $1; exit }
   '
 }
 
@@ -56,8 +60,10 @@ cp .env "$STAGE/.env"
 
 old_pid="$(find_running_pid || true)"
 if [[ -n "${old_pid:-}" ]]; then
-  kill "$old_pid"
-  log "Alter Server gestoppt (PID ${old_pid})."
+  if kill -0 "$old_pid" 2>/dev/null; then
+    kill "$old_pid"
+    log "Alter Server gestoppt (PID ${old_pid})."
+  fi
 elif [[ "$HAD_PIDFILE" -eq 1 ]]; then
   rm -f "$PIDFILE"
   log "PID-File vorhanden, aber kein laufender Server gefunden."
