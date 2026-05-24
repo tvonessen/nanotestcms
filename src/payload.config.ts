@@ -66,7 +66,11 @@ export default buildConfig({
     Pages,
     Redirects,
   ],
-  cors: ['https://www.google.com'],
+  cors: [
+    process.env.NEXT_PUBLIC_SERVER_URL as string,
+    'https://www.google.com',
+    'https://p-r7tphp.project.space',
+  ],
   csrf: [
     process.env.NEXT_PUBLIC_SERVER_URL as string,
     'http://localhost:3301',
