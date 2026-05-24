@@ -127,9 +127,6 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
   const navItems = await getNavItems(lang as Config['locale'], isDraft);
   return (
     <html suppressHydrationWarning lang={lang}>
-      <head>
-        <title>{siteConfig.title}</title>
-      </head>
       <body className={cn('min-h-screen bg-background font-sans antialiased ', fontSans.className)}>
         <Providers lang={lang}>
           <AdminBar preview={isDraft} />

@@ -13,7 +13,7 @@ export type SiteConfig = {
 };
 
 export const siteConfig: SiteConfig = {
-  title: ' Nanotest Homepage',
+  title: 'Nanotest Homepage',
   description:
     'Simply measured. Your partner for thermal characterization and reliability testing.',
 };

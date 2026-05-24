@@ -11,6 +11,27 @@ type MetaGroup = {
   image?: (string | null) | Media;
 };
 
+function normalizeText(value?: string | null): string | undefined {
+  const trimmed = value?.trim();
+
+  return trimmed ? trimmed : undefined;
+}
+
+function normalizeTitle(value?: string | null): string | undefined {
+  const normalized = normalizeText(value);
+
+  if (!normalized) {
+    return undefined;
+  }
+
+  const compact = normalized.replace(/[\s\-–—|:]+/g, '').toLowerCase();
+  if (compact === 'nanotest') {
+    return undefined;
+  }
+
+  return normalized;
+}
+
 /**
  * Converts a Payload `meta` group (added by @payloadcms/plugin-seo) into a
  * Next.js `Metadata` object. Falls back to siteConfig defaults when fields are
@@ -21,8 +42,14 @@ export function buildMetadata(
   overrides: { title?: string; description?: string } = {},
   locale = 'en',
 ): Metadata {
-  const title = meta?.title ?? overrides.title ?? siteConfig.title;
-  const description = meta?.description ?? overrides.description ?? siteConfig.description;
+  const title =
+    normalizeTitle(meta?.title) ??
+    normalizeTitle(overrides.title) ??
+    normalizeTitle(siteConfig.title);
+  const description =
+    normalizeText(meta?.description) ??
+    normalizeText(overrides.description) ??
+    normalizeText(siteConfig.description);
 
   const ogImage =
     meta?.image && typeof meta.image === 'object' && meta.image.url
