@@ -70,6 +70,7 @@ export default buildConfig({
   csrf: [
     process.env.NEXT_PUBLIC_SERVER_URL as string,
     'http://localhost:3301',
+    'https://p-r7tphp.project.space',
     'https://nanotest.eu',
     'https://www.nanotest.eu',
     'https://nanotest.jutoserver.de',
