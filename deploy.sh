@@ -13,7 +13,7 @@ cp -a data "$STAGE/data"
 cp .env "$STAGE/.env"
 
 # Stoppe alten Server
-pkill -9 -f next
+kill "$(ps aux | grep 'next-server' | awk '{print $2}' | head -n 1)"
 
 rm -rf "$DEST"
 mv "$STAGE" "$DEST"
@@ -25,4 +25,5 @@ while IFS= read -r line; do
   export "$line"
 done < "$DEST/.env"
 set +a
+
 node "$DEST/server.js"
