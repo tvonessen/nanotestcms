@@ -1,7 +1,44 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-DEST=live
+DEST="${DEST:-live}"
 STAGE="${DEST}.new"
+LOG_DIR="${LOG_DIR:-logs}"
+LOG_FILE="${LOG_DIR}/deploy.log"
+SERVER_LOG="${LOG_DIR}/server.log"
+PIDFILE="${DEST}/server.pid"
+
+timestamp() {
+  date '+%Y-%m-%d %H:%M:%S'
+}
+
+log() {
+  mkdir -p "$LOG_DIR"
+  printf '[%s] %s\n' "$(timestamp)" "$*" >> "$LOG_FILE"
+}
+
+cleanup() {
+  rm -rf "$STAGE"
+}
+
+find_running_pid() {
+  if [[ -f "$PIDFILE" ]]; then
+    local pid
+    pid="$(cat "$PIDFILE" 2>/dev/null || true)"
+    if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then
+      printf '%s\n' "$pid"
+      return 0
+    fi
+  fi
+
+  ps ax -o pid= -o command= | awk -v dest="/${DEST}/server.js" '
+    index($0, "node") && index($0, dest) { print $1; exit }
+  '
+}
+
+trap cleanup EXIT
+
+log "Deploy gestartet."
 
 rm -rf "$STAGE"
 mkdir -p "$STAGE/.next"
@@ -12,18 +49,28 @@ cp -a public "$STAGE/public"
 cp -a data "$STAGE/data"
 cp .env "$STAGE/.env"
 
-# Stoppe alten Server
-kill "$(ps aux | grep 'next-server' | awk '{print $2}' | head -n 1)"
+old_pid="$(find_running_pid || true)"
+if [[ -n "${old_pid:-}" ]]; then
+  kill "$old_pid"
+  log "Alter Server gestoppt (PID ${old_pid})."
+fi
 
 rm -rf "$DEST"
 mv "$STAGE" "$DEST"
 
-# Starte neuen Server
 set -a
-while IFS= read -r line; do
-  [[ $line =~ ^#.*$ || -z $line ]] && continue
-  export "$line"
-done < "$DEST/.env"
+. "$DEST/.env"
 set +a
 
-node "$DEST/server.js"
+mkdir -p "$LOG_DIR"
+nohup node "$DEST/server.js" >> "$SERVER_LOG" 2>&1 < /dev/null &
+new_pid=$!
+echo "$new_pid" > "$PIDFILE"
+
+if kill -0 "$new_pid" 2>/dev/null; then
+  log "Neuer Server gestartet (PID ${new_pid})."
+  log "Deploy abgeschlossen."
+else
+  log "ERROR: Serverstart fehlgeschlagen."
+  exit 1
+fi
