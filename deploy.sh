@@ -26,6 +26,18 @@ cleanup() {
   rm -rf "$STAGE"
 }
 
+start_server() {
+  if command -v setsid >/dev/null 2>&1; then
+    setsid node "$DEST/server.js" >> "$SERVER_LOG" 2>&1 < /dev/null &
+    return 0
+  fi
+
+  (
+    trap '' HUP
+    exec node "$DEST/server.js" >> "$SERVER_LOG" 2>&1 < /dev/null
+  ) &
+}
+
 find_running_pid() {
   if [[ -f "$PIDFILE" ]]; then
     local pid
@@ -79,7 +91,7 @@ set -a
 set +a
 
 mkdir -p "$LOG_DIR"
-nohup node "$DEST/server.js" >> "$SERVER_LOG" 2>&1 < /dev/null &
+start_server
 new_pid=$!
 echo "$new_pid" > "$PIDFILE"
 
