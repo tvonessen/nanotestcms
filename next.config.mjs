@@ -26,6 +26,6 @@ export default withPayload({
       },
     ],
     qualities: [70, 85, 100],
-    dangerouslyAllowLocalIP: true,
+    dangerouslyAllowLocalIP: process.env.NODE_ENV !== 'production',
   },
 });
