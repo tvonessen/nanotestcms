@@ -1,9 +1,14 @@
 .teamGalleryBeehive {
   display: grid;
-  grid-template-columns: repeat(3, 150px);
-  gap: 15px 0;
+  grid-template-columns: repeat(3, 33%);
+  row-gap: 30px;
   margin-block: 20px 100px;
   justify-content: center;
+
+  @media (min-width: 480px) {
+    grid-template-columns: repeat(2, 150px);
+    gap: 15px 0;
+  }
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(4, 1fr);
