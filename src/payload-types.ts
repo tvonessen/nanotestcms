@@ -76,6 +76,7 @@ export interface Config {
     'distro-partner': DistroPartner;
     pages: Page;
     redirects: Redirect;
+    'analytics-aggregates': AnalyticsAggregate;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
@@ -97,6 +98,7 @@ export interface Config {
     'distro-partner': DistroPartnerSelect<false> | DistroPartnerSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
+    'analytics-aggregates': AnalyticsAggregatesSelect<false> | AnalyticsAggregatesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -112,12 +114,14 @@ export interface Config {
     about: About;
     legal: Legal;
     'contact-us': ContactUs;
+    'analytics-settings': AnalyticsSetting;
   };
   globalsSelect: {
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
     legal: LegalSelect<false> | LegalSelect<true>;
     'contact-us': ContactUsSelect<false> | ContactUsSelect<true>;
+    'analytics-settings': AnalyticsSettingsSelect<false> | AnalyticsSettingsSelect<true>;
   };
   locale: 'en' | 'de';
   widgets: {
@@ -3781,6 +3785,49 @@ export interface Redirect {
   createdAt: string;
 }
 /**
+ * Aggregated analytics metrics. This stores privacy-first aggregates rather than full raw events.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "analytics-aggregates".
+ */
+export interface AnalyticsAggregate {
+  id: string;
+  /**
+   * Deterministic aggregation key (time bucket + dimensions). Used for upserts in analytics ingestion.
+   */
+  compositeKey: string;
+  bucketStart: string;
+  bucketGranularity: 'day' | 'hour';
+  /**
+   * Normalized public path without query string.
+   */
+  path: string;
+  /**
+   * Locale extracted from URL when available.
+   */
+  locale?: ('en' | 'de') | null;
+  /**
+   * ISO country code (best effort, usually two-letter uppercase).
+   */
+  country?: string | null;
+  /**
+   * Optional coarse region/state if enabled in settings.
+   */
+  region?: string | null;
+  referrerType?: ('direct' | 'search' | 'internal' | 'external' | 'unknown') | null;
+  deviceClass?: ('desktop' | 'tablet' | 'mobile' | 'unknown') | null;
+  viewportBucket?: ('xs' | 'sm' | 'md' | 'lg' | 'xl' | 'unknown') | null;
+  pageviews: number;
+  /**
+   * Approximation only (privacy-first model, no long-lived per-user tracking).
+   */
+  uniqueVisitorsApprox: number;
+  entryViews: number;
+  lastCollectedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -3931,6 +3978,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'redirects';
         value: string | Redirect;
+      } | null)
+    | ({
+        relationTo: 'analytics-aggregates';
+        value: string | AnalyticsAggregate;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -4373,6 +4424,28 @@ export interface RedirectsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "analytics-aggregates_select".
+ */
+export interface AnalyticsAggregatesSelect<T extends boolean = true> {
+  compositeKey?: T;
+  bucketStart?: T;
+  bucketGranularity?: T;
+  path?: T;
+  locale?: T;
+  country?: T;
+  region?: T;
+  referrerType?: T;
+  deviceClass?: T;
+  viewportBucket?: T;
+  pageviews?: T;
+  uniqueVisitorsApprox?: T;
+  entryViews?: T;
+  lastCollectedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -4635,6 +4708,44 @@ export interface ContactUs {
   createdAt?: string | null;
 }
 /**
+ * Privacy-first analytics configuration. Keep settings conservative unless legal requirements are explicitly reviewed.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "analytics-settings".
+ */
+export interface AnalyticsSetting {
+  id: string;
+  enabled?: boolean | null;
+  /**
+   * Requests whose normalized path starts with any of these prefixes will be ignored.
+   */
+  excludedPathPrefixes?:
+    | {
+        prefix: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Target maximum age for analytics aggregates. Future cleanup jobs should delete older data.
+   */
+  retentionDays: number;
+  /**
+   * Keep disabled by default to minimize geo precision. (better privacy)
+   */
+  allowRegionGranularity?: boolean | null;
+  /**
+   * Disabled by default. Aggregates are preferred. Raw events should only be enabled with short TTL.
+   */
+  storeRawEvents?: boolean | null;
+  rawEventTtlHours?: number | null;
+  /**
+   * Document legal basis, consent strategy, and assumptions for analytics operation.
+   */
+  notes?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "homepage_select".
  */
@@ -4817,6 +4928,27 @@ export interface ContactUsSelect<T extends boolean = true> {
         image?: T;
       };
   _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "analytics-settings_select".
+ */
+export interface AnalyticsSettingsSelect<T extends boolean = true> {
+  enabled?: T;
+  excludedPathPrefixes?:
+    | T
+    | {
+        prefix?: T;
+        id?: T;
+      };
+  retentionDays?: T;
+  allowRegionGranularity?: T;
+  storeRawEvents?: T;
+  rawEventTtlHours?: T;
+  notes?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

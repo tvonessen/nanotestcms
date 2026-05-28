@@ -30,6 +30,7 @@ import { SolutionCategories } from '@/collections/SolutionCategories';
 import { locales } from '@/config/locales';
 import redirectMapHandler from '@/utils/redirect-map';
 import revalidateHandler from '@/utils/revalidate';
+import { AnalyticsAggregates } from './collections/AnalyticsAggregates';
 import { DistroPartners } from './collections/DistroPartners';
 import { Documents } from './collections/Documents';
 import { Media } from './collections/Media';
@@ -37,6 +38,7 @@ import Solutions from './collections/Solutions';
 import { TeamMembers } from './collections/TeamMembers';
 import { Users } from './collections/Users';
 import { nodemailerOptions } from './config/nodemailer';
+import { AnalyticsSettings } from './globals/AnalyticsSettings';
 import { AboutContent } from './globals/AboutContent';
 import { ContactUsContent } from './globals/ContactUsContent';
 import { HomepageContent } from './globals/HomepageContent';
@@ -84,6 +86,7 @@ export default buildConfig({
     DistroPartners,
     Pages,
     Redirects,
+    AnalyticsAggregates,
   ],
   cors,
   csrf,
@@ -161,7 +164,7 @@ export default buildConfig({
       generateImage: ({ doc }) => doc?.details?.images?.[0] ?? null,
     }),
   ],
-  globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent],
+  globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent, AnalyticsSettings],
   upload: {
     limits: {
       fileSize: MAX_UPLOAD_SIZE_BYTES,
