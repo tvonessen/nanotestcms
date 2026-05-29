@@ -19,7 +19,7 @@ timestamp() {
 
 log() {
   mkdir -p "$LOG_DIR"
-  printf '[%s] %s\n' "$(timestamp)" "$*" >> "$LOG_FILE"
+  printf '[%s] %s\n' "$(timestamp)" "$*" | tee -a "$LOG_FILE"
 }
 
 cleanup() {
@@ -67,7 +67,16 @@ mkdir -p "$STAGE/.next"
 cp -a .next/standalone/. "$STAGE"
 cp -a .next/static "$STAGE/.next/static"
 cp -a public "$STAGE/public"
-cp -a data "$STAGE/data"
+
+data_source="data"
+if [[ -d "$DEST/data" ]]; then
+  data_source="$DEST/data"
+  log "Persistente Daten aus ${DEST}/data werden uebernommen."
+else
+  log "Kein bestehendes ${DEST}/data gefunden; nutze Repository-Datenordner."
+fi
+cp -a "$data_source" "$STAGE/data"
+
 cp .env "$STAGE/.env"
 
 old_pid="$(find_running_pid || true)"

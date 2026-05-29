@@ -11,7 +11,7 @@ timestamp() {
 
 log() {
   mkdir -p "$LOG_DIR"
-  printf '[%s] %s\n' "$(timestamp)" "$*" >> "$LOG_FILE"
+  printf '[%s] %s\n' "$(timestamp)" "$*" | tee -a "$LOG_FILE"
 }
 
 run_compact() {
@@ -28,7 +28,7 @@ run_compact() {
   fi
 
   log "ERROR: ${label}"
-  tail -n 20 "$output_file" | sed 's/^/  /' >> "$LOG_FILE"
+  tail -n 20 "$output_file" | sed 's/^/  /' | tee -a "$LOG_FILE"
   rm -f "$output_file"
   exit 1
 }
