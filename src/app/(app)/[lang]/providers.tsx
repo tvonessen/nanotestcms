@@ -4,7 +4,6 @@ import { HeroUIProvider } from '@heroui/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { SnackbarProvider } from 'notistack';
 import type * as React from 'react';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { getUILocale } from '@/config/locales';
 
 export interface ProvidersProps {
@@ -16,11 +15,7 @@ export function Providers({ children, lang }: ProvidersProps) {
   return (
     <HeroUIProvider locale={getUILocale(lang)}>
       <NextThemesProvider attribute="class" defaultTheme="dark">
-        <GoogleReCaptchaProvider
-          reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? 'NOT DEFINED'}
-        >
-          <SnackbarProvider maxSnack={3}>{children}</SnackbarProvider>
-        </GoogleReCaptchaProvider>
+        <SnackbarProvider maxSnack={3}>{children}</SnackbarProvider>
       </NextThemesProvider>
     </HeroUIProvider>
   );
