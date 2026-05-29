@@ -2,6 +2,8 @@
 set -euo pipefail
 
 CD_PATH="${CD_PATH:-./}"
+LIVE_DIR="${LIVE_DIR:-live}"
+DATA_DIR="${DATA_DIR:-${LIVE_DIR}.data}"
 LOG_DIR="${LOG_DIR:-./logs}"
 LOG_FILE="${LOG_DIR}/deploy.log"
 
@@ -33,6 +35,24 @@ run_compact() {
   exit 1
 }
 
+sync_build_data() {
+  local source_data_path="$DATA_DIR"
+
+  if [[ ! -d "$source_data_path" ]] && [[ -d "${LIVE_DIR}/data" ]]; then
+    source_data_path="${LIVE_DIR}/data"
+    log "Fallback: Nutze ${LIVE_DIR}/data fuer den Build."
+  fi
+
+  if [[ ! -d "$source_data_path" ]]; then
+    log "Kein persistenter Datenordner gefunden. Nutze vorhandenes ./data fuer den Build."
+    return 0
+  fi
+
+  rm -rf data
+  cp -a "$source_data_path" data
+  log "Build-Daten aus ${source_data_path} nach ./data synchronisiert."
+}
+
 cd "$CD_PATH"
 
 log "Update-Pruefung gestartet."
@@ -56,6 +76,7 @@ fi
 log "Aenderungen erkannt."
 run_compact "git pull" git pull --ff-only --quiet
 run_compact "pnpm install" pnpm install
+run_compact "sync build data" sync_build_data
 run_compact "pnpm build" pnpm build
 
 if ! ./deploy.sh; then

@@ -3,6 +3,7 @@ set -euo pipefail
 
 DEST="${DEST:-live}"
 STAGE="${DEST}.new"
+DATA_DIR="${DATA_DIR:-${DEST}.data}"
 LOG_DIR="${LOG_DIR:-logs}"
 LOG_FILE="${LOG_DIR}/deploy.log"
 SERVER_LOG="${LOG_DIR}/server.log"
@@ -68,14 +69,29 @@ cp -a .next/standalone/. "$STAGE"
 cp -a .next/static "$STAGE/.next/static"
 cp -a public "$STAGE/public"
 
-data_source="data"
-if [[ -d "$DEST/data" ]]; then
-  data_source="$DEST/data"
-  log "Persistente Daten aus ${DEST}/data werden uebernommen."
-else
-  log "Kein bestehendes ${DEST}/data gefunden; nutze Repository-Datenordner."
+if [[ ! -d "$DATA_DIR" ]]; then
+  if [[ -d "$DEST/data" ]]; then
+    mkdir -p "$(dirname "$DATA_DIR")"
+    mv "$DEST/data" "$DATA_DIR"
+    log "Bestehende Daten aus ${DEST}/data nach ${DATA_DIR} migriert."
+  elif [[ -d "data" ]]; then
+    mkdir -p "$(dirname "$DATA_DIR")"
+    cp -a data "$DATA_DIR"
+    log "Initiale Daten aus ./data nach ${DATA_DIR} kopiert."
+  else
+    mkdir -p "$DATA_DIR"
+    log "Neues persistentes Datenverzeichnis ${DATA_DIR} erstellt."
+  fi
 fi
-cp -a "$data_source" "$STAGE/data"
+
+mkdir -p "$DATA_DIR/media" "$DATA_DIR/documents"
+if [[ "$DATA_DIR" = /* ]]; then
+  data_link_target="$DATA_DIR"
+else
+  data_link_target="../$DATA_DIR"
+fi
+ln -sfn "$data_link_target" "$STAGE/data"
+log "Release-Datenpfad ${STAGE}/data auf ${DATA_DIR} verlinkt."
 
 cp .env "$STAGE/.env"
 
