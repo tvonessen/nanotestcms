@@ -4708,7 +4708,7 @@ export interface ContactUs {
   createdAt?: string | null;
 }
 /**
- * Privacy-first analytics configuration. Keep settings conservative unless legal requirements are explicitly reviewed.
+ * Privacy-first analytics config. Retention cleanup is available via /api/cleanup-analytics (admin auth required).
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "analytics-settings".

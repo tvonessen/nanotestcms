@@ -29,6 +29,7 @@ import { Redirects } from '@/collections/Redirects';
 import { SolutionCategories } from '@/collections/SolutionCategories';
 import { locales } from '@/config/locales';
 import redirectMapHandler from '@/utils/redirect-map';
+import { cleanupAnalyticsEndpoint } from '@/utils/cleanup-analytics';
 import revalidateHandler from '@/utils/revalidate';
 import { AnalyticsAggregates } from './collections/AnalyticsAggregates';
 import { DistroPartners } from './collections/DistroPartners';
@@ -146,6 +147,11 @@ export default buildConfig({
       path: '/redirect-map',
       method: 'get',
       handler: redirectMapHandler,
+    },
+    {
+      path: '/cleanup-analytics',
+      method: 'post',
+      handler: cleanupAnalyticsEndpoint,
     },
   ],
   localization: {

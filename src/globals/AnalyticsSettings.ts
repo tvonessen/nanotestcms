@@ -11,7 +11,7 @@ export const AnalyticsSettings: GlobalConfig = {
   admin: {
     group: 'Analytics',
     description:
-      'Privacy-first analytics configuration. Keep settings conservative unless legal requirements are explicitly reviewed.',
+      'Privacy-first analytics config. Retention cleanup is available via /api/cleanup-analytics (admin auth required).',
   },
   fields: [
     {

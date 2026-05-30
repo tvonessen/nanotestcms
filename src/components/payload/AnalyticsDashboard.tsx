@@ -4,6 +4,12 @@ import {ChevronLeftIcon} from "@heroui/shared-icons";
 type AnalyticsViewProps = {
   payload: {
     find: (args: Record<string, unknown>) => Promise<{ docs: AnalyticsAggregate[] }>;
+    findGlobal: (args: Record<string, unknown>) => Promise<{
+      retentionDays?: number | null;
+      allowRegionGranularity?: boolean | null;
+      enabled?: boolean | null;
+      storeRawEvents?: boolean | null;
+    }>;
   };
   searchParams?: Record<string, string | string[] | undefined>;
 };
@@ -156,6 +162,11 @@ export function AnalyticsNavLink() {
 export async function AnalyticsView({ payload, searchParams }: AnalyticsViewProps) {
   const days = parseDaysParam(searchParams);
   const rangeStart = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+  const settings = await payload.findGlobal({
+    slug: 'analytics-settings',
+    depth: 0,
+    overrideAccess: true,
+  });
 
   const result = await payload.find({
     collection: 'analytics-aggregates',
@@ -273,6 +284,38 @@ export async function AnalyticsView({ payload, searchParams }: AnalyticsViewProp
           <span>{trendSeries[0] ? toDateLabel(trendSeries[0].key) : ''}</span>
           <span>{trendSeries.at(-1) ? toDateLabel(trendSeries.at(-1)?.key ?? '') : ''}</span>
         </div>
+      </article>
+
+      <article
+        style={{
+          border: '1px solid var(--theme-elevation-200)',
+          borderRadius: '8px',
+          padding: '0.75rem',
+          marginBottom: '1.5rem',
+        }}
+      >
+        <h3 style={{ marginBottom: '0.5rem' }}>Governance & Retention</h3>
+        <ul style={{ margin: 0, paddingLeft: '1.1rem', display: 'grid', gap: '0.2rem' }}>
+          <li>Analytics aktiv: {settings.enabled === false ? 'Nein' : 'Ja'}</li>
+          <li>Retention: {Math.max(1, settings.retentionDays ?? 750)} Tage</li>
+          <li>Region-Granularität: {settings.allowRegionGranularity ? 'Aktiv' : 'Deaktiviert'}</li>
+          <li>Raw Events: {settings.storeRawEvents ? 'Aktiv' : 'Deaktiviert (empfohlen)'}</li>
+          <li>Besucherzahl ist approximativ, keine Session-Rekonstruktion.</li>
+        </ul>
+        <form action="/api/cleanup-analytics" method="post" style={{ marginTop: '0.75rem' }}>
+          <button
+            type="submit"
+            style={{
+              border: '1px solid var(--theme-elevation-250)',
+              borderRadius: '6px',
+              background: 'transparent',
+              padding: '0.35rem 0.6rem',
+              cursor: 'pointer',
+            }}
+          >
+            Retention-Cleanup jetzt ausführen
+          </button>
+        </form>
       </article>
 
       <div
