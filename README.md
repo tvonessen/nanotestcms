@@ -94,10 +94,10 @@ When content is **published** (not just saved as draft) in the admin panel, Payl
 
 The project includes a first-party analytics implementation focused on minimal consent requirements.
 
-- Tracking endpoint: `/api/tally` (internal, no third-party analytics vendor)
+- Tracking ingestion endpoint: `/api/analytics/collect` (first-party, server-side called)
 - Reporting UI: `/admin/analytics`
 - Storage model: aggregated metrics in `analytics-aggregates` (no full session reconstruction)
-- Visitor metric is intentionally approximate (`uniqueVisitorsApprox`)
+- No unique visitor identifier is collected
 - Operational retention is controlled in `analytics-settings.retentionDays`
 
 ### Retention cleanup

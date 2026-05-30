@@ -1,4 +1,4 @@
-import type { NextRequest } from 'next/server';
+import type { NextFetchEvent, NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import type { RedirectMap } from '@/utils/redirect-map';
 
@@ -20,7 +20,59 @@ function detectLocale(acceptLanguage: string | null): string {
   return 'en';
 }
 
-export async function proxy(request: NextRequest) {
+function shouldTrackRequest(request: NextRequest): boolean {
+  if (request.method !== 'GET') return false;
+  const accept = request.headers.get('accept') ?? '';
+  if (!accept.includes('text/html')) return false;
+  if (request.headers.get('purpose') === 'prefetch') return false;
+  if (request.headers.get('next-router-prefetch') !== null) return false;
+
+  const hasDraftCookie =
+    request.cookies.has('__prerender_bypass') || request.cookies.has('__next_preview_data');
+  const hasPayloadSession = request.cookies.has('payload-token');
+  return !(hasDraftCookie && hasPayloadSession);
+
+
+}
+
+function queueServerPageview(request: NextRequest, event: NextFetchEvent) {
+  if (!shouldTrackRequest(request)) return;
+
+  const analyticsURL = new URL('/api/analytics/collect', request.url);
+  const requestHeaders = new Headers({
+    'content-type': 'application/json',
+  });
+  const forwardHeaders = [
+    'user-agent',
+    'referer',
+    'x-vercel-ip-country',
+    'x-vercel-ip-country-region',
+    'cf-ipcountry',
+    'cf-region-code',
+    'x-country-code',
+    'x-region',
+  ];
+
+  for (const header of forwardHeaders) {
+    const value = request.headers.get(header);
+    if (value) requestHeaders.set(header, value);
+  }
+
+  event.waitUntil(
+    fetch(analyticsURL, {
+      method: 'POST',
+      headers: requestHeaders,
+      body: JSON.stringify({
+        pathname: request.nextUrl.pathname,
+        eventType: 'initial',
+        referrer: request.headers.get('referer') ?? undefined,
+      }),
+      cache: 'no-store',
+    }).catch(() => undefined),
+  );
+}
+
+export async function proxy(request: NextRequest, event: NextFetchEvent) {
   const { pathname } = request.nextUrl;
   const prev = request.url;
 
@@ -40,7 +92,10 @@ export async function proxy(request: NextRequest) {
   }
 
   // Known locale prefix — pass through to normal routing
-  if (LOCALES.includes(locale)) return NextResponse.next();
+  if (LOCALES.includes(locale)) {
+    queueServerPageview(request, event);
+    return NextResponse.next();
+  }
 
   // Unknown first segment: check the alias/redirect table before falling back to /en prefix.
   const alias = pathname.replace(/^\/+/, '').split('/')[0];

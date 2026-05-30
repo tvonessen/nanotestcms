@@ -214,7 +214,6 @@ export async function POST(request: Request) {
   });
 
   const entryIncrement = eventType === 'initial' ? 1 : 0;
-  const uniqueIncrement = eventType === 'initial' ? 1 : 0;
   const now = new Date().toISOString();
   const data = {
     compositeKey,
@@ -228,7 +227,7 @@ export async function POST(request: Request) {
     deviceClass,
     viewportBucket,
     pageviews: 1,
-    uniqueVisitorsApprox: uniqueIncrement,
+    uniqueVisitorsApprox: 0,
     entryViews: entryIncrement,
     lastCollectedAt: now,
   };
@@ -241,7 +240,7 @@ export async function POST(request: Request) {
       data: {
         ...data,
         pageviews: (current.pageviews ?? 0) + 1,
-        uniqueVisitorsApprox: (current.uniqueVisitorsApprox ?? 0) + uniqueIncrement,
+        uniqueVisitorsApprox: current.uniqueVisitorsApprox ?? 0,
         entryViews: (current.entryViews ?? 0) + entryIncrement,
       },
     });

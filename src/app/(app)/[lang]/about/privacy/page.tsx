@@ -70,8 +70,8 @@ export default async function AboutPage({ params }: AboutPageProps) {
               </li>
               <li>
                 {lang === 'de'
-                  ? 'Besucherzahlen sind bewusst nur approximativ.'
-                  : 'Visitor counts are intentionally approximate.'}
+                  ? 'Es werden keine eindeutigen Besucherkennungen erhoben.'
+                  : 'No unique visitor identifiers are collected.'}
               </li>
             </ul>
           </div>

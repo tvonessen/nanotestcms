@@ -29,7 +29,6 @@ export const AnalyticsAggregates: CollectionConfig = {
       'locale',
       'country',
       'pageviews',
-      'uniqueVisitorsApprox',
     ],
     description:
       'Aggregated analytics metrics. This stores privacy-first aggregates rather than full raw events.',
@@ -153,7 +152,9 @@ export const AnalyticsAggregates: CollectionConfig = {
       defaultValue: 0,
       min: 0,
       admin: {
-        description: 'Approximation only (privacy-first model, no long-lived per-user tracking).',
+        readOnly: true,
+        description:
+          'Legacy field: unique visitor approximation is disabled in server-side tracking mode.',
       },
     },
     {

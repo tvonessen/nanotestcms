@@ -168,7 +168,6 @@ export async function AnalyticsView({ payload, searchParams }: AnalyticsViewProp
     overrideAccess: true,
   });
   let pageviews = 0;
-  let uniqueVisitorsApprox = 0;
   let entryViews = 0;
   let aggregateDocs = 0;
 
@@ -198,12 +197,10 @@ export async function AnalyticsView({ payload, searchParams }: AnalyticsViewProp
 
     for (const doc of docs) {
       const pv = doc.pageviews ?? 0;
-      const uv = doc.uniqueVisitorsApprox ?? 0;
       const ev = doc.entryViews ?? 0;
       const bucketKey = new Date(doc.bucketStart).toISOString().slice(0, 10);
 
       pageviews += pv;
-      uniqueVisitorsApprox += uv;
       entryViews += ev;
 
       dailyTotals.set(bucketKey, (dailyTotals.get(bucketKey) ?? 0) + pv);
@@ -271,10 +268,6 @@ export async function AnalyticsView({ payload, searchParams }: AnalyticsViewProp
           <strong style={{ fontSize: '1.2rem' }}>{pageviews.toLocaleString('de-DE')}</strong>
         </article>
         <article style={{ border: '1px solid var(--theme-elevation-200)', borderRadius: '8px', padding: '0.75rem' }}>
-          <div style={{ fontSize: '0.8rem', opacity: 0.75 }}>Besucher (approx.)</div>
-          <strong style={{ fontSize: '1.2rem' }}>{uniqueVisitorsApprox.toLocaleString('de-DE')}</strong>
-        </article>
-        <article style={{ border: '1px solid var(--theme-elevation-200)', borderRadius: '8px', padding: '0.75rem' }}>
           <div style={{ fontSize: '0.8rem', opacity: 0.75 }}>Entry Views</div>
           <strong style={{ fontSize: '1.2rem' }}>{entryViews.toLocaleString('de-DE')}</strong>
         </article>
@@ -315,7 +308,7 @@ export async function AnalyticsView({ payload, searchParams }: AnalyticsViewProp
           <li>Retention: {settings.retentionDays} Tage</li>
           <li>Region-Granularität: {settings.allowRegionGranularity ? 'Aktiv' : 'Deaktiviert'}</li>
           <li>Raw Events: {settings.storeRawEvents ? 'Aktiv' : 'Deaktiviert (empfohlen)'}</li>
-          <li>Besucherzahl ist approximativ, keine Session-Rekonstruktion.</li>
+          <li>Unique-Visitor-Schätzung ist deaktiviert (serverseitiges, cookieloses Tracking).</li>
         </ul>
         <form action="/api/cleanup-analytics" method="post" style={{ marginTop: '0.75rem' }}>
           <button

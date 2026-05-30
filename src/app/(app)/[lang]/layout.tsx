@@ -9,7 +9,6 @@ import Loading from '@/app/(app)/[lang]/loading';
 import { Providers } from '@/app/(app)/[lang]/providers';
 import Footer from '@/components/footer/footer';
 import { Navbar } from '@/components/navigation/navbar';
-import { AnalyticsTracker } from '@/components/utility/AnalyticsTracker';
 import { AdminBar } from '@/components/utility/AdminBar';
 import { RefreshRouteOnSave } from '@/components/utility/RefreshRouteOnSave';
 import { fontSans } from '@/config/fonts';
@@ -130,7 +129,6 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
     <html suppressHydrationWarning lang={lang}>
       <body className={cn('min-h-screen bg-background font-sans antialiased ', fontSans.className)}>
         <Providers lang={lang}>
-          <AnalyticsTracker disabled={isDraft} />
           <AdminBar preview={isDraft} />
           <RefreshRouteOnSave />
           <Navbar navItems={navItems} lang={lang as Config['locale']} />

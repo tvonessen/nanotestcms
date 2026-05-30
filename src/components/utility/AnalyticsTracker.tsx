@@ -14,7 +14,7 @@ type AnalyticsCollectEvent = {
   eventType: 'initial' | 'navigation';
 };
 
-const COLLECT_ENDPOINT = '/api/tally';
+const COLLECT_ENDPOINTS = ['/api/analytics/collect'];
 
 function isPrivacySignalEnabled() {
   const browserNavigator = navigator as Navigator & { globalPrivacyControl?: boolean };
@@ -30,17 +30,37 @@ function sendCollectEvent(event: AnalyticsCollectEvent): void {
 
   if (navigator.sendBeacon) {
     const blob = new Blob([payload], { type: 'application/json' });
-    if (navigator.sendBeacon(COLLECT_ENDPOINT, blob)) {
-      return;
+    for (const endpoint of COLLECT_ENDPOINTS) {
+      if (navigator.sendBeacon(endpoint, blob)) {
+        return;
+      }
     }
   }
 
-  void fetch(COLLECT_ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: payload,
-    keepalive: true,
-  });
+  const tryFetch = async () => {
+    for (const endpoint of COLLECT_ENDPOINTS) {
+      try {
+        await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload,
+          keepalive: true,
+        });
+        return;
+      } catch {
+        // Try next endpoint
+      }
+    }
+  };
+
+  void tryFetch().catch(() =>
+    fetch(COLLECT_ENDPOINTS[COLLECT_ENDPOINTS.length - 1], {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: payload,
+      keepalive: true,
+    }).catch(() => console.error('Analytics failed')),
+  );
 }
 
 export function AnalyticsTracker({ disabled = false }: AnalyticsTrackerProps) {
@@ -51,7 +71,6 @@ export function AnalyticsTracker({ disabled = false }: AnalyticsTrackerProps) {
   useEffect(() => {
     if (disabled || !pathname) return;
     if (isPrivacySignalEnabled()) return;
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') return;
 
     if (lastPathRef.current === pathname) return;
 
