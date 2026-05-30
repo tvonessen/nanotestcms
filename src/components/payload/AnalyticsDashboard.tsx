@@ -3,7 +3,10 @@ import {ChevronLeftIcon} from "@heroui/shared-icons";
 
 type AnalyticsViewProps = {
   payload: {
-    find: (args: Record<string, unknown>) => Promise<{ docs: AnalyticsAggregate[] }>;
+    find: (args: Record<string, unknown>) => Promise<{
+      docs: AnalyticsAggregate[];
+      hasNextPage?: boolean;
+    }>;
     findGlobal: (args: Record<string, unknown>) => Promise<{
       retentionDays?: number | null;
       allowRegionGranularity?: boolean | null;
@@ -15,6 +18,7 @@ type AnalyticsViewProps = {
 };
 
 const RANGE_OPTIONS = [7, 30, 90];
+const DASHBOARD_PAGE_SIZE = 250;
 
 function parseDaysParam(searchParams?: Record<string, string | string[] | undefined>): number {
   const raw = searchParams?.days;
@@ -38,14 +42,10 @@ function toDateLabel(input: string) {
   return new Date(input).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
 }
 
-function buildDailySeries(docs: AnalyticsAggregate[], days: number): Array<{ key: string; value: number }> {
-  const totals = new Map<string, number>();
-
-  for (const doc of docs) {
-    const key = new Date(doc.bucketStart).toISOString().slice(0, 10);
-    totals.set(key, (totals.get(key) ?? 0) + (doc.pageviews ?? 0));
-  }
-
+function buildDailySeries(
+  totals: Map<string, number>,
+  days: number,
+): Array<{ key: string; value: number }> {
   const series: Array<{ key: string; value: number }> = [];
   const now = new Date();
   now.setHours(0, 0, 0, 0);
@@ -167,55 +167,70 @@ export async function AnalyticsView({ payload, searchParams }: AnalyticsViewProp
     depth: 0,
     overrideAccess: true,
   });
-
-  const result = await payload.find({
-    collection: 'analytics-aggregates',
-    depth: 0,
-    limit: 10000,
-    pagination: false,
-    where: {
-      bucketStart: {
-        greater_than_equal: rangeStart,
-      },
-    },
-  });
-
-  const docs = result.docs ?? [];
   let pageviews = 0;
   let uniqueVisitorsApprox = 0;
   let entryViews = 0;
+  let aggregateDocs = 0;
 
   const pages = new Map<string, number>();
   const countries = new Map<string, number>();
   const devices = new Map<string, number>();
   const viewportBuckets = new Map<string, number>();
+  const dailyTotals = new Map<string, number>();
 
-  for (const doc of docs) {
-    const pv = doc.pageviews ?? 0;
-    const uv = doc.uniqueVisitorsApprox ?? 0;
-    const ev = doc.entryViews ?? 0;
+  let page = 1;
+  while (true) {
+    const result = await payload.find({
+      collection: 'analytics-aggregates',
+      depth: 0,
+      limit: DASHBOARD_PAGE_SIZE,
+      page,
+      pagination: true,
+      where: {
+        bucketStart: {
+          greater_than_equal: rangeStart,
+        },
+      },
+    });
 
-    pageviews += pv;
-    uniqueVisitorsApprox += uv;
-    entryViews += ev;
+    const docs = result.docs ?? [];
+    aggregateDocs += docs.length;
 
-    pages.set(doc.path, (pages.get(doc.path) ?? 0) + pv);
-    countries.set(doc.country ?? 'Unknown', (countries.get(doc.country ?? 'Unknown') ?? 0) + pv);
-    devices.set(
-      doc.deviceClass ?? 'unknown',
-      (devices.get(doc.deviceClass ?? 'unknown') ?? 0) + pv,
-    );
-    viewportBuckets.set(
-      doc.viewportBucket ?? 'unknown',
-      (viewportBuckets.get(doc.viewportBucket ?? 'unknown') ?? 0) + pv,
-    );
+    for (const doc of docs) {
+      const pv = doc.pageviews ?? 0;
+      const uv = doc.uniqueVisitorsApprox ?? 0;
+      const ev = doc.entryViews ?? 0;
+      const bucketKey = new Date(doc.bucketStart).toISOString().slice(0, 10);
+
+      pageviews += pv;
+      uniqueVisitorsApprox += uv;
+      entryViews += ev;
+
+      dailyTotals.set(bucketKey, (dailyTotals.get(bucketKey) ?? 0) + pv);
+      pages.set(doc.path, (pages.get(doc.path) ?? 0) + pv);
+      countries.set(doc.country ?? 'Unknown', (countries.get(doc.country ?? 'Unknown') ?? 0) + pv);
+      devices.set(
+        doc.deviceClass ?? 'unknown',
+        (devices.get(doc.deviceClass ?? 'unknown') ?? 0) + pv,
+      );
+      viewportBuckets.set(
+        doc.viewportBucket ?? 'unknown',
+        (viewportBuckets.get(doc.viewportBucket ?? 'unknown') ?? 0) + pv,
+      );
+    }
+
+    if (!result.hasNextPage) {
+      break;
+    }
+
+    page += 1;
   }
-
+ 
   const topPages = toSortedTopEntries(pages);
   const topCountries = toSortedTopEntries(countries);
   const topDevices = toSortedTopEntries(devices);
   const topViewports = toSortedTopEntries(viewportBuckets);
-  const trendSeries = buildDailySeries(docs, days);
+  const trendSeries = buildDailySeries(dailyTotals, days);
 
   return (
     <section style={{ marginTop: '1.5rem', marginInline: '2rem', marginBottom: '3rem' }}>
@@ -265,7 +280,7 @@ export async function AnalyticsView({ payload, searchParams }: AnalyticsViewProp
         </article>
         <article style={{ border: '1px solid var(--theme-elevation-200)', borderRadius: '8px', padding: '0.75rem' }}>
           <div style={{ fontSize: '0.8rem', opacity: 0.75 }}>Aggregate-Datensätze</div>
-          <strong style={{ fontSize: '1.2rem' }}>{docs.length.toLocaleString('de-DE')}</strong>
+          <strong style={{ fontSize: '1.2rem' }}>{aggregateDocs.toLocaleString('de-DE')}</strong>
         </article>
       </div>
 
