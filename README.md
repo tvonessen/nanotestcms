@@ -242,13 +242,13 @@ The application runs on **[Mittwald](https://www.mittwald.de)** managed Node.js 
 4. `deploy.sh` is called:
    - New build artifacts are staged to `live.new/`.
    - Persistent data directory (`live.data/`) is validated and symlinked.
-   - A pre-deploy backup of `live.data/` is saved to `logs/data-backups/`.
+   - A pre-deploy backup of `live.data/` is saved to `logs/data-backup.tar.gz` (overwritten each deploy — only the latest backup is kept).
    - The current `live/` directory is renamed to `live.prev/` (instant rollback point).
    - `live.new/` is renamed to `live/` — the swap is effectively atomic.
    - `mittnitectl job restart` signals Mittwald's supervisor to restart the process with the new code.
    - `deploy.sh` polls `http://localhost:$PORT/` until the server responds (up to 90 seconds).
-5. If the health check passes → deployment is complete.
-6. If the health check times out → an error is logged with the rollback command.
+5. If the health check passes → `live.prev/` is deleted, deployment is complete.
+6. If the health check times out → automatic rollback: `live/` is moved to `live.failed/`, `live.prev/` is restored, the process is restarted.
 
 > No downtime during build — the old server continues serving traffic until the `mv` swap and supervisor restart.
 
@@ -258,26 +258,28 @@ The application runs on **[Mittwald](https://www.mittwald.de)** managed Node.js 
 /                        ← app installation root (Mittwald)
 ├── live/                ← active release (current code)
 │   ├── server.js        ← Next.js standalone entry point
-│   ├── .env             ← runtime environment variables
+│   ├── .env             ← runtime environment variables (copied from repo root .env)
 │   └── data/            ← symlink → ../live.data/
 ├── live.data/           ← persistent data (never deleted by deployments)
 │   ├── media/           ← uploaded images
 │   └── documents/       ← uploaded documents
-├── live.prev/           ← previous release (auto-deleted at next deploy)
+├── live.failed/         ← last failed release (only present after a failed deploy, deleted at next deploy)
 ├── logs/
 │   ├── deploy.log       ← deployment log
 │   ├── server.log       ← Node.js server stdout/stderr
-│   └── data-backups/    ← pre-deploy tarballs of live.data/
+│   └── data-backup.tar.gz  ← pre-deploy snapshot of live.data/ (overwritten each deploy)
 ├── update.sh            ← deployment entry point
 ├── deploy.sh            ← release swap and supervisor restart
-└── .env                 ← source of truth for environment variables
+├── start.sh             ← process start script (loads .env, sets HOSTNAME, exec node)
+└── .env                 ← source of truth for environment variables (never committed)
 ```
 
 ### mStudio configuration
 
 In Mittwald mStudio, the Node.js app must be configured with:
 
-- **Start command:** `node live/server.js`
+- **Start command:** `sh start.sh`
+- **Working directory:** app root (where `start.sh` lives)
 - **PORT** is provided by Mittwald as an environment variable — the value can change and must not be hardcoded anywhere.
 
 ### Setting up the cron job
@@ -296,16 +298,16 @@ In mStudio, add a cron job that runs periodically (e.g. every hour or every nigh
 2. Clone the repository into the app root.
 3. Copy `.env` and fill in all production values (including the `PORT` assigned by Mittwald).
 4. Run `./update.sh` manually — this performs the first build and creates `live/`.
-5. In mStudio, set the start command to `node live/server.js`.
+5. In mStudio, set the start command to `sh start.sh`.
 6. Mittwald's supervisor will start the process automatically.
 
 ---
 
 ## Rollback
 
-The previous release is always preserved as `live.prev/` until the next deployment overwrites it.
+The previous release is preserved as `live.prev/` until the health check confirms the new deployment is healthy — then it is deleted automatically. If a deployment fails (health check timeout), the previous release is automatically restored.
 
-**To roll back manually** (SSH into the server):
+**To roll back manually** (only needed if automatic rollback also failed, SSH into the server):
 
 ```bash
 # 1. Move broken release out of the way
@@ -318,7 +320,7 @@ mv live.prev live
 mittnitectl job restart
 ```
 
-Backups of the persistent data directory are kept in `logs/data-backups/` as timestamped tarballs (`data-YYYYMMDD-HHMMSS.tar.gz`). These accumulate over time — clean them up manually when disk space is a concern.
+A single backup of the persistent data directory is kept at `logs/data-backup.tar.gz` and overwritten on every deployment.
 
 ---
 

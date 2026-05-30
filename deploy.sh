@@ -48,15 +48,14 @@ backup_data_dir() {
     return 0
   fi
 
-  local backup_dir backup_name data_parent data_name
-  backup_dir="${LOG_DIR}/data-backups"
-  backup_name="data-$(date '+%Y%m%d-%H%M%S').tar.gz"
+  local backup_file data_parent data_name
+  backup_file="${LOG_DIR}/data-backup.tar.gz"
   data_parent="$(dirname "$DATA_DIR")"
   data_name="$(basename "$DATA_DIR")"
 
-  mkdir -p "$backup_dir"
-  tar -C "$data_parent" -czf "${backup_dir}/${backup_name}" "$data_name"
-  log "Backup von ${DATA_DIR} erstellt: ${backup_dir}/${backup_name}"
+  mkdir -p "$LOG_DIR"
+  tar -C "$data_parent" -czf "$backup_file" "$data_name"
+  log "Backup von ${DATA_DIR} erstellt: ${backup_file}"
 }
 
 validate_data_dir() {
@@ -108,18 +107,13 @@ trap cleanup EXIT
 log "Deploy gestartet."
 ensure_data_dir_safe
 
-rm -rf "${DEST}.prev"
+rm -rf "${DEST}.prev" "${DEST}.failed"
 rm -rf "$STAGE"
 mkdir -p "$STAGE/.next"
 
 cp -a .next/standalone/. "$STAGE"
 cp -a .next/static "$STAGE/.next/static"
 cp -a public "$STAGE/public"
-
-# start.sh: loads .env and starts the server — used as the mittnite job command
-# (plain `node server.js` does not auto-load .env in Next.js standalone mode)
-cp start.sh "$STAGE/start.sh"
-chmod +x "$STAGE/start.sh"
 
 if [[ ! -d "$DATA_DIR" ]]; then
   if [[ -d "$DEST/data" ]]; then
@@ -204,12 +198,21 @@ log "Warte auf Server-Antwort (Port ${PORT}, Timeout ${HEALTH_CHECK_TIMEOUT}s)..
 deadline=$(( $(date +%s) + HEALTH_CHECK_TIMEOUT ))
 while true; do
   if curl -sf --max-time 3 "http://localhost:${PORT}/" >/dev/null 2>&1; then
+    rm -rf "${DEST}.prev"
     log "Server antwortet auf Port ${PORT}. Deploy erfolgreich abgeschlossen."
     exit 0
   fi
   if [[ $(date +%s) -ge $deadline ]]; then
     log "ERROR: Server antwortet nach ${HEALTH_CHECK_TIMEOUT}s nicht auf Port ${PORT}."
-    log "Rollback: mv ${DEST} ${DEST}.failed && mv ${DEST}.prev ${DEST} && mittnitectl job restart"
+    if [[ -d "${DEST}.prev" ]]; then
+      mv "$DEST" "${DEST}.failed" && mv "${DEST}.prev" "$DEST"
+      if command -v mittnitectl >/dev/null 2>&1; then
+        mittnitectl job restart 2>/dev/null || true
+      fi
+      log "Automatischer Rollback durchgefuehrt. Fehlgeschlagene Version: ${DEST}.failed"
+    else
+      log "Kein Rollback moeglich (keine ${DEST}.prev vorhanden)."
+    fi
     exit 1
   fi
   sleep 2
