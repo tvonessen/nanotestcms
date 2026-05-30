@@ -1,6 +1,6 @@
 # Nanotest CMS
 
-Corporate website and content management system for **Nanotest** — thermal characterisation and reliability testing. Built with [Payload CMS v3](https://payloadcms.com) embedded inside [Next.js 16](https://nextjs.org), backed by MongoDB.
+Corporate website and content management system for **NANOTEST** — thermal characterisation and reliability testing. Built with [Payload CMS v3](https://payloadcms.com) embedded inside [Next.js 16](https://nextjs.org), backed by MongoDB.
 
 ---
 
