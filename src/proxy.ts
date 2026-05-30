@@ -25,6 +25,7 @@ export async function proxy(request: NextRequest) {
   const prev = request.url;
 
   if (pathname.startsWith('/api/')) return NextResponse.next();
+  if (pathname === '/about/licenses') return NextResponse.next();
   if (pathname.startsWith('/_next/')) return NextResponse.next();
   if (pathname.startsWith('/img/')) return NextResponse.next();
   if (pathname.startsWith('/static/')) return NextResponse.next();
