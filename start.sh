@@ -1,5 +1,5 @@
 #!/bin/sh
-cd "$(dirname "$0")"
+cd live/
 set -a
 . ./.env
 set +a
