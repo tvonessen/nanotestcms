@@ -16,6 +16,15 @@ type AnalyticsCollectEvent = {
 
 const COLLECT_ENDPOINT = '/api/tally';
 
+function isPrivacySignalEnabled() {
+  const browserNavigator = navigator as Navigator & { globalPrivacyControl?: boolean };
+  return (
+    browserNavigator.doNotTrack === '1' ||
+    browserNavigator.doNotTrack === 'yes' ||
+    browserNavigator.globalPrivacyControl === true
+  );
+}
+
 function sendCollectEvent(event: AnalyticsCollectEvent): void {
   const payload = JSON.stringify(event);
 
@@ -34,7 +43,7 @@ export function AnalyticsTracker({ disabled = false }: AnalyticsTrackerProps) {
 
   useEffect(() => {
     if (disabled || !pathname) return;
-    if (navigator.doNotTrack === '1') return;
+    if (isPrivacySignalEnabled()) return;
 
     if (lastPathRef.current === pathname) return;
 
