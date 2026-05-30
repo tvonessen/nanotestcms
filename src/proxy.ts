@@ -1,6 +1,7 @@
 import type { NextFetchEvent, NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import type { RedirectMap } from '@/utils/redirect-map';
+import { buildInternalURL } from '@/utils/server-url';
 
 const LOCALES = ['en', 'de'];
 
@@ -38,7 +39,12 @@ function shouldTrackRequest(request: NextRequest): boolean {
 function queueServerPageview(request: NextRequest, event: NextFetchEvent) {
   if (!shouldTrackRequest(request)) return;
 
-  const analyticsURL = new URL('/api/analytics/collect', request.url);
+  const analyticsPath = '/api/analytics/collect';
+  const primaryAnalyticsURL = buildInternalURL(analyticsPath);
+  const fallbackAnalyticsURL = new URL(analyticsPath, request.url).toString();
+  const candidateURLs = [primaryAnalyticsURL, fallbackAnalyticsURL].filter(
+    (value, index, all) => all.indexOf(value) === index,
+  );
   const requestHeaders = new Headers({
     'content-type': 'application/json',
   });
@@ -59,16 +65,30 @@ function queueServerPageview(request: NextRequest, event: NextFetchEvent) {
   }
 
   event.waitUntil(
-    fetch(analyticsURL, {
-      method: 'POST',
-      headers: requestHeaders,
-      body: JSON.stringify({
+    (async () => {
+      const body = JSON.stringify({
         pathname: request.nextUrl.pathname,
         eventType: 'initial',
         referrer: request.headers.get('referer') ?? undefined,
-      }),
-      cache: 'no-store',
-    }).catch(() => undefined),
+      });
+
+      for (const url of candidateURLs) {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: requestHeaders,
+            body,
+            cache: 'no-store',
+          });
+
+          if (response.ok) {
+            return;
+          }
+        } catch {
+          // Try the next candidate URL.
+        }
+      }
+    })(),
   );
 }
 
