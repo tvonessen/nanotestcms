@@ -9,7 +9,7 @@ LOG_FILE="${LOG_DIR}/deploy.log"
 HEALTH_CHECK_TIMEOUT="${HEALTH_CHECK_TIMEOUT:-90}"
 
 timestamp() {
-  date '+%Y-%m-%dT%H:%M:%S%z' | sed -E 's/([+-][0-9]{2})([0-9]{2})$/\1:\2/'
+  date '+%Y-%m-%dT%H:%M:%S%:z'
 }
 
 log() {
