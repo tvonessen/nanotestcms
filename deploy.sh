@@ -87,8 +87,12 @@ validate_data_dir() {
   fi
   rm -f "$DATA_DIR/documents/.deploy-write-test"
 
-  data_link_real="$(resolve_path "$STAGE/data")"
-  data_real="$(resolve_path "$DATA_DIR")"
+  if [[ -L "$STAGE/data" ]]; then
+    data_link_real="$(readlink -f "$STAGE/data")"
+  else
+    data_link_real="$(resolve_path "$STAGE/data")"
+  fi
+  data_real="$(realpath "$DATA_DIR")"
   if [[ "$data_link_real" != "$data_real" ]]; then
     log "ERROR: Daten-Symlink ${STAGE}/data verweist auf ${data_link_real}, erwartet ${data_real}."
     exit 1
