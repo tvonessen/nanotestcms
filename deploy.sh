@@ -92,7 +92,7 @@ validate_data_dir() {
   else
     data_link_real="$(resolve_path "$STAGE/data")"
   fi
-  data_real="$(realpath "$DATA_DIR")"
+  data_real="$(readlink -f "$DATA_DIR")"
   if [[ "$data_link_real" != "$data_real" ]]; then
     log "ERROR: Daten-Symlink ${STAGE}/data verweist auf ${data_link_real}, erwartet ${data_real}."
     exit 1
