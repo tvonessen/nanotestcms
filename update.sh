@@ -8,7 +8,7 @@ LOG_DIR="${LOG_DIR:-./logs}"
 LOG_FILE="${LOG_DIR}/deploy.log"
 
 timestamp() {
-  date '+%Y-%m-%d %H:%M:%S'
+  date '+%Y-%m-%dT%H:%M:%S%z' | sed -E 's/([+-][0-9]{2})([0-9]{2})$/\1:\2/'
 }
 
 log() {
@@ -44,8 +44,13 @@ sync_build_data() {
   fi
 
   if [[ ! -d "$source_data_path" ]]; then
-    log "Kein persistenter Datenordner gefunden. Nutze vorhandenes ./data fuer den Build."
-    return 0
+    if [[ ! -d "$LIVE_DIR" ]] && [[ -d "data" ]]; then
+      log "Kein persistenter Datenordner gefunden. Erstinitialisierung mit vorhandenem ./data."
+      return 0
+    fi
+
+    log "ERROR: Kein persistenter Datenordner gefunden (${DATA_DIR} oder ${LIVE_DIR}/data)."
+    return 1
   fi
 
   rm -rf data
@@ -54,6 +59,13 @@ sync_build_data() {
 }
 
 cd "$CD_PATH"
+
+mkdir -p "$LOG_DIR"
+exec 9>"${LOG_DIR}/update.lock"
+if ! flock -n 9; then
+  printf '[%s] Update läuft bereits. Abbruch.\n' "$(timestamp)" >&2
+  exit 0
+fi
 
 log "Update-Pruefung gestartet."
 

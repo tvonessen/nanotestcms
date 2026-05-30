@@ -3,6 +3,7 @@ import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { revalidateHook } from '@/utils/revalidate';
 
 export const DOCUMENTS_DIR = './data/documents';
+const MAX_UPLOAD_SIZE_MB = 20;
 
 export const Documents: CollectionConfig = {
   slug: 'documents',
@@ -13,6 +14,10 @@ export const Documents: CollectionConfig = {
   admin: {
     defaultColumns: ['filename', 'filename_alt', 'description'],
     group: 'Files',
+    description: {
+      en: `File sizes must not exceed ${MAX_UPLOAD_SIZE_MB} MB`,
+      de: `Dateigrößen dürfen ${MAX_UPLOAD_SIZE_MB} MB nicht überschreiten`,
+    },
   },
   access: {
     create: isLoggedIn,

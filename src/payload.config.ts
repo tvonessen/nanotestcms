@@ -65,6 +65,7 @@ const csrf = Array.from(
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 export type SupportedLocale = 'de' | 'en';
+const MAX_UPLOAD_SIZE_BYTES = 20 * 1024 * 1024;
 
 export default buildConfig({
   admin: {
@@ -161,6 +162,12 @@ export default buildConfig({
     }),
   ],
   globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent],
+  upload: {
+    limits: {
+      fileSize: MAX_UPLOAD_SIZE_BYTES,
+    },
+    abortOnLimit: true,
+  },
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: publicServerURL || undefined,
   typescript: {

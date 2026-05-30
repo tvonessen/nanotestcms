@@ -4,6 +4,7 @@ import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { imageToBase64, isDarkImage } from '@/app/(payload)/utility/image';
 
 export const MEDIA_DIR = './data/media';
+const MAX_UPLOAD_SIZE_MB = 20;
 
 /**
  * MIME types that Payload's Sharp pipeline can resize.
@@ -61,8 +62,8 @@ export const Media: CollectionConfig = {
     group: 'Files',
     defaultColumns: ['filename', 'alt', 'tags'],
     description: {
-      en: 'File sizes must not exceed 10 MB',
-      de: 'Dateigrößen dürfen 10 MB nicht überschreiten',
+      en: `File sizes must not exceed ${MAX_UPLOAD_SIZE_MB} MB`,
+      de: `Dateigrößen dürfen ${MAX_UPLOAD_SIZE_MB} MB nicht überschreiten`,
     },
   },
   fields: [

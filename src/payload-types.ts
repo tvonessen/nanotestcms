@@ -181,7 +181,7 @@ export interface User {
   collection: 'users';
 }
 /**
- * File sizes must not exceed 10 MB
+ * File sizes must not exceed 20 MB
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
@@ -262,6 +262,8 @@ export interface Media {
   };
 }
 /**
+ * File sizes must not exceed 20 MB
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "documents".
  */
