@@ -7,6 +7,7 @@ DATA_DIR="${DATA_DIR:-${DEST}.data}"
 LOG_DIR="${LOG_DIR:-logs}"
 LOG_FILE="${LOG_DIR}/deploy.log"
 HEALTH_CHECK_TIMEOUT="${HEALTH_CHECK_TIMEOUT:-90}"
+DEPLOY_COMMIT_SHA="${DEPLOY_COMMIT_SHA:-}"
 
 timestamp() {
   date '+%Y-%m-%dT%H:%M:%S%:z'
@@ -107,6 +108,14 @@ trap cleanup EXIT
 log "Deploy gestartet."
 ensure_data_dir_safe
 
+if [[ -z "$DEPLOY_COMMIT_SHA" ]]; then
+  DEPLOY_COMMIT_SHA="$(git rev-parse HEAD 2>/dev/null || true)"
+fi
+if [[ -z "$DEPLOY_COMMIT_SHA" ]]; then
+  DEPLOY_COMMIT_SHA="unknown"
+fi
+log "Deploy-Commit: ${DEPLOY_COMMIT_SHA}"
+
 rm -rf "${DEST}.prev" "${DEST}.failed"
 rm -rf "$STAGE"
 mkdir -p "$STAGE/.next"
@@ -143,6 +152,7 @@ log "Release-Datenpfad ${STAGE}/data auf ${DATA_DIR} verlinkt."
 validate_data_dir
 
 cp .env "$STAGE/.env"
+printf '%s\n' "$DEPLOY_COMMIT_SHA" > "$STAGE/COMMIT_SHA"
 
 # PORT wird von der Mittwald-Plattform vorgegeben und darf nicht hartcodiert werden.
 # Lese aus laufender Umgebung, dann aus .env — schlägt beides fehl, brich ab.
@@ -199,7 +209,7 @@ deadline=$(( $(date +%s) + HEALTH_CHECK_TIMEOUT ))
 while true; do
   if curl -sf --max-time 3 "http://localhost:${PORT}/" >/dev/null 2>&1; then
     rm -rf "${DEST}.prev"
-    log "Server antwortet auf Port ${PORT}. Deploy erfolgreich abgeschlossen."
+    log "Server antwortet auf Port ${PORT}. Deploy erfolgreich abgeschlossen (Commit: ${DEPLOY_COMMIT_SHA})."
     exit 0
   fi
   if [[ $(date +%s) -ge $deadline ]]; then

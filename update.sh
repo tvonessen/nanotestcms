@@ -6,6 +6,7 @@ LIVE_DIR="${LIVE_DIR:-live}"
 DATA_DIR="${DATA_DIR:-${LIVE_DIR}.data}"
 LOG_DIR="${LOG_DIR:-./logs}"
 LOG_FILE="${LOG_DIR}/deploy.log"
+RUNNING_COMMIT_FILE="${LIVE_DIR}/COMMIT_SHA"
 
 timestamp() {
   date '+%Y-%m-%dT%H:%M:%S%:z'
@@ -33,6 +34,14 @@ run_compact() {
   tail -n 20 "$output_file" | sed 's/^/  /' | tee -a "$LOG_FILE"
   rm -f "$output_file"
   exit 1
+}
+
+read_running_commit() {
+  if [[ -f "$RUNNING_COMMIT_FILE" ]]; then
+    tr -d '[:space:]' < "$RUNNING_COMMIT_FILE"
+    return 0
+  fi
+  return 1
 }
 
 sync_build_data() {
@@ -74,9 +83,11 @@ run_compact "git fetch" git fetch --quiet
 LOCAL="$(git rev-parse @)"
 REMOTE="$(git rev-parse '@{u}')"
 BASE="$(git merge-base @ '@{u}')"
+TARGET_COMMIT="$REMOTE"
+RUNNING_COMMIT="$(read_running_commit || true)"
 
-if [[ "$LOCAL" == "$REMOTE" ]]; then
-  log "Keine Aenderungen."
+if [[ "$LOCAL" == "$REMOTE" ]] && [[ -n "$RUNNING_COMMIT" ]] && [[ "$RUNNING_COMMIT" == "$TARGET_COMMIT" ]]; then
+  log "Keine Aenderungen. Laufender Commit ist bereits ${RUNNING_COMMIT}."
   exit 0
 fi
 
@@ -85,15 +96,27 @@ if [[ "$LOCAL" != "$BASE" ]]; then
   exit 1
 fi
 
-log "Aenderungen erkannt."
-run_compact "git pull" git pull --ff-only --quiet
+if [[ "$LOCAL" != "$REMOTE" ]]; then
+  log "Aenderungen erkannt (${LOCAL} -> ${TARGET_COMMIT})."
+  run_compact "git pull" git pull --ff-only --quiet
+else
+  log "Code ist aktuell (${TARGET_COMMIT}), aber laufender Commit ist ${RUNNING_COMMIT:-unbekannt}. Re-Deploy wird erzwungen."
+fi
+
 run_compact "pnpm install" pnpm install
 run_compact "sync build data" sync_build_data
+log "Baue Commit ${TARGET_COMMIT}."
 run_compact "pnpm build" pnpm build
 
-if ! ./deploy.sh; then
+if ! DEPLOY_COMMIT_SHA="$TARGET_COMMIT" ./deploy.sh; then
   log "ERROR: deploy.sh fehlgeschlagen."
   exit 1
 fi
 
-log "Update abgeschlossen."
+DEPLOYED_COMMIT="$(read_running_commit || true)"
+if [[ "$DEPLOYED_COMMIT" != "$TARGET_COMMIT" ]]; then
+  log "ERROR: Commit-Mismatch nach Deploy. Erwartet ${TARGET_COMMIT}, aktiv ${DEPLOYED_COMMIT:-unbekannt}."
+  exit 1
+fi
+
+log "Update abgeschlossen. Laufender Commit: ${DEPLOYED_COMMIT}."
