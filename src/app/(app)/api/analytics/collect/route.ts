@@ -122,6 +122,22 @@ function buildCompositeKey(args: {
   ].join('|');
 }
 
+function isDuplicateCompositeKeyError(error: unknown): boolean {
+  if (!(error instanceof Error)) return false;
+
+  const message = error.message.toLowerCase();
+  return message.includes('e11000') || message.includes('duplicate key');
+}
+
+function buildAcceptedResponse() {
+  return new Response(null, {
+    status: 202,
+    headers: {
+      'Cache-Control': 'no-store',
+    },
+  });
+}
+
 export async function POST(request: Request) {
   const userAgent = request.headers.get('user-agent') ?? '';
   if (isLikelyBot(userAgent)) {
@@ -217,39 +233,60 @@ export async function POST(request: Request) {
     lastCollectedAt: now,
   };
 
-  if (!existing.docs.length) {
-    await payload.create({
+  const updateExistingAggregate = async (id: string, current: typeof existing.docs[number]) => {
+    await payload.update({
       collection: 'analytics-aggregates',
+      id,
       overrideAccess: true,
-      data,
-    });
-    return new Response(null, {
-      status: 202,
-      headers: {
-        'Cache-Control': 'no-store',
+      data: {
+        ...data,
+        pageviews: (current.pageviews ?? 0) + 1,
+        uniqueVisitorsApprox: (current.uniqueVisitorsApprox ?? 0) + uniqueIncrement,
+        entryViews: (current.entryViews ?? 0) + entryIncrement,
       },
     });
+  };
+
+  if (!existing.docs.length) {
+    try {
+      await payload.create({
+        collection: 'analytics-aggregates',
+        overrideAccess: true,
+        data,
+      });
+      return buildAcceptedResponse();
+    } catch (error) {
+      if (!isDuplicateCompositeKeyError(error)) {
+        throw error;
+      }
+
+      const concurrent = await payload.find({
+        collection: 'analytics-aggregates',
+        depth: 0,
+        pagination: false,
+        limit: 1,
+        overrideAccess: true,
+        where: {
+          compositeKey: {
+            equals: compositeKey,
+          },
+        },
+      });
+
+      const current = concurrent.docs[0];
+      if (!current) {
+        throw error;
+      }
+
+      await updateExistingAggregate(current.id, current);
+      return buildAcceptedResponse();
+    }
   }
 
   const current = existing.docs[0];
-  await payload.update({
-    collection: 'analytics-aggregates',
-    id: current.id,
-    overrideAccess: true,
-    data: {
-      ...data,
-      pageviews: (current.pageviews ?? 0) + 1,
-      uniqueVisitorsApprox: (current.uniqueVisitorsApprox ?? 0) + uniqueIncrement,
-      entryViews: (current.entryViews ?? 0) + entryIncrement,
-    },
-  });
+  await updateExistingAggregate(current.id, current);
 
-  return new Response(null, {
-    status: 202,
-    headers: {
-      'Cache-Control': 'no-store',
-    },
-  });
+  return buildAcceptedResponse();
 }
 
 export async function GET() {
