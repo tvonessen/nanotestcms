@@ -130,7 +130,7 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
     <html suppressHydrationWarning lang={lang}>
       <body className={cn('min-h-screen bg-background font-sans antialiased ', fontSans.className)}>
         <Providers lang={lang}>
-          <AnalyticsTracker disabled={isDraft || process.env.NODE_ENV !== 'production'} />
+          <AnalyticsTracker disabled={isDraft} />
           <AdminBar preview={isDraft} />
           <RefreshRouteOnSave />
           <Navbar navItems={navItems} lang={lang as Config['locale']} />

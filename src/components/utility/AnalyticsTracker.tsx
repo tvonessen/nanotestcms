@@ -28,6 +28,13 @@ function isPrivacySignalEnabled() {
 function sendCollectEvent(event: AnalyticsCollectEvent): void {
   const payload = JSON.stringify(event);
 
+  if (navigator.sendBeacon) {
+    const blob = new Blob([payload], { type: 'application/json' });
+    if (navigator.sendBeacon(COLLECT_ENDPOINT, blob)) {
+      return;
+    }
+  }
+
   void fetch(COLLECT_ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -44,6 +51,7 @@ export function AnalyticsTracker({ disabled = false }: AnalyticsTrackerProps) {
   useEffect(() => {
     if (disabled || !pathname) return;
     if (isPrivacySignalEnabled()) return;
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') return;
 
     if (lastPathRef.current === pathname) return;
 
