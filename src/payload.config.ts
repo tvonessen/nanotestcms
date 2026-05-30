@@ -72,6 +72,15 @@ const MAX_UPLOAD_SIZE_BYTES = 20 * 1024 * 1024;
 export default buildConfig({
   admin: {
     user: Users.slug,
+    components: {
+      afterNavLinks: ['/components/payload/AnalyticsDashboard.tsx#AnalyticsNavLink'],
+      views: {
+        analytics: {
+          Component: '/components/payload/AnalyticsDashboard.tsx#AnalyticsView',
+          path: '/analytics',
+        },
+      },
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
