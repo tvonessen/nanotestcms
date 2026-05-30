@@ -5,7 +5,7 @@ import { CheckIcon } from '@phosphor-icons/react';
 import type Mail from 'nodemailer/lib/mailer';
 import { enqueueSnackbar } from 'notistack';
 import React from 'react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { type FieldValues, useForm } from 'react-hook-form';
 import createContactMail from './create-contact-mail';
 
@@ -24,7 +24,7 @@ type ContactFormProps = React.HTMLAttributes<HTMLElement> & {
   className?: string;
 };
 
-const ContactForm = (props: ContactFormProps) => {
+const ContactFormInner = (props: ContactFormProps) => {
   const { defaultValues, to = 'tobias@hybit.media', className } = props;
   const {
     register,
@@ -219,5 +219,11 @@ const ContactForm = (props: ContactFormProps) => {
     </section>
   );
 };
+
+const ContactForm = (props: ContactFormProps) => (
+  <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? 'NOT DEFINED'}>
+    <ContactFormInner {...props} />
+  </GoogleReCaptchaProvider>
+);
 
 export default ContactForm;

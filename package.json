@@ -11,7 +11,7 @@
     "generate:importmap": "payload generate:importmap",
     "generate:types": "payload generate:types",
     "db:sync": "node scripts/sync_db.js",
-    "lint": "next lint",
+    "lint": "biome lint . --diagnostic-level=error",
     "payload": "payload",
     "start": "dotenv -c -- next start"
   },

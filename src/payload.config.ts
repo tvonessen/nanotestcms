@@ -29,7 +29,9 @@ import { Redirects } from '@/collections/Redirects';
 import { SolutionCategories } from '@/collections/SolutionCategories';
 import { locales } from '@/config/locales';
 import redirectMapHandler from '@/utils/redirect-map';
+import { cleanupAnalyticsEndpoint } from '@/utils/cleanup-analytics';
 import revalidateHandler from '@/utils/revalidate';
+import { AnalyticsAggregates } from './collections/AnalyticsAggregates';
 import { DistroPartners } from './collections/DistroPartners';
 import { Documents } from './collections/Documents';
 import { Media } from './collections/Media';
@@ -37,6 +39,7 @@ import Solutions from './collections/Solutions';
 import { TeamMembers } from './collections/TeamMembers';
 import { Users } from './collections/Users';
 import { nodemailerOptions } from './config/nodemailer';
+import { AnalyticsSettings } from './globals/AnalyticsSettings';
 import { AboutContent } from './globals/AboutContent';
 import { ContactUsContent } from './globals/ContactUsContent';
 import { HomepageContent } from './globals/HomepageContent';
@@ -70,6 +73,15 @@ const MAX_UPLOAD_SIZE_BYTES = 20 * 1024 * 1024;
 export default buildConfig({
   admin: {
     user: Users.slug,
+    components: {
+      afterNavLinks: ['/components/payload/AnalyticsDashboard.tsx#AnalyticsNavLink'],
+      views: {
+        analytics: {
+          Component: '/components/payload/AnalyticsDashboard.tsx#AnalyticsView',
+          path: '/analytics',
+        },
+      },
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
@@ -84,6 +96,7 @@ export default buildConfig({
     DistroPartners,
     Pages,
     Redirects,
+    AnalyticsAggregates,
   ],
   cors,
   csrf,
@@ -135,6 +148,11 @@ export default buildConfig({
       method: 'get',
       handler: redirectMapHandler,
     },
+    {
+      path: '/cleanup-analytics',
+      method: 'post',
+      handler: cleanupAnalyticsEndpoint,
+    },
   ],
   localization: {
     locales,
@@ -161,7 +179,7 @@ export default buildConfig({
       generateImage: ({ doc }) => doc?.details?.images?.[0] ?? null,
     }),
   ],
-  globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent],
+  globals: [HomepageContent, AboutContent, LegalContent, ContactUsContent, AnalyticsSettings],
   upload: {
     limits: {
       fileSize: MAX_UPLOAD_SIZE_BYTES,

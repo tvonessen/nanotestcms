@@ -13,6 +13,7 @@ Corporate website and content management system for **NANOTEST** — thermal cha
 - [Environment variables](#environment-variables)
 - [Content management](#content-management)
 - [File uploads](#file-uploads)
+- [Privacy-first analytics](#privacy-first-analytics)
 - [Commands reference](#commands-reference)
 - [Production deployment](#production-deployment)
 - [Rollback](#rollback)
@@ -86,6 +87,26 @@ Node.js process  (managed by Mittwald's mittnite supervisor)
 ### On-demand revalidation
 
 When content is **published** (not just saved as draft) in the admin panel, Payload fires a webhook to Next.js that invalidates the relevant cached pages. Visitors always see up-to-date content within seconds — no site rebuild required.
+
+---
+
+## Privacy-first analytics
+
+The project includes a first-party analytics implementation focused on minimal consent requirements.
+
+- Tracking endpoint: `/api/tally` (internal, no third-party analytics vendor)
+- Reporting UI: `/admin/analytics`
+- Storage model: aggregated metrics in `analytics-aggregates` (no full session reconstruction)
+- Visitor metric is intentionally approximate (`uniqueVisitorsApprox`)
+- Operational retention is controlled in `analytics-settings.retentionDays`
+
+### Retention cleanup
+
+An authenticated maintenance endpoint removes aggregates older than the configured retention:
+
+- `POST /api/cleanup-analytics` (Payload admin authentication required)
+
+This endpoint reads the current retention from `analytics-settings` and deletes old records in batches.
 
 ---
 
