@@ -116,6 +116,18 @@ cp -a .next/standalone/. "$STAGE"
 cp -a .next/static "$STAGE/.next/static"
 cp -a public "$STAGE/public"
 
+# start.sh: loads .env and starts the server — used as the mittnite job command
+# (plain `node server.js` does not auto-load .env in Next.js standalone mode)
+cat > "$STAGE/start.sh" << 'EOF'
+#!/bin/sh
+cd "$(dirname "$0")"
+set -a
+. ./.env
+set +a
+exec node server.js
+EOF
+chmod +x "$STAGE/start.sh"
+
 if [[ ! -d "$DATA_DIR" ]]; then
   if [[ -d "$DEST/data" ]]; then
     mkdir -p "$(dirname "$DATA_DIR")"
