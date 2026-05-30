@@ -8,7 +8,7 @@ type AnalyticsViewProps = {
       hasNextPage?: boolean;
     }>;
     findGlobal: (args: Record<string, unknown>) => Promise<{
-      retentionDays?: number | null;
+      retentionDays: number;
       allowRegionGranularity?: boolean | null;
       enabled?: boolean | null;
       storeRawEvents?: boolean | null;
@@ -312,7 +312,7 @@ export async function AnalyticsView({ payload, searchParams }: AnalyticsViewProp
         <h3 style={{ marginBottom: '0.5rem' }}>Governance & Retention</h3>
         <ul style={{ margin: 0, paddingLeft: '1.1rem', display: 'grid', gap: '0.2rem' }}>
           <li>Analytics aktiv: {settings.enabled === false ? 'Nein' : 'Ja'}</li>
-          <li>Retention: {Math.max(1, settings.retentionDays ?? 750)} Tage</li>
+          <li>Retention: {settings.retentionDays} Tage</li>
           <li>Region-Granularität: {settings.allowRegionGranularity ? 'Aktiv' : 'Deaktiviert'}</li>
           <li>Raw Events: {settings.storeRawEvents ? 'Aktiv' : 'Deaktiviert (empfohlen)'}</li>
           <li>Besucherzahl ist approximativ, keine Session-Rekonstruktion.</li>

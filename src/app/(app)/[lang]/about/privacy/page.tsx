@@ -65,8 +65,8 @@ export default async function AboutPage({ params }: AboutPageProps) {
               </li>
               <li>
                 {lang === 'de'
-                  ? `Daten werden als Aggregate gespeichert (Retention: ${Math.max(1, analyticsSettings.retentionDays ?? 750)} Tage).`
-                  : `Data is stored in aggregated form (retention: ${Math.max(1, analyticsSettings.retentionDays ?? 750)} days).`}
+                  ? `Daten werden als Aggregate gespeichert (Retention: ${analyticsSettings.retentionDays} Tage).`
+                  : `Data is stored in aggregated form (retention: ${analyticsSettings.retentionDays} days).`}
               </li>
               <li>
                 {lang === 'de'
