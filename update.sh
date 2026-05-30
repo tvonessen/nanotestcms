@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 set -euo pipefail
 
-CD_PATH="${CD_PATH:-./}"
+CD_PATH="${CD_PATH:-$(cd "$(dirname "$0")" && pwd)}"
 LIVE_DIR="${LIVE_DIR:-live}"
 DATA_DIR="${DATA_DIR:-${LIVE_DIR}.data}"
 LOG_DIR="${LOG_DIR:-./logs}"
