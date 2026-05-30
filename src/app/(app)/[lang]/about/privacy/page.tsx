@@ -6,7 +6,7 @@ import { locales } from '@/config/locales';
 import type { Config } from '@/payload-types';
 import { buildMetadata } from '@/utils/generateMeta';
 import { isPreviewEnabled } from '@/utils/preview';
-import {cn} from "@heroui/react";
+import {Metadata} from "next";
 
 export function generateStaticParams() {
   return locales.map(({ code }) => ({ lang: code }));
@@ -16,7 +16,7 @@ interface AboutPageProps {
   params: Promise<{ lang: Config['locale'] }>;
 }
 
-export async function generateMetadata({ params }: AboutPageProps) {
+export async function generateMetadata({ params }: AboutPageProps): Promise<Metadata> {
   const { lang } = await params;
   const payload = await getPayload({ config });
   const legal = await payload.findGlobal({ slug: 'legal', locale: lang, depth: 1 });
@@ -46,9 +46,9 @@ export default async function AboutPage({ params }: AboutPageProps) {
       <article className="sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
         <Content blocks={legal.privacy} lang={lang} />
 
-        <section className='grid grid-cols-12 gap-4 md:gap-8 my-12 first-of-type:mt-4 rich-text'>
-          <aside className='hatching hidden lg:block opacity-50 rounded-3xl lg:col-span-5 xl:col-span-4' />
-          <div className='col-span-12 lg:col-span-7 xl:col-span-8'>
+        <section className="grid grid-cols-12 gap-4 md:gap-8 my-12 first-of-type:mt-4 rich-text">
+          <aside className="hatching hidden lg:block opacity-50 rounded-3xl lg:col-span-5 xl:col-span-4" />
+          <div className="col-span-12 lg:col-span-7 xl:col-span-8">
             <h2 className="text-2xl font-semibold mb-2">
               {lang === 'de' ? 'Analytics-Hinweis (technisch)' : 'Analytics Notice (technical)'}
             </h2>

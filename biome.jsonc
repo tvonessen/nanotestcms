@@ -1,8 +1,9 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.6/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.15/schema.json",
   "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
   "files": {
-    "ignoreUnknown": false
+    "ignoreUnknown": false,
+    "includes": ["**", "!**/.next", "!src/app/(payload)", "!live", "!next-env.d.ts", "!scripts"]
   },
   "formatter": {
     "enabled": true,
