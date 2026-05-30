@@ -17,7 +17,7 @@ export const cleanupAnalyticsEndpoint = async (req: PayloadRequest): Promise<Res
     overrideAccess: true,
   });
 
-  const retentionDays = Math.max(1, settings.retentionDays ?? 750);
+  const retentionDays = settings.retentionDays;
   const cutoff = computeCutoffISOString(retentionDays);
   let deleted = 0;
 
@@ -49,17 +49,26 @@ export const cleanupAnalyticsEndpoint = async (req: PayloadRequest): Promise<Res
     }
   }
 
-  return Response.json(
-    {
-      success: true,
-      retentionDays,
-      cutoff,
-      deleted,
-    },
-    {
+  const responseData = {
+    success: true,
+    retentionDays,
+    cutoff,
+    deleted,
+  };
+
+  if ((req.headers.get('accept') ?? '').includes('text/html')) {
+    return new Response(null, {
+      status: 303,
       headers: {
         'Cache-Control': 'no-store',
+        Location: '/admin/analytics',
       },
+    });
+  }
+
+  return Response.json(responseData, {
+    headers: {
+      'Cache-Control': 'no-store',
     },
-  );
+  });
 };
