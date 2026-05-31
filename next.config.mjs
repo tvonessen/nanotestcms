@@ -8,6 +8,8 @@ const nextConfig = {
 export default withPayload({
   ...nextConfig,
   images: {
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60 * 60 * 24 * 7,
     remotePatterns: [
       {
         hostname: 'localhost',
@@ -25,7 +27,7 @@ export default withPayload({
         hostname: 'nanotest.jutoserver.de',
       },
     ],
-    qualities: [70, 85, 100],
+    qualities: [65, 70, 75, 85, 100],
     dangerouslyAllowLocalIP: process.env.NODE_ENV !== 'production',
   },
 });

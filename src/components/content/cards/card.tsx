@@ -134,6 +134,9 @@ export async function Card({ lang, content: data, className }: CardProps) {
           width={width as number}
           placeholder={cardImage.blurDataUrl ? 'blur' : 'empty'}
           blurDataURL={cardImage.blurDataUrl as string}
+          quality={65}
+          loading="lazy"
+          fetchPriority="low"
         />
       </HeroUICard>
     </CardInteractionWrapper>

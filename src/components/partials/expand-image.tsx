@@ -54,7 +54,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
           placeholder={image.blurDataUrl ? 'blur' : 'empty'}
           sizes="(max-width: 1024px) 100vw, 50vw"
           tabIndex={0}
-          quality={80}
+          quality={65}
           unoptimized={image.mimeType?.includes('svg')}
           onError={(e) => {
             process.env.NODE_ENV !== 'production' && console.error(e);

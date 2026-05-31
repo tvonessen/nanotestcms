@@ -2,7 +2,15 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
 
+const base64Cache = new Map<string, string>();
+const brightnessCache = new Map<string, boolean>();
+
 export const imageToBase64 = (imagePath: string) => {
+  const cachedBase64 = base64Cache.get(imagePath);
+  if (cachedBase64) {
+    return cachedBase64;
+  }
+
   try {
     // Read the image file synchronously
     const data = readFileSync(imagePath);
@@ -15,7 +23,9 @@ export const imageToBase64 = (imagePath: string) => {
     const mimeType = `image/${ext}`;
 
     // Construct and return the data URL
-    return `data:${mimeType};base64,${base64}`;
+    const dataUrl = `data:${mimeType};base64,${base64}`;
+    base64Cache.set(imagePath, dataUrl);
+    return dataUrl;
   } catch (error) {
     console.error('Error converting image to base64:', error);
     // Return a generic blurred image
@@ -24,6 +34,12 @@ export const imageToBase64 = (imagePath: string) => {
 };
 
 export const isDarkImage = async (dataUrl: string, threshold: number = 140) => {
+  const cacheKey = `${threshold}:${dataUrl}`;
+  const cachedBrightness = brightnessCache.get(cacheKey);
+  if (typeof cachedBrightness === 'boolean') {
+    return cachedBrightness;
+  }
+
   try {
     const imageBuffer = Buffer.from(dataUrl.split(',')[1], 'base64');
     const { data, info } = await sharp(imageBuffer).raw().toBuffer({ resolveWithObject: true });
@@ -39,7 +55,9 @@ export const isDarkImage = async (dataUrl: string, threshold: number = 140) => {
     }
 
     const averageBrightness = totalBrightness / totalPixels;
-    return averageBrightness < threshold;
+    const isDark = averageBrightness < threshold;
+    brightnessCache.set(cacheKey, isDark);
+    return isDark;
   } catch (error) {
     console.error('Error analyzing image brightness:', error);
     return false;

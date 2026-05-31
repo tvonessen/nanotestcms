@@ -128,10 +128,10 @@ const Jumbo = ({ jumbos, className, lang }: JumboProps) => {
           arrows={false}
           speed={1000}
           easing="ease-in-out"
-          lazyLoad="progressive"
+          lazyLoad="ondemand"
           ref={slider}
         >
-          {jumbos.map((jumbo) => {
+          {jumbos.map((jumbo, index) => {
             const image = jumbo.image as Media;
             const link = jumbo.link as CMSLinkData;
             const href = (link.type === 'custom' ? link.url : resolveCMSLinkHref(link, lang)) ?? '';
@@ -147,7 +147,10 @@ const Jumbo = ({ jumbos, className, lang }: JumboProps) => {
                     blurDataURL={image.blurDataUrl as string}
                     placeholder={image.blurDataUrl ? 'blur' : 'empty'}
                     sizes="100vw"
-                    loading="lazy"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    priority={index === 0}
+                    fetchPriority={index === 0 ? 'high' : 'low'}
+                    quality={65}
                   />
                   <div className="absolute w-full h-full top-0 left-0 bg-linear-to-b from-75% from-transparent to-background" />
                   <div

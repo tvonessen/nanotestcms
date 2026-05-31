@@ -30,6 +30,9 @@ const ProductCard = ({ lang, product, className }: ProductCardProps) => {
             placeholder={image.blurDataUrl ? 'blur' : 'empty'}
             src={resolveAssetURL(usedImage.url)}
             width={usedImage.width ?? 640}
+            quality={65}
+            loading="lazy"
+            fetchPriority="low"
           />
         </Link>
       </figure>

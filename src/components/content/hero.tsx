@@ -53,10 +53,10 @@ const Hero = (props: HeroProps) => {
           arrows={false}
           speed={500}
           easing="ease-in-out"
-          lazyLoad="progressive"
+          lazyLoad="ondemand"
           ref={slider}
         >
-          {images.map((image) => (
+          {images.map((image, index) => (
             <div className="relative md:px-2 focus:outline-hidden" key={image.alt}>
               <Image
                 key={image.filename}
@@ -68,7 +68,10 @@ const Hero = (props: HeroProps) => {
                 blurDataURL={image.blurDataUrl as string}
                 placeholder={image.blurDataUrl ? 'blur' : 'empty'}
                 sizes="(max-width: 1280px) 100vw, 1280px"
-                loading="lazy"
+                loading={index === 0 ? 'eager' : 'lazy'}
+                priority={index === 0}
+                fetchPriority={index === 0 ? 'high' : 'low'}
+                quality={65}
               />
               {showCaption && image.caption && (
                 <div

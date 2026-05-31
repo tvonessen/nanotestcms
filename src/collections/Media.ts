@@ -20,6 +20,28 @@ const RESIZABLE_MIME_TYPES = [
   'image/avif',
 ];
 
+const resolveDerivedImageFields = async ({
+  mimeType,
+  blurredFilename,
+}: {
+  mimeType?: string | null;
+  blurredFilename?: string | null;
+}) => {
+  if (!mimeType || mimeType.includes('svg') || !blurredFilename) {
+    return { blurDataUrl: '', isDark: false };
+  }
+
+  const blurDataUrl = imageToBase64(`${MEDIA_DIR}/${blurredFilename}`);
+  if (!blurDataUrl) {
+    return { blurDataUrl: '', isDark: false };
+  }
+
+  return {
+    blurDataUrl,
+    isDark: await isDarkImage(blurDataUrl),
+  };
+};
+
 export const Media: CollectionConfig = {
   slug: 'media',
   upload: {
@@ -152,21 +174,40 @@ export const Media: CollectionConfig = {
           });
           return { ...doc, sizes: {} };
         }
+
+        const derivedFields = await resolveDerivedImageFields({
+          mimeType: doc.mimeType,
+          blurredFilename: doc.sizes?.blurred?.filename,
+        });
+
+        if (
+          derivedFields.blurDataUrl !== (doc.blurDataUrl ?? '') ||
+          derivedFields.isDark !== Boolean(doc.isDark)
+        ) {
+          await req.payload.db.updateOne({
+            collection: 'media',
+            id: doc.id,
+            data: derivedFields,
+            locale: req.payload.config.localization
+              ? (req.locale ?? req.payload.config.localization?.defaultLocale ?? 'en')
+              : undefined,
+            req,
+          });
+          return { ...doc, ...derivedFields };
+        }
       },
     ],
     beforeRead: [
       async ({ doc }) => {
-        // Use optional chaining: doc.sizes may be null/undefined for non-resizable
-        // uploads such as SVG files.
-        if (!doc.sizes?.blurred) return;
-        if (doc.mimeType.includes('svg')) {
-          doc.blurDataUrl = '';
-          doc.isDark = false;
-        } else {
-          /* Set blurred image data url */
-          doc.blurDataUrl = imageToBase64(`${MEDIA_DIR}/${doc.sizes.blurred.filename}`);
-          doc.isDark = await isDarkImage(doc.blurDataUrl);
-        }
+        if (typeof doc.blurDataUrl === 'string' && typeof doc.isDark === 'boolean') return;
+
+        const derivedFields = await resolveDerivedImageFields({
+          mimeType: doc.mimeType,
+          blurredFilename: doc.sizes?.blurred?.filename,
+        });
+
+        doc.blurDataUrl = derivedFields.blurDataUrl;
+        doc.isDark = derivedFields.isDark;
       },
     ],
   },
