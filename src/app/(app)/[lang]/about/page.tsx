@@ -44,7 +44,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
       {about.teamMembers && about.teamMembers.length > 0 && (
         <article className="sm:mt-4 sm:mb-12 md:mt-8 md:mb-16 px-4 max-w-6xl lg:mx-auto">
-          <h2 className="text-3xl font-bold">Our Team</h2>
+          <h2 className="text-3xl font-bold">{lang === "de" ? "Ihre Ansprechpartner" : "Your contacts"}</h2>
           <TeamMembersGallery members={about.teamMembers as TeamMember[]} />
         </article>
       )}
