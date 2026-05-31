@@ -1,4 +1,5 @@
 import config from '@payload-config';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import { Content } from '@/components/content/content';
@@ -16,7 +17,7 @@ interface AboutPageProps {
   params: Promise<{ lang: Config['locale'] }>;
 }
 
-export async function generateMetadata({ params }: AboutPageProps) {
+export async function generateMetadata({ params }: AboutPageProps): Promise<Metadata> {
   const { lang } = await params;
   const payload = await getPayload({ config });
   const about = await payload.findGlobal({ slug: 'about', locale: lang, depth: 1 });
@@ -44,7 +45,9 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
       {about.teamMembers && about.teamMembers.length > 0 && (
         <article className="sm:mt-4 sm:mb-12 md:mt-8 md:mb-16 px-4 max-w-6xl lg:mx-auto">
-          <h2 className="text-3xl font-bold">{lang === "de" ? "Ihre Ansprechpartner" : "Your contacts"}</h2>
+          <h2 className="text-3xl font-bold">
+            {lang === 'de' ? 'Ihre Ansprechpartner' : 'Your contacts'}
+          </h2>
           <TeamMembersGallery members={about.teamMembers as TeamMember[]} />
         </article>
       )}

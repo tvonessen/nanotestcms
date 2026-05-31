@@ -3819,7 +3819,7 @@ export interface AnalyticsAggregate {
   viewportBucket?: ('xs' | 'sm' | 'md' | 'lg' | 'xl' | 'unknown') | null;
   pageviews: number;
   /**
-   * Approximation only (privacy-first model, no long-lived per-user tracking).
+   * Legacy field: unique visitor approximation is disabled in server-side tracking mode.
    */
   uniqueVisitorsApprox: number;
   entryViews: number;
@@ -4564,9 +4564,9 @@ export interface Homepage {
  */
 export interface About {
   id: string;
-  content?: (Text | TextImage | TextVideo | Cards | ContactForm)[] | null;
+  content?: (Text | TextImage | TextVideo | Cards | ContactForm | Hero)[] | null;
   teamMembers?: (string | TeamMember)[] | null;
-  content_bottom?: (Text | TextImage | TextVideo | Cards | ContactForm)[] | null;
+  content_bottom?: (Text | TextImage | TextVideo | Cards | ContactForm | Hero)[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -4802,6 +4802,7 @@ export interface AboutSelect<T extends boolean = true> {
         'text-video'?: T | TextVideoSelect<T>;
         cards?: T | CardsSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
+        hero?: T | HeroSelect<T>;
       };
   teamMembers?: T;
   content_bottom?:
@@ -4812,6 +4813,7 @@ export interface AboutSelect<T extends boolean = true> {
         'text-video'?: T | TextVideoSelect<T>;
         cards?: T | CardsSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
+        hero?: T | HeroSelect<T>;
       };
   meta?:
     | T
