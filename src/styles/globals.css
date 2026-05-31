@@ -8,7 +8,7 @@
 
 :root {
   --primary: 0, 169, 132; /* in HEX: #00A984 */
-  --secondary: 138, 79, 125; /* in HEX: #8A4F7D */
+  --secondary: 87, 77, 128; /* in HEX: #8f87cd */
   --accent-01: 243, 182, 31; /* in HEX: #F3B61F */
   --accent-02: 32, 78, 74; /* in HEX: #204E4A */
   --focus: 252, 132, 80; /* in HEX: #FC8450 */
@@ -26,7 +26,7 @@
   --foreground: 245, 248, 248;
   --background: 21, 21, 21;
   --secondary: 243, 182, 31;
-  --accent-01: 138, 79, 125;
+  --accent-01: 87, 77, 128;
 }
 
 ::selection {
