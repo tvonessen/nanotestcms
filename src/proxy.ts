@@ -92,6 +92,30 @@ function queueServerPageview(request: NextRequest, event: NextFetchEvent) {
   );
 }
 
+async function fetchRedirectMap(request: NextRequest): Promise<RedirectMap> {
+  const redirectMapPath = '/api/redirect-map';
+  const primaryURL = buildInternalURL(redirectMapPath);
+  const fallbackURL = new URL(redirectMapPath, request.url).toString();
+  const candidateURLs = [primaryURL, fallbackURL].filter(
+    (value, index, all) => all.indexOf(value) === index,
+  );
+
+  for (const url of candidateURLs) {
+    try {
+      const response = await fetch(url, {
+        cache: 'no-store',
+      });
+
+      if (!response.ok) continue;
+      return (await response.json()) as RedirectMap;
+    } catch {
+      // Try next candidate URL.
+    }
+  }
+
+  return {};
+}
+
 export async function proxy(request: NextRequest, event: NextFetchEvent) {
   const { pathname } = request.nextUrl;
   const prev = request.url;
@@ -118,16 +142,8 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
   }
 
   // Unknown first segment: check the alias/redirect table before falling back to /en prefix.
-  const alias = pathname.replace(/^\/+/, '').split('/')[0];
-  let map: RedirectMap = {};
-  try {
-    const res = await fetch(`${request.nextUrl.origin}/api/redirect-map`, {
-      next: { revalidate: 30 },
-    });
-    if (res.ok) map = (await res.json()) as RedirectMap;
-  } catch {
-    // If the endpoint is unreachable, fall through to the default locale prefix.
-  }
+  const alias = pathname.replace(/^\/+/, '').split('/')[0].toLowerCase();
+  const map = await fetchRedirectMap(request);
 
   const entry = map[alias];
   if (entry) {
