@@ -86,7 +86,7 @@ const Jumbo = ({ jumbos, className, lang }: JumboProps) => {
         {images.length > 1 && (
           <Fragment key={'controls'}>
             <button
-              className="absolute rounded-sm left-1 top-1/2 -translate-y-1/2 z-20 p-6 cursor-pointer"
+              className="absolute rounded-sm left-1 top-1/2 translate-y-[-200%] lg:translate-y-[-150%] z-20 p-6 cursor-pointer"
               type="button"
               onClick={prev}
             >
@@ -101,7 +101,7 @@ const Jumbo = ({ jumbos, className, lang }: JumboProps) => {
               />
             </button>
             <button
-              className="absolute rounded-sm right-1 top-1/2 -translate-y-1/2 z-20 p-6 cursor-pointer"
+              className="absolute rounded-sm right-1 top-1/2 translate-y-[-200%] lg:translate-y-[-150%] z-20 p-6 cursor-pointer"
               type="button"
               onClick={next}
             >
@@ -139,7 +139,7 @@ const Jumbo = ({ jumbos, className, lang }: JumboProps) => {
               <div key={image.blurDataUrl}>
                 <div className="relative focus:outline-hidden -z-10 overflow-hidden 2xl:rounded-2xl">
                   <Image
-                    className={'aspect-square lg:aspect-video w-full object-cover'}
+                    className={'aspect-square lg:aspect-video w-full max-h-[80dvh] object-cover'}
                     src={resolveAssetURL(image.sizes?.large?.url ?? image.url)}
                     alt={image.alt}
                     width={(image.sizes?.large?.width ?? image.width) as number}
