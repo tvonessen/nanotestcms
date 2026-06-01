@@ -52,7 +52,14 @@ const ContactFormInner = (props: ContactFormProps) => {
       });
 
       if (!isHuman.ok) {
-        console.error('Failed to validate captcha');
+        enqueueSnackbar(
+          <div className="flex flex-col items-start">
+            <h2 className="block mb-1 text-kg font-bold">Verification failed</h2>
+            <p className="block mb-1">Please try again.</p>
+          </div>,
+          { variant: 'error', hideIconVariant: true },
+        );
+        return;
       }
 
       const response = await fetch('/api/send-email', {
@@ -82,7 +89,7 @@ const ContactFormInner = (props: ContactFormProps) => {
         <div className="flex flex-col items-start">
           <h2 className="block mb-1 text-kg font-bold">Failed to send email</h2>
           <p className="block mb-1">
-            ${error instanceof Error ? error.message : 'An unknown error occurred'}
+            {error instanceof Error ? error.message : 'An unknown error occurred'}
           </p>
           <p>:-((</p>
         </div>,
@@ -94,7 +101,7 @@ const ContactFormInner = (props: ContactFormProps) => {
   return (
     <section
       className={cn(
-        'max-lg:w-screen lg:w-full relative max-lg:left-1/2 max-lg:-translate-x-[50%]',
+        'max-lg:w-screen lg:w-full relative max-lg:left-1/2 max-lg:translate-x-[-50%]',
         'mx-auto my-12 col-span-full  px-12 py-12 lg:rounded-lg',
         className,
       )}
@@ -221,7 +228,9 @@ const ContactFormInner = (props: ContactFormProps) => {
 };
 
 const ContactForm = (props: ContactFormProps) => (
-  <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? 'NOT DEFINED'}>
+  <GoogleReCaptchaProvider
+    reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? 'NOT DEFINED'}
+  >
     <ContactFormInner {...props} />
   </GoogleReCaptchaProvider>
 );
