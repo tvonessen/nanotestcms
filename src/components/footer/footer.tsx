@@ -1,5 +1,5 @@
 import { cn } from '@heroui/react';
-import { AtIcon, LinkedinLogoIcon, PhoneIcon } from '@phosphor-icons/react/dist/ssr';
+import { AtIcon, HandPeaceIcon, LinkedinLogoIcon, PhoneIcon } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import NanotestLogo from '../nanotest-logo';
 
@@ -21,8 +21,8 @@ async function Footer(props: FooterProps) {
       <div className="w-full max-w-6xl mx-0 md:mx-auto px-12 flex gap-12 md:gap-24 flex-col-reverse md:flex-row items-center md:items-start justify-center">
         <div className="block text-center md:text-left max-w-72 md:max-w-120">
           Nanotest is one of the co-founders and members of{' '}
-          <b>ISA - International Semiconductor Alliance</b>, a cooperation of internally leading
-          technology companies from the semiconductor industry.
+          <b>ISA - International Semiconductor Alliance</b>, a cooperation of internationally
+          leading technology companies from the semiconductor industry.
           <br />
           <Link
             className="inline-block rounded-lg h-8 px-2 pt-1 mt-4 border-1 border-primary hover:border-secondary focus-visible:border-secondary transition-colors"
@@ -75,11 +75,33 @@ async function Footer(props: FooterProps) {
           </div>
         </div>
       </div>
-      <div className="w-full mt-12 flex items-center justify-center">
-        <span className="font-medium" suppressHydrationWarning>
-          &copy; {new Date().getFullYear()}
-        </span>
-        <NanotestLogo hideLogo className="h-4 px-1" />
+      <div className="w-full mt-12 flex items-center justify-center gap-6 text-sm md:text-[16px]">
+        <div className="flex items-center justify-center">
+          <span className="font-medium" suppressHydrationWarning>
+            &copy; {new Date().getFullYear()}
+          </span>
+          <NanotestLogo hideLogo className="h-3.75 ps-2" />
+        </div>
+        <div className="ps-0.5">
+          <a
+            href="https://hybit.media"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Page design by HyBit Media"
+            className={cn(
+              'group text-[110%] md:text-[100%] transition-colors',
+              'text-white/80 hover:text-primary flex items-center justify-center gap-1',
+            )}
+          >
+            <HandPeaceIcon
+              size={18}
+              className="fill-white/80 group-hover:fill-white transition-colors -translate-y-px"
+            />
+            <div>
+              hybit<span className="group-hover:text-white">.</span>media
+            </div>
+          </a>
+        </div>
       </div>
     </footer>
   );
