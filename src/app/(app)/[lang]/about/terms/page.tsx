@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: AboutPageProps): Promise<Meta
   const { lang } = await params;
   const payload = await getPayload({ config });
   const legal = await payload.findGlobal({ slug: 'legal', locale: lang, depth: 1 });
-  return buildMetadata(legal?.meta, { title: 'Imprint — Nanotest' }, lang);
+  return buildMetadata(legal?.meta, { title: 'Terms and Conditions — Nanotest' }, lang);
 }
 
 export default async function AboutPage({ params }: AboutPageProps) {
@@ -39,7 +39,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
   return (
     <div className="container mx-auto">
       <article className="sm:m-4 md:m-8 px-4 max-w-6xl lg:mx-auto">
-        <Content blocks={legal.imprint} lang={lang} />
+        <Content blocks={legal.terms} lang={lang} />
       </article>
     </div>
   );

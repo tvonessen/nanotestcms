@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { ContactForm } from '@/blocks/ContactFormBlock';
+import { Downloads } from '@/blocks/DownloadsBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { buildDraftPreviewURL } from '@/utils/public-url';
@@ -34,54 +35,46 @@ export const LegalContent: GlobalConfig = {
   },
   fields: [
     {
-      name: 'imprint',
-      label: 'Imprint',
-      type: 'blocks',
-      minRows: 1,
-      blocks: [Text, TextImage, ContactForm],
-    },
-    {
-      name: 'privacy',
-      label: 'Privacy',
-      type: 'blocks',
-      minRows: 1,
-      blocks: [Text, TextImage, ContactForm],
-    },
-    // The SEO plugin adds a `meta` group (title/description/image) for the imprint page.
-    // privacyMeta mirrors that structure for the privacy page.
-    {
-      name: 'privacyMeta',
-      label: 'Privacy Page SEO',
-      type: 'group',
-      admin: {
-        description: 'SEO metadata for the Privacy Policy page.',
-      },
-      fields: [
+      type: 'tabs',
+      tabs: [
         {
-          name: 'title',
-          label: 'Meta Title',
-          type: 'text',
-          admin: {
-            description:
-              'Overrides the browser tab title and search engine title for the Privacy page.',
-          },
+          label: { en: 'Imprint', de: 'Impressum' },
+          fields: [
+            {
+              name: 'imprint',
+              label: { en: 'Imprint', de: 'Impressum' },
+              type: 'blocks',
+              minRows: 1,
+              blocks: [Text, TextImage, ContactForm, Downloads],
+            },
+          ],
         },
         {
-          name: 'description',
-          label: 'Meta Description',
-          type: 'textarea',
-          admin: {
-            description: 'Overrides the search engine snippet for the Privacy page.',
-          },
+          label: { en: 'Privacy', de: 'Datenschutz' },
+          fields: [
+            {
+              name: 'privacy',
+              label: { en: 'Privacy', de: 'Datenschutz' },
+              type: 'blocks',
+              minRows: 1,
+              blocks: [Text, TextImage, ContactForm, Downloads],
+            },
+          ],
         },
         {
-          name: 'image',
-          label: 'OG Image',
-          type: 'upload',
-          relationTo: 'media',
-          admin: {
-            description: 'Open Graph image for the Privacy page.',
+          label: {
+            en: 'Terms',
+            de: 'AGBs',
           },
+          fields: [
+            {
+              name: 'terms',
+              label: { en: 'Terms', de: 'AGBs' },
+              type: 'blocks',
+              minRows: 1,
+              blocks: [Text, TextImage, ContactForm, Downloads],
+            },
+          ],
         },
       ],
     },
@@ -92,6 +85,7 @@ export const LegalContent: GlobalConfig = {
         if (doc._status === 'draft') return;
         await revalidateHook('/about/imprint', req.locale);
         await revalidateHook('/about/privacy', req.locale);
+        await revalidateHook('/about/terms', req.locale);
       },
     ],
   },

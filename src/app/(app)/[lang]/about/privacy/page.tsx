@@ -1,4 +1,5 @@
 import config from '@payload-config';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import { Content } from '@/components/content/content';
@@ -6,7 +7,6 @@ import { locales } from '@/config/locales';
 import type { Config } from '@/payload-types';
 import { buildMetadata } from '@/utils/generateMeta';
 import { isPreviewEnabled } from '@/utils/preview';
-import {Metadata} from "next";
 
 export function generateStaticParams() {
   return locales.map(({ code }) => ({ lang: code }));
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: AboutPageProps): Promise<Meta
   const { lang } = await params;
   const payload = await getPayload({ config });
   const legal = await payload.findGlobal({ slug: 'legal', locale: lang, depth: 1 });
-  return buildMetadata(legal?.privacyMeta, { title: 'Privacy Policy — Nanotest' }, lang);
+  return buildMetadata(legal?.meta, { title: 'Privacy Policy — Nanotest' }, lang);
 }
 
 export default async function AboutPage({ params }: AboutPageProps) {

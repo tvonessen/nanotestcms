@@ -1,5 +1,5 @@
 import { cn } from '@heroui/react';
-import { AtIcon, HandPeaceIcon, LinkedinLogoIcon, PhoneIcon } from '@phosphor-icons/react/dist/ssr';
+import { AtIcon, ButterflyIcon, LinkedinLogoIcon, PhoneIcon } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import NanotestLogo from '../nanotest-logo';
 
@@ -32,49 +32,68 @@ async function Footer(props: FooterProps) {
             Visit ISA-Semi.com
           </Link>
         </div>
+
+        {/* Links section */}
         <div>
-          <div className="relative ps-3 before:absolute before:left-0 before:top-0 before:w-1 before:h-full before:bg-primary before:rounded text-lg">
+          <div
+            className={cn(
+              'relative ps-4 py-1 text-lg',
+              'before:absolute before:left-0 before:top-0 before:w-1 before:h-full before:bg-primary before:rounded',
+            )}
+          >
             <h3 className="font-semibold text-nowrap">Berliner Nanotest und Design GmbH</h3>
             <p className="text-sm opacity-80">
               Gerhard-Sedlmayr-Str. 11 <span className="text-primary">|</span> 12487 Berlin{' '}
               <span className="text-primary">|</span> Germany
             </p>
-            <p className="mt-10 flex gap-2">
-              <Link
-                className="flex items-center justify-center rounded-lg w-8 h-8 bg-primary hover:bg-secondary focus-visible:bg-secondary  dark:hover:text-background dark:focus-visible:text-background transition-colors"
-                href="tel:+49307002100"
-              >
-                <PhoneIcon size={24} />
-              </Link>
-              <Link
-                className="flex items-center justify-center rounded-lg w-8 h-8 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
-                href="mailto:info@nanotest.eu"
-              >
-                <AtIcon size={24} />
-              </Link>
-              <Link
-                className="flex items-center justify-center rounded-lg w-8 h-8 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
-                target="_blank"
-                href="https://www.linkedin.com/company/nanotest/"
-              >
-                <LinkedinLogoIcon size={24} />
-              </Link>
-              <Link
-                className="text-md flex items-center justify-center rounded-lg h-8 px-2 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
-                href={`/${lang}/about/imprint`}
-              >
-                {lang === 'de' ? 'Impressum' : 'Imprint'}
-              </Link>
-              <Link
-                className="text-md flex items-center justify-center rounded-lg h-8 px-2 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
-                href={`/${lang}/about/privacy`}
-              >
-                {lang === 'de' ? 'Datenschutz' : 'Privacy'}
-              </Link>
-            </p>
+            <div className="mt-8 flex gap-x-2 gap-y-3 flex-wrap">
+              <p className="flex gap-2">
+                <Link
+                  className="flex items-center justify-center rounded-lg w-8 h-8 bg-primary hover:bg-secondary focus-visible:bg-secondary  dark:hover:text-background dark:focus-visible:text-background transition-colors"
+                  href="tel:+49307002100"
+                >
+                  <PhoneIcon size={24} />
+                </Link>
+                <Link
+                  className="flex items-center justify-center rounded-lg w-8 h-8 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
+                  href="mailto:info@nanotest.eu"
+                >
+                  <AtIcon size={24} />
+                </Link>
+                <Link
+                  className="flex items-center justify-center rounded-lg w-8 h-8 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
+                  target="_blank"
+                  href="https://www.linkedin.com/company/nanotest/"
+                >
+                  <LinkedinLogoIcon size={24} />
+                </Link>
+              </p>
+              <p className="flex gap-2">
+                <Link
+                  className="text-md flex items-center justify-center rounded-lg h-8 px-2 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
+                  href={`/${lang}/about/imprint`}
+                >
+                  {lang === 'de' ? 'Impressum' : 'Imprint'}
+                </Link>
+                <Link
+                  className="text-md flex items-center justify-center rounded-lg h-8 px-2 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
+                  href={`/${lang}/about/privacy`}
+                >
+                  {lang === 'de' ? 'Datenschutz' : 'Privacy'}
+                </Link>
+                <Link
+                  className="text-md flex items-center justify-center rounded-lg h-8 px-2 bg-primary hover:bg-secondary focus-visible:bg-secondary dark:hover:text-background dark:focus-visible:text-background transition-colors"
+                  href={`/${lang}/about/terms`}
+                >
+                  {lang === 'de' ? 'AGBs' : 'Terms'}
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>
+
+      {/*Copyright section*/}
       <div className="w-full mt-12 flex items-center justify-center gap-6 text-sm md:text-[16px]">
         <div className="flex items-center justify-center">
           <span className="font-medium" suppressHydrationWarning>
@@ -93,9 +112,10 @@ async function Footer(props: FooterProps) {
               'text-white/80 hover:text-primary flex items-center justify-center gap-1',
             )}
           >
-            <HandPeaceIcon
+            <ButterflyIcon
               size={18}
-              className="fill-white/80 group-hover:fill-white transition-colors -translate-y-px"
+              weight="duotone"
+              className="fill-white/80 group-hover:fill-[#ff6649] transition-colors -translate-y-px"
             />
             <div>
               hybit<span className="group-hover:text-white">.</span>media

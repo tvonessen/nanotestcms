@@ -53,7 +53,7 @@ export const Navbar = ({ navItems, lang }: NavbarProps) => {
         href={`/${lang}/`}
         tabIndex={0}
       >
-        <NanotestLogo className="h-8 sm:h-9 md:h-10 text-background dark:text-foreground" />
+        <NanotestLogo className="h-6 xs:h-8 sm:h-9 lg:h-10 text-background dark:text-foreground" />
       </Link>
 
       {/* Desktop navigation */}

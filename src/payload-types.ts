@@ -4585,25 +4585,9 @@ export interface About {
  */
 export interface Legal {
   id: string;
-  imprint?: (Text | TextImage | ContactForm)[] | null;
-  privacy?: (Text | TextImage | ContactForm)[] | null;
-  /**
-   * SEO metadata for the Privacy Policy page.
-   */
-  privacyMeta?: {
-    /**
-     * Overrides the browser tab title and search engine title for the Privacy page.
-     */
-    title?: string | null;
-    /**
-     * Overrides the search engine snippet for the Privacy page.
-     */
-    description?: string | null;
-    /**
-     * Open Graph image for the Privacy page.
-     */
-    image?: (string | null) | Media;
-  };
+  imprint?: (Text | TextImage | ContactForm | Downloads)[] | null;
+  privacy?: (Text | TextImage | ContactForm | Downloads)[] | null;
+  terms?: (Text | TextImage | ContactForm | Downloads)[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -4838,6 +4822,7 @@ export interface LegalSelect<T extends boolean = true> {
         text?: T | TextSelect<T>;
         'text-image'?: T | TextImageSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
+        downloads?: T | DownloadsSelect<T>;
       };
   privacy?:
     | T
@@ -4845,13 +4830,15 @@ export interface LegalSelect<T extends boolean = true> {
         text?: T | TextSelect<T>;
         'text-image'?: T | TextImageSelect<T>;
         'contact-form'?: T | ContactFormSelect<T>;
+        downloads?: T | DownloadsSelect<T>;
       };
-  privacyMeta?:
+  terms?:
     | T
     | {
-        title?: T;
-        description?: T;
-        image?: T;
+        text?: T | TextSelect<T>;
+        'text-image'?: T | TextImageSelect<T>;
+        'contact-form'?: T | ContactFormSelect<T>;
+        downloads?: T | DownloadsSelect<T>;
       };
   meta?:
     | T

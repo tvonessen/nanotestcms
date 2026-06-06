@@ -17,6 +17,7 @@ export function AdminBar({ preview: initialPreview }: AdminBarProps) {
   const router = useRouter();
   const [preview, setPreview] = useState(initialPreview ?? false);
   const [user, setUser] = useState<PayloadMeUser>(null);
+  const [isHidden, setIsHidden] = useState<boolean>(false);
 
   async function logout() {
     await fetch('/api/users/logout', { method: 'POST' });
@@ -29,6 +30,8 @@ export function AdminBar({ preview: initialPreview }: AdminBarProps) {
     setPreview(enable);
     router.refresh();
   }
+
+  if (isHidden) return null;
 
   return (
     <>
@@ -49,15 +52,20 @@ export function AdminBar({ preview: initialPreview }: AdminBarProps) {
             )}
           >
             <span className="block text-md font-semibold ps-3">ADMIN BAR</span>
-            <Switch
-              size="sm"
-              color="warning"
-              className="ps-1"
-              isSelected={preview}
-              onValueChange={(val) => togglePreview(val)}
-            >
-              Show current draft
-            </Switch>
+            <div className="flex gap-4">
+              <Switch
+                size="sm"
+                color="warning"
+                className="ps-1"
+                isSelected={preview}
+                onValueChange={(val) => togglePreview(val)}
+              >
+                Show current draft
+              </Switch>
+              <Button size="sm" onPress={() => setIsHidden(true)}>
+                Hide Bar
+              </Button>
+            </div>
             <div className="flex gap-2 flex-wrap">
               <Button onPress={() => router.replace('/admin')} color="warning" variant="flat">
                 <ArrowRightIcon />
