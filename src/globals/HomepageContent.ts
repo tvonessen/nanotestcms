@@ -6,6 +6,8 @@ import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Features } from '@/blocks/FeaturesBlock';
 import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
+import { TextImage } from '@/blocks/TextImageBlock';
+import { TextVideo } from '@/blocks/TextVideoBlock';
 import { linkField } from '@/fields/linkField';
 import { buildDraftPreviewURL } from '@/utils/public-url';
 import { revalidateHook } from '@/utils/revalidate';
@@ -71,7 +73,7 @@ export const HomepageContent: GlobalConfig = {
       label: 'Content',
       type: 'blocks',
       minRows: 1,
-      blocks: [Text, Highlight, Cards, Features, ContactForm],
+      blocks: [Text, TextImage, TextVideo, Highlight, Cards, Features, ContactForm],
     },
   ],
   hooks: {
