@@ -1,4 +1,9 @@
-import { AtIcon, PhoneIcon, SpinnerGapIcon } from '@phosphor-icons/react/dist/ssr';
+import {
+  AtIcon,
+  LinkedinLogoIcon,
+  PhoneIcon,
+  SpinnerGapIcon,
+} from '@phosphor-icons/react/dist/ssr';
 import type React from 'react';
 import type { Media, TeamMember } from '@/payload-types';
 import { resolveAssetURL } from '@/utils/public-url';
@@ -100,6 +105,16 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
                   className="block p-1 bg-transparent rounded-lg transition-colors hover:bg-background focus-visible:bg-background"
                 >
                   <AtIcon weight="bold" size={28} />
+                </a>
+              </li>
+            )}
+            {member.linkedin && (
+              <li>
+                <a
+                  href={member.linkedin}
+                  className="block p-1 bg-transparent rounded-lg transition-colors hover:bg-background focus-visible:bg-background"
+                >
+                  <LinkedinLogoIcon weight="bold" size={28} />
                 </a>
               </li>
             )}

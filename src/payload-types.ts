@@ -3695,6 +3695,7 @@ export interface TeamMember {
   position: string;
   phone?: string | null;
   email?: string | null;
+  linkedin?: string | null;
   portrait?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
@@ -4305,6 +4306,7 @@ export interface TeamMemberSelect<T extends boolean = true> {
   position?: T;
   phone?: T;
   email?: T;
+  linkedin?: T;
   portrait?: T;
   updatedAt?: T;
   createdAt?: T;
