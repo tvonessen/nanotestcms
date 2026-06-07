@@ -28,8 +28,8 @@ import { Pages } from '@/collections/Pages';
 import { Redirects } from '@/collections/Redirects';
 import { SolutionCategories } from '@/collections/SolutionCategories';
 import { locales } from '@/config/locales';
-import redirectMapHandler from '@/utils/redirect-map';
 import { cleanupAnalyticsEndpoint } from '@/utils/cleanup-analytics';
+import redirectMapHandler from '@/utils/redirect-map';
 import revalidateHandler from '@/utils/revalidate';
 import { AnalyticsAggregates } from './collections/AnalyticsAggregates';
 import { DistroPartners } from './collections/DistroPartners';
@@ -39,8 +39,8 @@ import Solutions from './collections/Solutions';
 import { TeamMembers } from './collections/TeamMembers';
 import { Users } from './collections/Users';
 import { nodemailerOptions } from './config/nodemailer';
-import { AnalyticsSettings } from './globals/AnalyticsSettings';
 import { AboutContent } from './globals/AboutContent';
+import { AnalyticsSettings } from './globals/AnalyticsSettings';
 import { ContactUsContent } from './globals/ContactUsContent';
 import { HomepageContent } from './globals/HomepageContent';
 import { LegalContent } from './globals/LegalContent';
@@ -48,22 +48,21 @@ import { publicServerURL } from './utils/public-url';
 import { sendEmailEndpoint } from './utils/send-email';
 import validateCaptcha from './utils/validate-captcha';
 
-const cors = [publicServerURL, 'https://www.google.com', 'https://p-r7tphp.project.space'].filter(
-  Boolean,
-);
-
-const csrf = Array.from(
+const trustedBrowserOrigins = Array.from(
   new Set(
     [
       publicServerURL,
+      'http://localhost:3000',
       'http://localhost:3301',
       'https://p-r7tphp.project.space',
       'https://nanotest.eu',
       'https://www.nanotest.eu',
-      'https://nanotest.jutoserver.de',
     ].filter(Boolean),
   ),
 );
+
+const cors = Array.from(new Set([...trustedBrowserOrigins, 'https://www.google.com']));
+const csrf = Array.from(new Set(trustedBrowserOrigins));
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);

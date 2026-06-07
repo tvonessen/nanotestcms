@@ -136,7 +136,7 @@ cd nanotestcms
 pnpm install
 
 # 3. Copy the env template and fill in your values
-cp .env .env.local   # then edit .env.local — see Environment variables below
+cp .env.example .env.local   # then edit .env.local — see Environment variables below
 
 # 4. Start the development server
 pnpm dev
@@ -154,12 +154,11 @@ If you run into stale cache issues, use `pnpm devsafe` instead — it clears `.n
 
 ## Environment variables
 
-Copy `.env` and adjust. Never commit secrets to the repository.
+Copy `.env.example` to `.env.local` (or `.env`) and adjust. Never commit secrets to the repository.
 
 | Variable | Description | Example |
 |---|---|---|
 | `DATABASE_URI` | MongoDB connection string | `mongodb://127.0.0.1/nanotest` |
-| `HOST` | Base URL scheme + hostname | `https://www.nanotest.eu` |
 | `PORT` | Port the Node.js server binds to. **On production this is assigned by Mittwald — do not hardcode it.** | `3000` |
 | `NEXT_PUBLIC_SERVER_URL` | Public-facing URL used in the admin bar, SEO meta tags, and preview links. Must be reachable by browsers. | `https://www.nanotest.eu` |
 | `INTERNAL_SERVER_URL` | Server-side-only URL for self-calls (e.g. revalidation). Use `http://localhost:$PORT` if the app cannot reach itself via the public domain. | `http://localhost:3000` |

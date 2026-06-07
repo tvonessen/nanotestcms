@@ -25,7 +25,7 @@ export function buildPublicURL(path?: string): string {
 export function buildDraftPreviewURL(redirect: string): string {
   const searchParams = new URLSearchParams({ redirect });
 
-  return `${buildPublicURL('/api/draft')}?${searchParams.toString()}`;
+  return `/api/draft?${searchParams.toString()}`;
 }
 
 export function resolveAssetURL(url?: string | null): string {
