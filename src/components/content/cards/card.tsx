@@ -4,7 +4,6 @@ import { Chip } from '@heroui/chip';
 import { cn } from '@heroui/react';
 import { ArrowSquareInIcon } from '@phosphor-icons/react/ssr';
 import Image from 'next/image';
-import Link from 'next/link';
 import { CardInteractionWrapper } from '@/components/content/cards/card-wrapper';
 import type { RenderableCard } from '@/components/content/cards/cards-grid';
 import RichTextWrapper from '@/components/content/richtext-wrapper';
@@ -49,7 +48,11 @@ export async function Card({ lang, content: data, className }: CardProps) {
       : resolveCMSLinkHref(data.card.link as CMSLinkData, lang);
 
   return (
-    <CardInteractionWrapper href={href}>
+    <CardInteractionWrapper
+      href={href}
+      ariaLabel={`Learn more about ${content.title}`}
+      className="block"
+    >
       <HeroUICard
         role="link"
         id={href}
@@ -109,22 +112,18 @@ export async function Card({ lang, content: data, className }: CardProps) {
             </div>
           </div>
 
-          <Link
-            aria-label={`Learn more about ${content.title}`}
-            href={href}
-            passHref
-            className="relative bottom-0 left-0 w-full"
-          >
+          <div className="relative bottom-0 left-0 w-full" aria-hidden>
             <Button
+              as="span"
               color="primary"
               variant="solid"
               radius="md"
               size="lg"
-              className="w-full focus-visible:outline-focus font-semibold"
+              className="w-full focus-visible:outline-focus font-semibold pointer-events-none"
             >
               {content.title} <ArrowSquareInIcon size={24} />
             </Button>
-          </Link>
+          </div>
         </CardBody>
         <Image
           alt={content.title ?? ''}

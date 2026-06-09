@@ -5,6 +5,7 @@ import { type MouseEvent, type PointerEvent, type PropsWithChildren, useRef } fr
 interface CardInteractionWrapperProps extends PropsWithChildren {
   className?: string;
   href: string;
+  ariaLabel?: string;
 }
 
 export function CardInteractionWrapper(props: CardInteractionWrapperProps) {
@@ -31,6 +32,8 @@ export function CardInteractionWrapper(props: CardInteractionWrapperProps) {
     <a
       ref={ref}
       href={props.href}
+      aria-label={props.ariaLabel}
+      className={props.className}
       data-focus-within="false"
       onPointerEnter={(e: PointerEvent<HTMLAnchorElement>) => {
         if (e.pointerType === 'mouse') handleFocus();
