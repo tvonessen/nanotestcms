@@ -4547,7 +4547,7 @@ export interface Homepage {
         id?: string | null;
       }[]
     | null;
-  content?: (Text | Highlight | Cards | Features | ContactForm)[] | null;
+  content?: (Text | TextImage | TextVideo | Highlight | Cards | Features | ContactForm)[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -4758,6 +4758,8 @@ export interface HomepageSelect<T extends boolean = true> {
     | T
     | {
         text?: T | TextSelect<T>;
+        'text-image'?: T | TextImageSelect<T>;
+        'text-video'?: T | TextVideoSelect<T>;
         highlight?: T | HighlightSelect<T>;
         cards?: T | CardsSelect<T>;
         features?: T | FeaturesSelect<T>;
