@@ -107,7 +107,9 @@ export default async function TeamMemberPage(props: TeamMemberPageProps) {
                   href={person.linkedin}
                   className="underline decoration-2 decoration-transparent hover:decoration-primary transition-colors"
                 >
-                  {person.linkedin.replace('https://', '')}
+                  {person.linkedin
+                    .replace('https://www.linkedin.com/in', '')
+                    .replace('https://linkedin.com/in', '')}
                 </a>
               </>
             )}
