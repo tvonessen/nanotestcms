@@ -24,7 +24,10 @@ export async function generateStaticParams() {
       pagination: false,
       depth: 0,
       locale: code as Config['locale'],
-      where: { _status: { equals: 'published' } },
+      where: {
+        _status: { equals: 'published' },
+        has_contact_page: { equals: true },
+      },
     });
 
     for (const doc of allTeamMembers.docs) {
@@ -54,7 +57,7 @@ export default async function TeamMemberPage(props: TeamMemberPageProps) {
     })
   ).docs[0];
 
-  if (!person) return notFound();
+  if (!person || person.has_contact_page === false) return notFound();
 
   return (
     <div className="container max-w-md md:max-w-3xl mx-auto px-4">

@@ -3699,6 +3699,7 @@ export interface TeamMember {
   portrait?: (string | null) | Media;
   business_card?: (string | null) | Document;
   slug?: string | null;
+  has_contact_page?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -4312,6 +4313,7 @@ export interface TeamMemberSelect<T extends boolean = true> {
   portrait?: T;
   business_card?: T;
   slug?: T;
+  has_contact_page?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

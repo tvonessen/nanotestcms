@@ -93,6 +93,20 @@ export const TeamMembers: CollectionConfig = {
       },
     },
     slugField('name'),
+    {
+      name: 'has_contact_page',
+      label: { en: 'Individual contact page', de: 'Individuelle Kontaktseite' },
+      type: 'checkbox',
+      admin: {
+        position: 'sidebar',
+        description: {
+          en: 'If enabled, a contact info page for this team member is accessible via /contact/{slug}',
+          de: 'Wenn aktiviert, ist eine Kontaktseite für dieses Teammitglied unter /contact/{slug} erreichbar',
+        },
+      },
+      defaultValue: false,
+      required: false,
+    },
   ],
   hooks: {
     // helper hook because email was unintentionally localized
