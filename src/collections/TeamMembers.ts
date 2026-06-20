@@ -110,6 +110,7 @@ export const TeamMembers: CollectionConfig = {
       async ({ doc, req }) => {
         if (doc._status === 'draft') return;
         await revalidateHook('/about', req.locale);
+        await revalidateHook(`/contact/${(doc as TeamMember).slug}`, req.locale);
       },
     ],
   },
