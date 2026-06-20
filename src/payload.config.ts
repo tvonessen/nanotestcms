@@ -46,7 +46,6 @@ import { HomepageContent } from './globals/HomepageContent';
 import { LegalContent } from './globals/LegalContent';
 import { publicServerURL } from './utils/public-url';
 import { sendEmailEndpoint } from './utils/send-email';
-import validateCaptcha from './utils/validate-captcha';
 
 const trustedBrowserOrigins = Array.from(
   new Set(
@@ -131,11 +130,6 @@ export default buildConfig({
       path: '/send-email',
       method: 'post',
       handler: sendEmailEndpoint,
-    },
-    {
-      path: '/dont-bother-me',
-      method: 'post',
-      handler: validateCaptcha,
     },
     {
       path: '/revalidate',

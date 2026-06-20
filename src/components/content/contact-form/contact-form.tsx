@@ -42,25 +42,8 @@ const ContactFormInner = (props: ContactFormProps) => {
         console.error('Failed to load captcha');
         return;
       }
-      const token = await executeRecaptcha('contact_form');
-      const isHuman = await fetch('/api/dont-bother-me', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token }),
-      });
 
-      if (!isHuman.ok) {
-        enqueueSnackbar(
-          <div className="flex flex-col items-start">
-            <h2 className="block mb-1 text-kg font-bold">Verification failed</h2>
-            <p className="block mb-1">Please try again.</p>
-          </div>,
-          { variant: 'error', hideIconVariant: true },
-        );
-        return;
-      }
+      const token = await executeRecaptcha('contact_form');
 
       const response = await fetch('/api/send-email', {
         method: 'POST',
