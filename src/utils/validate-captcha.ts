@@ -2,14 +2,6 @@ import { addDataAndFileToRequest, type PayloadRequest } from 'payload';
 
 const RECAPTCHA_SCORE_THRESHOLD = 0.5;
 
-const allowedOrigins = [
-  'https://nanotest.eu',
-  'https://www.nanotest.eu',
-  'http://localhost:3301',
-  'http://localhost:3000',
-  'https://p-r7tphp.project.space',
-];
-
 function getClientIP(req: PayloadRequest): string {
   return (
     req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
@@ -19,45 +11,8 @@ function getClientIP(req: PayloadRequest): string {
   );
 }
 
-function validateOrigin(req: PayloadRequest): boolean {
-  const origin = req.headers.get('origin');
-  const referer = req.headers.get('referer');
-  
-  const checkUrl = (url: string | null): boolean => {
-    if (!url) return false;
-    try {
-      const urlObj = new URL(url);
-      return allowedOrigins.some((allowed) => {
-        try {
-          const allowedUrl = new URL(allowed);
-          return urlObj.hostname === allowedUrl.hostname;
-        } catch {
-          // If allowed is not a valid URL (e.g., localhost:3301), do string comparison
-          return url.startsWith(allowed);
-        }
-      });
-    } catch {
-      return false;
-    }
-  };
-
-  return checkUrl(origin) || checkUrl(referer);
-}
-
 export default async function validateCaptcha(req: PayloadRequest) {
   await addDataAndFileToRequest(req);
-
-  // Validate origin/referer
-  if (!validateOrigin(req)) {
-    const ip = getClientIP(req);
-    console.warn(`Blocked captcha validation from invalid origin. IP: ${ip}`);
-    return new Response(JSON.stringify({ error: 'Invalid origin' }), {
-      status: 403,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
 
   const secretKey = process.env.RECAPTCHA_SECRET_KEY;
   const token = (req.data as { token?: string })?.token;
@@ -65,12 +20,15 @@ export default async function validateCaptcha(req: PayloadRequest) {
   // Validate that secret key is configured
   if (!secretKey) {
     console.error('RECAPTCHA_SECRET_KEY is not configured!');
-    return new Response(JSON.stringify({ error: 'Server misconfiguration: reCAPTCHA not configured' }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
+    return new Response(
+      JSON.stringify({ error: 'Server misconfiguration: reCAPTCHA not configured' }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
   }
 
   if (!token) {
@@ -97,12 +55,15 @@ export default async function validateCaptcha(req: PayloadRequest) {
         score: data.score,
         ip,
       });
-      return new Response(JSON.stringify({ error: 'Captcha validation failed', codes: data['error-codes'] }), {
-        status: 403,
-        headers: {
-          'Content-Type': 'application/json',
+      return new Response(
+        JSON.stringify({ error: 'Captcha validation failed', codes: data['error-codes'] }),
+        {
+          status: 403,
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      });
+      );
     }
 
     // Validate the score threshold
