@@ -32,8 +32,6 @@ function shouldTrackRequest(request: NextRequest): boolean {
     request.cookies.has('__prerender_bypass') || request.cookies.has('__next_preview_data');
   const hasPayloadSession = request.cookies.has('payload-token');
   return !(hasDraftCookie && hasPayloadSession);
-
-
 }
 
 function queueServerPageview(request: NextRequest, event: NextFetchEvent) {
@@ -127,6 +125,8 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
   if (pathname.startsWith('/static/')) return NextResponse.next();
   if (pathname.startsWith('/admin')) return NextResponse.next();
   if (pathname.includes('favicon')) return NextResponse.next();
+  if (pathname.startsWith('/media/')) return NextResponse.next();
+  if (pathname.startsWith('/documents/')) return NextResponse.next();
 
   const locale = pathname.split('/')[1] || prev.split('/')[1] || 'en'; // Default to 'en'
 
