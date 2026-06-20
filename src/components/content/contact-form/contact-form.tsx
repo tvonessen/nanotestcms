@@ -67,14 +67,15 @@ const ContactFormInner = (props: ContactFormProps) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(
-          createContactMail({
+        body: JSON.stringify({
+          ...createContactMail({
             contactFormData: data as ContactFormFields,
             to: to as string,
             bcc: (to as string).includes('info@nanotest.eu') ? undefined : 'info@nanotest.eu',
             siteUrl: window.location.pathname,
           }),
-        ),
+          token,
+        }),
       });
 
       if (!response.ok) {
