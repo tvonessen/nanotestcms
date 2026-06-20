@@ -1,13 +1,87 @@
 import { addDataAndFileToRequest, type PayloadRequest } from 'payload';
 
+const RECAPTCHA_SCORE_THRESHOLD = 0.5;
+
+const allowedOrigins = [
+  'https://nanotest.eu',
+  'https://www.nanotest.eu',
+  'http://localhost:3301',
+  'http://localhost:3000',
+  'https://p-r7tphp.project.space',
+];
+
+function getClientIP(req: PayloadRequest): string {
+  return (
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    req.headers.get('x-real-ip') ||
+    req.headers.get('cf-connecting-ip') ||
+    'unknown'
+  );
+}
+
+function validateOrigin(req: PayloadRequest): boolean {
+  const origin = req.headers.get('origin');
+  const referer = req.headers.get('referer');
+  
+  const checkUrl = (url: string | null): boolean => {
+    if (!url) return false;
+    try {
+      const urlObj = new URL(url);
+      return allowedOrigins.some((allowed) => {
+        try {
+          const allowedUrl = new URL(allowed);
+          return urlObj.hostname === allowedUrl.hostname;
+        } catch {
+          // If allowed is not a valid URL (e.g., localhost:3301), do string comparison
+          return url.startsWith(allowed);
+        }
+      });
+    } catch {
+      return false;
+    }
+  };
+
+  return checkUrl(origin) || checkUrl(referer);
+}
+
 export default async function validateCaptcha(req: PayloadRequest) {
   await addDataAndFileToRequest(req);
+
+  // Validate origin/referer
+  if (!validateOrigin(req)) {
+    const ip = getClientIP(req);
+    console.warn(`Blocked captcha validation from invalid origin. IP: ${ip}`);
+    return new Response(JSON.stringify({ error: 'Invalid origin' }), {
+      status: 403,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
 
   const secretKey = process.env.RECAPTCHA_SECRET_KEY;
   const token = (req.data as { token?: string })?.token;
 
+  // Validate that secret key is configured
+  if (!secretKey) {
+    console.error('RECAPTCHA_SECRET_KEY is not configured!');
+    return new Response(JSON.stringify({ error: 'Server misconfiguration: reCAPTCHA not configured' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+
   if (!token) {
-    return new Response(JSON.stringify({ error: 'No captcha token provided' }), { status: 400 });
+    const ip = getClientIP(req);
+    console.warn(`Blocked captcha validation: missing token. IP: ${ip}`);
+    return new Response(JSON.stringify({ error: 'No captcha token provided' }), {
+      status: 400,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 
   const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
@@ -17,18 +91,46 @@ export default async function validateCaptcha(req: PayloadRequest) {
     const data = await response.json();
 
     if (!data.success) {
+      const ip = getClientIP(req);
+      console.warn(`reCAPTCHA validation failed for token ${token.substring(0, 8)}...`, {
+        errorCodes: data['error-codes'],
+        score: data.score,
+        ip,
+      });
       return new Response(JSON.stringify({ error: 'Captcha validation failed', codes: data['error-codes'] }), {
         status: 403,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
     }
 
-    return new Response(JSON.stringify({ message: 'Captcha validated successfully' }), {
+    // Validate the score threshold
+    const score = data.score;
+    if (score === undefined || score < RECAPTCHA_SCORE_THRESHOLD) {
+      const ip = getClientIP(req);
+      console.warn(`reCAPTCHA score too low: ${score}. IP: ${ip}`);
+      return new Response(JSON.stringify({ error: 'Captcha score too low', score }), {
+        status: 403,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+
+    return new Response(JSON.stringify({ message: 'Captcha validated successfully', score }), {
       status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
   } catch (error) {
-    console.error(error);
+    console.error('Failed to validate captcha:', error);
     return new Response(JSON.stringify({ error: 'Failed to validate captcha' }), {
       status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
   }
 }
