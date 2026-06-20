@@ -1,11 +1,12 @@
 import {
   AtIcon,
+  IdentificationCardIcon,
   LinkedinLogoIcon,
   PhoneIcon,
   SpinnerGapIcon,
 } from '@phosphor-icons/react/dist/ssr';
 import type React from 'react';
-import type { Media, TeamMember } from '@/payload-types';
+import type { Document, Media, TeamMember } from '@/payload-types';
 import { resolveAssetURL } from '@/utils/public-url';
 
 interface TeamMemberCardProps extends React.HTMLProps<HTMLLIElement> {
@@ -115,6 +116,17 @@ export default function TeamMemberCard({ member, className }: TeamMemberCardProp
                   className="block p-1 bg-transparent rounded-lg transition-colors hover:bg-background focus-visible:bg-background"
                 >
                   <LinkedinLogoIcon weight="bold" size={28} />
+                </a>
+              </li>
+            )}
+            {member.business_card && typeof member.business_card !== 'string' && (
+              <li>
+                <a
+                  href={(member.business_card as Document).url ?? ''}
+                  className="block p-1 bg-transparent rounded-lg transition-colors hover:bg-background focus-visible:bg-background"
+                  download
+                >
+                  <IdentificationCardIcon weight="bold" size={28} />
                 </a>
               </li>
             )}

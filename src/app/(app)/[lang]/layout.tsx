@@ -132,7 +132,7 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
           <AdminBar preview={isDraft} />
           <RefreshRouteOnSave />
           <Navbar navItems={navItems} lang={lang as Config['locale']} />
-          <div className="min-h-[calc(100dvh-10rem)] w-full overflow-x-hidden">
+          <div className="min-h-[calc(100dvh-23rem)] w-full overflow-x-hidden">
             <Suspense fallback={<Loading />}>{children}</Suspense>
           </div>
           <Footer lang={lang} />

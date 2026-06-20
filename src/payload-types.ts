@@ -274,7 +274,7 @@ export interface Media {
 export interface Document {
   id: string;
   filename_alt?: string | null;
-  type: 'datasheet' | 'flyer' | 'presentation' | 'whitepaper' | 'manual' | 'document';
+  type: 'datasheet' | 'flyer' | 'presentation' | 'whitepaper' | 'manual' | 'document' | 'contact_file';
   description?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -3697,6 +3697,8 @@ export interface TeamMember {
   email?: string | null;
   linkedin?: string | null;
   portrait?: (string | null) | Media;
+  business_card?: (string | null) | Document;
+  slug?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -4308,6 +4310,8 @@ export interface TeamMemberSelect<T extends boolean = true> {
   email?: T;
   linkedin?: T;
   portrait?: T;
+  business_card?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

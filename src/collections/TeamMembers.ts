@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
+import { slugField } from '@/fields/slugField';
 import type { TeamMember } from '@/payload-types';
 import { revalidateHook } from '@/utils/revalidate';
 
@@ -80,15 +81,29 @@ export const TeamMembers: CollectionConfig = {
       },
       displayPreview: true,
     },
+    {
+      name: 'business_card',
+      label: { en: 'Virtual business card', de: 'Virtuelle Visitenkarte' },
+      type: 'upload',
+      relationTo: 'documents',
+      required: false,
+      hasMany: false,
+      filterOptions: {
+        mimeType: { contains: 'vcard' },
+      },
+    },
+    slugField('name'),
   ],
   hooks: {
     // helper hook because email was unintentionally localized
     beforeRead: [
       async ({ doc }: { doc: TeamMember }) => {
         if (doc?.email && typeof doc.email === 'object') {
-          return { ...doc, email: Object.values(doc.email)[0] };
+          doc.email = Object.values(doc.email)[0] as (typeof doc)['email'];
         }
-        return doc;
+        if (!doc?.slug) {
+          doc.slug = doc.name.replaceAll(' ', '-').toLowerCase();
+        }
       },
     ],
     afterChange: [

@@ -29,10 +29,12 @@ export const Documents: CollectionConfig = {
     staticDir: DOCUMENTS_DIR,
     mimeTypes: [
       'text/plain',
+      'text/vcard',
+      'text/x-vcard',
+      'text/csv',
       'application/pdf',
       'application/msword',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'text/csv',
       'application/vnd.ms-excel',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       'application/vnd.ms-powerpoint',
@@ -66,6 +68,7 @@ export const Documents: CollectionConfig = {
         { label: 'Whitepaper', value: 'whitepaper' },
         { label: 'Manual', value: 'manual' },
         { label: 'Document', value: 'document' },
+        { label: 'Contact File', value: 'contact_file' },
       ],
     },
     {
