@@ -3699,6 +3699,9 @@ export interface TeamMember {
   portrait?: (string | null) | Media;
   business_card?: (string | null) | Document;
   slug?: string | null;
+  /**
+   * If enabled, a contact info page for this team member is accessible via /contact/{slug}
+   */
   has_contact_page?: boolean | null;
   updatedAt: string;
   createdAt: string;
