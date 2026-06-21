@@ -1,20 +1,48 @@
-import { Button } from '@heroui/react';
+import { Button, Image } from '@heroui/react';
 import { AtIcon, GlobeSimpleIcon, MapPinIcon, PhoneIcon } from '@phosphor-icons/react/ssr';
-import type { DistroPartner } from '@/payload-types';
+import type { DistroPartner, Media } from '@/payload-types';
+import { resolveAssetURL } from '@/utils/public-url';
 import RichTextWrapper from '../content/richtext-wrapper';
 
 export default function DistroPartnerContact({ contact }: { contact: DistroPartner }) {
+  const logo = contact.logo && typeof contact.logo === 'object' ? (contact.logo as Media) : null;
+  const logoUrl = logo?.sizes?.small?.url ?? logo?.sizes?.medium?.url ?? logo?.url;
+
   return (
     <div className="flex flex-col p-2 md:p-4 bg-secondary/10 rounded-lg grow-2">
-      <h3 className="ms-1 font-semibold text-lg leading-none">{contact.contactperson.name}</h3>
-      <h4 className="ms-1 font-semibold text-secondary-700 dark:text-secondary-400">
-        {contact.name}
-      </h4>
-      {contact.description && (
-        <div className="ms-1 italic text-secondary-700 dark:text-secondary">
-          <RichTextWrapper text={contact.description} />
+      <div className="flex flex-row gap-4 justify-between items-start">
+        <div>
+          <h3 className="ms-1 font-semibold text-lg leading-none">{contact.contactperson.name}</h3>
+          <h4 className="ms-1 font-semibold text-secondary-700 dark:text-secondary-400">
+            {contact.name}
+          </h4>
+          {contact.description && (
+            <div className="ms-1 italic text-secondary-700 dark:text-secondary">
+              <RichTextWrapper text={contact.description} />
+            </div>
+          )}
         </div>
-      )}
+        {logo && (
+          <Image
+            className="hidden md:block object-cover rounded-sm"
+            style={{
+              height: 'auto',
+              maxHeight: '64px',
+              width: `${(logo.width! * 64) / logo.height!}px`,
+              maxWidth: '164px',
+              aspectRatio: `${logo.width}/${logo.height}`,
+              backgroundColor:
+                logo.mimeType?.includes('svg') || logo.mimeType?.includes('png')
+                  ? '#fff7'
+                  : 'transparent',
+              padding:
+                logo.mimeType?.includes('svg') || logo.mimeType?.includes('png') ? '0.15rem' : '0',
+            }}
+            src={resolveAssetURL(logoUrl)}
+            alt={logo.alt}
+          />
+        )}
+      </div>
       <div className="flex flex-row gap-2 flex-wrap mt-3">
         {contact.website && (
           <a href={contact.website} target="_blank" rel="noopener noreferrer">
