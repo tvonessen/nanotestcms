@@ -142,10 +142,18 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
   }
 
   // Unknown first segment: check the alias/redirect table before falling back to /en prefix.
-  const alias = pathname.replace(/^\/+/, '').split('/')[0].toLowerCase();
-  const map = await fetchRedirectMap(request);
+  const pathSegments = pathname.replace(/^\/+/, '').split('/');
+  const aliasList: string[] = [];
+  for (let i = pathSegments.length - 1; i >= 0; i--) {
+    const N = pathSegments.length;
+    const alias = pathSegments.slice(N - i - 1, N).join('/');
+    aliasList.push(alias);
+  }
 
-  const entry = map[alias];
+  const map = await fetchRedirectMap(request);
+  const alias = Object.keys(map).find((key) => aliasList.includes(key));
+
+  const entry = alias ? map[alias] : undefined;
   if (entry) {
     const statusCode = entry.permanent ? 308 : 302;
     if (entry.external) {
