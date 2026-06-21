@@ -15,6 +15,9 @@ export const sendEmailEndpoint = async (req: PayloadRequest): Promise<Response> 
     await addDataAndFileToRequest(req);
     const body = await req.json?.();
 
+    // src/utils/send-email.ts, in der sendEmailEndpoint-Funktion
+    console.log('### send-email called with body:', body);
+
     // Validate captcha token
     const token = (body as { token?: string })?.token;
     if (!token) {
@@ -40,7 +43,9 @@ export const sendEmailEndpoint = async (req: PayloadRequest): Promise<Response> 
       return captchaResponse;
     }
 
+    console.log('### About to send email with options:', body);
     await req.payload.sendEmail(body as SendEmailOptions);
+    console.log('### Email sent successfully!');
 
     return new Response(JSON.stringify({ message: 'Email sent successfully' }), {
       status: 200,

@@ -66,6 +66,15 @@ const ContactFormInner = (props: ContactFormProps) => {
           'Failed to send email. Please try again or contact us through other channels.',
         );
       }
+
+      const mailOptions = createContactMail({
+        contactFormData: data as ContactFormFields,
+        to: to as string,
+        bcc: (to as string).includes('info@nanotest.eu') ? undefined : 'info@nanotest.eu',
+        siteUrl: window.location.pathname,
+      });
+      console.log('### Mail options:', mailOptions);
+
       setIsSubmitSuccessful(true);
     } catch (error) {
       setIsSubmitSuccessful(false);
