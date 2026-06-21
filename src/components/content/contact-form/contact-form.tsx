@@ -67,14 +67,6 @@ const ContactFormInner = (props: ContactFormProps) => {
         );
       }
 
-      const mailOptions = createContactMail({
-        contactFormData: data as ContactFormFields,
-        to: to as string,
-        bcc: (to as string).includes('info@nanotest.eu') ? undefined : 'info@nanotest.eu',
-        siteUrl: window.location.pathname,
-      });
-      console.log('### Mail options:', mailOptions);
-
       setIsSubmitSuccessful(true);
     } catch (error) {
       setIsSubmitSuccessful(false);
