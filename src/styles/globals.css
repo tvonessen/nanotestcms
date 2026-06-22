@@ -240,3 +240,18 @@ aside.hatching {
     transform: rotate(360deg);
   }
 }
+
+/* Hide scrollbar but allow touch scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Allow touch scrolling only when card is active (hovered/focused) */
+[data-active="true"] .scrollbar-hide {
+  touch-action: pan-y;
+}

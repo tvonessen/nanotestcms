@@ -1,6 +1,6 @@
 'use client';
 
-import { type MouseEvent, type PointerEvent, type PropsWithChildren, useRef } from 'react';
+import { type MouseEvent, type PointerEvent, type PropsWithChildren, useRef, useState } from 'react';
 
 interface CardInteractionWrapperProps extends PropsWithChildren {
   className?: string;
@@ -10,15 +10,18 @@ interface CardInteractionWrapperProps extends PropsWithChildren {
 
 export function CardInteractionWrapper(props: CardInteractionWrapperProps) {
   const ref = useRef<HTMLAnchorElement | null>(null);
+  const [isActive, setIsActive] = useState(false);
 
   function handleFocus() {
     (ref.current?.firstElementChild as HTMLDivElement).focus();
     ref.current?.setAttribute('data-focus-within', 'true');
+    setIsActive(true);
   }
 
   function handleBlur() {
     (ref.current?.firstElementChild as HTMLDivElement).blur();
     ref.current?.setAttribute('data-focus-within', 'false');
+    setIsActive(false);
   }
 
   function handleClick(e: MouseEvent<HTMLAnchorElement>) {
@@ -35,6 +38,7 @@ export function CardInteractionWrapper(props: CardInteractionWrapperProps) {
       aria-label={props.ariaLabel}
       className={props.className}
       data-focus-within="false"
+      data-active={isActive}
       onPointerEnter={(e: PointerEvent<HTMLAnchorElement>) => {
         if (e.pointerType === 'mouse') handleFocus();
       }}

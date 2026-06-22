@@ -84,7 +84,7 @@ export async function Card({ lang, content: data, className }: CardProps) {
             'bg-foreground/75 backdrop-blur-xs',
           )}
         >
-          <div className="max-h-[calc(100%-4.25rem)] w-full px-1 overflow-y-auto rounded-md scrollbar-hide">
+          <div className="max-h-[calc(100%-4.25rem)] w-full px-1 overflow-hidden group-hover:overflow-y-auto group-focus-within:overflow-y-auto rounded-md scrollbar-hide">
             <h2 className={cn('origin-left text-2xl sm:text-3xl text-background font-semibold')}>
               {content.title}
             </h2>
