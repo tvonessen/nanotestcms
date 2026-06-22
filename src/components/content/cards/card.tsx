@@ -57,7 +57,7 @@ export async function Card({ lang, content: data, className }: CardProps) {
         role="link"
         id={href}
         className={cn(
-          'group w-[320px] aspect-3/4',
+          'group w-[320px] aspect-4/3 sm:aspect-3/4',
           'shadow-none hover:z-20 focus-visible:z-20 outline-none!',
           className,
         )}
@@ -70,7 +70,7 @@ export async function Card({ lang, content: data, className }: CardProps) {
         >
           <h2
             className={cn(
-              'relative bottom-0 w-full right-0 pb-4 pt-30 px-6 origin-right text-4xl font-semibold',
+              'relative bottom-0 w-full right-0 pb-4 pt-30 px-6 origin-right text-3xl sm:text-4xl font-semibold',
               'bg-linear-to-t from-15% from-background/85 to-transparent',
             )}
           >
@@ -85,7 +85,7 @@ export async function Card({ lang, content: data, className }: CardProps) {
           )}
         >
           <div className="max-h-[calc(100%-4.25rem)] w-full px-1 overflow-y-auto rounded-md scrollbar-hide">
-            <h2 className={cn('origin-left text-3xl text-background font-semibold')}>
+            <h2 className={cn('origin-left text-2xl sm:text-3xl text-background font-semibold')}>
               {content.title}
             </h2>
             <div
@@ -103,7 +103,7 @@ export async function Card({ lang, content: data, className }: CardProps) {
                   Discontinued
                 </Chip>
               )}
-              <p className="text-sm block my-1 text-primary-300 dark:text-primary-700">
+              <p className="text-sm block sm:my-1 text-primary-300 dark:text-primary-700">
                 {content.subtitle}
               </p>
               {content.abstract && (
@@ -119,7 +119,7 @@ export async function Card({ lang, content: data, className }: CardProps) {
               variant="solid"
               radius="md"
               size="lg"
-              className="w-full focus-visible:outline-focus font-semibold pointer-events-none"
+              className="w-full h-9 sm:h-12 focus-visible:outline-focus font-semibold pointer-events-none"
             >
               {content.title} <ArrowSquareInIcon size={24} />
             </Button>
