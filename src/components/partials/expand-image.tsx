@@ -1,10 +1,11 @@
 'use client';
 
-import { ArrowsVerticalIcon } from '@phosphor-icons/react';
+import { ArrowsVerticalIcon, ArrowsOutSimpleIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import type { Media } from '@/payload-types';
 import { resolveAssetURL } from '@/utils/public-url';
+import { ImageModal } from '@/components/ui/image-modal';
 
 interface ExpandImageProps {
   image: Media;
@@ -16,6 +17,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
   const { url, sizes, width, height } = image;
   const [isExpandable, setIsExpandable] = React.useState(expandable);
   const [isExpanded, setIsExpanded] = React.useState(!expandable);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   React.useLayoutEffect(() => {
     const handleResize = () => {
@@ -35,13 +37,37 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
     if (isExpandable) setIsExpanded(!isExpanded);
   }
 
+  function handleClick() {
+    if (isExpandable) {
+      toggleExpand();
+    } else {
+      setIsModalOpen(true);
+    }
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick();
+    }
+  }
+
   return (
     <Fragment key="expand-image">
+      {/* Modal for desktop fullscreen */}
+      <ImageModal
+        image={image}
+        alt={alt}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
       {/** biome-ignore lint/a11y/noStaticElementInteractions: Expandable image */}
       <div
-        className={`group relative ${isExpandable && 'cursor-pointer'}`}
-        onClick={toggleExpand}
-        onKeyDown={toggleExpand}
+        className={`group relative cursor-pointer`}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
       >
         <Image
           className={'w-full rounded-lg object-cover transition-all duration-500'}
@@ -53,7 +79,6 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
           blurDataURL={image.blurDataUrl as string}
           placeholder={image.blurDataUrl ? 'blur' : 'empty'}
           sizes="(max-width: 1024px) 100vw, 50vw"
-          tabIndex={0}
           quality={65}
           unoptimized={image.mimeType?.includes('svg')}
           onError={(e) => {
@@ -72,6 +97,13 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
           <ArrowsVerticalIcon size={24} weight="bold" />
           expand
         </span>
+
+        {/* Fullscreen hint for desktop */}
+        {!isExpandable && (
+          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 rounded-full p-2">
+            <ArrowsOutSimpleIcon size={20} weight="bold" className="text-white" />
+          </div>
+        )}
       </div>
       <center className="mt-1 ms-1 text-sm opacity-80 lg:text-left">{alt}</center>
     </Fragment>
