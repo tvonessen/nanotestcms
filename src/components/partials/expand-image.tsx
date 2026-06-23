@@ -1,11 +1,12 @@
 'use client';
 
-import { ArrowsVerticalIcon, ArrowsOutSimpleIcon } from '@phosphor-icons/react';
+import { cn } from '@heroui/react';
+import { ArrowsOutSimpleIcon, ArrowsVerticalIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import React, { Fragment, useState } from 'react';
+import { ImageModal } from '@/components/ui/image-modal';
 import type { Media } from '@/payload-types';
 import { resolveAssetURL } from '@/utils/public-url';
-import { ImageModal } from '@/components/ui/image-modal';
 
 interface ExpandImageProps {
   image: Media;
@@ -67,6 +68,7 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
         className={`group relative cursor-pointer`}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
+        // biome-ignore lint/a11y/noNoninteractiveTabindex: Expandable image
         tabIndex={0}
       >
         <Image
@@ -100,8 +102,14 @@ const ExpandImage = ({ image, alt, expandable = false }: ExpandImageProps) => {
 
         {/* Fullscreen hint for desktop */}
         {!isExpandable && (
-          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 rounded-full p-2">
-            <ArrowsOutSimpleIcon size={20} weight="bold" className="text-white" />
+          <div
+            className={cn(
+              'absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity rounded-md p-2 text-primary',
+              !image.isDark && 'bg-white/40 text-black/80',
+              image.isDark && 'bg-black/40 text-white/80',
+            )}
+          >
+            <ArrowsOutSimpleIcon size={20} weight="bold" />
           </div>
         )}
       </div>
