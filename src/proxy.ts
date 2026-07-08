@@ -128,6 +128,12 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
   if (pathname.startsWith('/media/')) return NextResponse.next();
   if (pathname.startsWith('/documents/')) return NextResponse.next();
 
+  // Hotfixes für TIMA Software
+  if (pathname.toLowerCase().includes('vctrl/tima_software'))
+    return NextResponse.redirect('https://nanotest.eu/api/documents/file/version.txt');
+  if (pathname.toLowerCase().includes('vctrl/tima_changelog'))
+    return NextResponse.redirect('https://nanotest.eu/api/documents/file/tima_changelog.html');
+
   const locale = pathname.split('/')[1] || prev.split('/')[1] || 'en'; // Default to 'en'
 
   // Redirect root to default locale
