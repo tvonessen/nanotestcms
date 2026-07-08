@@ -48,7 +48,7 @@ export const Redirects: CollectionConfig = {
 
         const slug = value.replace(/^\/+/, '').toLowerCase().trim();
 
-        if (!/^[a-z0-9]+([/-_][a-z0-9]+)*$/.test(slug)) {
+        if (!/^[a-z0-9]+([/-_.][a-z0-9]+)*$/.test(slug)) {
           return 'Alias may only contain lowercase letters and numbers and intermediate hyphens, underscores or slashes.';
         }
 
