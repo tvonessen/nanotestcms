@@ -40,7 +40,7 @@ Uploaded images are automatically resized into multiple formats so the website a
 Browser
   ↓ HTTPS
 Mittwald reverse proxy
-  ↓ HTTP :PORT (assigned by Mittwald)
+  ↓ HTTP :3000 (fixed port)
 Node.js process  (managed by Mittwald's mittnite supervisor)
   ├── Next.js 16 (App Router, SSG/SSR)      → public website at /[en|de]/...
   └── Payload CMS v3 (embedded)             → admin panel at /admin
@@ -159,7 +159,7 @@ Copy `.env.example` to `.env.local` (or `.env`) and adjust. Never commit secrets
 | Variable | Description | Example |
 |---|---|---|
 | `DATABASE_URI` | MongoDB connection string | `mongodb://127.0.0.1/nanotest` |
-| `PORT` | Port the Node.js server binds to. **On production this is assigned by Mittwald — do not hardcode it.** | `3000` |
+| `PORT` | Port the Node.js server binds to. **Fixed at `3000` on production — do not change.** | `3000` |
 | `NEXT_PUBLIC_SERVER_URL` | Public-facing URL used in the admin bar, SEO meta tags, and preview links. Must be reachable by browsers. | `https://www.nanotest.eu` |
 | `INTERNAL_SERVER_URL` | Server-side-only URL for self-calls (e.g. revalidation). Use `http://localhost:$PORT` if the app cannot reach itself via the public domain. | `http://localhost:3000` |
 | `PAYLOAD_SECRET` | Random secret for Payload's JWT signing. Generate once, keep private. | `openssl rand -hex 32` |
@@ -266,8 +266,9 @@ The application runs on **[Mittwald](https://www.mittwald.de)** managed Node.js 
    - A pre-deploy backup of `live.data/` is saved to `logs/data-backup.tar.gz` (overwritten each deploy — only the latest backup is kept).
    - The current `live/` directory is renamed to `live.prev/` (instant rollback point).
    - `live.new/` is renamed to `live/` — the swap is effectively atomic.
+   - Before restarting, `deploy.sh` finds and force-kills whatever process is bound to port 3000 (the fixed runtime port), since Mittwald's `mittnitectl job restart` has been observed to not always terminate the previous process, leaving the port occupied and preventing the new process from starting.
    - `mittnitectl job restart` signals Mittwald's supervisor to restart the process with the new code.
-   - `deploy.sh` polls `http://localhost:$PORT/` until the server responds (up to 90 seconds).
+   - `deploy.sh` polls `http://localhost:3000/` until the server responds (up to 90 seconds).
 5. If the health check passes → `live.prev/` is deleted, deployment is complete.
 6. If the health check times out → automatic rollback: `live/` is moved to `live.failed/`, `live.prev/` is restored, the process is restarted.
 
@@ -301,7 +302,7 @@ In Mittwald mStudio, the Node.js app must be configured with:
 
 - **Start command:** `sh start.sh`
 - **Working directory:** app root (where `start.sh` lives)
-- **PORT** is provided by Mittwald as an environment variable — the value can change and must not be hardcoded anywhere.
+- **PORT** is fixed at `3000` in production — `deploy.sh` and `start.sh` both assume this, do not change it without updating both scripts.
 
 ### Setting up the cron job
 
@@ -317,7 +318,7 @@ In mStudio, add a cron job that runs periodically (e.g. every hour or every nigh
 
 1. SSH into the server (`mw app ssh` or mStudio terminal).
 2. Clone the repository into the app root.
-3. Copy `.env` and fill in all production values (including the `PORT` assigned by Mittwald).
+3. Copy `.env` and fill in all production values (`PORT` must be `3000`).
 4. Run `./update.sh` manually — this performs the first build and creates `live/`.
 5. In mStudio, set the start command to `sh start.sh`.
 6. Mittwald's supervisor will start the process automatically.
