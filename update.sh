@@ -103,8 +103,16 @@ else
   log "Code ist aktuell (${TARGET_COMMIT}), aber laufender Commit ist ${RUNNING_COMMIT:-unbekannt}. Re-Deploy wird erzwungen."
 fi
 
-run_compact "pnpm install" pnpm install
+# CI=true makes pnpm treat the session as non-interactive, so it never blocks
+# on a confirmation prompt (e.g. when purging node_modules) when run from cron
+# without a TTY. There is no dedicated "confirmModulesPurge" setting in pnpm's
+# .npmrc/pnpm-workspace.yaml config surface (verified against pnpm.io/settings),
+# so CI=true is the correct and sufficient fix.
+export CI=true
+
+run_compact "pnpm install" pnpm install --frozen-lockfile
 run_compact "sync build data" sync_build_data
+run_compact "clean next build cache" rm -rf .next
 log "Baue Commit ${TARGET_COMMIT}."
 run_compact "pnpm build" pnpm build
 

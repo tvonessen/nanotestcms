@@ -260,7 +260,8 @@ The application runs on **[Mittwald](https://www.mittwald.de)** managed Node.js 
 2. It checks for new commits on the upstream Git branch.
 3. If changes are found: `pnpm install` → `pnpm build`.
 4. `deploy.sh` is called:
-   - New build artifacts are staged to `live.new/`.
+   - New build artifacts (`.next/standalone`, `.next/static`, `public`) are staged to `live.new/`.
+   - A production-only `node_modules` is installed directly into `live.new/` via `pnpm install --prod --frozen-lockfile --offline` (using the local pnpm store, so no network access needed and it takes only a few seconds). This replaces Next.js's own file-traced `node_modules` in `.next/standalone/`, which has been observed to produce incomplete copies of pnpm's `.pnpm` virtual store for some nested/peer-dep-hashed packages, causing "Cannot find module" errors at runtime even though the build succeeded.
    - Persistent data directory (`live.data/`) is validated and symlinked.
    - A pre-deploy backup of `live.data/` is saved to `logs/data-backup.tar.gz` (overwritten each deploy — only the latest backup is kept).
    - The current `live/` directory is renamed to `live.prev/` (instant rollback point).

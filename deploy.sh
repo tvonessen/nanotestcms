@@ -18,6 +18,52 @@ log() {
   printf '[%s] %s\n' "$(timestamp)" "$*" | tee -a "$LOG_FILE"
 }
 
+read_port_from_env_file() {
+  local file="$1"
+  [[ -f "$file" ]] || return 1
+
+  local value
+  value="$(grep -m1 '^PORT=' "$file" | cut -d= -f2- | tr -d '"' | tr -d "'" | tr -d '[:space:]' || true)"
+  [[ -n "$value" ]] || return 1
+  printf '%s\n' "$value"
+}
+
+resolve_runtime_port() {
+  if [[ -n "${PORT:-}" ]]; then
+    printf '%s\n' "$PORT"
+    return 0
+  fi
+
+  local resolved
+  resolved="$(read_port_from_env_file "$DEST/.env" || true)"
+  if [[ -n "$resolved" ]]; then
+    printf '%s\n' "$resolved"
+    return 0
+  fi
+
+  resolved="$(read_port_from_env_file ".env" || true)"
+  if [[ -n "$resolved" ]]; then
+    printf '%s\n' "$resolved"
+    return 0
+  fi
+
+  if command -v lsof >/dev/null 2>&1; then
+    local node_pid
+    node_pid="$(ps ax -o pid= -o command= | awk -v d="$DEST" \
+      'index($0,"node") && index($0,d"/server.js"){print $1; exit}')"
+    if [[ -n "${node_pid:-}" ]]; then
+      resolved="$(lsof -Pan -p "$node_pid" -iTCP -sTCP:LISTEN 2>/dev/null \
+        | awk 'NR>1{split($9,a,":"); print a[length(a)]; exit}' || true)"
+      if [[ -n "$resolved" ]]; then
+        printf '%s\n' "$resolved"
+        return 0
+      fi
+    fi
+  fi
+
+  return 1
+}
+
 resolve_path() {
   local input="$1"
   if command -v realpath >/dev/null 2>&1; then
@@ -124,6 +170,30 @@ cp -a .next/standalone/. "$STAGE"
 cp -a .next/static "$STAGE/.next/static"
 cp -a public "$STAGE/public"
 
+# Next.js's standalone output relies on @vercel/nft file-tracing to build a
+# minimal node_modules. That tracing is known to be unreliable with pnpm's
+# content-addressed .pnpm virtual store — it can produce incomplete copies
+# for nested/peer-dep-hashed packages (observed in production as "Cannot find
+# module '.../node_modules/.pnpm/next@.../node_modules/...'" at *runtime*
+# even though the build itself succeeded). Instead of trusting the traced
+# node_modules, install a real production-only node_modules directly into the
+# stage directory using the exact same lockfile/workspace config (so
+# overrides like the dompurify CVE fix and native-build allowlisting for
+# sharp still apply). This reuses the local pnpm content-addressable store,
+# so it's fast (no re-download) and much smaller than copying the full
+# dev node_modules (verified: ~1.1G prod-only vs ~1.8G full dev tree).
+rm -rf "$STAGE/node_modules"
+cp package.json pnpm-lock.yaml pnpm-workspace.yaml "$STAGE/"
+[[ -f .npmrc ]] && cp .npmrc "$STAGE/.npmrc"
+mkdir -p "$LOG_DIR"
+stage_install_log="$(resolve_path "${LOG_DIR}/stage-install.log")"
+if ! (cd "$STAGE" && CI=true pnpm install --prod --frozen-lockfile --offline >"$stage_install_log" 2>&1); then
+  log "ERROR: pnpm install --prod im Stage-Verzeichnis fehlgeschlagen."
+  tail -n 20 "$stage_install_log" | sed 's/^/  /' | tee -a "$LOG_FILE"
+  exit 1
+fi
+log "Produktions-Abhaengigkeiten im Stage-Verzeichnis installiert."
+
 if [[ ! -d "$DATA_DIR" ]]; then
   if [[ -d "$DEST/data" ]]; then
     mkdir -p "$(dirname "$DATA_DIR")"
@@ -154,14 +224,9 @@ validate_data_dir
 cp .env "$STAGE/.env"
 printf '%s\n' "$DEPLOY_COMMIT_SHA" > "$STAGE/COMMIT_SHA"
 
-# PORT wird von der Mittwald-Plattform vorgegeben und darf nicht hartcodiert werden.
-# Lese aus laufender Umgebung, dann aus .env — schlägt beides fehl, brich ab.
-if [[ -z "${PORT:-}" ]] && [[ -f ".env" ]]; then
-  PORT="$(grep -m1 '^PORT=' .env | cut -d= -f2 | tr -d '"' | tr -d "'")"
-fi
-if [[ -z "${PORT:-}" ]]; then
-  log "ERROR: PORT nicht gesetzt. Bitte in .env oder Mittwald-Umgebungsvariablen konfigurieren."
-  exit 1
+RUNTIME_PORT="$(resolve_runtime_port || true)"
+if [[ -z "${RUNTIME_PORT:-}" ]]; then
+  log "WARNUNG: PORT vor dem Restart nicht aufloesbar. Nutze Port-Autodetect waehrend Health-Check."
 fi
 
 # Atomic swap: keep old release as rollback
@@ -204,16 +269,24 @@ if ! command -v curl >/dev/null 2>&1; then
   exit 0
 fi
 
-log "Warte auf Server-Antwort (Port ${PORT}, Timeout ${HEALTH_CHECK_TIMEOUT}s)..."
+if [[ -n "${RUNTIME_PORT:-}" ]]; then
+  log "Warte auf Server-Antwort (Port ${RUNTIME_PORT}, Timeout ${HEALTH_CHECK_TIMEOUT}s)..."
+else
+  log "Warte auf Server-Antwort (Port-Autodetect, Timeout ${HEALTH_CHECK_TIMEOUT}s)..."
+fi
 deadline=$(( $(date +%s) + HEALTH_CHECK_TIMEOUT ))
 while true; do
-  if curl -sf --max-time 3 "http://localhost:${PORT}/" >/dev/null 2>&1; then
+  if [[ -z "${RUNTIME_PORT:-}" ]]; then
+    RUNTIME_PORT="$(resolve_runtime_port || true)"
+  fi
+
+  if [[ -n "${RUNTIME_PORT:-}" ]] && curl -sf --max-time 3 "http://localhost:${RUNTIME_PORT}/" >/dev/null 2>&1; then
     rm -rf "${DEST}.prev"
-    log "Server antwortet auf Port ${PORT}. Deploy erfolgreich abgeschlossen (Commit: ${DEPLOY_COMMIT_SHA})."
+    log "Server antwortet auf Port ${RUNTIME_PORT}. Deploy erfolgreich abgeschlossen (Commit: ${DEPLOY_COMMIT_SHA})."
     exit 0
   fi
   if [[ $(date +%s) -ge $deadline ]]; then
-    log "ERROR: Server antwortet nach ${HEALTH_CHECK_TIMEOUT}s nicht auf Port ${PORT}."
+    log "ERROR: Server antwortet nach ${HEALTH_CHECK_TIMEOUT}s nicht auf Port ${RUNTIME_PORT:-unbekannt}."
     if [[ -d "${DEST}.prev" ]]; then
       mv "$DEST" "${DEST}.failed" && mv "${DEST}.prev" "$DEST"
       if command -v mittnitectl >/dev/null 2>&1; then
