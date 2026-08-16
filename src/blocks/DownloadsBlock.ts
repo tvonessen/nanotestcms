@@ -9,8 +9,22 @@ export const Downloads: Block = {
   },
   fields: [
     {
+      name: 'title',
+      label: { de: 'Titel', en: 'Title' },
+      type: 'text',
+      defaultValue: 'Downloads',
+      localized: true,
+    },
+    {
+      name: 'description',
+      label: { de: 'Beschreibung', en: 'Description' },
+      type: 'richText',
+      required: false,
+      localized: true,
+    },
+    {
       name: 'docs',
-      label: 'Documents',
+      label: { de: 'Dokumente', en: 'Documents' },
       type: 'relationship',
       relationTo: 'documents',
       hasMany: true,

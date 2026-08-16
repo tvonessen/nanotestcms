@@ -105,7 +105,7 @@ export function Content(props: ContentProps) {
           case 'features':
             return <Features features={block} key={block.id} className={classNames?.features} />;
           case 'downloads':
-            return <Downloads key={block.id} docs={block.docs} className={classNames?.downloads} />;
+            return <Downloads key={block.id} block={block} className={classNames?.downloads} />;
           case 'cards':
             return (
               <CardsGrid key={block.id} lang={lang} block={block} className={classNames?.cards} />

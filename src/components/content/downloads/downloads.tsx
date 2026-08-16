@@ -2,26 +2,27 @@ import { cn } from '@heroui/react';
 import config from '@payload-config';
 import { DownloadSimpleIcon } from '@phosphor-icons/react/dist/ssr';
 import { getPayload } from 'payload';
-import type { Document } from '@/payload-types';
+import RichTextWrapper from '@/components/content/richtext-wrapper';
+import type { Downloads as DownloadsBlock } from '@/payload-types';
 import { resolveAssetURL } from '@/utils/public-url';
 import { DocumentIcon } from './document-icon';
 import { formatFilesize } from './utils';
 
 interface DownloadsProps {
-  docs: (Document | string)[];
+  block: DownloadsBlock;
   className?: string;
 }
 
 export default async function Downloads(props: DownloadsProps) {
-  const { docs, className } = props;
+  const { block, className } = props;
 
-  if (!docs || docs.length === 0) {
+  if (!block.docs || block.docs.length === 0) {
     return null;
   }
 
   const payload = await getPayload({ config });
   const documents = await Promise.all(
-    docs.map(async (doc) => {
+    block.docs.map(async (doc) => {
       // If doc is an object, return it
       if (typeof doc === 'object') return doc;
       // If doc is a string (id), fetch it from the database
@@ -44,8 +45,9 @@ export default async function Downloads(props: DownloadsProps) {
   return (
     <section className={cn('container mx-auto my-12', className)}>
       <h2 className="px-5 py-2 bg-secondary text-background text-2xl font-semibold my-2 rounded-md">
-        Downloads
+        {block.title}
       </h2>
+      {block.description && <RichTextWrapper text={block.description} className="px-2 my-4" />}
       <ul className="w-full">
         {documents.map((doc) => (
           <li

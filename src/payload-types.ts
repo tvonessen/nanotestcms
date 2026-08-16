@@ -3680,6 +3680,22 @@ export interface ContactForm {
  * via the `definition` "Downloads".
  */
 export interface Downloads {
+  title?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   docs: (string | Document)[];
   id?: string | null;
   blockName?: string | null;
@@ -4258,6 +4274,8 @@ export interface TextVideoSelect<T extends boolean = true> {
  * via the `definition` "Downloads_select".
  */
 export interface DownloadsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
   docs?: T;
   id?: T;
   blockName?: T;
