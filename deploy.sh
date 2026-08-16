@@ -64,6 +64,12 @@ resolve_runtime_port() {
   return 1
 }
 
+pid_on_port() {
+  local port="$1"
+  command -v lsof >/dev/null 2>&1 || return 1
+  lsof -ti "tcp:${port}" -sTCP:LISTEN 2>/dev/null | head -n1
+}
+
 resolve_path() {
   local input="$1"
   if command -v realpath >/dev/null 2>&1; then
@@ -229,6 +235,18 @@ if [[ -z "${RUNTIME_PORT:-}" ]]; then
   log "WARNUNG: PORT vor dem Restart nicht aufloesbar. Nutze Port-Autodetect waehrend Health-Check."
 fi
 
+# Capture the PID currently bound to the port *before* restarting, so the
+# health check below can verify a genuinely new process took over — not just
+# that *something* answers HTTP 200 (an old, never-actually-killed process
+# would satisfy that just as well and mask a failed restart as "successful").
+OLD_PID=""
+if [[ -n "${RUNTIME_PORT:-}" ]]; then
+  OLD_PID="$(pid_on_port "$RUNTIME_PORT" || true)"
+  if [[ -n "$OLD_PID" ]]; then
+    log "Bisheriger Prozess auf Port ${RUNTIME_PORT}: PID ${OLD_PID}."
+  fi
+fi
+
 # Atomic swap: keep old release as rollback
 if [[ -d "$DEST" ]]; then
   mv "$DEST" "${DEST}.prev"
@@ -269,24 +287,63 @@ if ! command -v curl >/dev/null 2>&1; then
   exit 0
 fi
 
+if [[ -n "$OLD_PID" ]] && ! command -v lsof >/dev/null 2>&1; then
+  log "WARNUNG: lsof nicht verfügbar — kann nicht verifizieren, ob der alte Prozess (PID ${OLD_PID}) wirklich beendet wurde."
+fi
+
 if [[ -n "${RUNTIME_PORT:-}" ]]; then
   log "Warte auf Server-Antwort (Port ${RUNTIME_PORT}, Timeout ${HEALTH_CHECK_TIMEOUT}s)..."
 else
   log "Warte auf Server-Antwort (Port-Autodetect, Timeout ${HEALTH_CHECK_TIMEOUT}s)..."
 fi
 deadline=$(( $(date +%s) + HEALTH_CHECK_TIMEOUT ))
+# Give the supervisor roughly a third of the total timeout (min. 10s) to cycle
+# the process on its own before we forcibly intervene.
+escalate_deadline=$(( $(date +%s) + (HEALTH_CHECK_TIMEOUT / 3 > 10 ? HEALTH_CHECK_TIMEOUT / 3 : 10) ))
+restart_escalated=false
+last_pid=""
 while true; do
   if [[ -z "${RUNTIME_PORT:-}" ]]; then
     RUNTIME_PORT="$(resolve_runtime_port || true)"
   fi
 
+  current_pid=""
+  if [[ -n "${RUNTIME_PORT:-}" ]]; then
+    current_pid="$(pid_on_port "$RUNTIME_PORT" || true)"
+    [[ -n "$current_pid" ]] && last_pid="$current_pid"
+  fi
+
   if [[ -n "${RUNTIME_PORT:-}" ]] && curl -sf --max-time 3 "http://localhost:${RUNTIME_PORT}/" >/dev/null 2>&1; then
-    rm -rf "${DEST}.prev"
-    log "Server antwortet auf Port ${RUNTIME_PORT}. Deploy erfolgreich abgeschlossen (Commit: ${DEPLOY_COMMIT_SHA})."
-    exit 0
+    if [[ -n "$OLD_PID" ]] && [[ -n "$current_pid" ]] && [[ "$current_pid" == "$OLD_PID" ]]; then
+      # Something answers, but it's still the *old* process — mittnitectl's
+      # restart did not actually replace it (the exact failure mode that
+      # previously required manually killing the node process by hand).
+      if [[ "$restart_escalated" == false ]] && [[ $(date +%s) -ge $escalate_deadline ]]; then
+        log "WARNUNG: Alter Prozess (PID ${OLD_PID}) antwortet weiterhin nach dem Neustart-Versuch. Erzwinge harten Neustart..."
+        kill -TERM "$OLD_PID" 2>/dev/null || true
+        sleep 3
+        if kill -0 "$OLD_PID" 2>/dev/null; then
+          kill -KILL "$OLD_PID" 2>/dev/null || true
+          log "SIGKILL an PID ${OLD_PID} gesendet (reagierte nicht auf SIGTERM)."
+        fi
+        if command -v mittnitectl >/dev/null 2>&1; then
+          mittnitectl job restart 2>/dev/null || mittnitectl job start 2>/dev/null || true
+        fi
+        restart_escalated=true
+      fi
+      # Keep polling — do not declare success until a genuinely new PID answers.
+    else
+      rm -rf "${DEST}.prev"
+      log "Server antwortet auf Port ${RUNTIME_PORT} (PID ${current_pid:-unbekannt}). Deploy erfolgreich abgeschlossen (Commit: ${DEPLOY_COMMIT_SHA})."
+      exit 0
+    fi
   fi
   if [[ $(date +%s) -ge $deadline ]]; then
-    log "ERROR: Server antwortet nach ${HEALTH_CHECK_TIMEOUT}s nicht auf Port ${RUNTIME_PORT:-unbekannt}."
+    if [[ -n "$OLD_PID" ]] && [[ -n "$last_pid" ]] && [[ "$last_pid" == "$OLD_PID" ]]; then
+      log "ERROR: Prozess wurde nach ${HEALTH_CHECK_TIMEOUT}s nicht neu gestartet (weiterhin PID ${OLD_PID} auf Port ${RUNTIME_PORT:-unbekannt})."
+    else
+      log "ERROR: Server antwortet nach ${HEALTH_CHECK_TIMEOUT}s nicht auf Port ${RUNTIME_PORT:-unbekannt}."
+    fi
     if [[ -d "${DEST}.prev" ]]; then
       mv "$DEST" "${DEST}.failed" && mv "${DEST}.prev" "$DEST"
       if command -v mittnitectl >/dev/null 2>&1; then
