@@ -22,9 +22,45 @@ log() {
 RUNTIME_PORT="${PORT:-3000}"
 
 pid_on_port() {
-  local port="$1"
-  command -v lsof >/dev/null 2>&1 || return 1
-  lsof -ti "tcp:${port}" -sTCP:LISTEN 2>/dev/null | head -n1
+  local port="$1" pid
+
+  # Method 1: lsof (most common, but may not be installed on shared hosting).
+  if command -v lsof >/dev/null 2>&1; then
+    pid="$(lsof -ti "tcp:${port}" -sTCP:LISTEN 2>/dev/null | head -n1)"
+    [[ -n "$pid" ]] && { printf '%s\n' "$pid"; return 0; }
+  fi
+
+  # Method 2: fuser (often available where lsof isn't).
+  if command -v fuser >/dev/null 2>&1; then
+    pid="$(fuser -n tcp "$port" 2>/dev/null | tr -s ' ' '\n' | grep -E '^[0-9]+$' | head -n1)"
+    [[ -n "$pid" ]] && { printf '%s\n' "$pid"; return 0; }
+  fi
+
+  # Method 3: pure /proc parsing (Linux-only, no external tool required).
+  # /proc/net/tcp lists sockets as "local_address" (hex IP:PORT) plus an
+  # inode; matching PIDs are found by resolving /proc/<pid>/fd/* symlinks
+  # that point at "socket:[<inode>]". Works as long as the deploying user
+  # owns the target process (true here — same app user).
+  if [[ -r /proc/net/tcp ]]; then
+    local hex_port inode candidate fd
+    hex_port="$(printf '%04X' "$port")"
+    inode="$(awk -v hp=":${hex_port}" '
+      $2 ~ hp"$" && $4 == "0A" { print $10; exit }
+    ' /proc/net/tcp 2>/dev/null)"
+    if [[ -n "$inode" ]]; then
+      for candidate in /proc/[0-9]*; do
+        [[ -d "$candidate/fd" ]] || continue
+        for fd in "$candidate"/fd/*; do
+          if [[ "$(readlink "$fd" 2>/dev/null)" == "socket:[${inode}]" ]]; then
+            printf '%s\n' "${candidate#/proc/}"
+            return 0
+          fi
+        done
+      done
+    fi
+  fi
+
+  return 1
 }
 
 resolve_path() {
@@ -218,6 +254,11 @@ if [[ -n "$old_pid" ]]; then
     kill -KILL "$old_pid" 2>/dev/null || true
     log "SIGKILL an PID ${old_pid} gesendet (reagierte nicht auf SIGTERM)."
   fi
+  if kill -0 "$old_pid" 2>/dev/null; then
+    log "WARNUNG: PID ${old_pid} antwortet auch nach SIGKILL noch auf kill -0 (evtl. Zombie oder fehlende Berechtigung)."
+  fi
+else
+  log "Kein Prozess auf Port ${RUNTIME_PORT} gefunden (bereits frei, oder Erkennung ueber lsof/fuser/proc fehlgeschlagen)."
 fi
 
 # Restart via mittnitectl (Mittwald's mittnite process supervisor)
