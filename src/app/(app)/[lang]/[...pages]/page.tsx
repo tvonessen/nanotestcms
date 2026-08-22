@@ -1,4 +1,4 @@
-import config from '@payload-config';
+import config, { type SupportedLocale } from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import { Content } from '@/components/content/content';
@@ -16,7 +16,7 @@ export async function generateStaticParams() {
       collection: 'pages',
       pagination: false,
       depth: 0,
-      locale: code as Config['locale'],
+      locale: code as SupportedLocale,
       where: { _status: { equals: 'published' } },
     });
 

@@ -5,6 +5,7 @@ import { getPayload } from 'payload';
 import React from 'react';
 import { Content } from '@/components/content/content';
 import Jumbo from '@/components/jumbo/jumbo';
+import { NewsBoard } from '@/components/news/NewsBoard';
 import { locales } from '@/config/locales';
 import type { Config } from '@/payload-types';
 import { buildMetadata } from '@/utils/generateMeta';
@@ -41,6 +42,7 @@ export default async function Home(props: HomeProps) {
   return (
     <React.Fragment>
       {homepageContent?.jumbotron && <Jumbo lang={lang} jumbos={homepageContent.jumbotron} />}
+      <NewsBoard draft={isDraft} lang={lang} />
       <article className="container max-w-6xl mx-auto px-4">
         <Content lang={lang} blocks={homepageContent.content} />
       </article>
