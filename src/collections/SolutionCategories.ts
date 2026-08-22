@@ -13,8 +13,9 @@ export const SolutionCategories: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'position', 'description'],
+    defaultColumns: ['title', 'description'],
   },
+  orderable: true,
   fields: [
     {
       name: 'title',
@@ -28,21 +29,6 @@ export const SolutionCategories: CollectionConfig = {
       type: 'textarea',
       required: true,
       localized: true,
-    },
-    {
-      name: 'position',
-      type: 'number',
-      label: 'Order',
-      required: true,
-      defaultValue: 50,
-      min: 0,
-      max: 100,
-      admin: {
-        description:
-          'The position at which this category will be displayed. If another category has the same order, the one created first will be displayed first.',
-        step: 1,
-        placeholder: '50',
-      },
     },
     iconField({ name: 'categoryIcon' }),
   ],
