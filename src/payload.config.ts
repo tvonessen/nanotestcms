@@ -35,6 +35,7 @@ import { AnalyticsAggregates } from './collections/AnalyticsAggregates';
 import { DistroPartners } from './collections/DistroPartners';
 import { Documents } from './collections/Documents';
 import { Media } from './collections/Media';
+import { News } from './collections/News';
 import Solutions from './collections/Solutions';
 import { TeamMembers } from './collections/TeamMembers';
 import { Users } from './collections/Users';
@@ -87,6 +88,7 @@ export default buildConfig({
   collections: [
     Users,
     Media,
+    News,
     Documents,
     Solutions,
     SolutionCategories,
@@ -163,12 +165,12 @@ export default buildConfig({
   },
   plugins: [
     seoPlugin({
-      collections: ['solutions', 'pages'],
+      collections: ['solutions', 'pages', 'news'],
       globals: ['homepage', 'about', 'contact-us', 'legal'],
       uploadsCollection: 'media',
       tabbedUI: true,
       generateTitle: ({ doc }) => `${doc?.title ?? ''} — Nanotest`,
-      generateDescription: ({ doc }) => doc?.subtitle ?? doc?.description ?? '',
+      generateDescription: ({ doc }) => doc?.description ?? doc?.abstract ?? doc?.subtitle ?? '',
       generateImage: ({ doc }) => doc?.details?.images?.[0] ?? null,
     }),
   ],

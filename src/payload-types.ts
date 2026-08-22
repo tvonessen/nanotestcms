@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    news: News;
     documents: Document;
     solutions: Solution;
     'solution-categories': SolutionCategory;
@@ -91,6 +92,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    news: NewsSelect<false> | NewsSelect<true>;
     documents: DocumentsSelect<false> | DocumentsSelect<true>;
     solutions: SolutionsSelect<false> | SolutionsSelect<true>;
     'solution-categories': SolutionCategoriesSelect<false> | SolutionCategoriesSelect<true>;
@@ -264,6 +266,149 @@ export interface Media {
       filename?: string | null;
     };
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news".
+ */
+export interface News {
+  id: string;
+  general: {
+    title: string;
+    abstract: string;
+  };
+  newsPage?: {
+    content?: (Hero | Text | TextImage | Highlight | TextVideo | Downloads | ContactForm | Features)[] | null;
+  };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
+  slug?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Hero".
+ */
+export interface Hero {
+  images: (string | Media)[];
+  showCaption?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Text".
+ */
+export interface Text {
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  text_right?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Auto: alternates direction relative to the preceding text/text-image/text-video block.
+   */
+  alignment?: ('left' | 'right' | 'auto') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextImage".
+ */
+export interface TextImage {
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  image: string | Media;
+  /**
+   * Auto: alternates direction relative to the preceding text/text-image/text-video block.
+   */
+  alignment?: ('left' | 'right' | 'auto') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'text-image';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Highlight".
+ */
+export interface Highlight {
+  title: string;
+  text: string;
+  variant?: ('primary' | 'secondary' | 'warning' | 'danger') | null;
+  actions?:
+    | {
+        type?: ('link' | 'download' | 'none') | null;
+        download?: (string | null) | Document;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'solutions';
+                value: string | Solution;
+              } | null)
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null);
+          url?: string | null;
+          label: string;
+          appearance?: ('solid' | 'flat') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'highlight';
 }
 /**
  * File sizes must not exceed 20 MB
@@ -1874,152 +2019,6 @@ export interface SolutionCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Text".
- */
-export interface Text {
-  text: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  text_right?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Auto: alternates direction relative to the preceding text/text-image/text-video block.
-   */
-  alignment?: ('left' | 'right' | 'auto') | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'text';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TextImage".
- */
-export interface TextImage {
-  text: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  image: string | Media;
-  /**
-   * Auto: alternates direction relative to the preceding text/text-image/text-video block.
-   */
-  alignment?: ('left' | 'right' | 'auto') | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'text-image';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Highlight".
- */
-export interface Highlight {
-  title: string;
-  text: string;
-  variant?: ('primary' | 'secondary' | 'warning' | 'danger') | null;
-  actions?:
-    | {
-        type?: ('link' | 'download' | 'none') | null;
-        download?: (string | null) | Document;
-        link?: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'solutions';
-                value: string | Solution;
-              } | null)
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null);
-          url?: string | null;
-          label: string;
-          appearance?: ('solid' | 'flat') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'highlight';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
- */
-export interface Page {
-  id: string;
-  title: string;
-  slug: string;
-  parent?: (string | null) | Page;
-  url?: string | null;
-  childPages?: {
-    docs?: (string | Page)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  content?: (Hero | Text | TextImage | TextVideo | Cards | Highlight | Features | ContactForm | Downloads)[] | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Hero".
- */
-export interface Hero {
-  images: (string | Media)[];
-  showCaption?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'hero';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TextVideo".
  */
 export interface TextVideo {
@@ -2049,13 +2048,11 @@ export interface TextVideo {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Cards".
+ * via the `definition` "Downloads".
  */
-export interface Cards {
-  useCategoryTitle?: boolean | null;
+export interface Downloads {
   title?: string | null;
-  titleCategory?: (string | null) | SolutionCategory;
-  paragraph?: {
+  description?: {
     root: {
       type: string;
       children: {
@@ -2070,50 +2067,21 @@ export interface Cards {
     };
     [k: string]: unknown;
   } | null;
-  cards: {
-    /**
-     * Pick 'Solution' to link an existing solution, or 'Manual' to define the card content yourself.
-     */
-    source: 'solution' | 'manual';
-    solution?: (string | null) | Solution;
-    title?: string | null;
-    subtitle?: string | null;
-    description?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    image?: (string | null) | Media;
-    link?: {
-      type?: ('reference' | 'custom') | null;
-      newTab?: boolean | null;
-      reference?:
-        | ({
-            relationTo: 'solutions';
-            value: string | Solution;
-          } | null)
-        | ({
-            relationTo: 'pages';
-            value: string | Page;
-          } | null);
-      url?: string | null;
-      label: string;
-    };
-    id?: string | null;
-  }[];
+  docs: (string | Document)[];
   id?: string | null;
   blockName?: string | null;
-  blockType: 'cards';
+  blockType: 'downloads';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactForm".
+ */
+export interface ContactForm {
+  to: string;
+  subject?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contact-form';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3666,22 +3634,41 @@ export interface Features {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContactForm".
+ * via the `definition` "pages".
  */
-export interface ContactForm {
-  to: string;
-  subject?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'contact-form';
+export interface Page {
+  id: string;
+  title: string;
+  slug: string;
+  parent?: (string | null) | Page;
+  url?: string | null;
+  childPages?: {
+    docs?: (string | Page)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  content?: (Hero | Text | TextImage | TextVideo | Cards | Highlight | Features | ContactForm | Downloads)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Downloads".
+ * via the `definition` "Cards".
  */
-export interface Downloads {
+export interface Cards {
+  useCategoryTitle?: boolean | null;
   title?: string | null;
-  description?: {
+  titleCategory?: (string | null) | SolutionCategory;
+  paragraph?: {
     root: {
       type: string;
       children: {
@@ -3696,10 +3683,50 @@ export interface Downloads {
     };
     [k: string]: unknown;
   } | null;
-  docs: (string | Document)[];
+  cards: {
+    /**
+     * Pick 'Solution' to link an existing solution, or 'Manual' to define the card content yourself.
+     */
+    source: 'solution' | 'manual';
+    solution?: (string | null) | Solution;
+    title?: string | null;
+    subtitle?: string | null;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    image?: (string | null) | Media;
+    link?: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'solutions';
+            value: string | Solution;
+          } | null)
+        | ({
+            relationTo: 'pages';
+            value: string | Page;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+    id?: string | null;
+  }[];
   id?: string | null;
   blockName?: string | null;
-  blockType: 'downloads';
+  blockType: 'cards';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3975,6 +4002,10 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
+        relationTo: 'news';
+        value: string | News;
+      } | null)
+    | ({
         relationTo: 'documents';
         value: string | Document;
       } | null)
@@ -4150,43 +4181,22 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "documents_select".
+ * via the `definition` "news_select".
  */
-export interface DocumentsSelect<T extends boolean = true> {
-  filename_alt?: T;
-  type?: T;
-  description?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "solutions_select".
- */
-export interface SolutionsSelect<T extends boolean = true> {
-  category?: T;
-  type?: T;
-  title?: T;
-  subtitle?: T;
-  abstract?: T;
-  new?: T;
-  discontinued?: T;
-  details?:
+export interface NewsSelect<T extends boolean = true> {
+  general?:
     | T
     | {
-        images?: T;
+        title?: T;
+        abstract?: T;
+      };
+  newsPage?:
+    | T
+    | {
         content?:
           | T
           | {
+              hero?: T | HeroSelect<T>;
               text?: T | TextSelect<T>;
               'text-image'?: T | TextImageSelect<T>;
               highlight?: T | HighlightSelect<T>;
@@ -4196,7 +4206,6 @@ export interface SolutionsSelect<T extends boolean = true> {
               features?: T | FeaturesSelect<T>;
             };
       };
-  slug?: T;
   meta?:
     | T
     | {
@@ -4204,9 +4213,19 @@ export interface SolutionsSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Hero_select".
+ */
+export interface HeroSelect<T extends boolean = true> {
+  images?: T;
+  showCaption?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4311,6 +4330,66 @@ export interface FeaturesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
+  filename_alt?: T;
+  type?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "solutions_select".
+ */
+export interface SolutionsSelect<T extends boolean = true> {
+  category?: T;
+  type?: T;
+  title?: T;
+  subtitle?: T;
+  abstract?: T;
+  new?: T;
+  discontinued?: T;
+  details?:
+    | T
+    | {
+        images?: T;
+        content?:
+          | T
+          | {
+              text?: T | TextSelect<T>;
+              'text-image'?: T | TextImageSelect<T>;
+              highlight?: T | HighlightSelect<T>;
+              'text-video'?: T | TextVideoSelect<T>;
+              downloads?: T | DownloadsSelect<T>;
+              'contact-form'?: T | ContactFormSelect<T>;
+              features?: T | FeaturesSelect<T>;
+            };
+      };
+  slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "solution-categories_select".
  */
 export interface SolutionCategoriesSelect<T extends boolean = true> {
@@ -4393,16 +4472,6 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Hero_select".
- */
-export interface HeroSelect<T extends boolean = true> {
-  images?: T;
-  showCaption?: T;
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

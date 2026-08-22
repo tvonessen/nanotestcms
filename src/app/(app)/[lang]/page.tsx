@@ -1,4 +1,5 @@
 import config from '@payload-config';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
 import React from 'react';
@@ -17,7 +18,7 @@ interface HomeProps {
   params: Promise<{ lang: Config['locale'] }>;
 }
 
-export async function generateMetadata({ params }: HomeProps) {
+export async function generateMetadata({ params }: HomeProps): Promise<Metadata> {
   const { lang } = await params;
   const payload = await getPayload({ config });
   const homepageContent = await payload.findGlobal({ slug: 'homepage', locale: lang, depth: 1 });
