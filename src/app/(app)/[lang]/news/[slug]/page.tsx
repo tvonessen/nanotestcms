@@ -1,34 +1,8 @@
 import { notFound } from 'next/navigation';
-import { getPayload } from 'payload';
 import { Content } from '@/components/content/content';
-import { locales } from '@/config/locales';
-import config, { type SupportedLocale } from '@/payload.config';
+import type { SupportedLocale } from '@/payload.config';
+import { getNews } from '@/server/actions/getNews';
 import { isPreviewEnabled } from '@/utils/preview';
-
-export async function generateStaticParams() {
-  const payload = await getPayload({ config });
-  const params: { lang: SupportedLocale; slug: string }[] = [];
-
-  for (const { code } of locales) {
-    const news = await payload.find({
-      collection: 'news',
-      pagination: false,
-      depth: 0,
-      locale: code as SupportedLocale,
-    });
-
-    news.docs
-      .filter((doc) => !!doc.slug)
-      .filter((doc) => doc?.newsPage?.content && doc.newsPage.content.length > 0)
-      .forEach((doc) => {
-        params.push({
-          lang: code as SupportedLocale,
-          slug: doc.slug as string,
-        });
-      });
-  }
-  return params;
-}
 
 interface NewsPageProps {
   params: Promise<{
@@ -39,20 +13,24 @@ interface NewsPageProps {
 
 export default async function NewsPage(props: NewsPageProps) {
   const { lang, slug } = await props.params;
-  const payload = await getPayload({ config });
-  const isDraft = await isPreviewEnabled();
-
-  const results = await payload.find({
-    collection: 'news',
-    where: { slug: { equals: slug } },
-    locale: lang,
-    draft: isDraft,
-  });
-  const news = results.docs[0];
+  const draft = await isPreviewEnabled();
+  const news = await getNews(slug, lang, draft);
   const content = news?.newsPage?.content;
 
   if (!content || content.length === 0) {
-    return notFound();
+    return draft ? (
+      <div className="flex flex-col items-center border-t-2 border-b-2 border-warning py-4 my-8">
+        <h2 className="text-lg font-semibold mb-4">
+          <b className="text-warning">Draft Mode:</b> No content
+        </h2>
+        <p className="text-center w-[60ch]">
+          If you want this news to have a separate news page and to not only appear on the news
+          board, add content to the <b>News Page</b> tab in this record
+        </p>
+      </div>
+    ) : (
+      notFound()
+    );
   }
 
   return (
@@ -61,10 +39,15 @@ export default async function NewsPage(props: NewsPageProps) {
         <h1 className="text-3xl font-semibold text-secondary">{news.content.title}</h1>
         <span className="text-sm text-primary/75">
           {lang === 'de' ? 'Veröffentlicht am ' : 'Published on '}
-          {new Date(news.updatedAt).toLocaleDateString(lang, {
+          {new Date(news.publishedAt).toLocaleDateString(lang, {
             dateStyle: 'full',
           })}
         </span>
+        {news.status !== 'published' && (
+          <span className="inline-block ms-4 text-sm text-danger font-semibold">
+            [ {news.status} ]
+          </span>
+        )}
       </div>
       <Content lang={lang} blocks={content} />
     </div>

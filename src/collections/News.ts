@@ -1,4 +1,6 @@
 import type { CollectionConfig } from 'payload';
+import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
+import { isPublishedOrLoggedIn } from '@/app/(payload)/access/isPublishedOrLoggedIn';
 import { ContactForm } from '@/blocks/ContactFormBlock';
 import { Downloads } from '@/blocks/DownloadsBlock';
 import { Features } from '@/blocks/FeaturesBlock';
@@ -7,6 +9,7 @@ import { Highlight } from '@/blocks/HighlightBlock';
 import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
+import { linkField } from '@/fields/linkField';
 import { slugField } from '@/fields/slugField';
 import type { News as NewsDoc } from '@/payload-types';
 import { revalidateHook } from '@/utils/revalidate';
@@ -14,8 +17,14 @@ import { revalidateHook } from '@/utils/revalidate';
 export const News: CollectionConfig = {
   slug: 'news',
   labels: { singular: 'News', plural: 'News' },
+  access: {
+    read: isPublishedOrLoggedIn,
+    create: isLoggedIn,
+    update: isLoggedIn,
+    delete: isLoggedIn,
+  },
   admin: {
-    defaultColumns: ['content.title', 'slug', 'publishedAt', 'unpublishAt'],
+    defaultColumns: ['content.title', 'slug', 'publishedAt', 'unpublishAt', '_status'],
     livePreview: { url: ({ data, locale }) => `${locale.code}/news/${data.slug}` },
   },
   versions: {
@@ -53,8 +62,25 @@ export const News: CollectionConfig = {
           label: { en: 'News Page', de: 'News-Seite' },
           fields: [
             {
+              name: 'mode',
+              type: 'select',
+              label: { en: 'Mode', de: 'Modus' },
+              required: true,
+              defaultValue: 'page',
+              options: [
+                {
+                  value: 'page',
+                  label: { en: 'Distinct page', de: 'Eigenständige Seite' },
+                },
+                { value: 'link', label: 'Link' },
+              ],
+            },
+            {
               name: 'content',
               type: 'blocks',
+              admin: {
+                condition: (_, siblingData) => siblingData.mode === 'page',
+              },
               blocks: [
                 Hero,
                 Text,
@@ -66,6 +92,9 @@ export const News: CollectionConfig = {
                 Features,
               ],
             },
+            linkField({
+              overrides: { admin: { condition: (_, siblingData) => siblingData.mode === 'link' } },
+            }),
           ],
         },
       ],
@@ -100,10 +129,9 @@ export const News: CollectionConfig = {
     },
     {
       name: 'status',
-      type: 'select',
+      type: 'text',
       virtual: true,
       hidden: true,
-      options: ['draft', 'scheduled', 'published', 'unpublished'],
       admin: {
         position: 'sidebar',
         readOnly: true,
@@ -133,7 +161,6 @@ export const News: CollectionConfig = {
       // Revalidate the news page and the homepage
       async ({ doc }: { doc: NewsDoc }) => {
         await revalidateHook(`/news/${doc.slug}`, undefined);
-        await revalidateHook('/', undefined, 'layout');
       },
     ],
   },
@@ -148,7 +175,7 @@ function getStatus(doc: Partial<NewsDoc>) {
       ? new Date(doc.unpublishAt).valueOf()
       : publishedAt + 30 * 24 * 60 * 60 * 1000; // Default to 30 days after publishedAt
     if (now < publishedAt) return 'scheduled';
-    if (now >= unpublishAt) return 'unpublished';
+    if (now >= unpublishAt) return `expired on ${new Date(unpublishAt).toLocaleDateString()}`;
     return 'published';
   }
 }

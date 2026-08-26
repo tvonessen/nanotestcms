@@ -29,6 +29,7 @@ import { Redirects } from '@/collections/Redirects';
 import { SolutionCategories } from '@/collections/SolutionCategories';
 import { locales } from '@/config/locales';
 import { cleanupAnalyticsEndpoint } from '@/utils/cleanup-analytics';
+import { generateSEODescription } from '@/utils/generateSEODescription';
 import redirectMapHandler from '@/utils/redirect-map';
 import revalidateHandler from '@/utils/revalidate';
 import { AnalyticsAggregates } from './collections/AnalyticsAggregates';
@@ -168,8 +169,8 @@ export default buildConfig({
       globals: ['homepage', 'about', 'contact-us', 'legal'],
       uploadsCollection: 'media',
       tabbedUI: true,
-      generateTitle: ({ doc }) => `${doc?.title ?? ''} — Nanotest`,
-      generateDescription: ({ doc }) => doc?.description ?? doc?.abstract ?? doc?.subtitle ?? '',
+      generateTitle: ({ doc }) => `${doc?.title ?? doc.content.title ?? ''} — Nanotest`,
+      generateDescription: ({ doc }) => generateSEODescription(doc),
       generateImage: ({ doc }) => doc?.details?.images?.[0] ?? null,
     }),
   ],
