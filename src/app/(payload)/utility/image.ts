@@ -42,7 +42,11 @@ export const isDarkImage = async (dataUrl: string, threshold: number = 140) => {
 
   try {
     const imageBuffer = Buffer.from(dataUrl.split(',')[1], 'base64');
-    const { data, info } = await sharp(imageBuffer).raw().toBuffer({ resolveWithObject: true });
+    const { data, info } = await sharp(imageBuffer)
+      .flatten({ background: { r: 255, g: 255, b: 255, alpha: 1 } })
+      .toColorspace('srgb')
+      .raw()
+      .toBuffer({ resolveWithObject: true });
 
     const totalPixels = info.width * info.height;
     let totalBrightness = 0;
