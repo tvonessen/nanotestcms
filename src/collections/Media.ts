@@ -49,29 +49,24 @@ export const Media: CollectionConfig = {
       {
         name: 'blurred',
         height: 16,
-        colorspace: 'srgb',
       },
       {
         name: 'thumb',
         width: 240,
-        colorspace: 'srgb',
       },
       {
         name: 'small',
         width: 640,
-        colorspace: 'srgb',
       },
       {
         name: 'medium',
         width: 1280,
         withoutEnlargement: true,
-        colorspace: 'srgb',
       },
       {
         name: 'large',
         width: 1536,
         withoutEnlargement: true,
-        colorspace: 'srgb',
       },
     ],
     staticDir: MEDIA_DIR,
