@@ -257,6 +257,9 @@ if [[ -n "$old_pid" ]]; then
   if kill -0 "$old_pid" 2>/dev/null; then
     log "WARNUNG: PID ${old_pid} antwortet auch nach SIGKILL noch auf kill -0 (evtl. Zombie oder fehlende Berechtigung)."
   fi
+  # Warte kurz, damit der Kernel den Port freigibt, bevor mittnitectl
+  # einen neuen Prozess startet (vermeidet EADDRINUSE Race Conditions).
+  sleep 2
 else
   log "Kein Prozess auf Port ${RUNTIME_PORT} gefunden (bereits frei, oder Erkennung ueber lsof/fuser/proc fehlgeschlagen)."
 fi
