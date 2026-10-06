@@ -47,6 +47,8 @@ import { HomepageContent } from './globals/HomepageContent';
 import { LegalContent } from './globals/LegalContent';
 import { publicServerURL } from './utils/public-url';
 import { sendEmailEndpoint } from './utils/send-email';
+import * as os from "node:os";
+import {MAX_UPLOAD_SIZE_BYTES} from "@/config/config";
 
 const trustedBrowserOrigins = Array.from(
   new Set(
@@ -67,7 +69,6 @@ const csrf = Array.from(new Set(trustedBrowserOrigins));
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 export type SupportedLocale = 'de' | 'en';
-const MAX_UPLOAD_SIZE_BYTES = 20 * 1024 * 1024;
 
 export default buildConfig({
   admin: {
@@ -180,6 +181,8 @@ export default buildConfig({
       fileSize: MAX_UPLOAD_SIZE_BYTES,
     },
     abortOnLimit: true,
+    useTempFiles: true,
+    tempFileDir: os.tmpdir(),
   },
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: publicServerURL || undefined,

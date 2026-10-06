@@ -2,9 +2,10 @@ import { writeFile } from 'node:fs';
 import type { CollectionConfig } from 'payload';
 import { isLoggedIn } from '@/app/(payload)/access/isLoggedIn';
 import { imageToBase64, isDarkImage } from '@/app/(payload)/utility/image';
+import {MAX_UPLOAD_SIZE_BYTES} from "@/config/config";
 
 export const MEDIA_DIR = './data/media';
-const MAX_UPLOAD_SIZE_MB = 20;
+const MAX_UPLOAD_SIZE_MB = MAX_UPLOAD_SIZE_BYTES / (1024 * 1024);
 
 /**
  * MIME types that Payload's Sharp pipeline can resize.

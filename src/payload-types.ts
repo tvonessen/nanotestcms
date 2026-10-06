@@ -174,6 +174,7 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   sessions?:
@@ -187,7 +188,7 @@ export interface User {
   collection: 'users';
 }
 /**
- * File sizes must not exceed 20 MB
+ * File sizes must not exceed 250 MB
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
@@ -411,7 +412,7 @@ export interface Highlight {
   blockType: 'highlight';
 }
 /**
- * File sizes must not exceed 20 MB
+ * File sizes must not exceed 250 MB
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "documents".
@@ -4090,6 +4091,7 @@ export interface UsersSelect<T extends boolean = true> {
   resetPasswordExpiration?: T;
   salt?: T;
   hash?: T;
+  resetPasswordRequestedAt?: T;
   loginAttempts?: T;
   lockUntil?: T;
   sessions?:
@@ -5075,7 +5077,10 @@ export interface TaskSchedulePublish {
           value: string | Page;
         } | null);
     global?: ('homepage' | 'about' | 'legal' | 'contact-us') | null;
-    user?: (string | null) | User;
+    user?: {
+      relationTo: 'users';
+      value: string | User;
+    } | null;
   };
   output?: unknown;
 }
