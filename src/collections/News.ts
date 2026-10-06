@@ -8,7 +8,7 @@ import { Text } from '@/blocks/TextBlock';
 import { TextImage } from '@/blocks/TextImageBlock';
 import { TextVideo } from '@/blocks/TextVideoBlock';
 import { slugField } from '@/fields/slugField';
-import type { News as NewsDoc } from '@/payload-types';
+// import type { News as NewsDoc } from '@/payload-types';
 
 export const News: CollectionConfig = {
   slug: 'news',
@@ -61,13 +61,13 @@ export const News: CollectionConfig = {
     },
     slugField('title'),
   ],
-  hooks: {
-    afterChange: [
-      async ({ doc }: { doc: NewsDoc }) => {
-        if (!doc.slug)
-          return { ...doc, slug: doc.general.title.replaceAll(' ', '-').toLowerCase() };
-        else return doc;
-      },
-    ],
-  },
+  // hooks: {
+  //   afterChange: [
+  //     async ({ doc }: { doc: NewsDoc }) => {
+  //       if (!doc.slug)
+  //         return { ...doc, slug: doc.general.title.replaceAll(' ', '-').toLowerCase() };
+  //       else return doc;
+  //     },
+  //   ],
+  // },
 };
