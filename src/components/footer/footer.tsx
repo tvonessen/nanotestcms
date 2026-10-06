@@ -50,7 +50,7 @@ async function Footer(props: FooterProps) {
               <p className="flex gap-2">
                 <Link
                   className="flex items-center justify-center rounded-lg w-8 h-8 bg-primary hover:bg-secondary focus-visible:bg-secondary  dark:hover:text-background dark:focus-visible:text-background transition-colors"
-                  href="tel:+49307002100"
+                  href="tel:+493063923880"
                 >
                   <PhoneIcon size={24} />
                 </Link>
