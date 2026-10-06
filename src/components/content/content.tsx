@@ -77,9 +77,16 @@ export function Content(props: ContentProps) {
       {resolveAutoAlignment(blocks ?? []).map((block) => {
         switch (block.blockType) {
           case 'text':
-            return <Text key={block.id} block={block} className={classNames?.text} />;
+            return <Text key={block.id} block={block} className={classNames?.text} lang={lang} />;
           case 'text-image':
-            return <TextImage key={block.id} block={block} className={classNames?.textImage} />;
+            return (
+              <TextImage
+                key={block.id}
+                block={block}
+                className={classNames?.textImage}
+                lang={lang}
+              />
+            );
           case 'hero':
             return (
               <Hero
@@ -99,7 +106,14 @@ export function Content(props: ContentProps) {
               />
             );
           case 'text-video':
-            return <TextVideo key={block.id} block={block} className={classNames?.textVideo} />;
+            return (
+              <TextVideo
+                key={block.id}
+                block={block}
+                className={classNames?.textVideo}
+                lang={lang}
+              />
+            );
           case 'contact-form':
             return <ContactForm key={block.id} className={classNames?.contactForm} to={block.to} />;
           case 'features':

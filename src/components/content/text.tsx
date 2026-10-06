@@ -5,10 +5,11 @@ import RichTextWrapper from './richtext-wrapper';
 interface TextProps {
   block: IText;
   className?: string;
+  lang?: 'en' | 'de';
 }
 
 export default function Text(props: TextProps) {
-  const { block, className } = props;
+  const { block, className, lang = 'en' } = props;
   return (
     <section className={cn('grid grid-cols-12 gap-4 md:gap-8 my-12 first-of-type:mt-4', className)}>
       <aside
@@ -19,7 +20,7 @@ export default function Text(props: TextProps) {
           'lg:col-span-5 xl:col-span-4',
         )}
       >
-        {block.text_right && <RichTextWrapper text={block.text_right} />}
+        {block.text_right && <RichTextWrapper text={block.text_right} lang={lang} />}
       </aside>
       <div
         className={cn(
@@ -27,7 +28,7 @@ export default function Text(props: TextProps) {
           block.alignment === 'right' && 'lg:order-1',
         )}
       >
-        <RichTextWrapper text={block.text} />
+        <RichTextWrapper text={block.text} lang={lang} />
       </div>
     </section>
   );

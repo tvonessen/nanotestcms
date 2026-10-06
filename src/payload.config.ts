@@ -117,7 +117,7 @@ export default buildConfig({
       FixedToolbarFeature(),
       HorizontalRuleFeature(),
       LinkFeature({
-        enabledCollections: ['solutions'],
+        enabledCollections: ['solutions', 'pages'],
         maxDepth: 5,
       }),
     ],

@@ -5,10 +5,11 @@ import RichTextWrapper from './richtext-wrapper';
 interface TextVideoProps {
   block: ITextVideo;
   className?: string;
+  lang?: 'en' | 'de';
 }
 
 const TextVideo = (props: TextVideoProps) => {
-  const { className, block } = props;
+  const { className, block, lang = 'en' } = props;
   return (
     <section className={cn('grid grid-cols-12 gap-4 md:gap-8 my-12 first-of-type:mt-4', className)}>
       <aside
@@ -30,7 +31,7 @@ const TextVideo = (props: TextVideoProps) => {
           block.alignment === 'right' && 'lg:order-1',
         )}
       >
-        <RichTextWrapper text={block.text} />
+        <RichTextWrapper text={block.text} lang={lang} />
       </div>
     </section>
   );

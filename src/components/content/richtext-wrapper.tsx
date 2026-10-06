@@ -20,18 +20,20 @@ interface RichTextWrapperProps {
 
 export default function RichTextWrapper({ text, className, lang = 'en' }: RichTextWrapperProps) {
   const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
-    if (!linkNode.fields.doc) {
-      throw new Error('Expected linkNode.fields.doc to be defined');
-    }
-    const { value, relationTo } = linkNode.fields.doc;
-    if (typeof value !== 'object') {
-      throw new Error('Expected value to be an object');
-    }
+    const doc = linkNode.fields.doc;
+    if (!doc) return linkNode.fields.url ?? '#';
+
+    const { value, relationTo } = doc;
+    if (typeof value !== 'object' || !value) return linkNode.fields.url ?? '#';
+
     if (relationTo === 'solutions') {
       const solution = value as unknown as Solution;
       return `/${lang}/nt/${solution.slug}`;
     }
-    return `/${lang}/${relationTo}/${value.slug}`;
+    const slug = typeof value.slug === 'string' ? value.slug : value.id;
+    return relationTo === 'pages'
+      ? `/${lang}${slug.startsWith('/') ? slug : `/${slug}`}`
+      : `/${lang}/${relationTo}/${slug}`;
   };
 
   const jsxConverters: JSXConvertersFunction<DefaultNodeTypes> = ({

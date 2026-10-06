@@ -6,10 +6,11 @@ import RichTextWrapper from './richtext-wrapper';
 interface TextImageProps {
   block: ITextImage;
   className?: string;
+  lang?: 'en' | 'de';
 }
 
 const TextImage = (props: TextImageProps) => {
-  const { className, block } = props;
+  const { className, block, lang = 'en' } = props;
   const image = block.image as Media;
   return (
     <section className={cn('grid grid-cols-12 gap-4 md:gap-8 my-12 first-of-type:mt-4', className)}>
@@ -27,7 +28,7 @@ const TextImage = (props: TextImageProps) => {
           block.alignment === 'right' && 'lg:order-1',
         )}
       >
-        <RichTextWrapper text={block.text} />
+        <RichTextWrapper text={block.text} lang={lang} />
       </div>
     </section>
   );
