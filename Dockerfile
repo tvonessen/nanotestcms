@@ -11,7 +11,7 @@ WORKDIR /app
 # Install dependencies
 COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml .npmrc ./
 # Node 26 no longer ships Corepack; install pnpm pinned to packageManager
-RUN npm i -g pnpm@11.22.0
+RUN npm i -g pnpm@12.21.0
 # Reuse the pnpm content-addressable store across builds
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store pnpm i --frozen-lockfile
 
@@ -26,7 +26,7 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN npm i -g pnpm@11.22.0
+RUN npm i -g pnpm@12.21.0
 RUN pnpm run build
 
 # Production image, copy all the files and run next
