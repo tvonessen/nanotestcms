@@ -16,6 +16,7 @@ Corporate website and content management system for **NANOTEST** — thermal cha
 - [Privacy-first analytics](#privacy-first-analytics)
 - [Commands reference](#commands-reference)
 - [Production deployment](#production-deployment)
+- [Staging deployment (direct GitHub connection)](#staging-deployment-direct-github-connection)
 - [Rollback](#rollback)
 - [Database sync](#database-sync)
 
@@ -322,6 +323,42 @@ In mStudio, add a cron job that runs periodically (e.g. every hour or every nigh
 4. Run `./update.sh` manually — this performs the first build and creates `live/`.
 5. In mStudio, set the start command to `sh start.sh`.
 6. Mittwald's supervisor will start the process automatically.
+
+---
+
+## Staging deployment (direct GitHub connection)
+
+The production pipeline is branch-agnostic: `update.sh` fetches and pulls whatever branch is checked out on the server. A **staging** environment is therefore just a second mStudio Node.js app whose clone tracks the `staging` branch instead of `main`. GitHub can be connected directly via the **Git Deploy extension** from the mStudio marketplace (connects the GitHub repo, selectable branch, optional push webhook, custom post-deploy shell commands).
+
+### Setup (staging app in mStudio)
+
+1. Create a second Node.js app in the same mStudio project. It gets its own app directory, its own `PORT` (provided by the platform) and its own domain.
+2. SSH into the app (`mw app ssh`) and clone the repository into the app root, tracking the staging branch:
+
+   ```bash
+   git clone https://github.com/tvonessen/nanotestcms.git .
+   git checkout -b staging --track origin/staging
+   ```
+
+3. Copy `.env` into the app root with staging values: own `DATABASE_URI`, `PAYLOAD_SECRET`, SMTP credentials, reCAPTCHA keys, and `NEXT_PUBLIC_SERVER_URL` set to the staging URL. Do not set `PORT` — the platform provides it.
+4. Run `./update.sh` once manually — this performs the first build and creates `live/`.
+5. In mStudio, set the start command to `sh start.sh` and the working directory to the app root (same as production).
+6. Choose the trigger:
+   - **Cron (identical to production):** `*/5 * * * * ./update.sh >> logs/deploy.log 2>&1`
+   - **GitHub direct, push-triggered:** install the *Git Deploy* extension from the mStudio marketplace for this project, connect `tvonessen/nanotestcms` (GitHub OAuth or SSH deploy key), select branch `staging`, enable the push webhook, and set the target directory to the app root. Post-deploy command:
+
+     ```bash
+     git fetch --quiet && git reset --hard origin/staging --quiet && ./update.sh >> logs/deploy.log 2>&1
+     ```
+
+     The `git reset --hard` makes this robust whether the extension syncs via git or by copying files; it only restores tracked files, so `.env`, `live/`, `live.data/`, `logs/` are never touched.
+
+### Pitfalls
+
+- Never let the extension delete files that are not in the repository — `.env`, `live/`, `live.data/`, `logs/` and `.git` live in the app root and would be destroyed otherwise.
+- The app does **not** run from the repo root: mStudio starts `sh start.sh`, which runs `live/server.js`. A GitHub sync alone is not enough — the build and the `deploy.sh` release swap must run afterwards (the post-deploy command above takes care of this, including the health check and automatic rollback).
+- `next.config.mjs` automatically allows the hostname of `NEXT_PUBLIC_SERVER_URL` in `images.remotePatterns`, so media keep working on the staging domain without config changes.
+- Staging has its own empty `live.data/` (uploads) and its own database. To prefill it, dump/restore the production database the same way `pnpm db:sync` does.
 
 ---
 
