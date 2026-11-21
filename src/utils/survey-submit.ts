@@ -14,6 +14,20 @@ const KEY_RE = /^[A-Za-z0-9_]{1,20}$/;
 const MAX_ANSWER_KEYS = 300;
 const MAX_TEXT_LENGTH = 5000;
 
+// Meta columns of the response object that are stored as dedicated fields,
+// not inside the answers JSON. Everything else (Q01, Q05_1, GATE, G2_1, ...)
+// is an answer column per the survey spec.
+const RESPONSE_META_KEYS = new Set(['SRC', 'RID', 'LANG', 'TIME_S', 'COMPLETE', 'EXIT_AT']);
+
+function extractAnswerColumns(response: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(response)) {
+    if (RESPONSE_META_KEYS.has(k)) continue;
+    out[k] = v;
+  }
+  return out;
+}
+
 function getClientIP(req: PayloadRequest): string {
   return (
     req.headers?.get('x-forwarded-for')?.split(',')[0]?.trim() ||
@@ -95,7 +109,14 @@ export const surveySubmitEndpoint = async (req: PayloadRequest): Promise<Respons
     const lang: SurveyLangCode = (LANGS as readonly string[]).includes(rawLang)
       ? (rawLang as SurveyLangCode)
       : 'en';
-    const answers = sanitizeAnswers(response.answers ?? {});
+    // The client sends answers as flat columns on the response object
+    // (Q01, Q05_1, GATE, G2_1, ...). Also accept a nested `answers` object,
+    // but fall back to the flat columns so no answers are lost.
+    const rawAnswers =
+      response.answers && typeof response.answers === 'object' && !Array.isArray(response.answers)
+        ? response.answers
+        : extractAnswerColumns(response);
+    const answers = sanitizeAnswers(rawAnswers);
     if (!answers) {
       return json({ error: 'Invalid answers payload' }, 400);
     }
