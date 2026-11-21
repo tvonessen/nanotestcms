@@ -77,6 +77,8 @@ export interface Config {
     pages: Page;
     redirects: Redirect;
     'analytics-aggregates': AnalyticsAggregate;
+    'survey-responses': SurveyResponse;
+    'survey-contacts': SurveyContact;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
@@ -99,6 +101,8 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'analytics-aggregates': AnalyticsAggregatesSelect<false> | AnalyticsAggregatesSelect<true>;
+    'survey-responses': SurveyResponsesSelect<false> | SurveyResponsesSelect<true>;
+    'survey-contacts': SurveyContactsSelect<false> | SurveyContactsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -3849,6 +3853,79 @@ export interface AnalyticsAggregate {
   createdAt: string;
 }
 /**
+ * Anonymous survey answers. Linked to contact details only via RID.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "survey-responses".
+ */
+export interface SurveyResponse {
+  id: string;
+  /**
+   * Random respondent code (XXXX-XXXX), also stored on the contact record.
+   */
+  rid: string;
+  /**
+   * Channel/region from the invitation link (?src=), may be empty.
+   */
+  src?: string | null;
+  /**
+   * Language active when Submit was clicked.
+   */
+  lang: 'en' | 'zh' | 'ja';
+  /**
+   * Seconds from "Start the survey" to Submit.
+   */
+  timeS?: number | null;
+  /**
+   * 1 = normal route to the end; unchecked = "Finish now" was used.
+   */
+  complete?: boolean | null;
+  /**
+   * Screen ID where "Finish now" was clicked, otherwise empty.
+   */
+  exitAt?: string | null;
+  /**
+   * Flat columns per spec: Q01, Q05_1, Q10_P01, Q12, GATE, G2_1 … (-1 = skipped, empty = not reached)
+   */
+  answers:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Optional contact details from the survey final screen. Never stored together with answers.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "survey-contacts".
+ */
+export interface SurveyContact {
+  id: string;
+  /**
+   * Random respondent code — the only link to the survey-responses record.
+   */
+  rid: string;
+  email: string;
+  name?: string | null;
+  company?: string | null;
+  country?: string | null;
+  wantsSummary?: boolean | null;
+  wantsInterview?: boolean | null;
+  wantsPrototype?: boolean | null;
+  /**
+   * Also send information when the device launches.
+   */
+  consentLaunch?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -4003,6 +4080,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'analytics-aggregates';
         value: string | AnalyticsAggregate;
+      } | null)
+    | ({
+        relationTo: 'survey-responses';
+        value: string | SurveyResponse;
+      } | null)
+    | ({
+        relationTo: 'survey-contacts';
+        value: string | SurveyContact;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -4469,6 +4554,38 @@ export interface AnalyticsAggregatesSelect<T extends boolean = true> {
   uniqueVisitorsApprox?: T;
   entryViews?: T;
   lastCollectedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "survey-responses_select".
+ */
+export interface SurveyResponsesSelect<T extends boolean = true> {
+  rid?: T;
+  src?: T;
+  lang?: T;
+  timeS?: T;
+  complete?: T;
+  exitAt?: T;
+  answers?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "survey-contacts_select".
+ */
+export interface SurveyContactsSelect<T extends boolean = true> {
+  rid?: T;
+  email?: T;
+  name?: T;
+  company?: T;
+  country?: T;
+  wantsSummary?: T;
+  wantsInterview?: T;
+  wantsPrototype?: T;
+  consentLaunch?: T;
   updatedAt?: T;
   createdAt?: T;
 }

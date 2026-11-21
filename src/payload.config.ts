@@ -1,3 +1,4 @@
+import * as os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
@@ -27,15 +28,19 @@ import sharp from 'sharp';
 import { Pages } from '@/collections/Pages';
 import { Redirects } from '@/collections/Redirects';
 import { SolutionCategories } from '@/collections/SolutionCategories';
+import { MAX_UPLOAD_SIZE_BYTES } from '@/config/config';
 import { locales } from '@/config/locales';
 import { cleanupAnalyticsEndpoint } from '@/utils/cleanup-analytics';
 import redirectMapHandler from '@/utils/redirect-map';
 import revalidateHandler from '@/utils/revalidate';
+import { surveySubmitEndpoint } from '@/utils/survey-submit';
 import { AnalyticsAggregates } from './collections/AnalyticsAggregates';
 import { DistroPartners } from './collections/DistroPartners';
 import { Documents } from './collections/Documents';
 import { Media } from './collections/Media';
 import Solutions from './collections/Solutions';
+import { SurveyContacts } from './collections/SurveyContacts';
+import { SurveyResponses } from './collections/SurveyResponses';
 import { TeamMembers } from './collections/TeamMembers';
 import { Users } from './collections/Users';
 import { nodemailerOptions } from './config/nodemailer';
@@ -46,8 +51,6 @@ import { HomepageContent } from './globals/HomepageContent';
 import { LegalContent } from './globals/LegalContent';
 import { publicServerURL } from './utils/public-url';
 import { sendEmailEndpoint } from './utils/send-email';
-import * as os from "node:os";
-import {MAX_UPLOAD_SIZE_BYTES} from "@/config/config";
 
 const trustedBrowserOrigins = Array.from(
   new Set(
@@ -96,6 +99,8 @@ export default buildConfig({
     Pages,
     Redirects,
     AnalyticsAggregates,
+    SurveyResponses,
+    SurveyContacts,
   ],
   cors,
   csrf,
@@ -146,6 +151,11 @@ export default buildConfig({
       path: '/cleanup-analytics',
       method: 'post',
       handler: cleanupAnalyticsEndpoint,
+    },
+    {
+      path: '/survey-submit',
+      method: 'post',
+      handler: surveySubmitEndpoint,
     },
   ],
   localization: {
