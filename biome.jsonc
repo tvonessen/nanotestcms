@@ -64,5 +64,26 @@
       "attributePosition": "auto",
       "bracketSpacing": true
     }
-  }
+  },
+  "overrides": [
+    {
+      // TIM QC survey (temporary feature): the survey spec mandates real <button>s
+      // with role=radio/checkbox, autofocus on price/specify fields, static <img>
+      // logos, positional ranking-slot keys and trusted generated HTML.
+      "includes": ["src/components/survey/**", "src/app/**/tim-survey/**"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useSemanticElements": "off",
+            "useAriaPropsSupportedByRole": "off",
+            "noAutofocus": "off",
+            "noAriaHiddenOnFocusable": "off"
+          },
+          "security": { "noDangerouslySetInnerHtml": "off" },
+          "performance": { "noImgElement": "off" },
+          "suspicious": { "noArrayIndexKey": "off" }
+        }
+      }
+    }
+  ]
 }
