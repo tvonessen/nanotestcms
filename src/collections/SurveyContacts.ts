@@ -21,7 +21,10 @@ export const SurveyContacts: CollectionConfig = {
     useAsTitle: 'email',
     defaultColumns: ['email', 'rid', 'name', 'company', 'country', 'createdAt'],
     description:
-      'Optional contact details from the survey final screen. Never stored together with answers.',
+      'Optional contact details from the survey final screen. Never stored together with answers. CSV export via the buttons above the list.',
+    components: {
+      beforeListTable: [{ path: '@/components/survey/export-buttons' }],
+    },
   },
   fields: [
     {

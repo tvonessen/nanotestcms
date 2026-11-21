@@ -3853,7 +3853,7 @@ export interface AnalyticsAggregate {
   createdAt: string;
 }
 /**
- * Anonymous survey answers. Linked to contact details only via RID.
+ * Anonymous survey answers. Linked to contact details only via RID. CSV export via the buttons above the list.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "survey-responses".
@@ -3900,7 +3900,7 @@ export interface SurveyResponse {
   createdAt: string;
 }
 /**
- * Optional contact details from the survey final screen. Never stored together with answers.
+ * Optional contact details from the survey final screen. Never stored together with answers. CSV export via the buttons above the list.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "survey-contacts".

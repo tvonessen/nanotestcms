@@ -33,6 +33,7 @@ import { locales } from '@/config/locales';
 import { cleanupAnalyticsEndpoint } from '@/utils/cleanup-analytics';
 import redirectMapHandler from '@/utils/redirect-map';
 import revalidateHandler from '@/utils/revalidate';
+import { surveyExportEndpoint } from '@/utils/survey-export';
 import { surveySubmitEndpoint } from '@/utils/survey-submit';
 import { AnalyticsAggregates } from './collections/AnalyticsAggregates';
 import { DistroPartners } from './collections/DistroPartners';
@@ -156,6 +157,11 @@ export default buildConfig({
       path: '/survey-submit',
       method: 'post',
       handler: surveySubmitEndpoint,
+    },
+    {
+      path: '/survey-export',
+      method: 'get',
+      handler: surveyExportEndpoint,
     },
   ],
   localization: {

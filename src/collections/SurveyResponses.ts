@@ -21,7 +21,11 @@ export const SurveyResponses: CollectionConfig = {
     group: 'Survey',
     useAsTitle: 'rid',
     defaultColumns: ['rid', 'src', 'lang', 'complete', 'exitAt', 'timeS', 'createdAt'],
-    description: 'Anonymous survey answers. Linked to contact details only via RID.',
+    description:
+      'Anonymous survey answers. Linked to contact details only via RID. CSV export via the buttons above the list.',
+    components: {
+      beforeListTable: [{ path: '@/components/survey/export-buttons' }],
+    },
   },
   fields: [
     {
