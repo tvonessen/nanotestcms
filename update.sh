@@ -1,6 +1,14 @@
 #!/usr/bin/bash
 set -euo pipefail
 
+# Mittwald Studio containers ship glibc 2.8: pnpm 12's native binary cannot run
+# there ("cannot execute: required file not found"). If a JS-only pnpm 10 is
+# installed under ~/.pnpm10, prefer it over Mittwald's pnpm dispatcher (which
+# would try to switch to the packageManager version from package.json).
+if [[ -d "$HOME/.pnpm10/bin" ]]; then
+  export PATH="$HOME/.pnpm10/bin:$PATH"
+fi
+
 CD_PATH="${CD_PATH:-$(cd "$(dirname "$0")" && pwd)}"
 LIVE_DIR="${LIVE_DIR:-live}"
 DATA_DIR="${DATA_DIR:-${LIVE_DIR}.data}"
