@@ -1,7 +1,7 @@
 {
   "name": "nanotestcms",
   "version": "1.0.0",
-  "packageManager": "pnpm@12.21.0",
+  "packageManager": "pnpm@10.34.9",
   "description": "A blank template pnpm to get started with Payload 3.0",
   "license": "MIT",
   "type": "module",
