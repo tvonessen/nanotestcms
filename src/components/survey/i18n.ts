@@ -1594,16 +1594,6 @@ export const texts: Record<string, Record<SurveyLang, string>> = {
     zh: '长按按钮即可跳过此题',
     ja: 'この質問をスキップするには、ボタンを長押ししてください',
   },
-  auto_click: {
-    en: 'Moving on… click Next to go now',
-    zh: '即将进入下一题… 点击“下一步”可立即继续',
-    ja: 'まもなく次へ進みます…「次へ」をクリックするとすぐに進めます',
-  },
-  auto_tap: {
-    en: 'Moving on… tap Next to go now',
-    zh: '即将进入下一题… 轻点“下一步”可立即继续',
-    ja: 'まもなく次へ進みます…「次へ」をタップするとすぐに進めます',
-  },
   counter_rank: {
     en: '{n} of {max} ranked (at least {min})',
     zh: '已排序 {n} / {max} 项（至少 {min} 项）',

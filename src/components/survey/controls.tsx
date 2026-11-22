@@ -5,18 +5,15 @@ import { fmt, type SurveyLang, tx } from './i18n';
 import { formatEur, type OptionDef, type PriceAnswer, type QuestionDef } from './questions';
 
 // ---------------------------------------------------------------------------
-// Navigation action button: normal Next, charging Next (9.7), dimmed invalid
-// Next (Q01/Q03) or "Hold to skip" (3.3a).
+// Navigation action button: normal Next, dimmed invalid Next, or
+// "Hold to skip" (3.3a).
 // ---------------------------------------------------------------------------
 
-export type NavMode = 'next' | 'charging' | 'invalid' | 'skip';
+export type NavMode = 'next' | 'invalid' | 'skip';
 
 interface NavActionProps {
   lang: SurveyLang;
   mode: NavMode;
-  chargeDuration: number;
-  chargeKey: number;
-  charging: boolean;
   readyPulse: boolean;
   skipFill: number;
   skipHolding: boolean;
@@ -34,8 +31,6 @@ export function NavAction(props: NavActionProps) {
   const {
     lang,
     mode,
-    chargeDuration,
-    chargeKey,
     readyPulse,
     skipFill,
     skipHolding,
@@ -84,17 +79,10 @@ export function NavAction(props: NavActionProps) {
     <button
       type="button"
       ref={buttonRef}
-      className={`sv-btn sv-btn-primary${mode === 'charging' ? ' sv-charging' : ''}${mode === 'invalid' ? ' sv-dimmed' : ''}${readyPulse ? ' sv-ready' : ''}`}
+      className={`sv-btn sv-btn-primary${mode === 'invalid' ? ' sv-dimmed' : ''}${readyPulse ? ' sv-ready' : ''}`}
       onClick={mode === 'invalid' ? onInvalidClick : onNext}
       aria-disabled={mode === 'invalid'}
     >
-      {mode === 'charging' && (
-        <span
-          key={chargeKey}
-          className="sv-charge-fill"
-          style={{ animationDuration: `${chargeDuration}ms` }}
-        />
-      )}
       <span className="sv-btn-label">{tx('next', lang)}</span>
     </button>
   );

@@ -411,12 +411,6 @@
   align-items: center;
   gap: 14px;
 }
-.sv-auto-hint {
-  text-align: right;
-  font-size: 13px;
-  color: var(--muted);
-}
-
 /* hold to skip */
 .sv-skipwrap {
   display: flex;
@@ -881,9 +875,6 @@
     background: var(--surface);
     border-top: 1px solid var(--line);
     padding: 10px 16px calc(12px + env(safe-area-inset-bottom));
-  }
-  .sv-auto-hint {
-    text-align: center;
   }
   .sv-pl-full {
     display: none;
