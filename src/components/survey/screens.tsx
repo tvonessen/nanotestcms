@@ -261,7 +261,7 @@ function AnswerArea({ ctx }: { ctx: ScreenCtx }) {
                 option={o}
                 keyNumber={i + 1}
                 mode="checkbox"
-                selected={!!cell?.on}
+                selected={cell?.on}
                 disabled={disabled}
                 specifyValue={cell?.on ? cell.txt : undefined}
                 onSelect={() => toggleMulti(q, o.code)}
@@ -436,7 +436,7 @@ function FinalScreen({ ctx }: { ctx: ScreenCtx }) {
             option={{ code: o.code, textId: o.textId }}
             keyNumber={i + 1}
             mode="checkbox"
-            selected={!!g2[o.code]}
+            selected={g2[o.code]}
             disabled={false}
             onSelect={() => setG2(o.code, !g2[o.code])}
           />

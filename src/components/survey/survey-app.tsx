@@ -303,24 +303,21 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
     });
   }, []);
 
-  const chooseGate = React.useCallback(
-    (qq: QuestionDef, code: string) => {
-      const s = stateRef.current;
-      const newAnswers = { ...s.answers, [qq.id]: { code } };
-      const newSeq = buildSequence(newAnswers);
-      const target = nextOf(newSeq, qq.id);
-      setAnim('fwd');
-      setState((st) => ({ ...st, answers: newAnswers, screen: target }));
-      window.setTimeout(() => {
-        const el = document.querySelector('.sv-gate-btns');
-        if (el) {
-          const r = el.getBoundingClientRect();
-          particlesRef.current?.burst('gate', r.left + r.width / 2, r.top);
-        }
-      }, 50);
-    },
-    [],
-  );
+  const chooseGate = React.useCallback((qq: QuestionDef, code: string) => {
+    const s = stateRef.current;
+    const newAnswers = { ...s.answers, [qq.id]: { code } };
+    const newSeq = buildSequence(newAnswers);
+    const target = nextOf(newSeq, qq.id);
+    setAnim('fwd');
+    setState((st) => ({ ...st, answers: newAnswers, screen: target }));
+    window.setTimeout(() => {
+      const el = document.querySelector('.sv-gate-btns');
+      if (el) {
+        const r = el.getBoundingClientRect();
+        particlesRef.current?.burst('gate', r.left + r.width / 2, r.top);
+      }
+    }, 50);
+  }, []);
 
   // --- hold to skip (3.3a) ---------------------------------------------------
   const doSkip = React.useCallback(() => {
@@ -529,7 +526,7 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
   onSubmitRef.current = onSubmit;
 
   // --- derived nav state ---------------------------------------------------------
-  const skippable = !!q?.skippable && !isGate(screen);
+  const skippable = q?.skippable && !isGate(screen);
   let navMode: NavMode = 'next';
   if (isQuestionScreen(screen) && !isGate(screen) && !valid) {
     navMode = skippable ? 'skip' : 'invalid';
