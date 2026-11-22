@@ -88,10 +88,6 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
   const draftRef = React.useRef<Draft | null>(null);
   const [anim, setAnim] = React.useState<'fwd' | 'back'>('fwd');
   const [fadeKey, setFadeKey] = React.useState(0);
-  const [charging, setCharging] = React.useState(false);
-  const [chargeKey, setChargeKey] = React.useState(0);
-  const [chargeDuration, setChargeDuration] = React.useState(1300);
-  const [autoHint, setAutoHint] = React.useState(false);
   const [readyPulse, setReadyPulse] = React.useState(false);
   const [skipFill, setSkipFill] = React.useState(0);
   const [skipHolding, setSkipHolding] = React.useState(false);
@@ -102,12 +98,9 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
   const [emailShakeSignal, setEmailShakeSignal] = React.useState(0);
   const [submitShakeSignal, setSubmitShakeSignal] = React.useState(0);
   const [submittedEmail, setSubmittedEmail] = React.useState('');
-  const [isTouch, setIsTouch] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
   const [atEnd, setAtEnd] = React.useState(false);
 
-  const firstCharge = React.useRef(true);
-  const chargeTimer = React.useRef<number | undefined>(undefined);
   const skipRaf = React.useRef(0);
   const skipStart = React.useRef(0);
   const hintTimer = React.useRef<number | undefined>(undefined);
@@ -131,7 +124,6 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
       draftRef.current = d;
       setHasDraft(true);
     }
-    setIsTouch(window.matchMedia('(pointer: coarse)').matches);
     const onScroll = () => {
       setScrolled(window.scrollY > 4);
       setAtEnd(window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4);
@@ -202,22 +194,11 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
   }, []);
 
   // --- navigation ------------------------------------------------------------
-  const cancelCharge = React.useCallback(() => {
-    if (chargeTimer.current) window.clearTimeout(chargeTimer.current);
-    chargeTimer.current = undefined;
-    setCharging(false);
-    setAutoHint(false);
+  const goTo = React.useCallback((target: string, dir: 'fwd' | 'back' = 'fwd') => {
+    setAnim(dir);
+    setState((s) => ({ ...s, screen: target }));
+    window.scrollTo({ top: 0 });
   }, []);
-
-  const goTo = React.useCallback(
-    (target: string, dir: 'fwd' | 'back' = 'fwd') => {
-      cancelCharge();
-      setAnim(dir);
-      setState((s) => ({ ...s, screen: target }));
-      window.scrollTo({ top: 0 });
-    },
-    [cancelCharge],
-  );
 
   const goNext = React.useCallback(() => {
     const s = stateRef.current;
@@ -240,10 +221,9 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
   const finishNow = React.useCallback(() => {
     const s = stateRef.current;
     if (!isQuestionScreen(s.screen) || isGate(s.screen)) return;
-    cancelCharge();
     setState((st) => ({ ...st, exitAt: st.screen }));
     goTo('final');
-  }, [cancelCharge, goTo]);
+  }, [goTo]);
 
   // --- answers ---------------------------------------------------------------
   const setAnswer = React.useCallback((id: string, v: AnswerValue) => {
@@ -329,7 +309,6 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
       const newAnswers = { ...s.answers, [qq.id]: { code } };
       const newSeq = buildSequence(newAnswers);
       const target = nextOf(newSeq, qq.id);
-      cancelCharge();
       setAnim('fwd');
       setState((st) => ({ ...st, answers: newAnswers, screen: target }));
       window.setTimeout(() => {
@@ -340,36 +319,13 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
         }
       }, 50);
     },
-    [cancelCharge],
+    [],
   );
-
-  // --- charging Next (3.3) ---------------------------------------------------
-  const startCharge = React.useCallback(() => {
-    if (chargeTimer.current) window.clearTimeout(chargeTimer.current);
-    const first = firstCharge.current;
-    firstCharge.current = false;
-    const dur = first ? 1300 : 700;
-    setChargeDuration(dur);
-    setChargeKey((k) => k + 1);
-    setCharging(true);
-    setAutoHint(first);
-    chargeTimer.current = window.setTimeout(() => {
-      setCharging(false);
-      setAutoHint(false);
-      const btn = nextButtonRef.current;
-      if (btn) {
-        const r = btn.getBoundingClientRect();
-        particlesRef.current?.burst('next', r.left + r.width / 2, r.top + r.height / 2);
-      }
-      goNext();
-    }, dur);
-  }, [goNext]);
 
   // --- hold to skip (3.3a) ---------------------------------------------------
   const doSkip = React.useCallback(() => {
     const s = stateRef.current;
     const id = s.screen;
-    cancelCharge();
     const newAnswers = { ...s.answers };
     delete newAnswers[id];
     const newSkipped = { ...s.skipped, [id]: true };
@@ -381,7 +337,7 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
       skipped: newSkipped,
       screen: nextOf(newSeq, id),
     }));
-  }, [cancelCharge]);
+  }, []);
 
   const skipBegin = React.useCallback(() => {
     if (skipHolding) return;
@@ -440,7 +396,6 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
         }
         if (qq && isQuestionScreen(s.screen) && !isGate(s.screen) && isValid(qq, s.answers)) {
           e.preventDefault();
-          cancelCharge();
           goNext();
         }
         return;
@@ -460,12 +415,8 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
       if (i >= opts.length) return;
       e.preventDefault();
       const code = opts[i].code;
-      if (qq.type === 'single') {
+      if (qq.type === 'single' || qq.type === 'scale') {
         setAnswer(qq.id, { code });
-        if (!opts[i].specify) startCharge();
-      } else if (qq.type === 'scale') {
-        setAnswer(qq.id, { code });
-        startCharge();
       } else if (qq.type === 'multi') {
         toggleMulti(qq, code);
       } else if (qq.type === 'ranking') {
@@ -474,7 +425,7 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [goNext, cancelCharge, optionOrder, setAnswer, startCharge, toggleMulti, toggleRank]);
+  }, [goNext, optionOrder, setAnswer, toggleMulti, toggleRank]);
 
   // --- intro actions -----------------------------------------------------------
   const onStart = () => {
@@ -503,7 +454,6 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
   // --- language ----------------------------------------------------------------
   const switchLang = (l: SurveyLang) => {
     if (l === stateRef.current.lang) return;
-    cancelCharge();
     setFadeKey((k) => k + 1);
     setState((s) => ({ ...s, lang: l }));
   };
@@ -581,9 +531,8 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
   // --- derived nav state ---------------------------------------------------------
   const skippable = !!q?.skippable && !isGate(screen);
   let navMode: NavMode = 'next';
-  if (isQuestionScreen(screen) && !isGate(screen)) {
-    if (charging) navMode = 'charging';
-    else if (!valid) navMode = skippable ? 'skip' : 'invalid';
+  if (isQuestionScreen(screen) && !isGate(screen) && !valid) {
+    navMode = skippable ? 'skip' : 'invalid';
   }
   const showNav = screen !== 'intro' && screen !== 'thanks';
   const canBack = idx > 0;
@@ -636,16 +585,12 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
     valid,
     skippable,
     navMode,
-    charging,
-    chargeDuration,
-    chargeKey,
     readyPulse,
     skipFill,
     skipHolding,
     skipHint,
     invalidSignal,
     onNext: () => {
-      cancelCharge();
       if (!valid) return;
       const btn = nextButtonRef.current;
       if (btn) {
@@ -655,7 +600,6 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
       goNext();
     },
     onInvalidNext: () => setInvalidSignal((n) => n + 1),
-    onSelectAuto: startCharge,
     onSkip: doSkip,
     onSkipPointerDown: skipBegin,
     onSkipPointerUp: skipEnd,
@@ -729,9 +673,6 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
           </div>
           {showNav && (
             <div className="sv-navrow">
-              {autoHint && (
-                <div className="sv-auto-hint">{tx(isTouch ? 'auto_tap' : 'auto_click', lang)}</div>
-              )}
               <div className="sv-navrow-inner">
                 {canBack ? (
                   <button type="button" className="sv-linkbtn" onClick={goBack}>
@@ -784,9 +725,6 @@ export default function SurveyApp({ siteLang }: { siteLang: string }) {
                     <NavAction
                       lang={lang}
                       mode={navMode}
-                      chargeDuration={chargeDuration}
-                      chargeKey={chargeKey}
-                      charging={charging}
                       readyPulse={readyPulse}
                       skipFill={skipFill}
                       skipHolding={skipHolding}

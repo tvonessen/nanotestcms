@@ -51,9 +51,6 @@ export interface ScreenCtx {
   valid: boolean;
   skippable: boolean;
   navMode: NavMode;
-  charging: boolean;
-  chargeDuration: number;
-  chargeKey: number;
   readyPulse: boolean;
   skipFill: number;
   skipHolding: boolean;
@@ -61,7 +58,6 @@ export interface ScreenCtx {
   invalidSignal: number;
   onNext: () => void;
   onInvalidNext: () => void;
-  onSelectAuto: () => void;
   onSkip: () => void;
   onSkipPointerDown: () => void;
   onSkipPointerUp: () => void;
@@ -209,7 +205,6 @@ function AnswerArea({ ctx }: { ctx: ScreenCtx }) {
     toggleMulti,
     toggleRank,
     setSpecify,
-    onSelectAuto,
     invalidSignal,
   } = ctx;
   const a = answers[q.id];
@@ -238,7 +233,6 @@ function AnswerArea({ ctx }: { ctx: ScreenCtx }) {
               specifyValue={sel?.code === o.code ? sel.txt : undefined}
               onSelect={() => {
                 setAnswer(q.id, { code: o.code, txt: sel?.code === o.code ? sel.txt : undefined });
-                if (!o.specify) onSelectAuto();
               }}
               onSpecifyChange={(v) => setSpecify(q, o.code, v)}
             />
@@ -334,7 +328,6 @@ function AnswerArea({ ctx }: { ctx: ScreenCtx }) {
             value={sel}
             onSelect={(v) => {
               setAnswer(q.id, { code: v });
-              onSelectAuto();
             }}
           />
         </div>
